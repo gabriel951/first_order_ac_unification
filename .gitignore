@@ -1,0 +1,5 @@
+# ignore pvsbin
+pvsbin/
+
+# ignore files .pvs~
+*~

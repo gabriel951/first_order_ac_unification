@@ -1,0 +1,52 @@
+% Authors:
+%		Gabriel Ferreira Silva (*)
+% 		Mauricio Ayala-Rincón (*)
+% 		Daniele Nantes Sobrinho (*)
+% 		Maribel Fernandez (**)
+%		(*) - University of Brasília			(**) - King's College London
+%
+
+% File: list.pvs
+% Description: functions related to solving diophantine equations
+%%%%%%%%%%%%%%%%%%%%%%%
+
+list_theory[T: TYPE]: THEORY
+BEGIN
+
+x: VAR T
+pair: VAR [list[T], list[T]]
+lst, lst1, lst2: VAR list[T]
+lst_of_lsts: VAR list[list[T]]
+
+% append_pair((l1, l2)) = append(l1, l2)
+append_pair(pair): list[T] =
+    LET lst1 = pair`1,
+    	lst2 = pair`2
+	IN append(lst1, lst2)
+
+% for every y in lst2, obtain the pair (x, y)
+cartesian_product_aux(x, lst2): RECURSIVE list[[T, T]] =
+    IF null?(lst2) THEN (::)
+    ELSE LET y = car(lst2) IN
+    	     cons((x, y), cartesian_product_aux(x, cdr(lst2)))
+    ENDIF
+MEASURE lst2 BY << 
+
+% cartesian product of two lists
+cartesian_product(lst1, lst2): RECURSIVE list[[T, T]] =
+    IF null?(lst1) THEN (::)
+    ELSE LET x = car(lst1)
+    	 IN  append(cartesian_product_aux(x, lst2), cartesian_product(cdr(lst1), lst2))
+    ENDIF 
+MEASURE lst1 BY <<  
+
+% receives a list of lists of elements of type T. Outputs a list containing all these elements of type T
+% For example, if it receives [[1], [2,3], [4]] it outputs [1, 2, 3, 4]
+flatten(lst_of_lsts): RECURSIVE list[T] =
+    IF null?(lst_of_lsts) THEN (::)
+    ELSE LET lst = car(lst_of_lsts)
+    IN append(lst, flatten(cdr(lst_of_lsts)))
+    ENDIF
+MEASURE lst_of_lsts BY <<
+
+END list_theory

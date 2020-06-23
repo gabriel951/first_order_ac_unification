@@ -1,0 +1,25 @@
+%
+% Authors:
+%		Gabriel Ferreira Silva (*)
+% 		Mauricio Ayala-Rincón (*)
+% 		Daniele Nantes Sobrinho (*)
+% 		Maribel Fernandez (**)
+%		(*) - University of Brasília			(**) - King's College London
+%
+
+% File: basic_notions.pvs
+% Description: Implementational definition of a variable, a constant, a function symbol and so on.
+% 	       Contains the basic concepts necessary to define a term
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+basic_notions:  THEORY
+    BEGIN
+
+
+% definition of variable, constant and syntactic and AC function symbols 
+Variable: TYPE = nat
+Constant: TYPE = nat
+F_symbol: TYPE = string
+Ac_f_symbol: TYPE = string
+
+    END basic_notions

@@ -1,0 +1,24 @@
+%
+% Authors:
+%		Gabriel Ferreira Silva (*)
+% 		Mauricio Ayala-Rincón (*)
+% 		Daniele Nantes Sobrinho (*)
+% 		Maribel Fernandez (**)
+%		(*) - University of Brasília			(**) - King's College London
+%
+
+% File: Terms.pvs
+% Description: Definition of a first order term and properties related to them
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% definition of a term
+Term[Constant:TYPE+, Variable:TYPE+, F_symbol:TYPE+, Ac_f_symbol:TYPE+]: DATATYPE
+    BEGIN
+	const (a: Constant): const?
+	variable (V: Variable): var?
+	unit: unit?
+	pair (term1: Term, term2: Term): pair?
+	app (f_sym: F_symbol, arg: Term): app?
+	ac_app (ac_f_sym: Ac_f_symbol, ac_arg: Term): ac_app? 
+    END Term

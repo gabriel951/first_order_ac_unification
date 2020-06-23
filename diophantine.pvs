@@ -1,0 +1,86 @@
+% Authors:
+%		Gabriel Ferreira Silva (*)
+% 		Mauricio Ayala-Rincón (*)
+% 		Daniele Nantes Sobrinho (*)
+% 		Maribel Fernandez (**)
+%		(*) - University of Brasília			(**) - King's College London
+%
+
+% File: diophantine.pvs
+% Description: functions related to solving diophantine equations
+%%%%%%%%%%%%%%%%%%%%%%%
+
+diophantine: THEORY
+BEGIN
+	IMPORTING list_theory[nat], list_theory[list[nat]]
+
+% a diophantine matrix is a list of list of naturals
+Dio_matrix: TYPE = list[list[nat]]
+dio_matrix: VAR Dio_matrix
+
+% the variables mult_t are used to indicate the multiplicity of the term t. They are a vector [a1, ..., an]
+mult_t, mult_t1, mult_t2: VAR list[nat]
+
+value_lst: VAR list[nat]
+
+a1, X1, n, bound, value: VAR nat
+
+% outputs a list [0, 1, ..., n]
+nat_upto(n): RECURSIVE list[nat] =
+    IF n = 0 THEN cons(0, null)
+    ELSE append(nat_upto(n-1), cons(n, null))
+    ENDIF
+MEASURE n
+
+construct_input_lst_find_vectors(value_lst, mult_t, value): RECURSIVE list[[list[nat], nat]] =
+    IF null?(value_lst) THEN (::)
+    ELSE LET X1  = car(value_lst) IN
+    	 IF value - X1 < 0 THEN (::) 
+	 ELSE cons((mult_t, value - X1),
+	      		    construct_input_lst_find_vectors(cdr(value_lst), mult_t, value))
+	 ENDIF
+    ENDIF
+MEASURE value_lst BY <<
+
+% calculate the upper bound of solutions, where we can stop
+calculate_upper_bound(mult_t1, mult_t2): nat = 0
+
+% receives a vector [a1, ..., an] and a specified value
+% find all vectors [X1, ..., Xn] such that a1*X1 + ... + an*Xn = specified_value
+find_vectors(mult_t, value): RECURSIVE list[list[nat]] =
+    IF null?(mult_t) THEN (::)
+    ELSIF length(mult_t) = 1 THEN LET a1 = car(mult_t) IN 
+    	 IF divides(a1, value) THEN LET X1 = value/a1
+	    IN cons(cons(X1, null), null)
+	 ELSE (::) 
+	 ENDIF
+    ELSE LET
+    	 a1 = car(mult_t),
+	 X1_values = nat_upto(floor(value/a1)),
+	 input_lst  = construct_input_lst_find_vectors(X1_values, cdr(mult_t), value),
+	 vector_lst = map(find_vectors, input_lst),
+	 result = flatten(vector_lst)
+	 IN result
+    ENDIF
+MEASURE mult_t BY << 
+
+% solve diophantine equation with both sides being equal to n
+dio_solver_n(mult_t1, mult_t2, n): Dio_matrix =
+    LET vector_lst1 = find_vectors(mult_t1, n),
+    	vector_lst2 = find_vectors(mult_t2, n),
+	all_combinations = cartesian_product[list[nat]](vector_lst1, vector_lst2),
+
+	% when we apply append to one particular combination in all_combinations
+	% we obtain a row of the diophatine matrix
+	dio_matrix = map(append_pair, all_combinations)
+    IN  dio_matrix
+
+% solve diophatine solution until upper bound
+% this corresponds to function dioph in Fages paper 
+dio_solver(mult_t1, mult_t2, bound): RECURSIVE Dio_matrix =
+    IF bound = 0 THEN (::)
+    ELSE append(dio_solver_n(mult_t1, mult_t2, bound), dio_solver(mult_t1, mult_t2, bound - 1))
+    ENDIF
+MEASURE bound  
+
+END diophantine

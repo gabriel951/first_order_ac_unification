@@ -1,0 +1,103 @@
+%
+% Authors:
+%		Gabriel Ferreira Silva (*)
+% 		Mauricio Ayala-Rincón (*)
+% 		Daniele Nantes Sobrinho (*)
+% 		Maribel Fernandez (**)
+%		(*) - University of Brasília			(**) - King's College London
+%
+
+% File: unification.pvs
+% Description: Definition of the nominal unification algorithm 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+unification: THEORY
+BEGIN
+	IMPORTING substitution
+
+sigma, sigma1: VAR Sub
+vars2avoid: VAR set[Variable]
+unif_prb: VAR Unif_prb
+
+unify(unif_prb, sigma, vars2avoid): RECURSIVE list[Sub] = 
+    IF null?(unif_prb) THEN (:(sigma):)
+    ELSE LET t = car(unif_prb)`1, s = car(unif_prb)`2 IN
+    	 % If we can, instantiate s and solve the problem
+	 IF var?(s) AND (NOT member(V(s), vars2avoid)) THEN LET
+ 	      sigma1 = (: (V(s), t):),
+	      new_sigma = append(sigma1, sigma),
+	      new_unif_prb = apply_sub_unif_prb(sigma1, cdr(unif_prb))
+	      IN unify(new_unif_prb, new_sigma, vars2avoid) 
+
+	 % Else, according to the structure of t
+	 ELSE CASES t OF
+	      const(a): IF s = const(a) THEN unify(cdr(unif_prb), sigma, vars2avoid)
+	      		ELSE (::)
+			ENDIF,
+			
+	      variable(X): IF (NOT member(X, vars2avoid)) AND (NOT member(X, s)) THEN LET 
+	      		      sigma1 = (:(X, s):),
+ 	      		      new_sigma = append(sigma1, sigma),
+			      new_unif_prb = apply_sub_unif_prb(sigma1, cdr(unif_prb))
+			      IN unify(new_unif_prb, new_sigma, vars2avoid)
+			   ELSE (::)
+			   ENDIF, 
+			      
+	      unit: IF s = unit THEN unify(cdr(unif_prb), sigma, vars2avoid)
+	      	    ELSE (::)
+		    ENDIF,
+
+	      pair(t1, t2): IF NOT pair?(s) THEN (::)
+	      	       	    ELSE LET
+			        unif_prb1 = (:(t1, term1(s)):),
+			    	unif_prb2 = (:(t2, term2(s)):),
+				new_unif_prb = append(append(unif_prb1, unif_prb2), unif_prb)
+				IN unify(new_unif_prb, sigma, vars2avoid)
+			    ENDIF, 
+
+	      app(f, arg):  IF NOT app?(s) OR f/= f_sym(s) THEN (::)
+	      	     	    ELSE LET
+			   	unif_prb1 = (:(arg, arg(s)):),
+				new_unif_prb = append(unif_prb1, cdr(unif_prb))
+				IN unify(new_unif_prb, sigma, vars2avoid)
+			    ENDIF, 
+
+	      ac_app(f, arg): IF NOT ac_app?(s) OR f/= ac_f_sym(s) THEN (::)
+	      		      ELSE LET
+			      	   % solve ac unification, obtaining a list of solutions 
+			      	   ac_sol_lst = solve_ac(t, s, vars2avoid),
+				   % for every ac solution in ac_sol_lst, apply elimvar, instantiating variables
+				   % the ac solutions are simplified
+				   ac_sol_simp_lst = apply_elimvar(ac_sol_lst)
+				   % from this, construct a list of the inputs to the algorithm
+				   input_lst = construct_input_lst(ac_sol_simp_lst, unif_prb, sigma, vars2avoid)
+				   % call unify on every input that is in input lst
+				   lst_lst_results = map(unify, input_lst)
+				   % flatten the result
+				   lst_results = flatten(lst_lst_results)
+			      	   IN (::)
+			        
+			        % second sketch of what I need to do here
+				% list_of_(A, B) = dio(t, s, vars2avoid)
+				% list_of_(A', B') = elimvar_lst(list_of_(A, B))
+				% list_of_inputs = [([A', B']+unif_prb, sigma1 + sigma,
+				% 		   	  vars2avoid + vars(t,s) + Vars(sigma1))]
+				% list_of_list_of_substitutions = map(unify, list_of_inputs)
+				% list_of_substitutions = planify(list_of_list_of_substitutions)
+			        
+			      	% first sketch of what I need to do here 			      
+			        % (A, B) = dio(t, s, vars2avoid)
+				% (sigma1, A', B') = elimvar(A, B)
+				% unicompound([A', B'], sigma1+sigma, vars2avoid + vars(t, s) + Vars(sigma1, sigma)) 
+				% 
+			      	%unif_prb1 = ()
+				%new_unif_prb = append()
+			      ENDIF
+	   
+	 ENDIF 
+    ENDIF
+% TODO: this lexicographic measure is not correct
+MEASURE unif_prb BY << 
+
+END unification 

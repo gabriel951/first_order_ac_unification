@@ -1,0 +1,105 @@
+%
+% Authors:
+%		Gabriel Ferreira Silva (*)
+% 		Mauricio Ayala-Rincón (*)
+% 		Daniele Nantes Sobrinho (*)
+% 		Maribel Fernandez (**)
+%		(*) - University of Brasília			(**) - King's College London
+%
+
+% File: aux_unification.pvs
+% Description: auxiliary functions called in the unification algorithm 
+
+%%%%%%%%%%%%%%%%%%%%%%%
+
+aux_unification: THEORY
+BEGIN
+	IMPORTING substitution, diophantine
+
+sigma: VAR Sub
+
+
+% a unification pair (t, s) is composed of terms t and s that must be unified
+Unif_pair: TYPE = [Term, Term]
+
+% a unification problem is a list of unification pairs
+Unif_prb: TYPE = list[Unif_pair]
+unif_prb: VAR Unif_prb
+
+% to one particular ac solution there corresponds a pair of sequence of terms
+Ac_sol: TYPE = [list[Term], list[Term]]
+
+t1, t2: VAR Term
+arg_lst: VAR list[Term]
+
+mult_t1, mult_t2: VAR list[nat]
+bound: VAR nat
+
+dio_sol_matrix: VAR Dio_matrix
+submatrix_sol_lst, dio_matrix_lst: VAR list[Dio_matrix]
+
+vars2avoid: VAR set[Variable]
+
+ac_sol: VAR Ac_sol
+ac_sol_lst: VAR list[Ac_sol]
+ac_sol_simp: VAR [Sub, Ac_sol]
+ac_sol_simp_lst: VAR list[[Sub, Ac_sol]]
+
+% this corresponds to function elimcom in Fages paper
+elim_com_arg(t1, t2): [list[Term], list[nat], list[nat]] =
+((::), (::), (::))
+
+% extract the relevant submatrices. Each submatrix corresponds to one ac-solution
+% this corresponds to function partit in Fages article
+extract_submatrices(dio_sol_matrix, arg_lst): list[Dio_matrix] =
+(::)
+
+apply_dio_matrix_to_ac_sol(dio_matrix_lst, arg_lst, vars2avoid): list[Ac_sol] =
+(::) 
+
+% this corresponds to function "dio" in Fages paper
+solve_ac(t1, t2, vars2avoid): list[Ac_sol] =
+    LET
+%    eliminate common arguments from t1 and t2, obtaining the different arguments on each one
+%    and their multiplicity
+     (arg_lst, mult_t1, mult_t2) = elim_com_arg(t1, t2),
+%    calculate upper bound from which we can solve the diophantine equation
+     bound = calculate_upper_bound(mult_t1, mult_t2),
+%    solve diophantine equation until the upper bound 
+     dio_sol_matrix = dio_solver(mult_t1, mult_t2, bound),
+%    extract "nice" submatrices of solutions
+     submatrix_sol_lst = extract_submatrices(dio_sol_matrix, arg_lst),
+%    for every diophantine submatrix obtain the corresponding unification solution
+     ac_sol_lst = apply_dio_matrix_to_ac_sol(submatrix_sol_lst, arg_lst, vars2avoid)
+     IN ac_sol_lst
+
+
+% this functions corresponds to the homonymous function "elimvar" in Fages paper
+elimvar(ac_sol): [Sub, Ac_sol] =
+((::), ((::), (::))) 
+
+
+% apply function elimvar to every ac_sol in ac_sol_lst
+% TODO: this can be replaced by a simple "map"
+apply_elimvar(ac_sol_lst): RECURSIVE list[[Sub, Ac_sol]] =
+    IF null?(ac_sol_lst) THEN (::)
+    ELSE LET ac_sol = car(ac_sol_lst),
+             ac_sol_simp = elimvar(ac_sol) 
+             IN cons(ac_sol_simp, apply_elimvar(cdr(ac_sol_lst)))
+    ENDIF
+MEASURE ac_sol_lst BY << 
+
+
+construct_input(ac_sol_simp, unif_prb, sigma, vars2avoid): [Unif_prb, Sub, set[Variable]] =
+((::), (::), (::))
+
+% construct a list of inputs that will be passed to unify
+construct_input_lst(ac_sol_simp_lst, unif_prb, sigma, vars2avoid): RECURSIVE list[[Unif_prb, Sub, set[Variable]]] =
+    IF null?(ac_sol_simp_lst) THEN (::)
+    ELSE LET input = construct_input(car(ac_sol_simp_lst), unif_prb, sigma, vars2avoid)
+    	     IN cons(input, construct_input_lst(cdr(ac_sol_simp_lst), unif_prb, sigma, vars2avoid))
+    ENDIF
+MEASURE ac_sol_simp_lst BY << 
+
+
+END aux_unification 
