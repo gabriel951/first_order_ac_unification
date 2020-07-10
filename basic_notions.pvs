@@ -20,6 +20,6 @@ basic_notions:  THEORY
 Variable: TYPE = nat
 Constant: TYPE = nat
 F_symbol: TYPE = string
-Ac_f_symbol: TYPE = string
+Ac_symbol: TYPE = string
 
     END basic_notions

@@ -1,16 +1,10 @@
 %%% ADT file generated from terms
 
-Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
-         Ac_f_symbol: TYPE+]: THEORY
+Term_adt[Constant: TYPE, Variable: TYPE+, F_symbol: TYPE,
+         Ac_symbol: TYPE]: THEORY
  BEGIN
   ASSUMING
-   Constant_TCC1: ASSUMPTION EXISTS (x: Constant): TRUE;
-
    Variable_TCC1: ASSUMPTION EXISTS (x: Variable): TRUE;
-
-   F_symbol_TCC1: ASSUMPTION EXISTS (x: F_symbol): TRUE;
-
-   Ac_f_symbol_TCC1: ASSUMPTION EXISTS (x: Ac_f_symbol): TRUE;
   ENDASSUMING
 
   Term: TYPE
@@ -29,7 +23,7 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
 
   arg: [(app?) -> Term]
 
-  ac_f_sym: [(ac_app?) -> Ac_f_symbol]
+  ac_sym: [(ac_app?) -> Ac_symbol]
 
   ac_arg: [(ac_app?) -> Term]
 
@@ -43,7 +37,7 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
 
   app: [[F_symbol, Term] -> (app?)]
 
-  ac_app: [[Ac_f_symbol, Term] -> (ac_app?)]
+  ac_app: [[Ac_symbol, Term] -> (ac_app?)]
 
   Term_ord: [Term -> upto(5)]
 
@@ -55,8 +49,8 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
             Term_ord(pair(term1, term2)) = 3)
      AND (FORALL (f_sym: F_symbol, arg: Term):
             Term_ord(app(f_sym, arg)) = 4)
-     AND (FORALL (ac_f_sym: Ac_f_symbol, ac_arg: Term):
-            Term_ord(ac_app(ac_f_sym, ac_arg)) = 5);
+     AND (FORALL (ac_sym: Ac_symbol, ac_arg: Term):
+            Term_ord(ac_app(ac_sym, ac_arg)) = 5);
 
   ord(x: Term): [Term -> upto(5)] =
       CASES x
@@ -107,13 +101,13 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
 
   Term_ac_app_extensionality: AXIOM
     FORALL (ac_app?_var: (ac_app?), ac_app?_var2: (ac_app?)):
-      ac_f_sym(ac_app?_var) = ac_f_sym(ac_app?_var2) AND
+      ac_sym(ac_app?_var) = ac_sym(ac_app?_var2) AND
        ac_arg(ac_app?_var) = ac_arg(ac_app?_var2)
        IMPLIES ac_app?_var = ac_app?_var2;
 
   Term_ac_app_eta: AXIOM
     FORALL (ac_app?_var: (ac_app?)):
-      ac_app(ac_f_sym(ac_app?_var), ac_arg(ac_app?_var)) = ac_app?_var;
+      ac_app(ac_sym(ac_app?_var), ac_arg(ac_app?_var)) = ac_app?_var;
 
   Term_a_const: AXIOM
     FORALL (const1_var: Constant): a(const(const1_var)) = const1_var;
@@ -138,12 +132,12 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
     FORALL (app1_var: F_symbol, app2_var: Term):
       arg(app(app1_var, app2_var)) = app2_var;
 
-  Term_ac_f_sym_ac_app: AXIOM
-    FORALL (ac_app1_var: Ac_f_symbol, ac_app2_var: Term):
-      ac_f_sym(ac_app(ac_app1_var, ac_app2_var)) = ac_app1_var;
+  Term_ac_sym_ac_app: AXIOM
+    FORALL (ac_app1_var: Ac_symbol, ac_app2_var: Term):
+      ac_sym(ac_app(ac_app1_var, ac_app2_var)) = ac_app1_var;
 
   Term_ac_arg_ac_app: AXIOM
-    FORALL (ac_app1_var: Ac_f_symbol, ac_app2_var: Term):
+    FORALL (ac_app1_var: Ac_symbol, ac_app2_var: Term):
       ac_arg(ac_app(ac_app1_var, ac_app2_var)) = ac_app2_var;
 
   Term_inclusive: AXIOM
@@ -161,12 +155,12 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
                p(pair(pair1_var, pair2_var))
         AND FORALL (app1_var: F_symbol, app2_var: Term):
               p(app2_var) IMPLIES p(app(app1_var, app2_var))
-        AND FORALL (ac_app1_var: Ac_f_symbol, ac_app2_var: Term):
+        AND FORALL (ac_app1_var: Ac_symbol, ac_app2_var: Term):
               p(ac_app2_var) IMPLIES p(ac_app(ac_app1_var, ac_app2_var)))
        IMPLIES (FORALL (Term_var: Term): p(Term_var));
 
   every(p1: PRED[Constant], p2: PRED[Variable], p3: PRED[F_symbol],
-        p4: PRED[Ac_f_symbol])
+        p4: PRED[Ac_symbol])
        (a1: Term):
         boolean =
       CASES a1
@@ -183,7 +177,7 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
         ENDCASES;
 
   every(p1: PRED[Constant], p2: PRED[Variable], p3: PRED[F_symbol],
-        p4: PRED[Ac_f_symbol], a1: Term):
+        p4: PRED[Ac_symbol], a1: Term):
         boolean =
       CASES a1
         OF const(const1_var): p1(const1_var),
@@ -199,7 +193,7 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
         ENDCASES;
 
   some(p1: PRED[Constant], p2: PRED[Variable], p3: PRED[F_symbol],
-       p4: PRED[Ac_f_symbol])
+       p4: PRED[Ac_symbol])
       (a1: Term):
         boolean =
       CASES a1
@@ -216,7 +210,7 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
         ENDCASES;
 
   some(p1: PRED[Constant], p2: PRED[Variable], p3: PRED[F_symbol],
-       p4: PRED[Ac_f_symbol], a1: Term):
+       p4: PRED[Ac_symbol], a1: Term):
         boolean =
       CASES a1
         OF const(const1_var): p1(const1_var),
@@ -262,7 +256,7 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
   reduce_nat(const?_fun: [Constant -> nat], var?_fun: [Variable -> nat],
              unit?_fun: nat, pair?_fun: [[nat, nat] -> nat],
              app?_fun: [[F_symbol, nat] -> nat],
-             ac_app?_fun: [[Ac_f_symbol, nat] -> nat]):
+             ac_app?_fun: [[Ac_symbol, nat] -> nat]):
         [Term -> nat] =
       LAMBDA (Term_adtvar: Term):
         LET red: [Term -> nat] =
@@ -284,7 +278,7 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
              var?_fun: [[Variable, Term] -> nat], unit?_fun: [Term -> nat],
              pair?_fun: [[nat, nat, Term] -> nat],
              app?_fun: [[F_symbol, nat, Term] -> nat],
-             ac_app?_fun: [[Ac_f_symbol, nat, Term] -> nat]):
+             ac_app?_fun: [[Ac_symbol, nat, Term] -> nat]):
         [Term -> nat] =
       LAMBDA (Term_adtvar: Term):
         LET red: [Term -> nat] =
@@ -308,7 +302,7 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
                  var?_fun: [Variable -> ordinal], unit?_fun: ordinal,
                  pair?_fun: [[ordinal, ordinal] -> ordinal],
                  app?_fun: [[F_symbol, ordinal] -> ordinal],
-                 ac_app?_fun: [[Ac_f_symbol, ordinal] -> ordinal]):
+                 ac_app?_fun: [[Ac_symbol, ordinal] -> ordinal]):
         [Term -> ordinal] =
       LAMBDA (Term_adtvar: Term):
         LET red: [Term -> ordinal] =
@@ -331,7 +325,7 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
                  unit?_fun: [Term -> ordinal],
                  pair?_fun: [[ordinal, ordinal, Term] -> ordinal],
                  app?_fun: [[F_symbol, ordinal, Term] -> ordinal],
-                 ac_app?_fun: [[Ac_f_symbol, ordinal, Term] -> ordinal]):
+                 ac_app?_fun: [[Ac_symbol, ordinal, Term] -> ordinal]):
         [Term -> ordinal] =
       LAMBDA (Term_adtvar: Term):
         LET red: [Term -> ordinal] =
@@ -352,34 +346,22 @@ Term_adt[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
             ENDCASES;
  END Term_adt
 
-Term_adt_map[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
-             Ac_f_symbol: TYPE+, Constant1: TYPE+, Variable1: TYPE+,
-             F_symbol1: TYPE+, Ac_f_symbol1: TYPE+]: THEORY
+Term_adt_map[Constant: TYPE, Variable: TYPE+, F_symbol: TYPE,
+             Ac_symbol: TYPE, Constant1: TYPE, Variable1: TYPE+,
+             F_symbol1: TYPE, Ac_symbol1: TYPE]: THEORY
  BEGIN
   ASSUMING
-   Constant_TCC1: ASSUMPTION EXISTS (x: Constant): TRUE;
-
    Variable_TCC1: ASSUMPTION EXISTS (x: Variable): TRUE;
 
-   F_symbol_TCC1: ASSUMPTION EXISTS (x: F_symbol): TRUE;
-
-   Ac_f_symbol_TCC1: ASSUMPTION EXISTS (x: Ac_f_symbol): TRUE;
-
-   Constant1_TCC1: ASSUMPTION EXISTS (x: Constant1): TRUE;
-
    Variable1_TCC1: ASSUMPTION EXISTS (x: Variable1): TRUE;
-
-   F_symbol1_TCC1: ASSUMPTION EXISTS (x: F_symbol1): TRUE;
-
-   Ac_f_symbol1_TCC1: ASSUMPTION EXISTS (x: Ac_f_symbol1): TRUE;
   ENDASSUMING
 
   IMPORTING Term_adt
 
   map(f1: [Constant -> Constant1], f2: [Variable -> Variable1],
-      f3: [F_symbol -> F_symbol1], f4: [Ac_f_symbol -> Ac_f_symbol1])
-     (a1: Term[Constant, Variable, F_symbol, Ac_f_symbol]):
-        Term[Constant1, Variable1, F_symbol1, Ac_f_symbol1] =
+      f3: [F_symbol -> F_symbol1], f4: [Ac_symbol -> Ac_symbol1])
+     (a1: Term[Constant, Variable, F_symbol, Ac_symbol]):
+        Term[Constant1, Variable1, F_symbol1, Ac_symbol1] =
       CASES a1
         OF const(const1_var): const(f1(const1_var)),
            variable(variable1_var): variable(f2(variable1_var)),
@@ -394,9 +376,9 @@ Term_adt_map[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
         ENDCASES;
 
   map(f1: [Constant -> Constant1], f2: [Variable -> Variable1],
-      f3: [F_symbol -> F_symbol1], f4: [Ac_f_symbol -> Ac_f_symbol1],
-      a1: Term[Constant, Variable, F_symbol, Ac_f_symbol]):
-        Term[Constant1, Variable1, F_symbol1, Ac_f_symbol1] =
+      f3: [F_symbol -> F_symbol1], f4: [Ac_symbol -> Ac_symbol1],
+      a1: Term[Constant, Variable, F_symbol, Ac_symbol]):
+        Term[Constant1, Variable1, F_symbol1, Ac_symbol1] =
       CASES a1
         OF const(const1_var): const(f1(const1_var)),
            variable(variable1_var): variable(f2(variable1_var)),
@@ -413,9 +395,9 @@ Term_adt_map[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
   every(R1: [[Constant, Constant1] -> boolean],
         R2: [[Variable, Variable1] -> boolean],
         R3: [[F_symbol, F_symbol1] -> boolean],
-        R4: [[Ac_f_symbol, Ac_f_symbol1] -> boolean])
-       (x: Term[Constant, Variable, F_symbol, Ac_f_symbol],
-        y: Term[Constant1, Variable1, F_symbol1, Ac_f_symbol1]):
+        R4: [[Ac_symbol, Ac_symbol1] -> boolean])
+       (x: Term[Constant, Variable, F_symbol, Ac_symbol],
+        y: Term[Constant1, Variable1, F_symbol1, Ac_symbol1]):
         boolean =
           const?(x) AND const?(y) AND R1(a(x), a(y))
        OR var?(x) AND var?(y) AND R2(V(x), V(y)) OR unit?(x) AND unit?(y)
@@ -428,34 +410,26 @@ Term_adt_map[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
             R3(f_sym(x), f_sym(y)) AND every(R1, R2, R3, R4)(arg(x), arg(y))
        OR ac_app?(x) AND
            ac_app?(y) AND
-            R4(ac_f_sym(x), ac_f_sym(y)) AND
+            R4(ac_sym(x), ac_sym(y)) AND
              every(R1, R2, R3, R4)(ac_arg(x), ac_arg(y));
  END Term_adt_map
 
-Term_adt_reduce[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
-                Ac_f_symbol: TYPE+, range: TYPE]: THEORY
+Term_adt_reduce[Constant: TYPE, Variable: TYPE+, F_symbol: TYPE,
+                Ac_symbol: TYPE, range: TYPE]: THEORY
  BEGIN
   ASSUMING
-   Constant_TCC1: ASSUMPTION EXISTS (x: Constant): TRUE;
-
    Variable_TCC1: ASSUMPTION EXISTS (x: Variable): TRUE;
-
-   F_symbol_TCC1: ASSUMPTION EXISTS (x: F_symbol): TRUE;
-
-   Ac_f_symbol_TCC1: ASSUMPTION EXISTS (x: Ac_f_symbol): TRUE;
   ENDASSUMING
 
-  IMPORTING Term_adt[Constant, Variable, F_symbol, Ac_f_symbol]
+  IMPORTING Term_adt[Constant, Variable, F_symbol, Ac_symbol]
 
   reduce(const?_fun: [Constant -> range], var?_fun: [Variable -> range],
          unit?_fun: range, pair?_fun: [[range, range] -> range],
          app?_fun: [[F_symbol, range] -> range],
-         ac_app?_fun: [[Ac_f_symbol, range] -> range]):
-        [Term[Constant, Variable, F_symbol, Ac_f_symbol] -> range] =
-      LAMBDA (Term_adtvar:
-                Term[Constant, Variable, F_symbol, Ac_f_symbol]):
-        LET red: [Term[Constant, Variable, F_symbol, Ac_f_symbol] -> range]
-              =
+         ac_app?_fun: [[Ac_symbol, range] -> range]):
+        [Term[Constant, Variable, F_symbol, Ac_symbol] -> range] =
+      LAMBDA (Term_adtvar: Term[Constant, Variable, F_symbol, Ac_symbol]):
+        LET red: [Term[Constant, Variable, F_symbol, Ac_symbol] -> range] =
               reduce(const?_fun, var?_fun, unit?_fun, pair?_fun, app?_fun,
                      ac_app?_fun)
           IN
@@ -471,30 +445,28 @@ Term_adt_reduce[Constant: TYPE+, Variable: TYPE+, F_symbol: TYPE+,
             ENDCASES;
 
   REDUCE(const?_fun:
-           [[Constant, Term[Constant, Variable, F_symbol, Ac_f_symbol]] ->
+           [[Constant, Term[Constant, Variable, F_symbol, Ac_symbol]] ->
               range],
          var?_fun:
-           [[Variable, Term[Constant, Variable, F_symbol, Ac_f_symbol]] ->
+           [[Variable, Term[Constant, Variable, F_symbol, Ac_symbol]] ->
               range],
          unit?_fun:
-           [Term[Constant, Variable, F_symbol, Ac_f_symbol] -> range],
+           [Term[Constant, Variable, F_symbol, Ac_symbol] -> range],
          pair?_fun:
            [[range, range,
-             Term[Constant, Variable, F_symbol, Ac_f_symbol]] ->
+             Term[Constant, Variable, F_symbol, Ac_symbol]] ->
               range],
          app?_fun:
            [[F_symbol, range,
-             Term[Constant, Variable, F_symbol, Ac_f_symbol]] ->
+             Term[Constant, Variable, F_symbol, Ac_symbol]] ->
               range],
          ac_app?_fun:
-           [[Ac_f_symbol, range,
-             Term[Constant, Variable, F_symbol, Ac_f_symbol]] ->
+           [[Ac_symbol, range,
+             Term[Constant, Variable, F_symbol, Ac_symbol]] ->
               range]):
-        [Term[Constant, Variable, F_symbol, Ac_f_symbol] -> range] =
-      LAMBDA (Term_adtvar:
-                Term[Constant, Variable, F_symbol, Ac_f_symbol]):
-        LET red: [Term[Constant, Variable, F_symbol, Ac_f_symbol] -> range]
-              =
+        [Term[Constant, Variable, F_symbol, Ac_symbol] -> range] =
+      LAMBDA (Term_adtvar: Term[Constant, Variable, F_symbol, Ac_symbol]):
+        LET red: [Term[Constant, Variable, F_symbol, Ac_symbol] -> range] =
               REDUCE(const?_fun, var?_fun, unit?_fun, pair?_fun, app?_fun,
                      ac_app?_fun)
           IN

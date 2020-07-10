@@ -47,7 +47,19 @@ ac_sol_simp_lst: VAR list[[Sub, Ac_sol]]
 
 % this corresponds to function elimcom in Fages paper
 elim_com_arg(t1, t2): [list[Term], list[nat], list[nat]] =
-((::), (::), (::))
+    LET 
+    % get the arguments of t1 and how many times they appear
+    (args_t1, coef_t1) = get_args_coef(t1),
+    % get the arguments of t2 and how many times they appear
+    (args_t2, coef_t2) = get_args_coef(t2),
+    % get the arguments that appear more in t1 than in t2 and how many times
+    % they appear more in t1
+    (new_args_t1, new_coef_t1) = select_args(args_t1, coef_t1, args_t2, coef_t2),
+    % get the arguments that appear more in t1 than in t2 and how many times
+    % they appear more in t2
+    (new_args_t2, new_coef_t2) = select_args(args_t2, coef_t2, args_t1, coef_t1)
+    IN (append(new_args_t1, new_args_t2), new_coef_t1, new_coef_t2)
+    
 
 % extract the relevant submatrices. Each submatrix corresponds to one ac-solution
 % this corresponds to function partit in Fages article

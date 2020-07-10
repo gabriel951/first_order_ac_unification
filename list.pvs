@@ -18,6 +18,9 @@ pair: VAR [list[T], list[T]]
 lst, lst1, lst2: VAR list[T]
 lst_of_lsts: VAR list[list[T]]
 
+n, inc, elem_seen_so_far: VAR nat
+coef, lst_nat: VAR list[nat]
+
 % append_pair((l1, l2)) = append(l1, l2)
 append_pair(pair): list[T] =
     LET lst1 = pair`1,
@@ -26,7 +29,7 @@ append_pair(pair): list[T] =
 
 % for every y in lst2, obtain the pair (x, y)
 cartesian_product_aux(x, lst2): RECURSIVE list[[T, T]] =
-    IF null?(lst2) THEN (::)
+    IF null?(lst2) THEN null
     ELSE LET y = car(lst2) IN
     	     cons((x, y), cartesian_product_aux(x, cdr(lst2)))
     ENDIF
@@ -34,7 +37,7 @@ MEASURE lst2 BY <<
 
 % cartesian product of two lists
 cartesian_product(lst1, lst2): RECURSIVE list[[T, T]] =
-    IF null?(lst1) THEN (::)
+    IF null?(lst1) THEN null
     ELSE LET x = car(lst1)
     	 IN  append(cartesian_product_aux(x, lst2), cartesian_product(cdr(lst1), lst2))
     ENDIF 
@@ -43,10 +46,87 @@ MEASURE lst1 BY <<
 % receives a list of lists of elements of type T. Outputs a list containing all these elements of type T
 % For example, if it receives [[1], [2,3], [4]] it outputs [1, 2, 3, 4]
 flatten(lst_of_lsts): RECURSIVE list[T] =
-    IF null?(lst_of_lsts) THEN (::)
+    IF null?(lst_of_lsts) THEN null
     ELSE LET lst = car(lst_of_lsts)
     IN append(lst, flatten(cdr(lst_of_lsts)))
     ENDIF
 MEASURE lst_of_lsts BY <<
+
+% outputs a list [0, 1, ..., n]
+nat_upto(n): RECURSIVE list[nat] =
+    IF n = 0 THEN cons(0, null)
+    ELSE append(nat_upto(n-1), cons(n, null))
+    ENDIF
+MEASURE n
+
+% increment by inc a list of natural numbers, in position n (we start counting at 1)
+increment(lst_nat, n, inc): RECURSIVE list[nat] =
+    IF null?(lst_nat) OR n = 0 THEN lst_nat
+    ELSE LET x = car(lst_nat) IN
+         IF n = 1 THEN cons(x + inc, cdr(lst_nat))
+	 ELSE cons(x, increment(cdr(lst_nat), n - 1, inc))
+	 ENDIF
+    ENDIF
+MEASURE lst_nat BY << 
+
+% the first call to this function should be pos?(x, lst, 0)
+% test whether x is in lst
+% elem_seen_so_far indicates how many elements so far we have seen in the list
+% returns a bool to indicate if x is in lst and a natural number, to indicate the position
+% we start counting the position at 1
+pos?(x, lst, elem_seen_so_far): RECURSIVE [bool, nat] =
+    IF null?(lst) THEN (FALSE, 0)
+    ELSE LET y = car(lst) IN
+    	 IF x = y THEN (TRUE, elem_seen_so_far + 1)
+	 ELSE pos?(x, cdr(lst), elem_seen_so_far + 1)
+	 ENDIF
+    ENDIF
+MEASURE lst BY << 
+
+% the first call to this function should be count_elem(null, null, lst2)
+% lst2, in the first call, is a list of elements [l1, ..., ln] possibly with repetitions
+% lst1, when the function finish, contains all elements initially in lst2, without repetitions
+% coef contain the number of repetitions of the elements in lst2
+count_elem(lst1, coef, lst2): RECURSIVE [list[T], list[nat]] =
+    IF null?(lst2) THEN (lst1, coef) 
+    ELSE LET
+    	 x = car(lst2),
+    	 (in_lst, n) = pos?(x, lst2, 0)
+	 IN IF in_lst THEN LET
+	     	new_coef = increment(coef, n, 1)
+	     	IN count_elem(lst1, new_coef, cdr(lst2))
+	    ELSE LET
+	     	new_lst1 = append(lst1, cons(x, null)),
+	     	new_coef = append(coef, cons(1, null))
+	     	IN count_elem(new_lst1, new_coef, cdr(lst2))
+	    ENDIF
+    ENDIF
+MEASURE lst2 BY << 
+
+% lst2 - list of elements, coef2 - list of the multiplicities of each element in lst2
+% get multiplicity of element x in lst2
+get_multiplicity(x, lst2, coef2): RECURSIVE 
+    IF null?(lst2) OR null?(coef2) THEN 0
+    ELSE IF x = car(lst2) THEN car(coef2)
+    	 ELSE get_multiplicity(x, cdr(lst2), cdr(coef2))
+	 ENDIF
+    ENDIF
+MEASURE lst2 BY << 
+
+% lst1 - list of elements, coef1 - list of the multiplicities of each element in lst1
+% lst2 - list of elements, coef2 - list of the multiplicities of each element in lst2
+% this function returns the elements that appear more times in lst1 than in lst2,
+% and how many times they appear more in lst1 than in lst2
+select_args(lst1, coef1, lst2, coef2): RECURSIVE [list[T], list[nat]] =
+    IF null?(lst1) OR null?(coef1) THEN (null, null)
+    ELSE LET
+    	 x = car(lst1),
+	 n1 = car(coef1), 
+	 n2 = get_multiplicity(x, lst2, coef2) IN
+	 IF n1 > n2 THEN cons((x, n1 - n2), select_args(cdr(lst1), cdr(coef1), lst2, coef2))
+	 ELSE select_args(cdr(lst1), cdr(coef1), lst2, coef2)
+	 ENDIF
+    ENDIF
+MEASURE lst1 BY << 
 
 END list_theory

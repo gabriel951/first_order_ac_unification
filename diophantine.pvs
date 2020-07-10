@@ -25,12 +25,7 @@ value_lst: VAR list[nat]
 
 a1, X1, n, bound, value: VAR nat
 
-% outputs a list [0, 1, ..., n]
-nat_upto(n): RECURSIVE list[nat] =
-    IF n = 0 THEN cons(0, null)
-    ELSE append(nat_upto(n-1), cons(n, null))
-    ENDIF
-MEASURE n
+
 
 construct_input_lst_find_vectors(value_lst, mult_t, value): RECURSIVE list[[list[nat], nat]] =
     IF null?(value_lst) THEN (::)

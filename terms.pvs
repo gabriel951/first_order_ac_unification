@@ -13,12 +13,60 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % definition of a term
-Term[Constant:TYPE+, Variable:TYPE+, F_symbol:TYPE+, Ac_f_symbol:TYPE+]: DATATYPE
+Term[Constant:TYPE, Variable:TYPE+, F_symbol:TYPE, Ac_symbol:TYPE]: DATATYPE
     BEGIN
 	const (a: Constant): const?
 	variable (V: Variable): var?
 	unit: unit?
 	pair (term1: Term, term2: Term): pair?
 	app (f_sym: F_symbol, arg: Term): app?
-	ac_app (ac_f_sym: Ac_f_symbol, ac_arg: Term): ac_app? 
+	ac_app (ac_sym: Ac_symbol, ac_arg: Term): ac_app? 
     END Term
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+term_properties: THEORY
+BEGIN
+
+IMPORTING basic_notions,
+	  Term[Constant, Variable, F_symbol, Ac_symbol],
+	  list_theory[Term]
+
+sym: VAR string
+n: VAR nat
+
+t: VAR Term
+
+% get the number of arguments of an ac function whose symbol is "sym"
+num_arg_ac(sym, t): RECURSIVE nat =
+    IF pair?(t) THEN num_arg_ac(sym, term1(t)) + num_arg_ac(sym, term2(t))
+    ELSIF ac_app?(t) AND ac_sym(t) = sym THEN num_arg_ac(sym, ac_arg(t))
+    ELSE 1
+    ENDIF
+MEASURE t BY << 
+
+% select the nth (index start at one) argument of an ac function whose symbol is "sym"
+select_ac(sym, t)(n): RECURSIVE Term =
+    IF pair?(t) THEN
+        LET n1 = num_arg_ac(sym, t) IN
+        IF n <= n1 THEN select_ac(sym, term1(t))(n)
+        ELSE select_ac(sym, term2(t))(n)
+        ENDIF
+    ELSIF ac_app?(t) AND ac_sym(t) = sym THEN select_ac(sym, ac_arg(t))(n)
+    ELSE t
+    ENDIF 
+MEASURE t BY <<
+
+% get a list of arguments of an AC_term t (whose function symbol is sym)
+% and how many times they appear as arguments
+get_args_coef_ac(t, sym): [list[Term], list[nat]] =
+    LET 
+    % get the number of arguments of t
+    n = num_arg_ac(sym, t),
+    list_until_n = nat_upto(n),
+    lst_args = map(select_ac(sym, t), list_until_n)
+    IN
+    count_elem(null, null, lst_args)
+
+
+END term_properties
