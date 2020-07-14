@@ -12,37 +12,44 @@
 
 diophantine: THEORY
 BEGIN
-	IMPORTING list_theory[nat], list_theory[list[nat]]
+	IMPORTING list_theory[nat], list_theory[list[nat]], min_nat[nat]
 
 % a diophantine matrix is a list of list of naturals
 Dio_matrix: TYPE = list[list[nat]]
 dio_matrix: VAR Dio_matrix
 
 % the variables mult_t are used to indicate the multiplicity of the term t. They are a vector [a1, ..., an]
-mult_t, mult_t1, mult_t2: VAR list[nat]
+mult_t, mult_t1, mult_t2: VAR list[posnat]
 
 value_lst: VAR list[nat]
 
-a1, X1, n, bound, value: VAR nat
+a1, X1, n, n1, n2, k, bound, value: VAR nat
 
 
+% defines least common multiple
+lcm(n1, n2): nat = min({k: posnat | divides(n1, k) AND divides(n2, k)})
 
-construct_input_lst_find_vectors(value_lst, mult_t, value): RECURSIVE list[[list[nat], nat]] =
-    IF null?(value_lst) THEN (::)
-    ELSE LET X1  = car(value_lst) IN
-    	 IF value - X1 < 0 THEN (::) 
-	 ELSE cons((mult_t, value - X1),
-	      		    construct_input_lst_find_vectors(cdr(value_lst), mult_t, value))
-	 ENDIF
+% defines the maximum of possible pairs lcm(a_i, b_j)
+max_lcm(mult_t1, mult_t2): nat =
+    IF null?(mult_t1) OR null?(mult_t2) THEN 0
+    ELSE LET lcm_seq = map(lcm, cartesian_product(mult_t1, mult_t2)) IN 
+         {k: posnat | member(k, lcm_seq) AND (FORALL n: member(n, lcm_seq) IMPLIES k >= n)}
     ENDIF
-MEASURE value_lst BY <<
-
+    
 % calculate the upper bound of solutions, where we can stop
-calculate_upper_bound(mult_t1, mult_t2): nat = 0
+calculate_upper_bound(mult_t1, mult_t2): nat =
+    max(length(mult_t1), length(mult_t2)) * max_lcm(mult_t1, mult_t2)
+
+
+get_new_value_lst(n, value_lst): RECURSIVE list[int] =
+    IF null?(value_lst) THEN (::)
+    ELSE cons(n - car(value_lst), get_new_value_lst(n, cdr(value_lst)))
+    ENDIF
+MEASURE value_lst BY << 
 
 % receives a vector [a1, ..., an] and a specified value
 % find all vectors [X1, ..., Xn] such that a1*X1 + ... + an*Xn = specified_value
-find_vectors(mult_t, value): RECURSIVE list[list[nat]] =
+find_vectors(mult_t)(value): RECURSIVE list[list[posnat]] =
     IF null?(mult_t) THEN (::)
     ELSIF length(mult_t) = 1 THEN LET a1 = car(mult_t) IN 
     	 IF divides(a1, value) THEN LET X1 = value/a1
@@ -51,9 +58,10 @@ find_vectors(mult_t, value): RECURSIVE list[list[nat]] =
 	 ENDIF
     ELSE LET
     	 a1 = car(mult_t),
-	 X1_values = nat_upto(floor(value/a1)),
-	 input_lst  = construct_input_lst_find_vectors(X1_values, cdr(mult_t), value),
-	 vector_lst = map(find_vectors, input_lst),
+	 X1_values = nat_upto[nat](floor(value/a1)),
+	 new_value_lst = get_new_value_lst(value, X1_values)
+	 vector_lst_cdr = map(find_vectors(cdr(mult_t)), new_value_lst),
+	 vector_lst = cons_map(X1_values, vector_lst_cdr)
 	 result = flatten(vector_lst)
 	 IN result
     ENDIF
@@ -73,7 +81,7 @@ dio_solver_n(mult_t1, mult_t2, n): Dio_matrix =
 % solve diophatine solution until upper bound
 % this corresponds to function dioph in Fages paper 
 dio_solver(mult_t1, mult_t2, bound): RECURSIVE Dio_matrix =
-    IF bound = 0 THEN (::)
+    IF bound = 0 THEN (::) % TODO: check if this is indeed correct
     ELSE append(dio_solver_n(mult_t1, mult_t2, bound), dio_solver(mult_t1, mult_t2, bound - 1))
     ENDIF
 MEASURE bound  
