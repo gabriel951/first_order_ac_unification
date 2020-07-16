@@ -13,18 +13,21 @@
 list_theory[T: TYPE]: THEORY
 BEGIN
 
-x: VAR T
-pair: VAR [list[T], list[T]]
-lst, lst1, lst2: VAR list[T]
-lst_of_lsts: VAR list[list[T]]
+x, y, z: VAR T
+pair_lst: VAR [list[T], list[T]]
 
-n, n3, inc, elem_seen_so_far: VAR nat
+lst_pair1, lst_pair2: VAR list[[T, T]]
+
+lst, lst1, lst2: VAR list[T]
+lst_of_lsts, matrix: VAR list[list[T]]
+
+n, n3, inc, elem_seen_so_far, cur_greater: VAR nat
 coef, coef1, coef2, lst_nat: VAR list[nat]
 
 % append_pair((l1, l2)) = append(l1, l2)
-append_pair(pair): list[T] =
-    LET lst1 = pair`1,
-    	lst2 = pair`2
+append_pair(pair_lst): list[T] =
+    LET lst1 = pair_lst`1,
+    	lst2 = pair_lst`2
 	IN append(lst1, lst2)
 
 % for every y in lst2, obtain the pair (x, y)
@@ -52,14 +55,15 @@ flatten(lst_of_lsts): RECURSIVE list[T] =
     ENDIF
 MEASURE lst_of_lsts BY <<
 
-% outputs a list [0, 1, ..., n]
+% returns a list [0, 1, ..., n]
 nat_upto(n): RECURSIVE list[nat] =
     IF n = 0 THEN cons(0, null)
     ELSE append(nat_upto(n-1), cons(n, null))
     ENDIF
 MEASURE n
 
-% increment by inc a list of natural numbers, in position n (we start counting at 1)
+% increments by "inc" the number in position "n" of the list of natural numbers "lst_nat"
+% we start counting at 1
 increment(lst_nat, n, inc): RECURSIVE list[nat] =
     IF null?(lst_nat) OR n = 0 THEN lst_nat
     ELSE LET x = car(lst_nat) IN
@@ -70,9 +74,8 @@ increment(lst_nat, n, inc): RECURSIVE list[nat] =
 MEASURE lst_nat BY << 
 
 % the first call to this function should be pos?(x, lst, 0)
-% test whether x is in lst
-% elem_seen_so_far indicates how many elements so far we have seen in the list
 % returns a bool to indicate if x is in lst and a natural number, to indicate the position
+% elem_seen_so_far indicates how many elements so far we have seen in the list
 % we start counting the position at 1
 pos?(x, lst, elem_seen_so_far): RECURSIVE [bool, nat] =
     IF null?(lst) THEN (FALSE, 0)
@@ -84,7 +87,7 @@ pos?(x, lst, elem_seen_so_far): RECURSIVE [bool, nat] =
 MEASURE lst BY << 
 
 % the first call to this function should be count_elem(null, null, lst2)
-% lst2, in the first call, is a list of elements [l1, ..., ln] possibly with repetitions
+% lst2, is a list of elements [l1, ..., ln] possibly with repetitions
 % lst1, when the function finish, contains all elements initially in lst2, without repetitions
 % coef contain the number of repetitions of the elements in lst2
 count_elem(lst1, coef, lst2): RECURSIVE [list[T], list[nat]] =
@@ -132,12 +135,49 @@ select_args(lst1, coef1, lst2, coef2): RECURSIVE [list[T], list[nat]] =
     ENDIF
 MEASURE lst1 BY << 
 
-cons_map(lst1, lst_of_lsts): RECURSIVE list[list[T]] =
-    IF null?(lst1) OR null?(lst_of_lsts) THEN null
-    ELSE LET x = car(lst1),
-    	     lst = car(lst_of_lsts) IN
-	     cons(cons(x, lst), cons_map(cdr(lst1), cdr(lst_of_lsts)))
+% receives a matrix = [l1, ..., ln] and an element x
+% put element x as the first column of the matrix = [cons(x, l1), ..., cons(x, ln)]
+put_in_first_col(matrix, x): RECURSIVE list[list[T]] =
+    IF null?(matrix) THEN null
+    ELSE LET lst = car(matrix) IN
+	     cons(cons(x, lst), put_in_first_col(cdr(matrix), x))
     ENDIF
-MEASURE lst1 BY <<
+MEASURE matrix BY <<
 
+% returns a list [x, ..., x] of length n
+get_repeat_lst(x, n): RECURSIVE list[T] =
+    IF n = 0 THEN null
+    ELSE cons(x, get_repeat_lst(x, n-1))
+    ENDIF
+MEASURE n
+
+% outside call to this function should be select_greater(lst_nat, 0)
+% selects the greater element in lst_nat
+select_greater(lst_nat, cur_greater): RECURSIVE nat =
+    IF null?(lst_nat) THEN 0
+    ELSE LET n = car(lst_nat) IN
+     	 IF n > cur_greater THEN select_greater(cdr(lst_nat), n)
+	 ELSE select_greater(cdr(lst_nat), cur_greater)
+	 ENDIF 
+    ENDIF
+MEASURE lst_nat BY << 
+
+%%%%%%%%%%%%%%%%%%%%% Theorems
+%% general properties
+member_append: LEMMA
+    member(x, append(lst1, lst2)) = (member(x, lst1) OR member(x, lst2)) 
+
+member_append2: LEMMA
+    member((x, y), append(lst_pair1, lst_pair2)) = (member((x,y), lst_pair1) OR member((x,y), lst_pair2))
+
+% cartesian product
+cart_prod_aux_mem: LEMMA
+    member(y, lst) = member((x, y), cartesian_product_aux(x, lst))
+
+cart_prod_aux_mem2: LEMMA
+    member((x, y), cartesian_product_aux(z, lst)) => x = z
+    
+cart_prod_mem: LEMMA
+    (member(x, lst1) AND member(y, lst2)) = member((x, y), cartesian_product(lst1, lst2))
+    
 END list_theory
