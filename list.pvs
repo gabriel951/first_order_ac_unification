@@ -19,9 +19,9 @@ pair_lst: VAR [list[T], list[T]]
 lst_pair1, lst_pair2: VAR list[[T, T]]
 
 lst, lst1, lst2: VAR list[T]
-lst_of_lsts, matrix: VAR list[list[T]]
+lst_of_lsts, lst_of_lsts1, lst_of_lsts2: VAR list[list[T]]
 
-n, n3, inc, elem_seen_so_far, cur_greater: VAR nat
+n, i, inc, elem_seen_so_far, cur_greater: VAR nat
 coef, coef1, coef2, lst_nat: VAR list[nat]
 
 % append_pair((l1, l2)) = append(l1, l2)
@@ -135,14 +135,15 @@ select_args(lst1, coef1, lst2, coef2): RECURSIVE [list[T], list[nat]] =
     ENDIF
 MEASURE lst1 BY << 
 
-% receives a matrix = [l1, ..., ln] and an element x
-% put element x as the first column of the matrix = [cons(x, l1), ..., cons(x, ln)]
-put_in_first_col(matrix, x): RECURSIVE list[list[T]] =
-    IF null?(matrix) THEN null
-    ELSE LET lst = car(matrix) IN
-	     cons(cons(x, lst), put_in_first_col(cdr(matrix), x))
+% receives a lst of lists = [l1, ..., ln] and an element x
+% put element x as the first element of each lst li.
+% the resul is [cons(x, l1), ..., cons(x, ln)]
+put_in_head(lst_of_lsts, x): RECURSIVE list[list[T]] =
+    IF null?(lst_of_lsts) THEN null
+    ELSE LET lst = car(lst_of_lsts) IN
+	     cons(cons(x, lst), put_in_head(cdr(lst_of_lsts), x))
     ENDIF
-MEASURE matrix BY <<
+MEASURE lst_of_lsts BY <<
 
 % returns a list [x, ..., x] of length n
 get_repeat_lst(x, n): RECURSIVE list[T] =
@@ -152,7 +153,7 @@ get_repeat_lst(x, n): RECURSIVE list[T] =
 MEASURE n
 
 % outside call to this function should be select_greater(lst_nat, 0)
-% selects the greater element in lst_nat
+% selects the greatest element in lst_nat
 select_greater(lst_nat, cur_greater): RECURSIVE nat =
     IF null?(lst_nat) THEN 0
     ELSE LET n = car(lst_nat) IN
@@ -161,6 +162,63 @@ select_greater(lst_nat, cur_greater): RECURSIVE nat =
 	 ENDIF 
     ENDIF
 MEASURE lst_nat BY << 
+
+
+% tests if all lists in lst_of_lsts have length n
+all_lsts_length?(lst_of_lsts, n): RECURSIVE bool =
+    IF null?(lst_of_lsts) THEN TRUE
+    ELSE IF length(car(lst_of_lsts)) = n THEN all_lsts_length?(cdr(lst_of_lsts), n)
+    	 ELSE FALSE
+	 ENDIF
+    ENDIF
+MEASURE lst_of_lsts BY << 
+
+% returns TRUE if lst_of_lsts is a matrix. Returns FALSE otherwise
+matrix?(lst_of_lsts): bool =
+    IF null?(lst_of_lsts) THEN TRUE
+    ELSE LET lst = car(lst_of_lsts) IN
+    	     all_lsts_length?(lst_of_lsts, length(lst))
+    ENDIF
+
+% returns TRUE if lst_of_lsts is not a matrix. Returns FALSE otherwise
+non_matrix?(lst_of_lsts): bool = NOT matrix?(lst_of_lsts)
+
+% receives a list lst = [x1, ..., xn]
+% returns a list [lst_1, ..., lst_m] such that every lst_i is a sublist of lst
+get_all_sublists(lst): RECURSIVE list[list[T]] =
+    IF null?(lst) THEN null
+    ELSE LET x = car(lst),
+	     % get all lists without the element x
+	     lst_of_lsts1 = get_all_sublists(cdr(lst)), 
+	     % get all lists with the element x
+	     lst_of_lsts2 = put_in_head(lst_of_lsts1, x)
+	     IN append(lst_of_lsts1, lst_of_lsts2)
+    ENDIF
+MEASURE lst BY <<
+
+% count how many times the element x appears on lst
+count(x, lst): RECURSIVE nat =
+    IF null?(lst) THEN 0
+    ELSE LET y = car(lst) IN
+    	 IF x = y THEN 1 + count(x, cdr(lst))
+	 ELSE count(x, cdr(lst))
+	 ENDIF
+    ENDIF
+MEASURE lst BY <<
+
+% let lst_of_lsts = [l1, ..., ln].
+% get the ith element (we start counting at 1) in l1 "x1_i", ..., get the ith element in ln "xn_i"
+% returns [x1_i, ..., xn_i]
+% if a list lj has no ith element, put x instead
+get_col_i(lst_of_lsts, i, x): RECURSIVE list[T] =
+    IF null?(lst_of_lsts) THEN null
+    ELSE LET lst = car(lst_of_lsts) IN
+    	 IF i <= length(lst) THEN LET y = nth(lst, i-1) IN
+	    cons(y, get_col_i(cdr(lst_of_lsts), i, x))
+	 ELSE cons(x, get_col_i(cdr(lst_of_lsts), i, x))
+	 ENDIF
+    ENDIF
+MEASURE lst_of_lsts BY << 
 
 %%%%%%%%%%%%%%%%%%%%% Theorems
 %% general properties

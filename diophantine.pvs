@@ -63,7 +63,7 @@ MEASURE value_lst BY <<
 get_lst_dio_matrix(value_lst, lst_dio_matrix): RECURSIVE list[Dio_matrix] =
     IF null?(value_lst) OR null?(lst_dio_matrix) THEN null
     ELSE LET X = car(value_lst), dio_matrix = car(lst_dio_matrix),
-    	     new_dio_matrix = put_in_first_col[nat](dio_matrix, X)
+    	     new_dio_matrix = put_in_head[nat](dio_matrix, X)
     	     IN cons(new_dio_matrix, get_lst_dio_matrix(cdr(value_lst), cdr(lst_dio_matrix)))
     ENDIF
 MEASURE value_lst BY <<
