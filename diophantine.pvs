@@ -83,7 +83,7 @@ find_vectors(mult_t)(k): RECURSIVE Dio_matrix =
     ELSE LET
     	 a1 = car(mult_t),
 	 % list all possible values for X1: [0, 1, ..., floor(k/a1)]
-	 X1_values = nat_upto[nat](floor(k/a1)),
+	 X1_values = from_min2max[nat](0, floor(k/a1)),
 	 % new_k_lst is a list of new_k = (k - a1*X1) for every value of X1
 	 new_k_lst = get_new_value_lst(k, a1, X1_values),
 	 % apply find_vectors recursively to solve a2*X2 + ... + an*Xn = new_k

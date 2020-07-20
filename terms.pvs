@@ -63,7 +63,7 @@ get_args_coef_ac(t, sym): [list[Term], list[nat]] =
     LET 
     % get the number of arguments of t
     n = num_arg_ac(sym, t),
-    list_until_n = nat_upto(n),
+    list_until_n = from_min2max(1, n),
     lst_args = map(select_ac(sym, t), list_until_n)
     IN
     count_elem(null, null, lst_args)

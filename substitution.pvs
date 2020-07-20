@@ -14,7 +14,7 @@
 
 substitution: THEORY
 BEGIN
-	IMPORTING basic_notions, term_properties
+	IMPORTING term_properties
 	
 X, Y: VAR Variable
 t, s: VAR Term
