@@ -36,6 +36,9 @@ n: VAR nat
 
 t: VAR Term
 
+Args: TYPE = list[Term]
+args: VAR Args
+
 % get the number of arguments of an ac function whose symbol is "sym"
 num_arg_ac(sym, t): RECURSIVE nat =
     IF pair?(t) THEN num_arg_ac(sym, term1(t)) + num_arg_ac(sym, term2(t))
@@ -67,5 +70,14 @@ get_args_coef_ac(t, sym): [list[Term], list[nat]] =
     IN
     count_elem(null, null, lst_args)
 
+% obtain a term to represent a whole list of terms
+get_term_from_args(args): RECURSIVE Term =
+    IF null?(args) THEN unit
+    ELSIF length(args) = 1 THEN car(args)
+    ELSE pair(car(args), get_term_from_args(cdr(args)))
+    ENDIF
+MEASURE args BY << 
+
+get_ac_from_args(sym)(args): Term = ac_app(sym, get_term_from_args(args))
 
 END term_properties

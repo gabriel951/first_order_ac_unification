@@ -14,7 +14,7 @@
 
 aux_unification: THEORY
 BEGIN
-	IMPORTING substitution, diophantine, list_theory[number]
+	IMPORTING substitution, diophantine, list_theory[number], list_theory[Args]
 
 sigma: VAR Sub
 
@@ -26,22 +26,24 @@ Unif_pair: TYPE = [Term, Term]
 Unif_prb: TYPE = list[Unif_pair]
 unif_prb: VAR Unif_prb
 
-% to one particular ac solution there corresponds a pair of sequence of terms
-Ac_sol: TYPE = [list[Term], list[Term]]
+% one particular ac solution is a pair of list of terms "Old_Args" and "New_Args"
+% we will try to unify "Old_Args[i]" with "New_Args[i]"
+Ac_sol: TYPE = [Args, Args]
 
 sym: VAR string
 
-t1, t2: VAR Term
-arg_lst: VAR list[Term]
+t, t1, t2: VAR Term
+args: VAR Args
+lst_args: VAR list[Args]
 
 mult_t1, mult_t2, row, col: VAR list[nat]
-bound, i, n: VAR nat
+bound, i, n, num_col: VAR nat
 num: VAR number
 
 dio_sol_matrix, dio_matrix: VAR Dio_matrix
 submatrix_sol_lst, dio_matrix_lst: VAR list[Dio_matrix]
 
-vars2avoid: VAR set[Variable]
+vars2avoid: VAR list[Variable]
 
 ac_sol: VAR Ac_sol
 ac_sol_lst: VAR list[Ac_sol]
@@ -78,8 +80,8 @@ empty_col?(dio_matrix)(i): bool =
     	ENDIF
 
 % Constraint 1: Every column has at least one coefficient greater than 0 
-const1?(dio_matrix, arg_lst): bool =
-     LET empty_col_lst = map(empty_col?(dio_matrix), from_min2max[nat](1, length(arg_lst))) IN
+const1?(dio_matrix, num_col): bool =
+     LET empty_col_lst = map(empty_col?(dio_matrix), from_min2max[nat](1, num_col)) IN
      IF member(TRUE, empty_col_lst) THEN FALSE
      ELSE TRUE 
      ENDIF
@@ -92,9 +94,9 @@ const2?(col): bool =
 
 % returns false if column "i" corresponds to a non-variable argument and does not satisfy constraint 2
 % returns true otherwise
-if_non_var_const2_col?(dio_matrix, arg_lst)(i): bool = 
-    IF i > length(arg_lst) THEN FALSE 
-    ELSE LET arg = nth(arg_lst, i-1) IN 
+if_non_var_const2_col?(dio_matrix, args)(i): bool = 
+    IF i > length(args) OR i = 0 THEN FALSE 
+    ELSE LET arg = nth(args, i-1) IN 
     	     IF var?(arg) THEN TRUE
 	     ELSE LET col_i = get_col_i[nat](dio_matrix, i, 0) IN
 	     	      const2?(col_i)
@@ -102,27 +104,26 @@ if_non_var_const2_col?(dio_matrix, arg_lst)(i): bool =
     ENDIF
 
 % return true if all columns that correspond to a non-variable argument satisfy constraint 2
-if_non_var_const2?(dio_matrix, arg_lst): bool =
-     LET lst_non_var_const2 = map(if_non_var_const2_col?(dio_matrix, arg_lst),
-     	 		     	   from_min2max[nat](1, length(arg_lst))) IN
+if_non_var_const2?(dio_matrix, args): bool =
+     LET lst_non_var_const2 = map(if_non_var_const2_col?(dio_matrix, args),
+     	 		     	   from_min2max[nat](1, length(args))) IN
      IF member(FALSE, lst_non_var_const2) THEN FALSE
      ELSE TRUE
      ENDIF
 
 % a nice submatrix is one that satisfies constraint 1 and for every column that is not a variable
-% TODO: change this documentation
 % satisfies constraint 2
-nice_submatrix?(dio_matrix, arg_lst): bool =
-     const1?(dio_matrix, arg_lst) AND if_non_var_const2?(dio_matrix, arg_lst)
+nice_submatrix?(dio_matrix, args): bool =
+     const1?(dio_matrix, length(args)) AND if_non_var_const2?(dio_matrix, args)
 
 % receives a list of dio matrix
 % returns a list of the ones that satisfy the property of being nice
-get_nice_submatrices(dio_matrix_lst, arg_lst): RECURSIVE list[Dio_matrix] =
+get_nice_submatrices(dio_matrix_lst, args): RECURSIVE list[Dio_matrix] =
     IF null?(dio_matrix_lst) THEN null
     ELSE LET dio_matrix = car(dio_matrix_lst) IN
-    	 IF nice_submatrix?(dio_matrix, arg_lst) THEN
-	    cons(dio_matrix, get_nice_submatrices(dio_matrix_lst, arg_lst))
-	 ELSE get_nice_submatrices(cdr(dio_matrix_lst), arg_lst)
+    	 IF nice_submatrix?(dio_matrix, args) THEN
+	    cons(dio_matrix, get_nice_submatrices(cdr(dio_matrix_lst), args))
+	 ELSE get_nice_submatrices(cdr(dio_matrix_lst), args)
 	 ENDIF
     ENDIF
 MEASURE dio_matrix_lst BY << 
@@ -130,74 +131,69 @@ MEASURE dio_matrix_lst BY <<
 
 % extract the relevant submatrices. Each submatrix corresponds to one ac-solution
 % this corresponds to function partit in Fages article
-extract_submatrices(dio_sol_matrix, arg_lst): list[Dio_matrix] =
+extract_submatrices(dio_sol_matrix, args): list[Dio_matrix] =
     % check that the dio_sol_matrix is not only a list of lists but also a matrix
     IF nonmatrix?(dio_sol_matrix) THEN null
     ELSE LET all_submatrices = get_all_sublists(dio_sol_matrix) 
-    	     IN get_nice_submatrices(all_submatrices, arg_lst)
+    	     IN get_nice_submatrices(all_submatrices, args)
     ENDIF
     	   
-% receives a list of columns and the current column index "i" we are looking
-% initially should be called with "cur_col_ind = 1"
-% returns a list of the columns that satisfy constraint 2 and their index
-%get_col_and_ind_cons2(lst_col, i): [list[list[nat]], list[nat]] =
-%    IF null?(lst_col) THEN (null, null)
-%    ELSE LET col = car(lst_col)
-%    	 IN IF const2?(col) THEN
-%	       (cons(col, get_col_and_ind_cons2(cdr(lst_col), i+1)`1),
-%	        cons(i, get_col_and_ind_cons2(cdr(lst_col), i+1)`2))
-%	    ELSE get_col_and_ind_cons2(cdr(lst_col), i+1)
-%	    ENDIF
-%    ENDIF
+% add to lst_args[i] the term "t" the amount of times specified in row[i] for each i
+add_new_arg(lst_args, row, t): RECURSIVE list[Args] = 
+    IF null?(lst_args) OR null?(row) THEN lst_args
+    ELSE LET args = car(lst_args), 
+    	     args2 = get_repeat_lst(t, car(row)), 
+	     new_args = append(args, args2) IN 
+	     cons(new_args, add_new_arg(cdr(lst_args), cdr(row), t))
+    ENDIF
+MEASURE row BY << 
 
-% receives:
-%   - a list containing "num_line" entries. Each entry will contain the columns indexes of the
-%     	columns which satisfy constraint 2  
-%   - a list of columns that satisfy constraint 2
-%   - a list of their index
-%get_col_ind_cons2_per_line(ind_cons2_per_line, lst_col_const2, lst_ind_col_const2): 
+% return a variable that is not in vars2avoid
+get_new_var(vars2avoid): Variable = select_greater[number](vars2avoid, 0) + 1
+
+% the initial call to this function should be with lst_args = [null, ..., null]
+% each row in dio_matrix gives rise to a new variable 
+% add the new_variable to lst_args[i] the amount of times indicated in row[i],
+% i ranges from 1 <= "i" <= length(lst_args)
+get_pre_new_args(lst_args, dio_matrix, vars2avoid): RECURSIVE [list[Args], list[Variable]] = 
+     IF null?(dio_matrix) THEN (lst_args, vars2avoid)
+     ELSE LET row = car(dio_matrix), 
+     	      new_var = get_new_var(vars2avoid), 
+	      new_lst_args = add_new_arg(lst_args, row, variable(new_var)), 
+	      new_vars2avoid = cons(new_var, vars2avoid) 
+	      IN get_pre_new_args(new_lst_args, cdr(dio_matrix), new_vars2avoid)
+     ENDIF
+MEASURE dio_matrix BY << 
 
 % this corresponds to function trans in Fages paper
-dio_matrix_to_ac_sol(arg_lst, vars2avoid)(dio_matrix): list[Ac_sol] = null
-%    LET
-%    num_col = length(arg_lst),
-%    num_lines = length(dio_matrix)
-%    
-%    % get the columns and index_of_columns that satisfy constraint 2
-%    % obs: "lst_ind_col_const2" corresponds to "J" in Fages paper
-%    lst_col = map(get_col_i(dio_matrix, 0), from_min2max(1, num_col))
-%    (lst_col_const2, lst_ind_col_const2) = get_col_and_ind_const2(lst_col, 1) 
-%    
-%    % for every line i, get the column indexes that satisfy constraint 2 in this line
-%    % "ind_col_const2_per_line" corresponds to a list of "phi(i)"
-%    ind_col_const2_per_line = get_col_ind_cons2_per_line(get_repeat_lst(null, num_lines),
-%    			  	lst_col_const2, lst_ind_col_const2)
-%
-%    % for each row, create the appropriate row variable
-%    lst_row_vars = get_lst_row_vars(ind_col_const2_per_line, vars2avoid)
-%
-%    %This corresponds to [B_1, ..., Bq] in Fages notation 
-%    new_arg_lst = get_new_arg_lst(lst_row_vars , lst_ind_col_const2) 
-%
-%    % Return 
-%    in get_pair_lst(arg_lst, new_arg_lst)
+% some simplification is done
+dio_matrix2ac_sol(args, vars2avoid, sym)(dio_matrix): [Ac_sol, list[Variable]] = 
+     LET num_col = length(args), 
+     % get list of list of args
+     null_lst = get_repeat_lst[Args](null, num_col), 
+     (pre_new_args, new_vars2avoid) = get_pre_new_args(null_lst, dio_matrix, vars2avoid),
+     % for each "args" in pre_new_args, make an ac term whose args are "args"
+     new_args = map(get_ac_from_args(sym), pre_new_args), 
+     % pareate
+     ac_sol = (args, new_args) IN
+     (ac_sol, new_vars2avoid) 
 
     
 % this corresponds to function "dio" in Fages paper
-solve_ac(t1, t2, vars2avoid, sym): list[Ac_sol] =
+solve_ac(t1, t2, vars2avoid, sym): list[[Ac_sol, list[Variable]]] =
     LET
 %    eliminate common arguments from t1 and t2, obtaining the different arguments on each one
 %    and their multiplicity
-     (arg_lst, mult_t1, mult_t2) = elim_com_arg(t1, t2, sym),
+     (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, sym),
 %    calculate upper bound from which we can solve the diophantine equation
      bound = calculate_upper_bound(mult_t1, mult_t2),
 %    solve diophantine equation until the upper bound 
      dio_sol_matrix = dio_solver(mult_t1, mult_t2, bound),
 %    extract "nice" submatrices of solutions
-     submatrix_sol_lst = extract_submatrices(dio_sol_matrix, arg_lst),
+     submatrix_sol_lst = extract_submatrices(dio_sol_matrix, args), 
 %    for every diophantine submatrix obtain the corresponding unification solution
-     ac_sol_lst = null %map(submatrix_sol_lst,)
-     IN ac_sol_lst
+     results = map(dio_matrix2ac_sol(args, vars2avoid, sym), submatrix_sol_lst)
+     IN results
 
 
 % this functions corresponds to the homonymous function "elimvar" in Fages paper

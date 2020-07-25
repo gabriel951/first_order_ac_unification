@@ -223,6 +223,15 @@ get_col_i(lst_of_lsts, i, x): RECURSIVE list[T] =
     ENDIF
 MEASURE lst_of_lsts BY << 
 
+% let lst1 = [x1, ..., xn] and lst2 = [y1, ..., yn]
+% pareate returns [(x1, y1), ..., (xn, yn)]
+pareate(lst1, lst2): RECURSIVE list[[T, T]] =
+    IF null?(lst1) OR null?(lst2) THEN null
+    ELSE LET x = car(lst1), y = car(lst2) IN cons((x, y), pareate(cdr(lst1), cdr(lst2)))
+    ENDIF
+MEASURE lst1 BY <<
+
+              
 %%%%%%%%%%%%%%%%%%%%% Theorems
 %% general properties
 member_append: LEMMA
