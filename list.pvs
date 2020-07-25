@@ -21,6 +21,7 @@ lst_pair1, lst_pair2: VAR list[[T, T]]
 lst, lst1, lst2: VAR list[T]
 lst_of_lsts, lst_of_lsts1, lst_of_lsts2: VAR list[list[T]]
 
+num: VAR number
 n, i, min, max, inc, elem_seen_so_far, cur_greater: VAR nat
 coef, coef1, coef2, lst_nat: VAR list[nat]
 
@@ -59,7 +60,8 @@ MEASURE lst_of_lsts BY <<
 % if max < min, return null
 from_min2max(min, max): RECURSIVE list[nat] =
     IF min > max THEN null
-    ELSE append(from_min2max(min, max-1), cons(max, null))
+    ELSIF min = max THEN cons(max, null)
+    ELSE  append(from_min2max(min, max-1), cons(max, null))
     ENDIF
 MEASURE max
 
@@ -214,7 +216,7 @@ MEASURE lst BY <<
 get_col_i(lst_of_lsts, i, x): RECURSIVE list[T] =
     IF null?(lst_of_lsts) THEN null
     ELSE LET lst = car(lst_of_lsts) IN
-    	 IF i <= length(lst) THEN LET y = nth(lst, i-1) IN
+    	 IF i <= length(lst) AND i > 0 THEN LET y = nth(lst, i-1) IN
 	    cons(y, get_col_i(cdr(lst_of_lsts), i, x))
 	 ELSE cons(x, get_col_i(cdr(lst_of_lsts), i, x))
 	 ENDIF
@@ -239,4 +241,15 @@ cart_prod_aux_mem2: LEMMA
 cart_prod_mem: LEMMA
     (member(x, lst1) AND member(y, lst2)) = member((x, y), cartesian_product(lst1, lst2))
     
+% select_args 
+select_args_pos: LEMMA
+    member(n, select_args(lst1, coef1, lst2, coef2)`2) IMPLIES n > 0 
+    
+select_args_pos2: LEMMA
+    member(num, select_args(lst1, coef1, lst2, coef2)`2) IMPLIES num > 0 
+
+% a property about nth and member
+member_nth: LEMMA
+    i < length(lst) IMPLIES member(nth(lst, i), lst)
+
 END list_theory

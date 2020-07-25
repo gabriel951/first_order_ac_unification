@@ -14,7 +14,7 @@
 
 aux_unification: THEORY
 BEGIN
-	IMPORTING substitution, diophantine
+	IMPORTING substitution, diophantine, list_theory[number]
 
 sigma: VAR Sub
 
@@ -34,8 +34,9 @@ sym: VAR string
 t1, t2: VAR Term
 arg_lst: VAR list[Term]
 
-mult_t1, mult_t2, row: VAR list[nat]
-bound, i: VAR nat
+mult_t1, mult_t2, row, col: VAR list[nat]
+bound, i, n: VAR nat
+num: VAR number
 
 dio_sol_matrix, dio_matrix: VAR Dio_matrix
 submatrix_sol_lst, dio_matrix_lst: VAR list[Dio_matrix]
@@ -62,30 +63,36 @@ elim_com_arg(t1, t2, sym): [list[Term], list[nat], list[nat]] =
     (new_args_t2, new_coef_t2) = select_args(args_t2, coef_t2, args_t1, coef_t1)
     IN (append(new_args_t1, new_args_t2), new_coef_t1, new_coef_t2)
 
+elim_com_arg_pos: LEMMA
+   member(num, elim_com_arg(t1, t2, sym)`2) IMPLIES num > 0 
+   
+elim_com_arg_pos2: LEMMA
+   member(num, elim_com_arg(t1, t2, sym)`3) IMPLIES num > 0 
 
 % check if column i is empty (all coeficients equal to 0)
 % you must make sure dio_matrix is a matrix and i < num_col_dio_matrix 
 empty_col?(dio_matrix)(i): bool =
     LET col_i = get_col_i[nat](dio_matrix, i, 0) IN 
-    	IF (member(n, col_i) => n = 0) THEN TRUE
+    	IF (FORALL n: member(n, col_i) => n = 0) THEN TRUE
     	ELSE FALSE
     	ENDIF
 
 % Constraint 1: Every column has at least one coefficient greater than 0 
 const1?(dio_matrix, arg_lst): bool =
-     empty_col_lst = map(empty_col?(dio_matrix), from_min2max(1, length(arg_lst)))
-     IF member(FALSE, non_empty_col_lst) THEN FALSE
+     LET empty_col_lst = map(empty_col?(dio_matrix), from_min2max[nat](1, length(arg_lst))) IN
+     IF member(TRUE, empty_col_lst) THEN FALSE
      ELSE TRUE 
+     ENDIF
      
 % Constraint 2: One coefficient is equal to one, the others are zero 
 const2?(col): bool =
-    IF count(1, col_i) = 1 AND count(0, col_i) = length(col_i) - 1 THEN TRUE
+    IF count(1, col) = 1 AND count(0, col) = length(col) - 1 THEN TRUE
     ELSE FALSE
     ENDIF
 
 % returns false if column "i" corresponds to a non-variable argument and does not satisfy constraint 2
 % returns true otherwise
-if_non_var_cons2_col?(dio_matrix, arg_lst)(i): 
+if_non_var_const2_col?(dio_matrix, arg_lst)(i): bool = 
     IF i > length(arg_lst) THEN FALSE 
     ELSE LET arg = nth(arg_lst, i-1) IN 
     	     IF var?(arg) THEN TRUE
@@ -95,24 +102,25 @@ if_non_var_cons2_col?(dio_matrix, arg_lst)(i):
     ENDIF
 
 % return true if all columns that correspond to a non-variable argument satisfy constraint 2
-if_non_var_cons2?(dio_matrix, arg_lst): bool =
-     LET lst_non_var_cons2 = map(if_non_var_cons2_col?(dio_matrix, arg_lst),
-     	 		     	   from_min2max(1, length(arg_lst))) IN
-     IF member(FALSE, lst_non_var_cons2) THEN FALSE
+if_non_var_const2?(dio_matrix, arg_lst): bool =
+     LET lst_non_var_const2 = map(if_non_var_const2_col?(dio_matrix, arg_lst),
+     	 		     	   from_min2max[nat](1, length(arg_lst))) IN
+     IF member(FALSE, lst_non_var_const2) THEN FALSE
      ELSE TRUE
      ENDIF
 
 % a nice submatrix is one that satisfies constraint 1 and for every column that is not a variable
+% TODO: change this documentation
 % satisfies constraint 2
-nice_submatrix?(dio_matrix, arg_lst, i): bool =
-     const1?(dio_matrix) AND if_non_var_const2?(dio_matrix, arg_lst)
+nice_submatrix?(dio_matrix, arg_lst): bool =
+     const1?(dio_matrix, arg_lst) AND if_non_var_const2?(dio_matrix, arg_lst)
 
 % receives a list of dio matrix
 % returns a list of the ones that satisfy the property of being nice
 get_nice_submatrices(dio_matrix_lst, arg_lst): RECURSIVE list[Dio_matrix] =
     IF null?(dio_matrix_lst) THEN null
     ELSE LET dio_matrix = car(dio_matrix_lst) IN
-    	 IF nice_submatrix?(dio_matrix, arg_lst, length(arg_lst)) THEN
+    	 IF nice_submatrix?(dio_matrix, arg_lst) THEN
 	    cons(dio_matrix, get_nice_submatrices(dio_matrix_lst, arg_lst))
 	 ELSE get_nice_submatrices(cdr(dio_matrix_lst), arg_lst)
 	 ENDIF
@@ -132,47 +140,47 @@ extract_submatrices(dio_sol_matrix, arg_lst): list[Dio_matrix] =
 % receives a list of columns and the current column index "i" we are looking
 % initially should be called with "cur_col_ind = 1"
 % returns a list of the columns that satisfy constraint 2 and their index
-get_col_and_ind_cons2(lst_col, i): [list[list[nat]], list[nat]] =
-    IF null?(lst_col) THEN (null, null)
-    ELSE LET col = car(lst_col)
-    	 IN IF const2?(col) THEN
-	       (cons(col, get_col_and_ind_cons2(cdr(lst_col), i+1)`1),
-	        cons(i, get_col_and_ind_cons2(cdr(lst_col), i+1)`2))
-	    ELSE get_col_and_ind_cons2(cdr(lst_col), i+1)
-	    ENDIF
-    ENDIF
+%get_col_and_ind_cons2(lst_col, i): [list[list[nat]], list[nat]] =
+%    IF null?(lst_col) THEN (null, null)
+%    ELSE LET col = car(lst_col)
+%    	 IN IF const2?(col) THEN
+%	       (cons(col, get_col_and_ind_cons2(cdr(lst_col), i+1)`1),
+%	        cons(i, get_col_and_ind_cons2(cdr(lst_col), i+1)`2))
+%	    ELSE get_col_and_ind_cons2(cdr(lst_col), i+1)
+%	    ENDIF
+%    ENDIF
 
 % receives:
 %   - a list containing "num_line" entries. Each entry will contain the columns indexes of the
 %     	columns which satisfy constraint 2  
 %   - a list of columns that satisfy constraint 2
 %   - a list of their index
-get_col_ind_cons2_per_line(ind_cons2_per_line, lst_col_const2, lst_ind_col_const2): 
+%get_col_ind_cons2_per_line(ind_cons2_per_line, lst_col_const2, lst_ind_col_const2): 
 
 % this corresponds to function trans in Fages paper
-dio_matrix_to_ac_sol(arg_lst, vars2avoid)(dio_matrix): list[Ac_sol] =
-    LET
-    num_col = length(arg_lst),
-    num_lines = length(dio_matrix)
-    
-    % get the columns and index_of_columns that satisfy constraint 2
-    % obs: "lst_ind_col_const2" corresponds to "J" in Fages paper
-    lst_col = map(get_col_i(dio_matrix, 0), from_min2max(1, num_col))
-    (lst_col_const2, lst_ind_col_const2) = get_col_and_ind_const2(lst_col, 1) 
-    
-    % for every line i, get the column indexes that satisfy constraint 2 in this line
-    % "ind_col_const2_per_line" corresponds to a list of "phi(i)"
-    ind_col_const2_per_line = get_col_ind_cons2_per_line(get_repeat_lst(null, num_lines),
-    			  	lst_col_const2, lst_ind_col_const2)
-
-    % for each row, create the appropriate row variable
-    lst_row_vars = get_lst_row_vars(ind_col_const2_per_line, vars2avoid)
-
-    %This corresponds to [B_1, ..., Bq] in Fages notation 
-    new_arg_lst = get_new_arg_lst(lst_row_vars , lst_ind_col_const2) 
-
-    % Return 
-    in get_pair_lst(arg_lst, new_arg_lst)
+dio_matrix_to_ac_sol(arg_lst, vars2avoid)(dio_matrix): list[Ac_sol] = null
+%    LET
+%    num_col = length(arg_lst),
+%    num_lines = length(dio_matrix)
+%    
+%    % get the columns and index_of_columns that satisfy constraint 2
+%    % obs: "lst_ind_col_const2" corresponds to "J" in Fages paper
+%    lst_col = map(get_col_i(dio_matrix, 0), from_min2max(1, num_col))
+%    (lst_col_const2, lst_ind_col_const2) = get_col_and_ind_const2(lst_col, 1) 
+%    
+%    % for every line i, get the column indexes that satisfy constraint 2 in this line
+%    % "ind_col_const2_per_line" corresponds to a list of "phi(i)"
+%    ind_col_const2_per_line = get_col_ind_cons2_per_line(get_repeat_lst(null, num_lines),
+%    			  	lst_col_const2, lst_ind_col_const2)
+%
+%    % for each row, create the appropriate row variable
+%    lst_row_vars = get_lst_row_vars(ind_col_const2_per_line, vars2avoid)
+%
+%    %This corresponds to [B_1, ..., Bq] in Fages notation 
+%    new_arg_lst = get_new_arg_lst(lst_row_vars , lst_ind_col_const2) 
+%
+%    % Return 
+%    in get_pair_lst(arg_lst, new_arg_lst)
 
     
 % this corresponds to function "dio" in Fages paper
