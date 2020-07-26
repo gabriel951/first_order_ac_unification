@@ -223,5 +223,10 @@ construct_input_lst(ac_sol_simp_lst, unif_prb, sigma, vars2avoid): RECURSIVE lis
     ENDIF
 MEASURE ac_sol_simp_lst BY << 
 
-
+%%%%%%%%%%%%%%%%%%%%%%% Theorems
+solve_ac_soundness:
+    member((ac_sol, new_vars2avoid), solve_ac(t1, t2, vars2avoid)) AND   
+    ac_app?(t1) AND ac_app?(t2) AND ac_sym(t1) = ac_sym(t2) AND unifies_lst?(sigma, ac_sol)
+    IMPLIES unifies?(sigma, t1, t2)
+    
 END aux_unification 

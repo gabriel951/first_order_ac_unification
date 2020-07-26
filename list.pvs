@@ -255,7 +255,8 @@ select_args_pos: LEMMA
     member(n, select_args(lst1, coef1, lst2, coef2)`2) IMPLIES n > 0 
     
 select_args_pos2: LEMMA
-    member(num, select_args(lst1, coef1, lst2, coef2)`2) IMPLIES num > 0 
+    member(num, select_args(lst1, coef1, lst2, coef2)`2) IMPLIES
+    (num > 0 AND number_field_pred(num) AND real_pred(num))
 
 % a property about nth and member
 member_nth: LEMMA
