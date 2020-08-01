@@ -34,41 +34,82 @@ IMPORTING basic_notions,
 sym: VAR string
 n: VAR nat
 
-t: VAR Term
+t, s: VAR Term
 
 Args: TYPE = list[Term]
 args: VAR Args
 
-% get the number of arguments of an ac function whose symbol is "sym"
-num_arg_ac(sym, t): RECURSIVE nat =
-    IF pair?(t) THEN num_arg_ac(sym, term1(t)) + num_arg_ac(sym, term2(t))
-    ELSIF ac_app?(t) AND ac_sym(t) = sym THEN num_arg_ac(sym, ac_arg(t))
+% the size of a term 
+size(t): RECURSIVE nat =
+    CASES t OF
+        const(a): 1,
+	variable(X): 1, 
+	unit: 1, 
+	pair(t1, t2): 1 + size(term1(t)) + size(term2(t)),
+	app(sym, arg): 1  + size(arg),
+	ac_app(sym, arg): 1  + size(arg)
+    ENDCASES
+MEASURE t BY << 
+
+% test if t and s are AC function symbols headed by "sym"
+are_ac?(t, s, sym): bool = ac_app?(t) AND ac_app?(s) AND sym = ac_sym(t) AND sym = ac_sym(s) 
+
+% get the number of arguments of a term "t"
+% if it encounters an ac function whose root is "sym" it goes inside the function
+num_arg(sym, t): RECURSIVE nat =
+    IF pair?(t) THEN num_arg(sym, term1(t)) + num_arg(sym, term2(t))
+    ELSIF ac_app?(t) AND ac_sym(t) = sym THEN num_arg(sym, ac_arg(t))
     ELSE 1
     ENDIF
 MEASURE t BY << 
 
-% select the nth (index start at one) argument of an ac function whose symbol is "sym"
-select_ac(sym, t)(n): RECURSIVE Term =
+% select the nth (index start at one) argument of an a term.
+% if it encounters an ac function whose root is "sym" it goes inside the function
+select(sym, t)(n): RECURSIVE Term =
     IF pair?(t) THEN
-        LET n1 = num_arg_ac(sym, t) IN
-        IF n <= n1 THEN select_ac(sym, term1(t))(n)
-        ELSE select_ac(sym, term2(t))(n)
+        LET n1 = num_arg(sym, t) IN
+        IF n <= n1 THEN select(sym, term1(t))(n)
+        ELSE select(sym, term2(t))(n)
         ENDIF
-    ELSIF ac_app?(t) AND ac_sym(t) = sym THEN select_ac(sym, ac_arg(t))(n)
+    ELSIF ac_app?(t) AND ac_sym(t) = sym THEN select(sym, ac_arg(t))(n)
     ELSE t
     ENDIF 
 MEASURE t BY <<
 
+% delete the nth (index start at one) argument of a term
+% if it encounters an ac function whose root is "sym" it goes inside the function
+delete(sym, t)(n): RECURSIVE Term =
+   IF pair?(t) THEN LET
+       num_arg1 = num_arg(sym, term1(t)),
+       num_arg2 = num_arg(sym, term2(t)) IN
+       IF n <= num_arg1 THEN
+	  IF num_arg1 = 1 THEN term2(t)
+	  ELSE pair(delete(sym, term1(t))(n), term2(t))
+	  ENDIF
+       ELSE
+	  IF num_arg2 = 1 THEN term1(t)
+	  ELSE pair(term1(t), delete(sym, term2(t))(n))
+	  ENDIF
+       ENDIF
+   ELSIF ac_app?(t) AND ac_sym(t) = sym THEN
+       IF num_arg(sym, t) = 1 THEN unit
+       ELSE ac_app(ac_sym(t), delete(sym, ac_arg(t))(n))
+       ENDIF 
+   ELSE unit 
+   ENDIF
+MEASURE t by <<
+
+% get the arguments of a term t.
+% if it encounters an ac function whose root is "sym" it goes inside the function
+get_args(t, sym): list[Term] =
+    LET n = num_arg(sym, t), lst_until_n = from_min2max(1, n) IN 
+    	map(select(sym, t), lst_until_n)
+    
 % get a list of arguments of an AC_term t (whose function symbol is sym)
 % and how many times they appear as arguments
 get_args_coef_ac(t, sym): [list[Term], list[nat]] =
-    LET 
-    % get the number of arguments of t
-    n = num_arg_ac(sym, t),
-    list_until_n = from_min2max(1, n),
-    lst_args = map(select_ac(sym, t), list_until_n)
-    IN
-    count_elem(null, null, lst_args)
+    LET args = get_args(t, sym) IN
+    count_elem(null, null, args)
 
 % obtain a term to represent a whole list of terms
 get_term_from_args(args): RECURSIVE Term =

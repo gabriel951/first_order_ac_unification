@@ -7,7 +7,7 @@
 %
 
 % File: list.pvs
-% Description: functions related to solving diophantine equations
+% Description: 
 %%%%%%%%%%%%%%%%%%%%%%%
 
 list_theory[T: TYPE]: THEORY
@@ -231,6 +231,9 @@ pareate(lst1, lst2): RECURSIVE list[[T, T]] =
     ENDIF
 MEASURE lst1 BY <<
 
+% test if lst1 and lst2 are permutations of each other
+perm?(lst1, lst2): bool =
+    FORALL x: count(x, lst1) = count(x, lst2) 
               
 %%%%%%%%%%%%%%%%%%%%% Theorems
 %% general properties
@@ -261,5 +264,8 @@ select_args_pos2: LEMMA
 % a property about nth and member
 member_nth: LEMMA
     i < length(lst) IMPLIES member(nth(lst, i), lst)
+
+member_nth2: CONJECTURE
+    member(x, lst) IMPLIES EXISTS (n:below[length(lst)]): x = nth(lst, n)
 
 END list_theory

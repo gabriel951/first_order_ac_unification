@@ -1,0 +1,12 @@
+(|unification|
+ (|unifies?_TCC1| 0
+  (|unifies?_TCC1-1| NIL 3805034332 ("" (SUBTYPE-TCC) NIL NIL)
+   ((|unifies?| CONST-DECL "bool" |unification| NIL)) NIL))
+ (|unifies?_TCC2| 0
+  (|unifies?_TCC2-1| NIL 3805034332 ("" (TERMINATION-TCC) NIL NIL)
+   ((|unifies?| CONST-DECL "bool" |unification| NIL)
+    (<< ADT-DEF-DECL "(strict_well_founded?[list])" |list_adt| NIL))
+   NIL))
+ (|unifies?_TCC3| 0
+  (|unifies?_TCC3-1| NIL 3805034332 ("" (SUBTYPE-TCC) NIL NIL) NIL NIL)))
+

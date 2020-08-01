@@ -1,0 +1,49 @@
+% Authors:
+%		Gabriel Ferreira Silva (*)
+% 		Mauricio Ayala-Rincón (*)
+% 		Daniele Nantes Sobrinho (*)
+% 		Maribel Fernandez (**)
+%		(*) - University of Brasília			(**) - King's College London
+%
+
+% File: Equality.pvs
+% Description: Definition of equality between term and related lemmas
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+equality: THEORY
+BEGIN
+	IMPORTING term_properties
+
+t, s: VAR Term
+sym: VAR string
+
+i: VAR nat
+
+
+equal?(t, s): RECURSIVE bool =
+    CASES t OF
+        const(a): s = const(a),
+
+	variable(X): s = variable(X), 
+	
+	unit: s = unit, 
+	
+	pair(t1, t2): pair?(s) AND equal?(t1, term1(s)) AND equal?(t2, term2(s)),
+
+	app(sym, arg): app?(s) AND sym = f_sym(s) AND equal?(arg, arg(s)),
+
+	ac_app(sym, arg): ac_app?(s) AND sym = ac_sym(s) AND EXISTS i:
+	   equal?(select(sym, arg)(1), select(sym, arg)(i)) AND 
+	   equal?(delete(sym, arg)(1), delete(sym, arg)(i))
+    ENDCASES
+MEASURE size(t) 
+
+
+%%%%%%%%%%%%%%% Theorems
+ac_perm_args: CONJECTURE
+    are_ac?(t, s, sym) AND equal?(t, s) IMPLIES perm?(get_args(t, sym), get_args(s, sym))
+   
+perm_args_ac: CONJECTURE
+    perm?(get_args(t, sym), get_args(s, sym)) AND are_ac?(t, s, sym) IMPLIES equal?(t, s) 
+
+END equality

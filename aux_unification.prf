@@ -29,8 +29,7 @@
     (|Ac_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
     (|Term| TYPE-DECL NIL |Term_adt| NIL)
     (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
-    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL) NIL
     (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
@@ -47,8 +46,7 @@
      "(strict_total_order?[real])" |real_props| NIL)
     (|get_args_coef_ac| CONST-DECL "[list[Term], list[nat]]" |term_properties|
      NIL)
-    (|string| TYPE-EQ-DECL NIL |strings| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (|string| TYPE-EQ-DECL NIL |strings| NIL) NIL
     (|list| TYPE-DECL NIL |list_adt| NIL)
     (|elim_com_arg| CONST-DECL "[list[Term], list[nat], list[nat]]"
      |aux_unification| NIL))
@@ -66,8 +64,7 @@
     NIL)
    ((|elim_com_arg| CONST-DECL "[list[Term], list[nat], list[nat]]"
      |aux_unification| NIL)
-    (|list| TYPE-DECL NIL |list_adt| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (|list| TYPE-DECL NIL |list_adt| NIL) NIL
     (|string| TYPE-EQ-DECL NIL |strings| NIL)
     (|get_args_coef_ac| CONST-DECL "[list[Term], list[nat]]" |term_properties|
      NIL)
@@ -84,8 +81,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
     (|Term| TYPE-DECL NIL |Term_adt| NIL)
@@ -117,9 +113,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL NIL
     (|list| TYPE-DECL NIL |list_adt| NIL)
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|Term| TYPE-DECL NIL |Term_adt| NIL)
@@ -141,8 +135,7 @@
     (|if_non_var_const2?| CONST-DECL "bool" |aux_unification| NIL)
     (|const1?| CONST-DECL "bool" |aux_unification| NIL)
     (|Args| TYPE-EQ-DECL NIL |term_properties| NIL)
-    (TRUE CONST-DECL "bool" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL) NIL
     (|Term| TYPE-DECL NIL |Term_adt| NIL)
     (|Ac_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
     (|F_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
@@ -160,8 +153,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL)
     (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
@@ -176,8 +168,7 @@
     (|const1?| CONST-DECL "bool" |aux_unification| NIL)
     (<< ADT-DEF-DECL "(strict_well_founded?[list])" |list_adt| NIL)
     (|Args| TYPE-EQ-DECL NIL |term_properties| NIL)
-    (TRUE CONST-DECL "bool" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL) NIL
     (|Term| TYPE-DECL NIL |Term_adt| NIL)
     (|Ac_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
     (|F_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
@@ -195,8 +186,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL)
     (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
@@ -210,8 +200,7 @@
     (|if_non_var_const2?| CONST-DECL "bool" |aux_unification| NIL)
     (|const1?| CONST-DECL "bool" |aux_unification| NIL)
     (|Args| TYPE-EQ-DECL NIL |term_properties| NIL)
-    (TRUE CONST-DECL "bool" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL) NIL
     (|Term| TYPE-DECL NIL |Term_adt| NIL)
     (|Ac_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
     (|F_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
@@ -229,8 +218,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL)
     (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
@@ -245,8 +233,7 @@
     (|const1?| CONST-DECL "bool" |aux_unification| NIL)
     (<< ADT-DEF-DECL "(strict_well_founded?[list])" |list_adt| NIL)
     (|Args| TYPE-EQ-DECL NIL |term_properties| NIL)
-    (TRUE CONST-DECL "bool" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL) NIL
     (|Term| TYPE-DECL NIL |Term_adt| NIL)
     (|Ac_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
     (|F_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
@@ -264,8 +251,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL)
     (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
@@ -284,8 +270,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL)
     (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
@@ -305,9 +290,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL) (|Term| TYPE-DECL NIL |Term_adt| NIL)
     (|Ac_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
@@ -336,9 +319,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL) (|Term| TYPE-DECL NIL |Term_adt| NIL)
     (|Ac_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
@@ -368,9 +349,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL) (|Term| TYPE-DECL NIL |Term_adt| NIL)
     (|Ac_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
@@ -397,9 +376,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL) (|Term| TYPE-DECL NIL |Term_adt| NIL)
     (|Ac_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
@@ -434,9 +411,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL) (|Term| TYPE-DECL NIL |Term_adt| NIL)
     (|Ac_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
@@ -472,9 +447,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL) (|Term| TYPE-DECL NIL |Term_adt| NIL)
     (|Ac_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
@@ -500,8 +473,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL)
     (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
@@ -575,8 +547,7 @@
      "(strict_total_order?[real])" |real_props| NIL)
     (|Variable| TYPE-EQ-DECL NIL |basic_notions| NIL)
     (|Constant| TYPE-EQ-DECL NIL |basic_notions| NIL)
-    (TRUE CONST-DECL "bool" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |Term_adt| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL) NIL
     (|Term| TYPE-DECL NIL |Term_adt| NIL)
     (|Ac_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
     (|F_symbol| TYPE-EQ-DECL NIL |basic_notions| NIL)
@@ -587,8 +558,7 @@
     (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
     (NOT CONST-DECL "[bool -> bool]" |booleans| NIL)
     (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
-    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL) NIL
     (|list| TYPE-DECL NIL |list_adt| NIL) (> CONST-DECL "bool" |reals| NIL)
     (>= CONST-DECL "bool" |reals| NIL)
     (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
@@ -678,8 +648,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL
     (|list| TYPE-DECL NIL |list_adt| NIL)
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
@@ -704,8 +673,7 @@
     (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL
     (|list| TYPE-DECL NIL |list_adt| NIL)
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
@@ -714,5 +682,43 @@
     (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL))
    NIL))
  (|construct_input_lst_TCC3| 0
-  (|construct_input_lst_TCC3-1| NIL 3804667940 ("" (TCC)) NIL NIL)))
+  (|construct_input_lst_TCC3-1| NIL 3804667940 ("" (TCC)) NIL NIL))
+ (|solve_ac_soundness| 0
+  (|solve_ac_soundness-1| NIL 3805038351
+   ("" (SKEEP)
+    (("" (EXPAND "solve_ac")
+      (("" (NAME-REPLACE "args_" "elim_com_arg(t1, t2, sym)`1")
+        (("" (NAME-REPLACE "mult_t1_" "elim_com_arg(t1, t2, sym)`2")
+          (("" (NAME-REPLACE "mult_t2_" "elim_com_arg(t1, t2, sym)`3")
+            (("" (EXPAND "args_")
+              (("" (EXPAND "elim_com_arg")
+                ((""
+                  (NAME-REPLACE "args1" "select_args(get_args_coef_ac(t1,
+                                                                         sym)`1,
+                                                        get_args_coef_ac(t1,
+                                                                         sym)`2,
+                                                        get_args_coef_ac(t2,
+                                                                         sym)`1,
+                                                        get_args_coef_ac(t2,
+                                                                         sym)`2)`1")
+                  ((""
+                    (NAME-REPLACE "args2" "select_args(get_args_coef_ac(t2,
+                                                                         sym)`1,
+                                                        get_args_coef_ac(t2,
+                                                                         sym)`2,
+                                                        get_args_coef_ac(t1,
+                                                                         sym)`1,
+                                                        get_args_coef_ac(t1,
+                                                                         sym)`2)`1")
+                    (("" (EXPAND "unifies?" 1) (("" (POSTPONE) NIL NIL)) NIL))
+                    NIL))
+                  NIL))
+                NIL))
+              NIL))
+            NIL))
+          NIL))
+        NIL))
+      NIL))
+    NIL)
+   NIL SHOSTAK)))
 

@@ -14,7 +14,7 @@
 
 substitution: THEORY
 BEGIN
-	IMPORTING term_properties
+	IMPORTING equality
 	
 X, Y: VAR Variable
 t, s: VAR Term
@@ -50,10 +50,10 @@ sigma, delta: VAR Sub
 % notice that in "(sigma o delta)(t) = sigma(delta(t))" we apply the substitution delta first,
 % and the substitution sigma after. Since "(sigma o delta)(t)" is represented as
 % "append(sigma, delta)", we must apply first the basic substitution in the tail of the list
-Subs(sigma, t): RECURSIVE Term =
+subs(sigma, t): RECURSIVE Term =
     CASES sigma OF
     	  null: t,
-	  cons(head, tail): subs(head, Subs(tail, t))
+	  cons(head, tail): subs(head, subs(tail, t))
     ENDCASES
 MEASURE sigma BY << 
 

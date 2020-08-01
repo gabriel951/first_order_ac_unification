@@ -8,27 +8,23 @@
 %
 
 % File: aux_unification.pvs
-% Description: auxiliary functions called in the unification algorithm 
+% Description: auxiliary functions called in the unification algorithm.
+% TODO: maybe a better name should be "aux_unification_alg"
 
 %%%%%%%%%%%%%%%%%%%%%%%
 
 aux_unification: THEORY
 BEGIN
-	IMPORTING substitution, diophantine, list_theory[number], list_theory[Args]
+	IMPORTING unification, diophantine, list_theory[number], list_theory[Args]
 
 sigma: VAR Sub
 
 
-% a unification pair (t, s) is composed of terms t and s that must be unified
-Unif_pair: TYPE = [Term, Term]
-
-% a unification problem is a list of unification pairs
-Unif_prb: TYPE = list[Unif_pair]
 unif_prb: VAR Unif_prb
 
-% one particular ac solution is a pair of list of terms "Old_Args" and "New_Args"
-% we will try to unify "Old_Args[i]" with "New_Args[i]"
-Ac_sol: TYPE = [Args, Args]
+% one particular ac solution is a unification problem, where each unification pair is of the
+% form "Old_Args[i] =? New_Args[i]"
+Ac_sol: TYPE = Unif_prb
 
 sym: VAR string
 
@@ -43,7 +39,7 @@ num: VAR number
 dio_sol_matrix, dio_matrix: VAR Dio_matrix
 submatrix_sol_lst, dio_matrix_lst: VAR list[Dio_matrix]
 
-vars2avoid: VAR list[Variable]
+vars2avoid, new_vars2avoid: VAR list[Variable]
 
 ac_sol: VAR Ac_sol
 ac_sol_lst: VAR list[Ac_sol]
@@ -175,7 +171,7 @@ dio_matrix2ac_sol(args, vars2avoid, sym)(dio_matrix): [Ac_sol, list[Variable]] =
      % for each "args" in pre_new_args, make an ac term whose args are "args"
      new_args = map(get_ac_from_args(sym), pre_new_args), 
      % pareate
-     ac_sol = (args, new_args) IN
+     ac_sol = pareate(args, new_args) IN
      (ac_sol, new_vars2avoid) 
 
     
@@ -198,7 +194,7 @@ solve_ac(t1, t2, vars2avoid, sym): list[[Ac_sol, list[Variable]]] =
 
 % this functions corresponds to the homonymous function "elimvar" in Fages paper
 elimvar(ac_sol): [Sub, Ac_sol] =
-((::), ((::), (::))) 
+(null, null) 
 
 
 % apply function elimvar to every ac_sol in ac_sol_lst
@@ -210,7 +206,6 @@ apply_elimvar(ac_sol_lst): RECURSIVE list[[Sub, Ac_sol]] =
              IN cons(ac_sol_simp, apply_elimvar(cdr(ac_sol_lst)))
     ENDIF
 MEASURE ac_sol_lst BY << 
-
 
 construct_input(ac_sol_simp, unif_prb, sigma, vars2avoid): [Unif_prb, Sub, set[Variable]] =
 ((::), (::), (::))
@@ -224,9 +219,9 @@ construct_input_lst(ac_sol_simp_lst, unif_prb, sigma, vars2avoid): RECURSIVE lis
 MEASURE ac_sol_simp_lst BY << 
 
 %%%%%%%%%%%%%%%%%%%%%%% Theorems
-solve_ac_soundness:
-    member((ac_sol, new_vars2avoid), solve_ac(t1, t2, vars2avoid)) AND   
-    ac_app?(t1) AND ac_app?(t2) AND ac_sym(t1) = ac_sym(t2) AND unifies_lst?(sigma, ac_sol)
-    IMPLIES unifies?(sigma, t1, t2)
+solve_ac_soundness: CONJECTURE
+    member((ac_sol, new_vars2avoid), solve_ac(t1, t2, vars2avoid, sym)) AND   
+    are_ac?(t1, t2, sym) AND unifies?(sigma, ac_sol)
+    IMPLIES unifies?(sigma, (t1, t2))
     
 END aux_unification 
