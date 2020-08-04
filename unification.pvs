@@ -16,20 +16,21 @@ unification: THEORY
 BEGIN
 	IMPORTING substitution
 
-sigma, sigma1: VAR Sub
-vars2avoid: VAR set[Variable]
+sigma, sigma1: VAR sub
+vars2avoid: VAR set[variable]
+args1, args2: VAR args
 
 % a unification pair (t, s) is composed of terms t and s that must be unified
-Unif_pair: TYPE = [Term, Term]
-unif_pair: VAR Unif_pair
+unif_pair: TYPE = [term, term]
+unif_pair: VAR unif_pair
 
 % a unification problem is a list of unification pairs
-Unif_prb: TYPE = list[Unif_pair]
-unif_prb: VAR Unif_prb
+unif_prb: TYPE = list[unif_pair]
+unif_prb, unif_prb1, unif_prb2: VAR unif_prb
 
 % check if sigma unifies an unification pair
 unifies?(sigma, unif_pair): bool = 
-    LET (t, s) = unif_pair IN equal?(subs(sigma, t), subs(sigma, s))
+    LET (t, s) = unif_pair IN equal?(subs(sigma)(t), subs(sigma)(s))
 
 % check if sigma unifies an unification problem
 unifies?(sigma, unif_prb): RECURSIVE bool =
@@ -39,4 +40,13 @@ unifies?(sigma, unif_prb): RECURSIVE bool =
     ENDIF
 MEASURE unif_prb BY << 
 
+%%%%%%%%%%%%%%%%%% Theorems and Lemmas
+unifies?_append: CONJECTURE
+    unifies?(sigma, append(unif_prb1, unif_prb2)) =
+    (unifies?(sigma, unif_prb1) AND unifies?(sigma, unif_prb2))
+
+unifies?_pareate: CONJECTURE 
+    length(args1) = length(args2) AND unifies?(sigma, pareate(args1, args2))
+    IMPLIES equal?(subs(sigma)(args1), subs(sigma)(args2))
+    
 END unification 

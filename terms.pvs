@@ -12,15 +12,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % definition of a term
-Term[Constant:TYPE, Variable:TYPE+, F_symbol:TYPE, Ac_symbol:TYPE]: DATATYPE
+term[constant:TYPE, variable:TYPE+, f_symbol:TYPE, ac_symbol:TYPE]: DATATYPE
     BEGIN
-	const (a: Constant): const?
-	variable (V: Variable): var?
+	const (a: constant): const?
+	variable (V: variable): var?
 	unit: unit?
-	pair (term1: Term, term2: Term): pair?
-	app (f_sym: F_symbol, arg: Term): app?
-	ac_app (ac_sym: Ac_symbol, ac_arg: Term): ac_app? 
-    END Term
+	pair (term1: term, term2: term): pair?
+	app (f_sym: f_symbol, arg: term): app?
+	ac_app (ac_sym: ac_symbol, ac_arg: term): ac_app? 
+    END term
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -28,16 +28,16 @@ term_properties: THEORY
 BEGIN
 
 IMPORTING basic_notions,
-	  Term[Constant, Variable, F_symbol, Ac_symbol],
-	  list_theory[Term]
+	  term[constant, variable, f_symbol, ac_symbol],
+	  list_theory[term]
 
 sym: VAR string
 n: VAR nat
 
-t, s: VAR Term
+t, s: VAR term
 
-Args: TYPE = list[Term]
-args: VAR Args
+args: TYPE = list[term]
+args: VAR args
 
 % the size of a term 
 size(t): RECURSIVE nat =
@@ -50,6 +50,9 @@ size(t): RECURSIVE nat =
 	ac_app(sym, arg): 1  + size(arg)
     ENDCASES
 MEASURE t BY << 
+
+% test if t is an AC function symbol headed by sym
+is_ac_sym?(t, sym): bool = ac_app?(t) AND sym = ac_sym(t)
 
 % test if t and s are AC function symbols headed by "sym"
 are_ac?(t, s, sym): bool = ac_app?(t) AND ac_app?(s) AND sym = ac_sym(t) AND sym = ac_sym(s) 
@@ -65,7 +68,7 @@ MEASURE t BY <<
 
 % select the nth (index start at one) argument of an a term.
 % if it encounters an ac function whose root is "sym" it goes inside the function
-select(sym, t)(n): RECURSIVE Term =
+select(sym, t)(n): RECURSIVE term =
     IF pair?(t) THEN
         LET n1 = num_arg(sym, t) IN
         IF n <= n1 THEN select(sym, term1(t))(n)
@@ -78,7 +81,7 @@ MEASURE t BY <<
 
 % delete the nth (index start at one) argument of a term
 % if it encounters an ac function whose root is "sym" it goes inside the function
-delete(sym, t)(n): RECURSIVE Term =
+delete(sym, t)(n): RECURSIVE term =
    IF pair?(t) THEN LET
        num_arg1 = num_arg(sym, term1(t)),
        num_arg2 = num_arg(sym, term2(t)) IN
@@ -101,24 +104,24 @@ MEASURE t by <<
 
 % get the arguments of a term t.
 % if it encounters an ac function whose root is "sym" it goes inside the function
-get_args(t, sym): list[Term] =
+get_args(sym)(t): args =
     LET n = num_arg(sym, t), lst_until_n = from_min2max(1, n) IN 
     	map(select(sym, t), lst_until_n)
     
 % get a list of arguments of an AC_term t (whose function symbol is sym)
 % and how many times they appear as arguments
-get_args_coef_ac(t, sym): [list[Term], list[nat]] =
-    LET args = get_args(t, sym) IN
+get_args_coef_ac(t, sym): [args, list[nat]] =
+    LET args = get_args(sym)(t) IN
     count_elem(null, null, args)
 
 % obtain a term to represent a whole list of terms
-get_term_from_args(args): RECURSIVE Term =
+get_term_from_args(args): RECURSIVE term =
     IF null?(args) THEN unit
     ELSIF length(args) = 1 THEN car(args)
     ELSE pair(car(args), get_term_from_args(cdr(args)))
     ENDIF
 MEASURE args BY << 
 
-get_ac_from_args(sym)(args): Term = ac_app(sym, get_term_from_args(args))
+get_ac_from_args(sym)(args): term = ac_app(sym, get_term_from_args(args))
 
 END term_properties

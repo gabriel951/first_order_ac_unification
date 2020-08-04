@@ -14,10 +14,12 @@ equality: THEORY
 BEGIN
 	IMPORTING term_properties
 
-t, s: VAR Term
+t, s: VAR term
+args1, args2, args3: VAR args
 sym: VAR string
 
 i: VAR nat
+coef: VAR list[nat]
 
 
 equal?(t, s): RECURSIVE bool =
@@ -38,12 +40,31 @@ equal?(t, s): RECURSIVE bool =
     ENDCASES
 MEASURE size(t) 
 
+% test if two list of arguments are equal
+equal?(args1, args2): RECURSIVE bool =
+    IF null?(args1) THEN null?(args2)
+    ELSE LET t = car(args1), s = car(args2) IN
+    	 equal?(t, s) AND equal?(cdr(args1), cdr(args2))
+    ENDIF
+MEASURE args1 BY << 
+
+% test if args1 and args2 are permutations of each other, where the notion of equality is
+% given by equal?
+perm?(args1, args2): bool = TRUE
+     
 
 %%%%%%%%%%%%%%% Theorems
+equal?_get_lst_mult: CONJECTURE
+    equal?(args1, args2) IMPLIES
+    equal?(get_lst_mult(args1, coef), get_lst_mult(args2, coef))
+
 ac_perm_args: CONJECTURE
-    are_ac?(t, s, sym) AND equal?(t, s) IMPLIES perm?(get_args(t, sym), get_args(s, sym))
+    are_ac?(t, s, sym) AND equal?(t, s) IMPLIES perm?(get_args(sym)(t), get_args(sym)(s))
    
 perm_args_ac: CONJECTURE
-    perm?(get_args(t, sym), get_args(s, sym)) AND are_ac?(t, s, sym) IMPLIES equal?(t, s) 
+    perm?(get_args(sym)(t), get_args(sym)(s)) AND are_ac?(t, s, sym) IMPLIES equal?(t, s) 
+
+perm?_trans: CONJECTURE
+    perm?(args1, args2) AND perm?(args2, args3) IMPLIES perm?(args1, args3)
 
 END equality

@@ -15,9 +15,9 @@ BEGIN
 	IMPORTING list_theory[nat], list_theory[posnat], list_theory[list[nat]], min_nat[posnat]
 
 % a diophantine matrix is a list of list of naturals
-Dio_matrix: TYPE = list[list[nat]]
-dio_matrix: VAR Dio_matrix
-lst_dio_matrix: VAR list[Dio_matrix]
+dio_matrix: TYPE = list[list[nat]]
+dio_matrix: VAR dio_matrix
+lst_dio_matrix: VAR list[dio_matrix]
 
 % the variables mult_t are used to indicate the multiplicity of the term t. They are a vector [a1, ..., an]
 mult_t, mult_t1, mult_t2: VAR list[posnat]
@@ -58,9 +58,9 @@ MEASURE value_lst BY <<
 
 % iterates over value_lst and lst_dio_matrix simultaneously
 % Let X_i be the value in values_lst in the ith iteration
-% Let Dio_i be the value in lst_dio_matrix in the ith iteration
-% Put X_i as the FIRST column of Dio_i. Do that for every i.
-get_lst_dio_matrix(value_lst, lst_dio_matrix): RECURSIVE list[Dio_matrix] =
+% Let dio_i be the value in lst_dio_matrix in the ith iteration
+% Put X_i as the FIRST column of dio_i. Do that for every i.
+get_lst_dio_matrix(value_lst, lst_dio_matrix): RECURSIVE list[dio_matrix] =
     IF null?(value_lst) OR null?(lst_dio_matrix) THEN null
     ELSE LET X = car(value_lst), dio_matrix = car(lst_dio_matrix),
     	     new_dio_matrix = put_in_head[nat](dio_matrix, X)
@@ -69,9 +69,9 @@ get_lst_dio_matrix(value_lst, lst_dio_matrix): RECURSIVE list[Dio_matrix] =
 MEASURE value_lst BY <<
 
 % receives mult_t = [a1, ..., an] and a value k
-% returns a Dio_matrix whose lines are vectors [X1, ..., Xn] such that
+% returns a dio_matrix whose lines are vectors [X1, ..., Xn] such that
 % a1*X1 + ... + an*Xn = k
-find_vectors(mult_t)(k): RECURSIVE Dio_matrix =
+find_vectors(mult_t)(k): RECURSIVE dio_matrix =
     IF null?(mult_t) THEN null
     ELSIF length(mult_t) = 1 THEN LET a1 = car(mult_t) IN 
     	 IF divides(a1, k) THEN
@@ -102,7 +102,7 @@ find_vectors(mult_t)(k): RECURSIVE Dio_matrix =
 MEASURE mult_t BY << 
 
 % solve diophantine equation with both sides being equal to k
-dio_solver_n(mult_t1, mult_t2, k): Dio_matrix =
+dio_solver_n(mult_t1, mult_t2, k): dio_matrix =
     LET
 	% list all solutions [X1, ..., Xn] such that a1*X1 + ... + an*Xn = k
 	vector_lst1 = find_vectors(mult_t1)(k),
@@ -118,7 +118,7 @@ dio_solver_n(mult_t1, mult_t2, k): Dio_matrix =
 % solve diophatine equation a1*X1 + ... + an*Xn = b1*Y1 + ... + bm*Ym
 % until upper bound 
 % this corresponds to function dioph in Fages paper 
-dio_solver(mult_t1, mult_t2, bound): RECURSIVE Dio_matrix =
+dio_solver(mult_t1, mult_t2, bound): RECURSIVE dio_matrix =
     IF bound = 0 THEN
        LET line_dio_matrix = get_repeat_lst[nat](0, length(mult_t1) + length(mult_t2))
        	   IN cons(line_dio_matrix, null)

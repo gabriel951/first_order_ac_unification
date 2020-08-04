@@ -16,9 +16,9 @@ BEGIN
 x, y, z: VAR T
 pair_lst: VAR [list[T], list[T]]
 
-lst_pair1, lst_pair2: VAR list[[T, T]]
+lst_pair, lst_pair1, lst_pair2: VAR list[[T, T]]
 
-lst, lst1, lst2: VAR list[T]
+lst, lst1, lst2, new_lst1, new_lst2: VAR list[T]
 lst_of_lsts, lst_of_lsts1, lst_of_lsts2: VAR list[list[T]]
 
 num: VAR number
@@ -231,10 +231,47 @@ pareate(lst1, lst2): RECURSIVE list[[T, T]] =
     ENDIF
 MEASURE lst1 BY <<
 
-% test if lst1 and lst2 are permutations of each other
-perm?(lst1, lst2): bool =
-    FORALL x: count(x, lst1) = count(x, lst2) 
+% receives lst = [x1, ..., xn, xn+1, ..., xj] and an index n
+% returns lst1 = [x1, ..., xn]
+get_lst_until_n(lst, n): RECURSIVE list[T] =
+    IF n = 0 OR null?(lst) THEN null
+    ELSE LET x = car(lst) IN
+    	     cons(x, get_lst_until_n(cdr(lst), n-1))
+    ENDIF
+MEASURE n 
+
+% receives lst = [x1, ..., xn, xn+1, ..., xj] and an index n
+% returns lst2 = [xn+1, ..., xj]
+get_lst_after_n(lst, n): RECURSIVE list[T] =
+    IF n = 0 OR null?(lst) THEN lst
+    ELSE get_lst_after_n(cdr(lst), n-1)
+    ENDIF
+MEASURE n 
+
+% split lst = [x1, ..., xn, xn+1, ..., xj] into two lists:
+% lst1 = [x1, ..., xn] and lst2 = [xn+1, ..., xj]
+split(lst, n): [list[T], list[T]] =
+    (get_lst_until_n(lst, n), get_lst_after_n(lst, n))
+
               
+% receives a list of the form [[x1, y1], ..., [xn, yn]]
+% returns [y1, ..., yn]
+snd_proj(lst_pair): RECURSIVE list[T] = 
+    IF null?(lst_pair) THEN null
+    ELSE LET y = car(lst_pair)`2 IN
+         cons(y, snd_proj(cdr(lst_pair)))
+    ENDIF
+MEASURE lst_pair BY << 
+
+% receives a list[x1, ..., xn] and a list of multiplicities[a1, ..., an]
+% returns a list with a1 occurrences of x1, ..., an occurrences of xn
+get_lst_mult(lst, coef): RECURSIVE list[T] =
+    IF null?(lst) OR null?(coef) THEN null 
+    ELSE LET x = car(lst), n = car(coef), new_lst = get_repeat_lst(x, n) IN
+    	     append(new_lst, get_lst_mult(cdr(lst), cdr(coef))) 
+    ENDIF
+MEASURE lst BY << 
+
 %%%%%%%%%%%%%%%%%%%%% Theorems
 %% general properties
 member_append: LEMMA
@@ -242,6 +279,16 @@ member_append: LEMMA
 
 member_append2: LEMMA
     member((x, y), append(lst_pair1, lst_pair2)) = (member((x,y), lst_pair1) OR member((x,y), lst_pair2))
+
+null_append: LEMMA
+    null?(append(lst1, lst2)) = (null?(lst1) AND null?(lst2))
+
+% a property about nth and member
+member_nth: LEMMA
+    i < length(lst) IMPLIES member(nth(lst, i), lst)
+
+member_nth2: LEMMA
+    member(x, lst) = EXISTS (n:below[length(lst)]): x = nth(lst, n)
 
 % cartesian product
 cart_prod_aux_mem: LEMMA
@@ -261,11 +308,15 @@ select_args_pos2: LEMMA
     member(num, select_args(lst1, coef1, lst2, coef2)`2) IMPLIES
     (num > 0 AND number_field_pred(num) AND real_pred(num))
 
-% a property about nth and member
-member_nth: LEMMA
-    i < length(lst) IMPLIES member(nth(lst, i), lst)
+% pareate
+pareate_append: LEMMA
+    (length(lst1) = length(new_lst1) AND length(lst2) = length(new_lst2)) IMPLIES
+    pareate(append(lst1, lst2), append(new_lst1, new_lst2)) =
+    append(pareate(lst1, new_lst1), pareate(lst2, new_lst2))
 
-member_nth2: CONJECTURE
-    member(x, lst) IMPLIES EXISTS (n:below[length(lst)]): x = nth(lst, n)
+% split 
+split_cor: CONJECTURE
+    LET (lst1, lst2) = split(lst, n) IN
+    append(lst1, lst2) = lst
 
 END list_theory

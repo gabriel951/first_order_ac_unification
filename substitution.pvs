@@ -10,21 +10,26 @@
 % File: substitution.pvs
 % Description: Definition of a substitution and related properties
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 substitution: THEORY
 BEGIN
 	IMPORTING equality
 	
-X, Y: VAR Variable
-t, s: VAR Term
+X, Y: VAR variable
+t, s: VAR term
+args, args1, args2: VAR args
+
+f: VAR ac_symbol
+arg: VAR term
+coef: VAR list[nat]
 
 % a basic substitution is one of the form {variable->term}, as in X->s
-Basic_sub: TYPE = [Variable, Term]
-sigma_basic: VAR Basic_sub
+basic_sub: TYPE = [variable, term]
+sigma_basic: VAR basic_sub
 
 % applies the substitution X -> s in the term t
-subs(sigma_basic, t): RECURSIVE Term =
+subs(sigma_basic, t): RECURSIVE term =
     LET X = sigma_basic`1,
     	s = sigma_basic`2
 	IN CASES t OF
@@ -42,19 +47,48 @@ MEASURE t by <<
 % A substitution is represented as a list of basic substitutions
 % This way the composition of substitutions sigma and delta, represented in math as
 % "(sigma o delta)" can be implemented as "append(sigma, delta)".
-Sub: TYPE = list[Basic_sub]
+sub: TYPE = list[basic_sub]
 
-sigma, delta: VAR Sub
+sigma, delta: VAR sub
 
 % action of a substitution sigma on a term t.
 % notice that in "(sigma o delta)(t) = sigma(delta(t))" we apply the substitution delta first,
 % and the substitution sigma after. Since "(sigma o delta)(t)" is represented as
 % "append(sigma, delta)", we must apply first the basic substitution in the tail of the list
-subs(sigma, t): RECURSIVE Term =
+subs(sigma)(t): RECURSIVE term =
     CASES sigma OF
     	  null: t,
-	  cons(head, tail): subs(head, subs(tail, t))
+	  cons(head, tail): subs(head, subs(tail)(t))
     ENDCASES
 MEASURE sigma BY << 
+
+% apply substitution to a list of terms
+subs(sigma)(args): RECURSIVE args =
+    IF null?(args) THEN null
+    ELSE LET t = car(args) IN cons(subs(sigma)(t), subs(sigma)(cdr(args)))
+    ENDIF
+MEASURE args BY << 
+
+%%%%%%%%%%%%%%%%%%% Theorems
+subs_ac: CONJECTURE
+    subs(sigma)(ac_app(f, arg)) = ac_app(f, subs(sigma)(arg))
+
+subs_perm?: CONJECTURE
+    perm?(args1, args2) => perm?(subs(sigma)(args1), subs(sigma)(args2))
+
+subs_get_lst_mult: CONJECTURE
+    subs(sigma)(get_lst_mult(args, coef)) = get_lst_mult(subs(sigma)(args), coef)
+
+% Is this correct? I think so. 
+% TODO: how will I prove that?
+% TODO: is this hypothesis necessary? I think not
+% induction on t I guess
+args_subs_ac: CONJECTURE 
+    get_args(f)(subs(sigma)(t)) = flatten(map(get_args(f), map(subs(sigma), get_args(f)(t))))
+
+
+perm?_get_args_subs: CONJECTURE
+    perm?(subs(sigma)(get_args(f)(t)), subs(sigma)(get_args(f)(s))) IMPLIES
+    perm?(get_args(f)(subs(sigma)(t)), get_args(f)(subs(sigma)(s)))
 
 END substitution
