@@ -224,11 +224,17 @@ MEASURE ac_sol_simp_lst BY <<
 dio_matrix_correct?(dio_matrix, mult_t1, mult_t2): bool = TRUE
 
 %%%%%%%%%%%%%%%%%%%%%%% Theorems
+elim_com_arg_len: CONJECTURE 
+   LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),
+       
+
 elim_com_arg_correct: CONJECTURE
    LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),
        (args1, args2) = split(args, length(mult_t1)),  
-       new_t1 = get_ac_from_args(f)(args1),
-       new_t2 = get_ac_from_args(f)(args2) 
+       args1_cor_mult = get_lst_mult(args1, mult_t1),
+       args2_cor_mult = get_lst_mult(args2, mult_t2), 
+       new_t1 = get_ac_from_args(f)(args1_cor_mult),
+       new_t2 = get_ac_from_args(f)(args2_cor_mult)
        IN are_ac?(t1, t2, f) AND unifies?(sigma, (new_t1, new_t2))
        IMPLIES unifies?(sigma, (t1, t2)) 
 

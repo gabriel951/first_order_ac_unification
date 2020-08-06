@@ -73,6 +73,9 @@ MEASURE args BY <<
 subs_ac: CONJECTURE
     subs(sigma)(ac_app(f, arg)) = ac_app(f, subs(sigma)(arg))
 
+subs_get_term_from_args: CONJECTURE
+    subs(sigma)(get_term_from_args(args1)) = get_term_from_args(subs(sigma)(args1))
+
 subs_perm?: CONJECTURE
     perm?(args1, args2) => perm?(subs(sigma)(args1), subs(sigma)(args2))
 

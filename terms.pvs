@@ -124,4 +124,9 @@ MEASURE args BY <<
 
 get_ac_from_args(sym)(args): term = ac_app(sym, get_term_from_args(args))
 
+%%%%%%%%%%%%%%%
+get_ac_from_args_cor: CONJECTURE
+    simple_args?(f, args) IMPLIES 
+    get_args(f)(get_ac_from_args(f)(args)) = args
+
 END term_properties

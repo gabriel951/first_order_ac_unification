@@ -15,10 +15,10 @@ BEGIN
 	IMPORTING term_properties
 
 t, s: VAR term
-args1, args2, args3: VAR args
-sym: VAR string
+args1, args2, args3, args4: VAR args
+sym, f: VAR string
 
-i: VAR nat
+i, n: VAR nat
 coef: VAR list[nat]
 
 
@@ -43,6 +43,7 @@ MEASURE size(t)
 % test if two list of arguments are equal
 equal?(args1, args2): RECURSIVE bool =
     IF null?(args1) THEN null?(args2)
+    ELSIF null?(args2) THEN FALSE
     ELSE LET t = car(args1), s = car(args2) IN
     	 equal?(t, s) AND equal?(cdr(args1), cdr(args2))
     ENDIF
@@ -54,7 +55,17 @@ perm?(args1, args2): bool = TRUE
      
 
 %%%%%%%%%%%%%%% Theorems
-equal?_get_lst_mult: CONJECTURE
+equal?_len: LEMMA
+    equal?(args1, args2) IMPLIES length(args1) = length(args2) 
+
+equal?_append: LEMMA
+    equal?(args1, args2) AND equal?(args3, args4) IMPLIES
+    equal?(append(args1, args3), append(args2, args4))
+
+equal?_get_repeat_lst: LEMMA
+    equal?(t, s) IMPLIES equal?(get_repeat_lst(t, n), get_repeat_lst(s, n))
+
+equal?_get_lst_mult: LEMMA
     equal?(args1, args2) IMPLIES
     equal?(get_lst_mult(args1, coef), get_lst_mult(args2, coef))
 
@@ -63,6 +74,9 @@ ac_perm_args: CONJECTURE
    
 perm_args_ac: CONJECTURE
     perm?(get_args(sym)(t), get_args(sym)(s)) AND are_ac?(t, s, sym) IMPLIES equal?(t, s) 
+
+perm_args_ac2: CONJECTURE
+    are_ac?(t, s, f) AND equal?(t, s) IMPLIES perm?(get_args(f)(t), get_args(f)(s)) 
 
 perm?_trans: CONJECTURE
     perm?(args1, args2) AND perm?(args2, args3) IMPLIES perm?(args1, args3)

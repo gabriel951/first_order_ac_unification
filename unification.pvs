@@ -41,7 +41,7 @@ unifies?(sigma, unif_prb): RECURSIVE bool =
 MEASURE unif_prb BY << 
 
 %%%%%%%%%%%%%%%%%% Theorems and Lemmas
-unifies?_append: CONJECTURE
+unifies?_append: LEMMA
     unifies?(sigma, append(unif_prb1, unif_prb2)) =
     (unifies?(sigma, unif_prb1) AND unifies?(sigma, unif_prb2))
 

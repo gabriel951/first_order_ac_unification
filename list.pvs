@@ -251,7 +251,7 @@ MEASURE n
 % split lst = [x1, ..., xn, xn+1, ..., xj] into two lists:
 % lst1 = [x1, ..., xn] and lst2 = [xn+1, ..., xj]
 split(lst, n): [list[T], list[T]] =
-    (get_lst_until_n(lst, n), get_lst_after_n(lst, n))
+    (get_lst_until_n(lst, n), get_lst_after_n(lst, n))  
 
               
 % receives a list of the form [[x1, y1], ..., [xn, yn]]
@@ -283,6 +283,20 @@ member_append2: LEMMA
 null_append: LEMMA
     null?(append(lst1, lst2)) = (null?(lst1) AND null?(lst2))
 
+cdr_append: LEMMA
+    NOT null?(lst1) IMPLIES cdr(append(lst1, lst2)) = append(cdr(lst1), lst2)
+
+nth_append: LEMMA
+    i < length(lst1) + length(lst2) IMPLIES
+    nth(append(lst1, lst2), i) =
+    IF i < length(lst1) THEN nth(lst1, i)
+    ELSE nth(lst2, i - length(lst1))
+    ENDIF
+
+equal_lst_nth: LEMMA 
+    length(lst1) = length(lst2) AND (FORALL (n: below[length(lst1)]): nth(lst1, n) = nth(lst2, n))
+    IMPLIES lst1 = lst2
+
 % a property about nth and member
 member_nth: LEMMA
     i < length(lst) IMPLIES member(nth(lst, i), lst)
@@ -308,15 +322,44 @@ select_args_pos2: LEMMA
     member(num, select_args(lst1, coef1, lst2, coef2)`2) IMPLIES
     (num > 0 AND number_field_pred(num) AND real_pred(num))
 
+select_args_len: CONJECTURE
+    LET (args3, coef3) = select_args(args1, coef1, args2, coef2) IN
+    length(args3) = length(coef3) 
+
 % pareate
 pareate_append: LEMMA
     (length(lst1) = length(new_lst1) AND length(lst2) = length(new_lst2)) IMPLIES
     pareate(append(lst1, lst2), append(new_lst1, new_lst2)) =
     append(pareate(lst1, new_lst1), pareate(lst2, new_lst2))
 
-% split 
-split_cor: CONJECTURE
+% get_lst_until_n, get_lst_after_n
+len_get_lst_until_n: LEMMA
+    length(get_lst_until_n(lst, n)) = min(length(lst), n) 
+
+nth_get_lst_until_n: LEMMA
+    LET lst1 = get_lst_until_n(lst, n) IN
+    i < length(lst1) IMPLIES nth(lst1, i) = nth(lst, i)
+
+len_get_lst_after_n: LEMMA
+    length(get_lst_after_n(lst, n)) = max(length(lst) - n, 0)
+
+nth_get_lst_after_n: LEMMA
+    LET lst1 = get_lst_until_n(lst, n),
+    	lst2 = get_lst_after_n(lst, n) IN
+    i >= length(lst1) AND i < length(lst1) + length(lst2) IMPLIES
+    nth(lst2, i - length(lst1)) = nth(lst, i) 
+
+% split
+split_cor: LEMMA
     LET (lst1, lst2) = split(lst, n) IN
     append(lst1, lst2) = lst
+
+split_append: CONJECTURE
+    split(append(lst1, lst2), length(lst1)) = (lst1, lst2)
+
+% snd_proj:
+snd_proj_pareate: CONJECTURE
+    length(lst1) = length(lst2) IMPLIES 
+    snd_proj(pareate(lst1, lst2)) = lst2
 
 END list_theory
