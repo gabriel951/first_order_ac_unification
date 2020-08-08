@@ -368,6 +368,10 @@ select_args_len: LEMMA
     LET (lst3, coef3) = select_args(lst1, coef1, lst2, coef2) IN
     length(lst3) = length(coef3) 
 
+% get_repeat_lst
+get_repeat_lst_len: CONJECTURE
+    length(get_repeat_lst(x, n)) = n
+
 % pareate
 pareate_append: LEMMA
     (length(lst1) = length(new_lst1) AND length(lst2) = length(new_lst2)) IMPLIES

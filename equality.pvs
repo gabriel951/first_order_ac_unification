@@ -74,8 +74,14 @@ equal?_get_lst_mult: LEMMA
     equal?(args1, args2) IMPLIES
     equal?(get_lst_mult(args1, coef), get_lst_mult(args2, coef))
 
+perm?_sym: CONJECTURE
+    perm?(args1, args2) IMPLIES perm?(args2, args1) 
+
 perm?_trans: CONJECTURE
     perm?(args1, args2) AND perm?(args2, args3) IMPLIES perm?(args1, args3)
+
+equal?_perm: CONJECTURE
+    equal?(args1, args2) IMPLIES perm?(args1, args2) 
 
 ac_perm_args: CONJECTURE
     are_ac?(t, s, sym) AND equal?(t, s) IMPLIES perm?(get_args(sym)(t), get_args(sym)(s))

@@ -221,9 +221,11 @@ construct_input_lst(ac_sol_simp_lst, unif_prb, sigma, vars2avoid): RECURSIVE lis
     ENDIF
 MEASURE ac_sol_simp_lst BY << 
 
-dio_matrix_correct?(dio_matrix, mult_t1, mult_t2): bool = TRUE
 
 %%%%%%%%%%%%%%%%%%%%%%% Theorems
+get_pre_new_args_len: CONJECTURE
+    LET (new_lst_args, new_vars2avoid) = get_pre_new_args(lst_args, dio_matrix, vars2avoid) IN
+    length(new_lst_args) = length(lst_args) 
 
 elim_com_arg_correct: CONJECTURE
    LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),

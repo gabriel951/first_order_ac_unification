@@ -1197,8 +1197,59 @@
                                                                                                                                                                                                                                                                                                                                     (REWRITE
                                                                                                                                                                                                                                                                                                                                      "subs_get_ac_from_args")
                                                                                                                                                                                                                                                                                                                                     (("2"
-                                                                                                                                                                                                                                                                                                                                      (POSTPONE)
-                                                                                                                                                                                                                                                                                                                                      NIL
+                                                                                                                                                                                                                                                                                                                                      (LEMMA
+                                                                                                                                                                                                                                                                                                                                       "perm_args_ac")
+                                                                                                                                                                                                                                                                                                                                      (("2"
+                                                                                                                                                                                                                                                                                                                                        (INST?
+                                                                                                                                                                                                                                                                                                                                         -1)
+                                                                                                                                                                                                                                                                                                                                        (("2"
+                                                                                                                                                                                                                                                                                                                                          (INST
+                                                                                                                                                                                                                                                                                                                                           -1
+                                                                                                                                                                                                                                                                                                                                           "f")
+                                                                                                                                                                                                                                                                                                                                          (("2"
+                                                                                                                                                                                                                                                                                                                                            (ASSERT)
+                                                                                                                                                                                                                                                                                                                                            (("2"
+                                                                                                                                                                                                                                                                                                                                              (HIDE
+                                                                                                                                                                                                                                                                                                                                               2)
+                                                                                                                                                                                                                                                                                                                                              (("2"
+                                                                                                                                                                                                                                                                                                                                                (PROP)
+                                                                                                                                                                                                                                                                                                                                                (("1"
+                                                                                                                                                                                                                                                                                                                                                  (LEMMA
+                                                                                                                                                                                                                                                                                                                                                   "perm_get_ac_from_args")
+                                                                                                                                                                                                                                                                                                                                                  (("1"
+                                                                                                                                                                                                                                                                                                                                                    (INST?
+                                                                                                                                                                                                                                                                                                                                                     -1)
+                                                                                                                                                                                                                                                                                                                                                    (("1"
+                                                                                                                                                                                                                                                                                                                                                      (ASSERT)
+                                                                                                                                                                                                                                                                                                                                                      NIL
+                                                                                                                                                                                                                                                                                                                                                      NIL))
+                                                                                                                                                                                                                                                                                                                                                    NIL))
+                                                                                                                                                                                                                                                                                                                                                  NIL)
+                                                                                                                                                                                                                                                                                                                                                 ("2"
+                                                                                                                                                                                                                                                                                                                                                  (EXPAND
+                                                                                                                                                                                                                                                                                                                                                   "get_ac_from_args"
+                                                                                                                                                                                                                                                                                                                                                   1
+                                                                                                                                                                                                                                                                                                                                                   1)
+                                                                                                                                                                                                                                                                                                                                                  (("2"
+                                                                                                                                                                                                                                                                                                                                                    (EXPAND
+                                                                                                                                                                                                                                                                                                                                                     "get_ac_from_args"
+                                                                                                                                                                                                                                                                                                                                                     1
+                                                                                                                                                                                                                                                                                                                                                     1)
+                                                                                                                                                                                                                                                                                                                                                    (("2"
+                                                                                                                                                                                                                                                                                                                                                      (HIDE-ALL-BUT
+                                                                                                                                                                                                                                                                                                                                                       1)
+                                                                                                                                                                                                                                                                                                                                                      (("2"
+                                                                                                                                                                                                                                                                                                                                                        (GRIND)
+                                                                                                                                                                                                                                                                                                                                                        NIL
+                                                                                                                                                                                                                                                                                                                                                        NIL))
+                                                                                                                                                                                                                                                                                                                                                      NIL))
+                                                                                                                                                                                                                                                                                                                                                    NIL))
+                                                                                                                                                                                                                                                                                                                                                  NIL))
+                                                                                                                                                                                                                                                                                                                                                NIL))
+                                                                                                                                                                                                                                                                                                                                              NIL))
+                                                                                                                                                                                                                                                                                                                                            NIL))
+                                                                                                                                                                                                                                                                                                                                          NIL))
+                                                                                                                                                                                                                                                                                                                                        NIL))
                                                                                                                                                                                                                                                                                                                                       NIL))
                                                                                                                                                                                                                                                                                                                                     NIL))
                                                                                                                                                                                                                                                                                                                                   NIL))
@@ -1390,8 +1441,136 @@
                                                                                                                                                                                                                                                       NIL))
                                                                                                                                                                                                                                                     NIL)
                                                                                                                                                                                                                                                    ("2"
-                                                                                                                                                                                                                                                    (POSTPONE)
-                                                                                                                                                                                                                                                    NIL
+                                                                                                                                                                                                                                                    (HIDE
+                                                                                                                                                                                                                                                     2)
+                                                                                                                                                                                                                                                    (("2"
+                                                                                                                                                                                                                                                      (LEMMA
+                                                                                                                                                                                                                                                       "equal?_get_lst_mult")
+                                                                                                                                                                                                                                                      (("2"
+                                                                                                                                                                                                                                                        (INST?
+                                                                                                                                                                                                                                                         -1)
+                                                                                                                                                                                                                                                        (("2"
+                                                                                                                                                                                                                                                          (INST
+                                                                                                                                                                                                                                                           -1
+                                                                                                                                                                                                                                                           "subs(sigma)(new_args1)")
+                                                                                                                                                                                                                                                          (("2"
+                                                                                                                                                                                                                                                            (ASSERT)
+                                                                                                                                                                                                                                                            (("2"
+                                                                                                                                                                                                                                                              (HIDE
+                                                                                                                                                                                                                                                               -4)
+                                                                                                                                                                                                                                                              (("2"
+                                                                                                                                                                                                                                                                (LEMMA
+                                                                                                                                                                                                                                                                 "equal?_get_lst_mult")
+                                                                                                                                                                                                                                                                (("2"
+                                                                                                                                                                                                                                                                  (INST
+                                                                                                                                                                                                                                                                   -1
+                                                                                                                                                                                                                                                                   "subs(sigma)(args2)"
+                                                                                                                                                                                                                                                                   "subs(sigma)(new_args2)"
+                                                                                                                                                                                                                                                                   "mult_t2_")
+                                                                                                                                                                                                                                                                  (("2"
+                                                                                                                                                                                                                                                                    (ASSERT)
+                                                                                                                                                                                                                                                                    (("2"
+                                                                                                                                                                                                                                                                      (HIDE
+                                                                                                                                                                                                                                                                       -4)
+                                                                                                                                                                                                                                                                      (("2"
+                                                                                                                                                                                                                                                                        (LEMMA
+                                                                                                                                                                                                                                                                         "equal?_perm")
+                                                                                                                                                                                                                                                                        (("2"
+                                                                                                                                                                                                                                                                          (INST
+                                                                                                                                                                                                                                                                           -1
+                                                                                                                                                                                                                                                                           "get_lst_mult(subs(sigma)(args1), mult_t1_)"
+                                                                                                                                                                                                                                                                           "get_lst_mult(subs(sigma)(new_args1), mult_t1_)")
+                                                                                                                                                                                                                                                                          (("2"
+                                                                                                                                                                                                                                                                            (ASSERT)
+                                                                                                                                                                                                                                                                            (("2"
+                                                                                                                                                                                                                                                                              (HIDE
+                                                                                                                                                                                                                                                                               -3)
+                                                                                                                                                                                                                                                                              (("2"
+                                                                                                                                                                                                                                                                                (LEMMA
+                                                                                                                                                                                                                                                                                 "equal?_perm")
+                                                                                                                                                                                                                                                                                (("2"
+                                                                                                                                                                                                                                                                                  (INST
+                                                                                                                                                                                                                                                                                   -1
+                                                                                                                                                                                                                                                                                   "get_lst_mult(subs(sigma)(args2), mult_t2_)"
+                                                                                                                                                                                                                                                                                   "get_lst_mult(subs(sigma)(new_args2), mult_t2_)")
+                                                                                                                                                                                                                                                                                  (("2"
+                                                                                                                                                                                                                                                                                    (ASSERT)
+                                                                                                                                                                                                                                                                                    (("2"
+                                                                                                                                                                                                                                                                                      (HIDE
+                                                                                                                                                                                                                                                                                       -3)
+                                                                                                                                                                                                                                                                                      (("2"
+                                                                                                                                                                                                                                                                                        (LEMMA
+                                                                                                                                                                                                                                                                                         "perm?_sym")
+                                                                                                                                                                                                                                                                                        (("2"
+                                                                                                                                                                                                                                                                                          (INST
+                                                                                                                                                                                                                                                                                           -1
+                                                                                                                                                                                                                                                                                           "get_lst_mult(subs(sigma)(args2), mult_t2_)"
+                                                                                                                                                                                                                                                                                           "get_lst_mult(subs(sigma)(new_args2), mult_t2_)")
+                                                                                                                                                                                                                                                                                          (("2"
+                                                                                                                                                                                                                                                                                            (ASSERT)
+                                                                                                                                                                                                                                                                                            (("2"
+                                                                                                                                                                                                                                                                                              (HIDE
+                                                                                                                                                                                                                                                                                               -2)
+                                                                                                                                                                                                                                                                                              (("2"
+                                                                                                                                                                                                                                                                                                (LEMMA
+                                                                                                                                                                                                                                                                                                 "perm?_trans")
+                                                                                                                                                                                                                                                                                                (("2"
+                                                                                                                                                                                                                                                                                                  (INST
+                                                                                                                                                                                                                                                                                                   -1
+                                                                                                                                                                                                                                                                                                   "get_lst_mult(subs(sigma)(args1), mult_t1_)"
+                                                                                                                                                                                                                                                                                                   "get_lst_mult(subs(sigma)(new_args1), mult_t1_)"
+                                                                                                                                                                                                                                                                                                   "_")
+                                                                                                                                                                                                                                                                                                  (("2"
+                                                                                                                                                                                                                                                                                                    (INST
+                                                                                                                                                                                                                                                                                                     -1
+                                                                                                                                                                                                                                                                                                     "get_lst_mult(subs(sigma)(new_args2), mult_t2_)")
+                                                                                                                                                                                                                                                                                                    (("2"
+                                                                                                                                                                                                                                                                                                      (ASSERT)
+                                                                                                                                                                                                                                                                                                      (("2"
+                                                                                                                                                                                                                                                                                                        (HIDE
+                                                                                                                                                                                                                                                                                                         -3
+                                                                                                                                                                                                                                                                                                         -4)
+                                                                                                                                                                                                                                                                                                        (("2"
+                                                                                                                                                                                                                                                                                                          (LEMMA
+                                                                                                                                                                                                                                                                                                           "perm?_trans")
+                                                                                                                                                                                                                                                                                                          (("2"
+                                                                                                                                                                                                                                                                                                            (INST
+                                                                                                                                                                                                                                                                                                             -1
+                                                                                                                                                                                                                                                                                                             "get_lst_mult(subs(sigma)(args1), mult_t1_)"
+                                                                                                                                                                                                                                                                                                             "get_lst_mult(subs(sigma)(new_args2), mult_t2_)"
+                                                                                                                                                                                                                                                                                                             "get_lst_mult(subs(sigma)(args2), mult_t2_)")
+                                                                                                                                                                                                                                                                                                            (("2"
+                                                                                                                                                                                                                                                                                                              (ASSERT)
+                                                                                                                                                                                                                                                                                                              NIL
+                                                                                                                                                                                                                                                                                                              NIL))
+                                                                                                                                                                                                                                                                                                            NIL))
+                                                                                                                                                                                                                                                                                                          NIL))
+                                                                                                                                                                                                                                                                                                        NIL))
+                                                                                                                                                                                                                                                                                                      NIL))
+                                                                                                                                                                                                                                                                                                    NIL))
+                                                                                                                                                                                                                                                                                                  NIL))
+                                                                                                                                                                                                                                                                                                NIL))
+                                                                                                                                                                                                                                                                                              NIL))
+                                                                                                                                                                                                                                                                                            NIL))
+                                                                                                                                                                                                                                                                                          NIL))
+                                                                                                                                                                                                                                                                                        NIL))
+                                                                                                                                                                                                                                                                                      NIL))
+                                                                                                                                                                                                                                                                                    NIL))
+                                                                                                                                                                                                                                                                                  NIL))
+                                                                                                                                                                                                                                                                                NIL))
+                                                                                                                                                                                                                                                                              NIL))
+                                                                                                                                                                                                                                                                            NIL))
+                                                                                                                                                                                                                                                                          NIL))
+                                                                                                                                                                                                                                                                        NIL))
+                                                                                                                                                                                                                                                                      NIL))
+                                                                                                                                                                                                                                                                    NIL))
+                                                                                                                                                                                                                                                                  NIL))
+                                                                                                                                                                                                                                                                NIL))
+                                                                                                                                                                                                                                                              NIL))
+                                                                                                                                                                                                                                                            NIL))
+                                                                                                                                                                                                                                                          NIL))
+                                                                                                                                                                                                                                                        NIL))
+                                                                                                                                                                                                                                                      NIL))
                                                                                                                                                                                                                                                     NIL))
                                                                                                                                                                                                                                                   NIL))
                                                                                                                                                                                                                                                 NIL))
@@ -1862,8 +2041,13 @@
                                                                                                                                                                                 NIL))
                                                                                                                                                                               NIL)
                                                                                                                                                                              ("2"
-                                                                                                                                                                              (POSTPONE)
-                                                                                                                                                                              NIL
+                                                                                                                                                                              (EXPAND
+                                                                                                                                                                               "dio_matrix_correct?"
+                                                                                                                                                                               1)
+                                                                                                                                                                              (("2"
+                                                                                                                                                                                (PROPAX)
+                                                                                                                                                                                NIL
+                                                                                                                                                                                NIL))
                                                                                                                                                                               NIL))
                                                                                                                                                                             NIL))
                                                                                                                                                                           NIL))
@@ -1890,8 +2074,211 @@
                                                                                                                                                               (CASE
                                                                                                                                                                   "length(new_args) = length(args_)")
                                                                                                                                                               (("1"
-                                                                                                                                                                (POSTPONE)
-                                                                                                                                                                NIL
+                                                                                                                                                                (LEMMA
+                                                                                                                                                                 "len_get_lst_until_n[term]")
+                                                                                                                                                                (("1"
+                                                                                                                                                                  (INST?
+                                                                                                                                                                   -1)
+                                                                                                                                                                  (("1"
+                                                                                                                                                                    (REPLACE
+                                                                                                                                                                     -4
+                                                                                                                                                                     1
+                                                                                                                                                                     RL)
+                                                                                                                                                                    (("1"
+                                                                                                                                                                      (REPLACE
+                                                                                                                                                                       -1
+                                                                                                                                                                       1)
+                                                                                                                                                                      (("1"
+                                                                                                                                                                        (PROP)
+                                                                                                                                                                        (("1"
+                                                                                                                                                                          (HIDE
+                                                                                                                                                                           -3)
+                                                                                                                                                                          (("1"
+                                                                                                                                                                            (REPLACE
+                                                                                                                                                                             -2
+                                                                                                                                                                             1)
+                                                                                                                                                                            (("1"
+                                                                                                                                                                              (HIDE-ALL-BUT
+                                                                                                                                                                               1)
+                                                                                                                                                                              (("1"
+                                                                                                                                                                                (CASE
+                                                                                                                                                                                    "length(mult_t1_) = length(args1)")
+                                                                                                                                                                                (("1"
+                                                                                                                                                                                  (REPLACE
+                                                                                                                                                                                   -1
+                                                                                                                                                                                   1)
+                                                                                                                                                                                  (("1"
+                                                                                                                                                                                    (HIDE
+                                                                                                                                                                                     -1)
+                                                                                                                                                                                    (("1"
+                                                                                                                                                                                      (EXPAND
+                                                                                                                                                                                       "args1")
+                                                                                                                                                                                      (("1"
+                                                                                                                                                                                        (EXPAND
+                                                                                                                                                                                         "args_")
+                                                                                                                                                                                        (("1"
+                                                                                                                                                                                          (EXPAND
+                                                                                                                                                                                           "elim_com_arg"
+                                                                                                                                                                                           1)
+                                                                                                                                                                                          (("1"
+                                                                                                                                                                                            (REWRITE
+                                                                                                                                                                                             "length_append")
+                                                                                                                                                                                            (("1"
+                                                                                                                                                                                              (GRIND)
+                                                                                                                                                                                              NIL
+                                                                                                                                                                                              NIL))
+                                                                                                                                                                                            NIL))
+                                                                                                                                                                                          NIL))
+                                                                                                                                                                                        NIL))
+                                                                                                                                                                                      NIL))
+                                                                                                                                                                                    NIL))
+                                                                                                                                                                                  NIL)
+                                                                                                                                                                                 ("2"
+                                                                                                                                                                                  (HIDE
+                                                                                                                                                                                   2)
+                                                                                                                                                                                  (("2"
+                                                                                                                                                                                    (EXPAND
+                                                                                                                                                                                     "mult_t1_")
+                                                                                                                                                                                    (("2"
+                                                                                                                                                                                      (EXPAND
+                                                                                                                                                                                       "args1")
+                                                                                                                                                                                      (("2"
+                                                                                                                                                                                        (EXPAND
+                                                                                                                                                                                         "elim_com_arg"
+                                                                                                                                                                                         1)
+                                                                                                                                                                                        (("2"
+                                                                                                                                                                                          (LEMMA
+                                                                                                                                                                                           "select_args_len[term]")
+                                                                                                                                                                                          (("2"
+                                                                                                                                                                                            (INST?
+                                                                                                                                                                                             -1)
+                                                                                                                                                                                            (("2"
+                                                                                                                                                                                              (ASSERT)
+                                                                                                                                                                                              NIL
+                                                                                                                                                                                              NIL))
+                                                                                                                                                                                            NIL))
+                                                                                                                                                                                          NIL))
+                                                                                                                                                                                        NIL))
+                                                                                                                                                                                      NIL))
+                                                                                                                                                                                    NIL))
+                                                                                                                                                                                  NIL))
+                                                                                                                                                                                NIL))
+                                                                                                                                                                              NIL))
+                                                                                                                                                                            NIL))
+                                                                                                                                                                          NIL)
+                                                                                                                                                                         ("2"
+                                                                                                                                                                          (HIDE
+                                                                                                                                                                           -4)
+                                                                                                                                                                          (("2"
+                                                                                                                                                                            (REPLACE
+                                                                                                                                                                             -3
+                                                                                                                                                                             1
+                                                                                                                                                                             RL)
+                                                                                                                                                                            (("2"
+                                                                                                                                                                              (HIDE
+                                                                                                                                                                               -1)
+                                                                                                                                                                              (("2"
+                                                                                                                                                                                (LEMMA
+                                                                                                                                                                                 "len_get_lst_after_n[term]")
+                                                                                                                                                                                (("2"
+                                                                                                                                                                                  (INST?
+                                                                                                                                                                                   -1)
+                                                                                                                                                                                  (("2"
+                                                                                                                                                                                    (REPLACE
+                                                                                                                                                                                     -1
+                                                                                                                                                                                     1)
+                                                                                                                                                                                    (("2"
+                                                                                                                                                                                      (HIDE
+                                                                                                                                                                                       -1)
+                                                                                                                                                                                      (("2"
+                                                                                                                                                                                        (REPLACE
+                                                                                                                                                                                         -1
+                                                                                                                                                                                         1)
+                                                                                                                                                                                        (("2"
+                                                                                                                                                                                          (CASE
+                                                                                                                                                                                              "length(mult_t1_) = length(args1)")
+                                                                                                                                                                                          (("1"
+                                                                                                                                                                                            (REPLACE
+                                                                                                                                                                                             -1
+                                                                                                                                                                                             1)
+                                                                                                                                                                                            (("1"
+                                                                                                                                                                                              (HIDE-ALL-BUT
+                                                                                                                                                                                               1)
+                                                                                                                                                                                              (("1"
+                                                                                                                                                                                                (EXPAND
+                                                                                                                                                                                                 "args2")
+                                                                                                                                                                                                (("1"
+                                                                                                                                                                                                  (EXPAND
+                                                                                                                                                                                                   "args_")
+                                                                                                                                                                                                  (("1"
+                                                                                                                                                                                                    (EXPAND
+                                                                                                                                                                                                     "elim_com_arg")
+                                                                                                                                                                                                    (("1"
+                                                                                                                                                                                                      (REWRITE
+                                                                                                                                                                                                       "length_append")
+                                                                                                                                                                                                      (("1"
+                                                                                                                                                                                                        (EXPAND
+                                                                                                                                                                                                         "args1")
+                                                                                                                                                                                                        (("1"
+                                                                                                                                                                                                          (ASSERT)
+                                                                                                                                                                                                          (("1"
+                                                                                                                                                                                                            (EXPAND
+                                                                                                                                                                                                             "max"
+                                                                                                                                                                                                             1)
+                                                                                                                                                                                                            (("1"
+                                                                                                                                                                                                              (PROPAX)
+                                                                                                                                                                                                              NIL
+                                                                                                                                                                                                              NIL))
+                                                                                                                                                                                                            NIL))
+                                                                                                                                                                                                          NIL))
+                                                                                                                                                                                                        NIL))
+                                                                                                                                                                                                      NIL))
+                                                                                                                                                                                                    NIL))
+                                                                                                                                                                                                  NIL))
+                                                                                                                                                                                                NIL))
+                                                                                                                                                                                              NIL))
+                                                                                                                                                                                            NIL)
+                                                                                                                                                                                           ("2"
+                                                                                                                                                                                            (HIDE-ALL-BUT
+                                                                                                                                                                                             1)
+                                                                                                                                                                                            (("2"
+                                                                                                                                                                                              (EXPAND
+                                                                                                                                                                                               "mult_t1_")
+                                                                                                                                                                                              (("2"
+                                                                                                                                                                                                (EXPAND
+                                                                                                                                                                                                 "args1")
+                                                                                                                                                                                                (("2"
+                                                                                                                                                                                                  (EXPAND
+                                                                                                                                                                                                   "elim_com_arg")
+                                                                                                                                                                                                  (("2"
+                                                                                                                                                                                                    (LEMMA
+                                                                                                                                                                                                     "select_args_len[term]")
+                                                                                                                                                                                                    (("2"
+                                                                                                                                                                                                      (INST?
+                                                                                                                                                                                                       -1)
+                                                                                                                                                                                                      (("2"
+                                                                                                                                                                                                        (ASSERT)
+                                                                                                                                                                                                        NIL
+                                                                                                                                                                                                        NIL))
+                                                                                                                                                                                                      NIL))
+                                                                                                                                                                                                    NIL))
+                                                                                                                                                                                                  NIL))
+                                                                                                                                                                                                NIL))
+                                                                                                                                                                                              NIL))
+                                                                                                                                                                                            NIL))
+                                                                                                                                                                                          NIL))
+                                                                                                                                                                                        NIL))
+                                                                                                                                                                                      NIL))
+                                                                                                                                                                                    NIL))
+                                                                                                                                                                                  NIL))
+                                                                                                                                                                                NIL))
+                                                                                                                                                                              NIL))
+                                                                                                                                                                            NIL))
+                                                                                                                                                                          NIL))
+                                                                                                                                                                        NIL))
+                                                                                                                                                                      NIL))
+                                                                                                                                                                    NIL))
+                                                                                                                                                                  NIL))
                                                                                                                                                                 NIL)
                                                                                                                                                                ("2"
                                                                                                                                                                 (HIDE
@@ -1916,8 +2303,81 @@
                                                                                                                                                                            "pre_new_args"
                                                                                                                                                                            1)
                                                                                                                                                                           (("2"
-                                                                                                                                                                            (POSTPONE)
-                                                                                                                                                                            NIL
+                                                                                                                                                                            (CASE
+                                                                                                                                                                                "length(get_pre_new_args(null_lst, dioph_matrix, vars2avoid)`1) = length(null_lst)")
+                                                                                                                                                                            (("1"
+                                                                                                                                                                              (REPLACE
+                                                                                                                                                                               -1
+                                                                                                                                                                               1)
+                                                                                                                                                                              (("1"
+                                                                                                                                                                                (HIDE
+                                                                                                                                                                                 -1
+                                                                                                                                                                                 -2)
+                                                                                                                                                                                (("1"
+                                                                                                                                                                                  (EXPAND
+                                                                                                                                                                                   "null_lst"
+                                                                                                                                                                                   1)
+                                                                                                                                                                                  (("1"
+                                                                                                                                                                                    (EXPAND
+                                                                                                                                                                                     "num_col_")
+                                                                                                                                                                                    (("1"
+                                                                                                                                                                                      (LEMMA
+                                                                                                                                                                                       "get_repeat_lst_len[args]")
+                                                                                                                                                                                      (("1"
+                                                                                                                                                                                        (INST?
+                                                                                                                                                                                         -1)
+                                                                                                                                                                                        (("1"
+                                                                                                                                                                                          (REPLACE
+                                                                                                                                                                                           -1
+                                                                                                                                                                                           1)
+                                                                                                                                                                                          (("1"
+                                                                                                                                                                                            (HIDE
+                                                                                                                                                                                             -1)
+                                                                                                                                                                                            (("1"
+                                                                                                                                                                                              (EXPAND
+                                                                                                                                                                                               "args_")
+                                                                                                                                                                                              (("1"
+                                                                                                                                                                                                (EXPAND
+                                                                                                                                                                                                 "elim_com_arg"
+                                                                                                                                                                                                 1)
+                                                                                                                                                                                                (("1"
+                                                                                                                                                                                                  (EXPAND
+                                                                                                                                                                                                   "args1")
+                                                                                                                                                                                                  (("1"
+                                                                                                                                                                                                    (EXPAND
+                                                                                                                                                                                                     "args2")
+                                                                                                                                                                                                    (("1"
+                                                                                                                                                                                                      (PROPAX)
+                                                                                                                                                                                                      NIL
+                                                                                                                                                                                                      NIL))
+                                                                                                                                                                                                    NIL))
+                                                                                                                                                                                                  NIL))
+                                                                                                                                                                                                NIL))
+                                                                                                                                                                                              NIL))
+                                                                                                                                                                                            NIL))
+                                                                                                                                                                                          NIL))
+                                                                                                                                                                                        NIL))
+                                                                                                                                                                                      NIL))
+                                                                                                                                                                                    NIL))
+                                                                                                                                                                                  NIL))
+                                                                                                                                                                                NIL))
+                                                                                                                                                                              NIL)
+                                                                                                                                                                             ("2"
+                                                                                                                                                                              (HIDE-ALL-BUT
+                                                                                                                                                                               1)
+                                                                                                                                                                              (("2"
+                                                                                                                                                                                (LEMMA
+                                                                                                                                                                                 "get_pre_new_args_len")
+                                                                                                                                                                                (("2"
+                                                                                                                                                                                  (INST?
+                                                                                                                                                                                   -1)
+                                                                                                                                                                                  (("2"
+                                                                                                                                                                                    (ASSERT)
+                                                                                                                                                                                    NIL
+                                                                                                                                                                                    NIL))
+                                                                                                                                                                                  NIL))
+                                                                                                                                                                                NIL))
+                                                                                                                                                                              NIL))
                                                                                                                                                                             NIL))
                                                                                                                                                                           NIL))
                                                                                                                                                                         NIL))
@@ -2033,7 +2493,151 @@
         NIL))
       NIL))
     NIL)
-   NIL NIL)
+   ((|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL) (|list| TYPE-DECL NIL |list_adt| NIL)
+    (= CONST-DECL "[T, T -> boolean]" |equalities| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|every| ADT-DEF-DECL "boolean" |term_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (>= CONST-DECL "bool" |reals| NIL) (TRUE CONST-DECL "bool" |booleans| NIL)
+    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|string| TYPE-EQ-DECL NIL |strings| NIL)
+    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|elim_com_arg| CONST-DECL "[args, list[nat], list[nat]]" |aux_unification|
+     NIL)
+    (|are_ac?| CONST-DECL "bool" |term_properties| NIL)
+    (|ac_app?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL)
+    (|perm_args_ac| FORMULA-DECL NIL |equality| NIL)
+    (|args_subs_ac| FORMULA-DECL NIL |substitution| NIL)
+    (|ac_sol| TYPE-EQ-DECL NIL |aux_unification| NIL)
+    (|unif_prb| TYPE-EQ-DECL NIL |unification| NIL)
+    (|unif_pair| TYPE-EQ-DECL NIL |unification| NIL)
+    (|member_nth2| FORMULA-DECL NIL |list_theory| NIL)
+    (|map_nth_rw| FORMULA-DECL NIL |more_map_props| NIL)
+    (NOT CONST-DECL "[bool -> bool]" |booleans| NIL)
+    (|split_cor| FORMULA-DECL NIL |list_theory| NIL)
+    (|split| CONST-DECL "[list[T], list[T]]" |list_theory| NIL)
+    (|nth| DEF-DECL "T" |list_props| NIL)
+    (|get_pre_new_args| DEF-DECL "[list[args], list[variable]]"
+     |aux_unification| NIL)
+    (|map_length| FORMULA-DECL NIL |more_map_props| NIL)
+    (|num_col_| SKOLEM-CONST-DECL "nat" |aux_unification| NIL)
+    (|get_repeat_lst_len| FORMULA-DECL NIL |list_theory| NIL)
+    (|null_lst| SKOLEM-CONST-DECL "list[args]" |aux_unification| NIL)
+    (|get_pre_new_args_len| FORMULA-DECL NIL |aux_unification| NIL)
+    (|pre_new_args| SKOLEM-CONST-DECL "list[args]" |aux_unification| NIL)
+    (|new_args| SKOLEM-CONST-DECL
+     "list[term[constant, variable, f_symbol, ac_symbol]]" |aux_unification|
+     NIL)
+    (|len_get_lst_until_n| FORMULA-DECL NIL |list_theory| NIL)
+    (|get_args| CONST-DECL "args" |term_properties| NIL)
+    (|min| CONST-DECL "{p: real | p <= m AND p <= n}" |real_defs| NIL)
+    (|real_gt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|nat_min| APPLICATION-JUDGEMENT "{k: nat | k <= i AND k <= j}" |real_defs|
+     NIL)
+    (|len_get_lst_after_n| FORMULA-DECL NIL |list_theory| NIL)
+    (|minus_odd_is_odd| APPLICATION-JUDGEMENT "odd_int" |integers| NIL)
+    (|max| CONST-DECL "{p: real | p >= m AND p >= n}" |real_defs| NIL)
+    (|nonneg_rat_max| APPLICATION-JUDGEMENT
+     "{s: nonneg_rat | s >= q AND s >= r}" |real_defs| NIL)
+    (|int_max| APPLICATION-JUDGEMENT "{k: int | i <= k AND j <= k}" |real_defs|
+     NIL)
+    (|nat_max| APPLICATION-JUDGEMENT "{k: nat | i <= k AND j <= k}" |real_defs|
+     NIL)
+    (|pareate| DEF-DECL "list[[T, T]]" |list_theory| NIL)
+    (|unifies?_append| FORMULA-DECL NIL |unification| NIL)
+    (|snd_proj| DEF-DECL "list[T]" |list_theory| NIL)
+    (|snd_proj_pareate| FORMULA-DECL NIL |list_theory| NIL)
+    (|nnint_plus_nnint_is_nnint| APPLICATION-JUDGEMENT "nonneg_int" |integers|
+     NIL)
+    (|length_append| FORMULA-DECL NIL |list_props| NIL)
+    (|unifies?_pareate| FORMULA-DECL NIL |unification| NIL)
+    (|subs_perm?| FORMULA-DECL NIL |substitution| NIL)
+    (|equal?_perm| FORMULA-DECL NIL |equality| NIL)
+    (|perm?_sym| FORMULA-DECL NIL |equality| NIL)
+    (|perm?_trans| FORMULA-DECL NIL |equality| NIL)
+    (|equal?_get_lst_mult| FORMULA-DECL NIL |equality| NIL)
+    (|perm_args_ac2| FORMULA-DECL NIL |equality| NIL)
+    (|split_append| FORMULA-DECL NIL |list_theory| NIL)
+    (|select_args_len| FORMULA-DECL NIL |list_theory| NIL)
+    (|perm_get_ac_from_args| FORMULA-DECL NIL |equality| NIL)
+    (|subs_get_ac_from_args| FORMULA-DECL NIL |substitution| NIL)
+    (|elim_com_arg_correct| FORMULA-DECL NIL |aux_unification| NIL)
+    (|perm?| DEF-DECL "bool" |equality| NIL)
+    (|subs| DEF-DECL "args" |substitution| NIL)
+    (|subs_get_lst_mult| FORMULA-DECL NIL |substitution| NIL)
+    (|get_lst_mult| DEF-DECL "list[T]" |list_theory| NIL)
+    (|new_args1| SKOLEM-CONST-DECL "list[term]" |aux_unification| NIL)
+    (|dio_matrix_correct?| CONST-DECL "bool" |aux_unification| NIL)
+    (|dio_matrix2ac_sol_correct| FORMULA-DECL NIL |aux_unification| NIL)
+    (|pareate_append| FORMULA-DECL NIL |list_theory| NIL)
+    (|get_ac_from_args| CONST-DECL "term" |term_properties| NIL)
+    (|get_repeat_lst| DEF-DECL "list[T]" |list_theory| NIL)
+    (|null?| ADT-RECOGNIZER-DECL "[list -> boolean]" |list_adt| NIL)
+    (|null| ADT-CONSTRUCTOR-DECL "(null?)" |list_adt| NIL)
+    (|n| SKOLEM-CONST-DECL "below
+    [length(map(dio_matrix2ac_sol(append(args1, args2), vars2avoid, f))
+               (extract_submatrices(dio_solver(mult_t1_, mult_t2_,
+                                               calculate_upper_bound(mult_t1_,
+                                                                     mult_t2_)),
+                                    append(args1, args2))))]"
+     |aux_unification| NIL)
+    (|mult_t2_| SKOLEM-CONST-DECL "list[nat]" |aux_unification| NIL)
+    (|mult_t1_| SKOLEM-CONST-DECL "list[nat]" |aux_unification| NIL)
+    (|f| SKOLEM-CONST-DECL "ac_symbol" |aux_unification| NIL)
+    (|vars2avoid| SKOLEM-CONST-DECL "list[variable]" |aux_unification| NIL)
+    (|args2| SKOLEM-CONST-DECL "list[term]" |aux_unification| NIL)
+    (|args1| SKOLEM-CONST-DECL "list[term]" |aux_unification| NIL)
+    (|length| DEF-DECL "nat" |list_props| NIL)
+    (< CONST-DECL "bool" |reals| NIL)
+    (|below| TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|real_lt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|dio_matrix| TYPE-EQ-DECL NIL |diophantine| NIL)
+    (|map| ADT-DEF-DECL "list[T1]" |list_adt_map| NIL)
+    (|dio_matrix2ac_sol| CONST-DECL "ac_sol" |aux_unification| NIL)
+    (|append| DEF-DECL "list[T]" |list_props| NIL)
+    (|extract_submatrices| CONST-DECL "list[dio_matrix]" |aux_unification| NIL)
+    (> CONST-DECL "bool" |reals| NIL)
+    (|nonneg_int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|posnat| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|dio_solver| DEF-DECL "dio_matrix" |diophantine| NIL)
+    (|calculate_upper_bound| CONST-DECL "nat" |diophantine| NIL)
+    (|ac_app| ADT-CONSTRUCTOR-DECL "[[ac_symbol, term] -> (ac_app?)]"
+     |term_adt| NIL)
+    (|subs| DEF-DECL "term" |substitution| NIL)
+    (|subs_ac| FORMULA-DECL NIL |substitution| NIL)
+    (|ac_arg| ADT-ACCESSOR-DECL "[(ac_app?) -> term]" |term_adt| NIL)
+    (|ac_sym| ADT-ACCESSOR-DECL "[(ac_app?) -> ac_symbol]" |term_adt| NIL)
+    (|basic_sub| TYPE-EQ-DECL NIL |substitution| NIL)
+    (|sub| TYPE-EQ-DECL NIL |substitution| NIL)
+    (|term_ac_app_eta| FORMULA-DECL NIL |term_adt| NIL)
+    (|unifies?| CONST-DECL "bool" |unification| NIL)
+    (|select_args| DEF-DECL "[list[T], list[nat]]" |list_theory| NIL)
+    (|get_args_coef_ac| CONST-DECL "[args, list[nat]]" |term_properties| NIL)
+    (|args_| SKOLEM-CONST-DECL "args" |aux_unification| NIL)
+    (|solve_ac| CONST-DECL "list[ac_sol]" |aux_unification| NIL))
+   NIL)
   (|solve_ac_soundness-2| "" 3805553260
    ("" (SKEEP)
     (("" (EXPAND "solve_ac")

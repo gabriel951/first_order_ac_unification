@@ -126,4 +126,29 @@ dio_solver(mult_t1, mult_t2, bound): RECURSIVE dio_matrix =
     ENDIF
 MEASURE bound  
 
+% receives value_lst = [x1, ..., xn] and the mult_t = [a1, ..., an]
+% returns a1*X1 + ... + an*Xn
+prod(value_lst, mult_t): RECURSIVE nat =
+    IF null?(value_lst) OR null?(mult_t) THEN 0
+    ELSE LET x1 = car(value_lst), a1 = car(mult_t) IN
+       a1 * x1 + prod(cdr(value_lst), cdr(mult_t)) 
+    ENDIF
+MEASURE 
+
+% test if a row is correct, regarding the multiplicities mult_t1 and mult_t2
+row_cor?(row, mult_t1, mult_t2): bool =
+    IF length(row) /= length(mult_t1) + length(mult_t2) THEN FALSE
+    ELSE LET (part1, part2) = split(row, length(mult_t1)) IN 
+       prod(part1, mult_t1) = prod(part2, mult_t2)      
+    ENDIF 
+
+% a diophantine matrix is correct if every row is correct,
+% regarding the multiplicities mult_t1 and mult_t2
+dio_matrix_correct?(dio_matrix, mult_t1, mult_t2): RECURSIVE bool =
+    IF null?(dio_matrix) THEN TRUE 
+    ELSE LET row = car(dio_matrix) IN 
+    	 row_cor?(row, mult_t1, mult_t2) AND dio_matrix_correct?(cdr(dio_matrix), mult_t1, mult_t2)
+    ENDIF 
+MEASURE dio_matrix BY << 
+
 END diophantine
