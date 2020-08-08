@@ -612,6 +612,15 @@
    NIL))
  (|construct_input_lst_TCC3| 0
   (|construct_input_lst_TCC3-1| NIL 3804667940 ("" (TCC)) NIL NIL))
+ (|extract_submatrices_cor_TCC1| 0
+  (|extract_submatrices_cor_TCC1-1| NIL 3805917506 ("" (SUBTYPE-TCC) NIL NIL)
+   NIL NIL))
+ (|extract_submatrices_cor_TCC2| 0
+  (|extract_submatrices_cor_TCC2-1| NIL 3805917506 ("" (SUBTYPE-TCC) NIL NIL)
+   NIL NIL))
+ (|dio_matrix2ac_sol_correct_TCC1| 0
+  (|dio_matrix2ac_sol_correct_TCC1-1| NIL 3805915736 ("" (SUBTYPE-TCC) NIL NIL)
+   NIL NIL))
  (|dio_matrix2ac_sol_correct| 0
   (|dio_matrix2ac_sol_correct-1| NIL 3805475310
    ("" (SKEEP) (("" (ASSERT) (("" (POSTPONE) NIL NIL)) NIL)) NIL) NIL SHOSTAK))
@@ -2041,12 +2050,84 @@
                                                                                                                                                                                 NIL))
                                                                                                                                                                               NIL)
                                                                                                                                                                              ("2"
-                                                                                                                                                                              (EXPAND
-                                                                                                                                                                               "dio_matrix_correct?"
+                                                                                                                                                                              (HIDE-ALL-BUT
                                                                                                                                                                                1)
                                                                                                                                                                               (("2"
-                                                                                                                                                                                (PROPAX)
-                                                                                                                                                                                NIL
+                                                                                                                                                                                (REVEAL
+                                                                                                                                                                                 -17)
+                                                                                                                                                                                (("2"
+                                                                                                                                                                                  (LEMMA
+                                                                                                                                                                                   "extract_submatrices_cor")
+                                                                                                                                                                                  (("2"
+                                                                                                                                                                                    (INST?
+                                                                                                                                                                                     -1)
+                                                                                                                                                                                    (("2"
+                                                                                                                                                                                      (INST
+                                                                                                                                                                                       -1
+                                                                                                                                                                                       "append(args1, args2)"
+                                                                                                                                                                                       "_")
+                                                                                                                                                                                      (("2"
+                                                                                                                                                                                        (INST
+                                                                                                                                                                                         -1
+                                                                                                                                                                                         "dio_solver(mult_t1_, mult_t2_,
+                                         calculate_upper_bound(mult_t1_,
+                                                               mult_t2_))")
+                                                                                                                                                                                        (("2"
+                                                                                                                                                                                          (ASSERT)
+                                                                                                                                                                                          (("2"
+                                                                                                                                                                                            (HIDE
+                                                                                                                                                                                             2)
+                                                                                                                                                                                            (("2"
+                                                                                                                                                                                              (PROP)
+                                                                                                                                                                                              (("1"
+                                                                                                                                                                                                (HIDE
+                                                                                                                                                                                                 -1)
+                                                                                                                                                                                                (("1"
+                                                                                                                                                                                                  (LEMMA
+                                                                                                                                                                                                   "dio_solver_cor")
+                                                                                                                                                                                                  (("1"
+                                                                                                                                                                                                    (INST?
+                                                                                                                                                                                                     -1)
+                                                                                                                                                                                                    NIL
+                                                                                                                                                                                                    NIL))
+                                                                                                                                                                                                  NIL))
+                                                                                                                                                                                                NIL)
+                                                                                                                                                                                               ("2"
+                                                                                                                                                                                                (LEMMA
+                                                                                                                                                                                                 "member_nth2[dio_matrix]")
+                                                                                                                                                                                                (("2"
+                                                                                                                                                                                                  (INST?
+                                                                                                                                                                                                   -1)
+                                                                                                                                                                                                  (("2"
+                                                                                                                                                                                                    (ASSERT)
+                                                                                                                                                                                                    (("2"
+                                                                                                                                                                                                      (REPLACE
+                                                                                                                                                                                                       -1
+                                                                                                                                                                                                       1)
+                                                                                                                                                                                                      (("2"
+                                                                                                                                                                                                        (HIDE
+                                                                                                                                                                                                         -1)
+                                                                                                                                                                                                        (("2"
+                                                                                                                                                                                                          (INST
+                                                                                                                                                                                                           1
+                                                                                                                                                                                                           "n")
+                                                                                                                                                                                                          (("2"
+                                                                                                                                                                                                            (ASSERT)
+                                                                                                                                                                                                            NIL
+                                                                                                                                                                                                            NIL))
+                                                                                                                                                                                                          NIL))
+                                                                                                                                                                                                        NIL))
+                                                                                                                                                                                                      NIL))
+                                                                                                                                                                                                    NIL))
+                                                                                                                                                                                                  NIL))
+                                                                                                                                                                                                NIL))
+                                                                                                                                                                                              NIL))
+                                                                                                                                                                                            NIL))
+                                                                                                                                                                                          NIL))
+                                                                                                                                                                                        NIL))
+                                                                                                                                                                                      NIL))
+                                                                                                                                                                                    NIL))
+                                                                                                                                                                                  NIL))
                                                                                                                                                                                 NIL))
                                                                                                                                                                               NIL))
                                                                                                                                                                             NIL))
@@ -2588,7 +2669,8 @@
     (|subs_get_lst_mult| FORMULA-DECL NIL |substitution| NIL)
     (|get_lst_mult| DEF-DECL "list[T]" |list_theory| NIL)
     (|new_args1| SKOLEM-CONST-DECL "list[term]" |aux_unification| NIL)
-    (|dio_matrix_correct?| CONST-DECL "bool" |aux_unification| NIL)
+    (|dio_solver_cor| FORMULA-DECL NIL |diophantine| NIL)
+    (|extract_submatrices_cor| FORMULA-DECL NIL |aux_unification| NIL)
     (|dio_matrix2ac_sol_correct| FORMULA-DECL NIL |aux_unification| NIL)
     (|pareate_append| FORMULA-DECL NIL |list_theory| NIL)
     (|get_ac_from_args| CONST-DECL "term" |term_properties| NIL)

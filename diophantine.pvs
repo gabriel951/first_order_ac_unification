@@ -22,7 +22,7 @@ lst_dio_matrix: VAR list[dio_matrix]
 % the variables mult_t are used to indicate the multiplicity of the term t. They are a vector [a1, ..., an]
 mult_t, mult_t1, mult_t2: VAR list[posnat]
 
-value_lst: VAR list[nat]
+value_lst, row: VAR list[nat]
 
 a1, a2: VAR posnat
 
@@ -133,12 +133,12 @@ prod(value_lst, mult_t): RECURSIVE nat =
     ELSE LET x1 = car(value_lst), a1 = car(mult_t) IN
        a1 * x1 + prod(cdr(value_lst), cdr(mult_t)) 
     ENDIF
-MEASURE 
+MEASURE value_lst BY << 
 
 % test if a row is correct, regarding the multiplicities mult_t1 and mult_t2
 row_cor?(row, mult_t1, mult_t2): bool =
     IF length(row) /= length(mult_t1) + length(mult_t2) THEN FALSE
-    ELSE LET (part1, part2) = split(row, length(mult_t1)) IN 
+    ELSE LET (part1, part2) = split[nat](row, length(mult_t1)) IN 
        prod(part1, mult_t1) = prod(part2, mult_t2)      
     ENDIF 
 
@@ -150,5 +150,9 @@ dio_matrix_correct?(dio_matrix, mult_t1, mult_t2): RECURSIVE bool =
     	 row_cor?(row, mult_t1, mult_t2) AND dio_matrix_correct?(cdr(dio_matrix), mult_t1, mult_t2)
     ENDIF 
 MEASURE dio_matrix BY << 
+
+%%%%%%%%%%%%%%%%%%%%%%
+dio_solver_cor: CONJECTURE
+    dio_matrix_correct?(dio_solver(mult_t1, mult_t2, bound), mult_t1, mult_t2)  
 
 END diophantine

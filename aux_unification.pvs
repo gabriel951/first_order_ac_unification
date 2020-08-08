@@ -16,7 +16,7 @@
 aux_unification: THEORY
 BEGIN
 	IMPORTING unification, diophantine, list_theory[number], list_theory[args],
-		  list_theory[unif_pair]
+		  list_theory[unif_pair], list_theory[dio_matrix]
 
 % an ac solution is a unification problem and a list of variables to stay away
 ac_sol: TYPE = [unif_prb, list[variable]]
@@ -37,7 +37,7 @@ mult_t1, mult_t2, row, col: VAR list[nat]
 bound, i, n, num_col: VAR nat
 num: VAR number
 
-dio_sol_matrix, dio_matrix: VAR dio_matrix
+dio_sol_matrix, dio_matrix, dio_matrix1: VAR dio_matrix
 submatrix_sol_lst, dio_matrix_lst: VAR list[dio_matrix]
 
 vars2avoid, new_vars2avoid: VAR list[variable]
@@ -223,6 +223,11 @@ MEASURE ac_sol_simp_lst BY <<
 
 
 %%%%%%%%%%%%%%%%%%%%%%% Theorems
+extract_submatrices_cor: CONJECTURE
+   dio_matrix_correct?(dio_matrix, mult_t1, mult_t2) AND 
+   member(dio_matrix1, extract_submatrices(dio_matrix, args))
+   IMPLIES dio_matrix_correct?(dio_matrix1, mult_t1, mult_t2) 
+   
 get_pre_new_args_len: CONJECTURE
     LET (new_lst_args, new_vars2avoid) = get_pre_new_args(lst_args, dio_matrix, vars2avoid) IN
     length(new_lst_args) = length(lst_args) 
@@ -247,7 +252,7 @@ dio_matrix2ac_sol_correct: CONJECTURE
     perm?(args1_cor_mult, args2_cor_mult)
 
 
-solve_ac_soundness: CONJECTURE
+solve_ac_soundness: LEMMA
     member((unif_prb, new_vars2avoid), solve_ac(t1, t2, vars2avoid, f)) AND   
     are_ac?(t1, t2, f) AND unifies?(sigma, unif_prb)
     IMPLIES unifies?(sigma, (t1, t2))
