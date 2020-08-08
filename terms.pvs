@@ -27,11 +27,17 @@ term[constant:TYPE, variable:TYPE+, f_symbol:TYPE, ac_symbol:TYPE]: DATATYPE
 term_properties: THEORY
 BEGIN
 
+% definition of variable, constant and syntactic and AC function symbols 
+variable: TYPE = nat
+constant: TYPE = nat
+f_symbol: TYPE = string
+ac_symbol: TYPE = string
+
 IMPORTING basic_notions,
 	  term[constant, variable, f_symbol, ac_symbol],
 	  list_theory[term]
 
-sym: VAR string
+sym, f: VAR string
 n: VAR nat
 
 t, s: VAR term
@@ -106,7 +112,7 @@ MEASURE t by <<
 % if it encounters an ac function whose root is "sym" it goes inside the function
 get_args(sym)(t): args =
     LET n = num_arg(sym, t), lst_until_n = from_min2max(1, n) IN 
-    	map(select(sym, t), lst_until_n)
+    	map(select(sym, t))(lst_until_n)
     
 % get a list of arguments of an AC_term t (whose function symbol is sym)
 % and how many times they appear as arguments
@@ -124,9 +130,26 @@ MEASURE args BY <<
 
 get_ac_from_args(sym)(args): term = ac_app(sym, get_term_from_args(args))
 
+simple_term?(f, t): bool = 
+   cons(t, null) = get_args(f)(t)
+
+simple_args?(f, args): RECURSIVE bool =
+    IF null?(args) THEN TRUE
+    ELSE LET t = car(args) IN
+         simple_term?(f, t) AND simple_args?(f, cdr(args))
+    ENDIF
+MEASURE args BY << 
+
 %%%%%%%%%%%%%%%
+get_args_ac: LEMMA
+    get_args(f)(ac_app(f, t)) = get_args(f)(t)
+
+get_args_pair: CONJECTURE
+    get_args(f)(pair(t, s)) = append(get_args(f)(t), get_args(f)(s))
+
 get_ac_from_args_cor: CONJECTURE
-    simple_args?(f, args) IMPLIES 
+    simple_args?(f, args) AND NOT null?(args) IMPLIES 
     get_args(f)(get_ac_from_args(f)(args)) = args
+
 
 END term_properties

@@ -16,12 +16,12 @@ substitution: THEORY
 BEGIN
 	IMPORTING equality
 	
+a: VAR nat
 X, Y: VAR variable
-t, s: VAR term
+t, s, arg: VAR term
 args, args1, args2: VAR args
 
 f: VAR ac_symbol
-arg: VAR term
 coef: VAR list[nat]
 
 % a basic substitution is one of the form {variable->term}, as in X->s
@@ -70,11 +70,24 @@ subs(sigma)(args): RECURSIVE args =
 MEASURE args BY << 
 
 %%%%%%%%%%%%%%%%%%% Theorems
-subs_ac: CONJECTURE
+% substitution and their effects on the terms
+subs_const: LEMMA
+    subs(sigma)(const(a)) = const(a)
+
+subs_unit: LEMMA
+    subs(sigma)(unit) = unit 
+   
+subs_pair: LEMMA
+    subs(sigma)(pair(t, s)) = pair(subs(sigma)(t), subs(sigma)(s))
+
+subs_ac: LEMMA
     subs(sigma)(ac_app(f, arg)) = ac_app(f, subs(sigma)(arg))
 
-subs_get_term_from_args: CONJECTURE
+subs_get_term_from_args: LEMMA
     subs(sigma)(get_term_from_args(args1)) = get_term_from_args(subs(sigma)(args1))
+
+subs_get_ac_from_args: LEMMA
+    subs(sigma)(get_ac_from_args(f)(args)) = get_ac_from_args(f)(subs(sigma)(args))
 
 subs_perm?: CONJECTURE
     perm?(args1, args2) => perm?(subs(sigma)(args1), subs(sigma)(args2))

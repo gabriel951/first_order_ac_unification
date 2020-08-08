@@ -80,7 +80,7 @@ empty_col?(dio_matrix)(i): bool =
 
 % Constraint 1: Every column has at least one coefficient greater than 0 
 const1?(dio_matrix, num_col): bool =
-     LET empty_col_lst = map(empty_col?(dio_matrix), from_min2max[nat](1, num_col)) IN
+     LET empty_col_lst = map(empty_col?(dio_matrix))(from_min2max[nat](1, num_col)) IN
      IF member(TRUE, empty_col_lst) THEN FALSE
      ELSE TRUE 
      ENDIF
@@ -104,8 +104,8 @@ if_non_var_const2_col?(dio_matrix, args)(i): bool =
 
 % return true if all columns that correspond to a non-variable argument satisfy constraint 2
 if_non_var_const2?(dio_matrix, args): bool =
-     LET lst_non_var_const2 = map(if_non_var_const2_col?(dio_matrix, args),
-     	 		     	   from_min2max[nat](1, length(args))) IN
+     LET lst_non_var_const2 =
+     	 map(if_non_var_const2_col?(dio_matrix, args))(from_min2max[nat](1, length(args))) IN
      IF member(FALSE, lst_non_var_const2) THEN FALSE
      ELSE TRUE
      ENDIF
@@ -172,7 +172,7 @@ dio_matrix2ac_sol(args, vars2avoid, sym)(dio_matrix): ac_sol =
      null_lst = get_repeat_lst[args](null, num_col), 
      (pre_new_args, new_vars2avoid) = get_pre_new_args(null_lst, dio_matrix, vars2avoid),
      % for each "args" in pre_new_args, make an ac term whose args are "args"
-     new_args = map(get_ac_from_args(sym), pre_new_args), 
+     new_args = map(get_ac_from_args(sym))(pre_new_args), 
      % pareate
      new_unif_prb = pareate(args, new_args) IN
      (new_unif_prb, new_vars2avoid) 
@@ -224,9 +224,6 @@ MEASURE ac_sol_simp_lst BY <<
 dio_matrix_correct?(dio_matrix, mult_t1, mult_t2): bool = TRUE
 
 %%%%%%%%%%%%%%%%%%%%%%% Theorems
-elim_com_arg_len: CONJECTURE 
-   LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),
-       
 
 elim_com_arg_correct: CONJECTURE
    LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),

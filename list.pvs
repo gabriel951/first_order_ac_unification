@@ -22,8 +22,8 @@ lst, lst1, lst2, new_lst1, new_lst2: VAR list[T]
 lst_of_lsts, lst_of_lsts1, lst_of_lsts2: VAR list[list[T]]
 
 num: VAR number
-n, i, min, max, inc, elem_seen_so_far, cur_greater: VAR nat
-coef, coef1, coef2, lst_nat: VAR list[nat]
+n, i, j, min, max, inc, elem_seen_so_far, cur_greater: VAR nat
+coef, coef1, coef2, lst_nat, lst_nat1, lst_nat2: VAR list[nat]
 
 % append_pair((l1, l2)) = append(l1, l2)
 append_pair(pair_lst): list[T] =
@@ -58,12 +58,26 @@ MEASURE lst_of_lsts BY <<
 
 % returns a list [min, min+1, ..., max]
 % if max < min, return null
+%from_min2max(min, max): RECURSIVE list[nat] =
+%    IF min > max THEN null
+%    ELSIF min = max THEN cons(max, null)
+%    ELSE  append(from_min2max(min, max-1), cons(max, null))
+%    ENDIF
+%MEASURE max
+
 from_min2max(min, max): RECURSIVE list[nat] =
     IF min > max THEN null
-    ELSIF min = max THEN cons(max, null)
-    ELSE  append(from_min2max(min, max-1), cons(max, null))
+    ELSIF min = max THEN cons(min, null) 
+    ELSE cons(min, from_min2max(min + 1, max)) 
     ENDIF
-MEASURE max
+MEASURE max(0, max-min) 
+
+% TODO: show Ayala this
+from_min2max_bug?(min, max): RECURSIVE list[nat] =
+    IF min > max THEN null
+    ELSE cons(min, from_min2max(min, max))
+    ENDIF
+MEASURE max(0, max - min) 
 
 % increments by "inc" the number in position "n" of the list of natural numbers "lst_nat"
 % we start counting at 1
@@ -253,7 +267,6 @@ MEASURE n
 split(lst, n): [list[T], list[T]] =
     (get_lst_until_n(lst, n), get_lst_after_n(lst, n))  
 
-              
 % receives a list of the form [[x1, y1], ..., [xn, yn]]
 % returns [y1, ..., yn]
 snd_proj(lst_pair): RECURSIVE list[T] = 
@@ -272,6 +285,15 @@ get_lst_mult(lst, coef): RECURSIVE list[T] =
     ENDIF
 MEASURE lst BY << 
 
+% remove the ith element from lst.
+% counting starts at 1
+remove(lst, i): RECURSIVE list[T] =
+    IF null?(lst) THEN null 
+    ELSIF i = 1 THEN cdr(lst) 
+    ELSE LET x = car(lst) IN cons(x, remove(cdr(lst), i-1))
+    ENDIF
+MEASURE lst BY << 
+
 %%%%%%%%%%%%%%%%%%%%% Theorems
 %% general properties
 member_append: LEMMA
@@ -282,6 +304,9 @@ member_append2: LEMMA
 
 null_append: LEMMA
     null?(append(lst1, lst2)) = (null?(lst1) AND null?(lst2))
+
+null_append_nat: LEMMA
+    null?(append(lst_nat1, lst_nat2)) = (null?(lst_nat1) AND null?(lst_nat2))
 
 cdr_append: LEMMA
     NOT null?(lst1) IMPLIES cdr(append(lst1, lst2)) = append(cdr(lst1), lst2)
@@ -314,6 +339,23 @@ cart_prod_aux_mem2: LEMMA
 cart_prod_mem: LEMMA
     (member(x, lst1) AND member(y, lst2)) = member((x, y), cartesian_product(lst1, lst2))
     
+% from_min2max:
+from_min2max_len: LEMMA
+    length(from_min2max(i, n)) = max(0, n-i+1)
+
+from_min2max_len1: LEMMA
+    length(from_min2max(1, n)) = n
+
+from_min2max_car: LEMMA
+    NOT null?(from_min2max(i, j)) IMPLIES car(from_min2max(i, j)) = i
+
+from_min2max_cdr: CONJECTURE
+    NOT null?(from_min2max(i, j)) IMPLIES from_min2max(i+1, j) = cdr(from_min2max(i, j))
+
+nth_from_min2max: CONJECTURE
+    n < length(from_min2max(i, j)) IMPLIES
+    nth(from_min2max(i, j), n) = i + n
+
 % select_args 
 select_args_pos: LEMMA
     member(n, select_args(lst1, coef1, lst2, coef2)`2) IMPLIES n > 0 
@@ -322,9 +364,9 @@ select_args_pos2: LEMMA
     member(num, select_args(lst1, coef1, lst2, coef2)`2) IMPLIES
     (num > 0 AND number_field_pred(num) AND real_pred(num))
 
-select_args_len: CONJECTURE
-    LET (args3, coef3) = select_args(args1, coef1, args2, coef2) IN
-    length(args3) = length(coef3) 
+select_args_len: LEMMA
+    LET (lst3, coef3) = select_args(lst1, coef1, lst2, coef2) IN
+    length(lst3) = length(coef3) 
 
 % pareate
 pareate_append: LEMMA
@@ -340,6 +382,9 @@ nth_get_lst_until_n: LEMMA
     LET lst1 = get_lst_until_n(lst, n) IN
     i < length(lst1) IMPLIES nth(lst1, i) = nth(lst, i)
 
+get_lst_until_n_append: LEMMA
+    get_lst_until_n(append(lst1, lst2), length(lst1)) = lst1
+
 len_get_lst_after_n: LEMMA
     length(get_lst_after_n(lst, n)) = max(length(lst) - n, 0)
 
@@ -349,16 +394,19 @@ nth_get_lst_after_n: LEMMA
     i >= length(lst1) AND i < length(lst1) + length(lst2) IMPLIES
     nth(lst2, i - length(lst1)) = nth(lst, i) 
 
+get_lst_after_n_append: LEMMA
+    get_lst_after_n(append(lst1, lst2), length(lst1)) = lst2
+
 % split
 split_cor: LEMMA
     LET (lst1, lst2) = split(lst, n) IN
     append(lst1, lst2) = lst
 
-split_append: CONJECTURE
+split_append: LEMMA
     split(append(lst1, lst2), length(lst1)) = (lst1, lst2)
 
 % snd_proj:
-snd_proj_pareate: CONJECTURE
+snd_proj_pareate: LEMMA
     length(lst1) = length(lst2) IMPLIES 
     snd_proj(pareate(lst1, lst2)) = lst2
 
