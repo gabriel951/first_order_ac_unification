@@ -14,7 +14,7 @@ equality: THEORY
 BEGIN
 	IMPORTING term_properties
 
-t, s: VAR term
+t, t1, t2, t3, s: VAR term
 args1, args2, args3, args4: VAR args
 sym, f: VAR string
 
@@ -34,9 +34,9 @@ equal?(t, s): RECURSIVE bool =
 
 	app(sym, arg): app?(s) AND sym = f_sym(s) AND equal?(arg, arg(s)),
 
-	ac_app(sym, arg): ac_app?(s) AND sym = ac_sym(s) AND EXISTS i:
-	   equal?(select(sym, arg)(1), select(sym, arg)(i)) AND 
-	   equal?(delete(sym, arg)(1), delete(sym, arg)(i))
+	ac_app(sym, arg): ac_app?(s) AND sym = ac_sym(s) AND EXISTS i, j:
+	   equal?(select(sym, t)(i), select(sym, s)(j)) AND 
+	   equal?(delete(sym, t)(i), delete(sym, s)(j))
     ENDCASES
 MEASURE size(t) 
 
@@ -59,6 +59,7 @@ perm?(args1, args2): RECURSIVE bool =
     ENDIF
 MEASURE args1 BY << 
 
+
 %%%%%%%%%%%%%%% Theorems
 equal?_len: LEMMA
     equal?(args1, args2) IMPLIES length(args1) = length(args2) 
@@ -73,6 +74,22 @@ equal?_get_repeat_lst: LEMMA
 equal?_get_lst_mult: LEMMA
     equal?(args1, args2) IMPLIES
     equal?(get_lst_mult(args1, coef), get_lst_mult(args2, coef))
+
+equal?_ref: CONJECTURE
+    equal?(t, t) 
+
+equal?_sym: LEMMA
+    equal?(t, s) IMPLIES equal?(s, t) 
+
+equal?_ac: CONJECTURE
+    are_ac?(t, s, f) AND equal?(t, s) IMPLIES
+    FORALL i:
+        EXISTS j: 
+	   equal?(select(f, t)(i), select(f, s)(j)) AND
+	   equal?(delete(f, t)(i), delete(f, s)(j))
+	   
+equal?_trans: LEMMA
+    equal?(t1, t2) AND equal?(t2, t3) IMPLIES equal?(t1, t3) 
 
 perm?_sym: CONJECTURE
     perm?(args1, args2) IMPLIES perm?(args2, args1) 

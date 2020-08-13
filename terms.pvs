@@ -38,7 +38,7 @@ IMPORTING basic_notions,
 	  list_theory[term]
 
 sym, f: VAR string
-n: VAR nat
+n, i, j: VAR nat
 
 t, s: VAR term
 
@@ -72,13 +72,26 @@ num_arg(sym, t): RECURSIVE nat =
     ENDIF
 MEASURE t BY << 
 
+% i = j in a sense described by the lemma of correctness of this function 
+eq_ind_term?(i, j, sym, t): bool =
+   LET n = num_arg(sym, t) IN
+   (i = j) OR (i = 0 AND j = 1) OR (i = 1 AND j = 0) OR (i >= n AND j >= n) 
+
+% i > j in the sense of eq_ind_term?
+gt_ind_term?(i, j, sym, t): bool =
+   NOT eq_ind_term?(i, j, sym, t) AND i > j 
+
+% i < j, in the sense of lt_ind_term?
+lt_ind_term?(i, j, sym, t): bool = 
+   NOT eq_ind_term?(i, j, sym, t) AND i < j
+
 % select the nth (index start at one) argument of an a term.
 % if it encounters an ac function whose root is "sym" it goes inside the function
 select(sym, t)(n): RECURSIVE term =
     IF pair?(t) THEN
-        LET n1 = num_arg(sym, t) IN
+        LET n1 = num_arg(sym, term1(t)) IN
         IF n <= n1 THEN select(sym, term1(t))(n)
-        ELSE select(sym, term2(t))(n)
+        ELSE select(sym, term2(t))(n-n1)
         ENDIF
     ELSIF ac_app?(t) AND ac_sym(t) = sym THEN select(sym, ac_arg(t))(n)
     ELSE t
@@ -141,12 +154,55 @@ simple_args?(f, args): RECURSIVE bool =
 MEASURE args BY << 
 
 %%%%%%%%%%%%%%%
+size_ge1: LEMMA
+    size(t) >= 1
+    
+num_arg_ge1: LEMMA
+    num_arg(f, t) > 0 
+
+num_arg_ge1_type_t: LEMMA
+    num_arg(f, t) > 1 IMPLIES (pair?(t) OR is_ac_sym?(t, f))
+
+select_le1: LEMMA
+    n <= 1 IMPLIES select(f, t)(n) = select(f, t)(1)
+
+select_size: LEMMA
+    size(select(f, t)(n)) <= size(t) 
+
+ac_select_size: LEMMA
+    is_ac_sym?(t, f) IMPLIES size(select(f, t)(n)) < size(t) 
+
+delete_size: LEMMA
+    size(delete(f, t)(n)) <= size(t)
+
+num_arg_delete_size: LEMMA
+    num_arg(f, t) > 1 IMPLIES size(delete(f, t)(n)) < size(t) 
+
+ac_delete_size: LEMMA
+    ac_app?(t) IMPLIES size(delete(f, t)(n)) < size(t) 
+
+delete_le1: LEMMA
+    n <= 1 IMPLIES delete(f, t)(n) = delete(f, t)(1) 
+
+delete_ac_num_arg_gt1: LEMMA 
+    is_ac_sym?(t, f) AND num_arg(f, t) > 1
+    IMPLIES is_ac_sym?(delete(f, t)(n), f)
+
+select_delete: CONJECTURE
+    is_ac_sym?(t, f) AND j > i AND i < num_arg(f, t) IMPLIES
+    select(f, t)(i) = select(f, delete(f, t)(j))(i) 
+
+get_args_len: LEMMA
+    length(get_args(f)(t)) = num_arg(f, t) 
+
 get_args_ac: LEMMA
     get_args(f)(ac_app(f, t)) = get_args(f)(t)
 
-get_args_pair: CONJECTURE
+get_args_pair: LEMMA
     get_args(f)(pair(t, s)) = append(get_args(f)(t), get_args(f)(s))
 
+% TODO: Am i using this?
+% TODO: I think not, check later
 get_ac_from_args_cor: CONJECTURE
     simple_args?(f, args) AND NOT null?(args) IMPLIES 
     get_args(f)(get_ac_from_args(f)(args)) = args

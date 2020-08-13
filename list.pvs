@@ -75,7 +75,7 @@ MEASURE max(0, max-min)
 % TODO: show Ayala this
 from_min2max_bug?(min, max): RECURSIVE list[nat] =
     IF min > max THEN null
-    ELSE cons(min, from_min2max(min, max))
+    ELSE cons(min, from_min2max_bug?(min, max))
     ENDIF
 MEASURE max(0, max - min) 
 
@@ -349,13 +349,14 @@ from_min2max_len1: LEMMA
 from_min2max_car: LEMMA
     NOT null?(from_min2max(i, j)) IMPLIES car(from_min2max(i, j)) = i
 
-from_min2max_cdr: CONJECTURE
-    NOT null?(from_min2max(i, j)) IMPLIES from_min2max(i+1, j) = cdr(from_min2max(i, j))
-
-nth_from_min2max: CONJECTURE
+nth_from_min2max: LEMMA
     n < length(from_min2max(i, j)) IMPLIES
     nth(from_min2max(i, j), n) = i + n
 
+nth_from_min2max2: LEMMA
+    n < length(from_min2max(1, j)) IMPLIES
+    nth(from_min2max(1, j), n) = n + 1
+    
 % select_args 
 select_args_pos: LEMMA
     member(n, select_args(lst1, coef1, lst2, coef2)`2) IMPLIES n > 0 
@@ -369,7 +370,7 @@ select_args_len: LEMMA
     length(lst3) = length(coef3) 
 
 % get_repeat_lst
-get_repeat_lst_len: CONJECTURE
+get_repeat_lst_len: LEMMA
     length(get_repeat_lst(x, n)) = n
 
 % pareate
