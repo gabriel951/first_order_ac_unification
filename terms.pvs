@@ -72,18 +72,6 @@ num_arg(sym, t): RECURSIVE nat =
     ENDIF
 MEASURE t BY << 
 
-% i = j in a sense described by the lemma of correctness of this function 
-eq_ind_term?(i, j, sym, t): bool =
-   LET n = num_arg(sym, t) IN
-   (i = j) OR (i = 0 AND j = 1) OR (i = 1 AND j = 0) OR (i >= n AND j >= n) 
-
-% i > j in the sense of eq_ind_term?
-gt_ind_term?(i, j, sym, t): bool =
-   NOT eq_ind_term?(i, j, sym, t) AND i > j 
-
-% i < j, in the sense of lt_ind_term?
-lt_ind_term?(i, j, sym, t): bool = 
-   NOT eq_ind_term?(i, j, sym, t) AND i < j
 
 % select the nth (index start at one) argument of an a term.
 % if it encounters an ac function whose root is "sym" it goes inside the function
@@ -110,7 +98,7 @@ delete(sym, t)(n): RECURSIVE term =
 	  ENDIF
        ELSE
 	  IF num_arg2 = 1 THEN term1(t)
-	  ELSE pair(term1(t), delete(sym, term2(t))(n))
+	  ELSE pair(term1(t), delete(sym, term2(t))(n - num_arg1))
 	  ENDIF
        ENDIF
    ELSIF ac_app?(t) AND ac_sym(t) = sym THEN
@@ -120,6 +108,32 @@ delete(sym, t)(n): RECURSIVE term =
    ELSE unit 
    ENDIF
 MEASURE t by <<
+
+% return the predecessor of "i", considering that a term has "n" arguments
+% when you apply "select" and "delete" and the number passed "i" is greater than the "n"
+% the functions "select" and "delete" act like it the number passed is "n"
+% this function takes that into account and return the predecessor of "i"
+% the predecessor of 0 does not make sense and is defined arbitrarily as 0 itself
+predecessor(i, n): nat =
+    IF i = 0 THEN 0 
+    ELSIF i >= n THEN n - 1
+    ELSE i - 1
+    ENDIF
+
+% i = j in a sense described by the lemma of correctness of this function 
+eq_ind_term?(i, j, sym, t): bool =
+   LET n = num_arg(sym, t) IN
+   IF n = 1 THEN TRUE  
+   ELSE (i = j) OR (i = 0 AND j = 1) OR (i = 1 AND j = 0) OR (i >= n AND j >= n) 
+   ENDIF 
+
+% i > j in the sense of eq_ind_term?
+gt_ind_term?(i, j, sym, t): bool =
+   NOT eq_ind_term?(i, j, sym, t) AND i > j 
+
+% i < j, in the sense of lt_ind_term?
+lt_ind_term?(i, j, sym, t): bool = 
+   NOT eq_ind_term?(i, j, sym, t) AND i < j
 
 % get the arguments of a term t.
 % if it encounters an ac function whose root is "sym" it goes inside the function
@@ -157,14 +171,23 @@ MEASURE args BY <<
 size_ge1: LEMMA
     size(t) >= 1
     
+% num_arg
 num_arg_ge1: LEMMA
     num_arg(f, t) > 0 
 
 num_arg_ge1_type_t: LEMMA
     num_arg(f, t) > 1 IMPLIES (pair?(t) OR is_ac_sym?(t, f))
 
+% select
+select_num_arg: LEMMA
+    num_arg(f, select(f, t)(i)) = 1
+
 select_le1: LEMMA
     n <= 1 IMPLIES select(f, t)(n) = select(f, t)(1)
+
+select_ge_num_arg: LEMMA
+    LET n = num_arg(f, t) IN 
+    i >= n IMPLIES select(f, t)(i) = select(f, t)(n) 
 
 select_size: LEMMA
     size(select(f, t)(n)) <= size(t) 
@@ -172,11 +195,24 @@ select_size: LEMMA
 ac_select_size: LEMMA
     is_ac_sym?(t, f) IMPLIES size(select(f, t)(n)) < size(t) 
 
+% delete
 delete_size: LEMMA
     size(delete(f, t)(n)) <= size(t)
 
+num_arg_delete: LEMMA
+    num_arg(f, delete(f, t)(n)) <= num_arg(f, t)
+
+num_arg_delete_ge1: LEMMA
+    num_arg(f, t) > 1 IMPLIES num_arg(f, delete(f, t)(n)) = num_arg(f, t) - 1
+    
 num_arg_delete_size: LEMMA
     num_arg(f, t) > 1 IMPLIES size(delete(f, t)(n)) < size(t) 
+
+num_arg1_delete: LEMMA
+    num_arg(f, t) = 1 IMPLIES delete(f, t)(n) = unit
+
+delete_num_arg: LEMMA 
+    is_ac_sym?(t, f) AND delete(f, t)(n) = unit IMPLIES num_arg(f, t) = 1
 
 ac_delete_size: LEMMA
     ac_app?(t) IMPLIES size(delete(f, t)(n)) < size(t) 
@@ -184,14 +220,46 @@ ac_delete_size: LEMMA
 delete_le1: LEMMA
     n <= 1 IMPLIES delete(f, t)(n) = delete(f, t)(1) 
 
+delete_ge_num_arg: LEMMA
+    LET n = num_arg(f, t) IN 
+    i >= n IMPLIES delete(f, t)(i) = delete(f, t)(n) 
+
 delete_ac_num_arg_gt1: LEMMA 
     is_ac_sym?(t, f) AND num_arg(f, t) > 1
     IMPLIES is_ac_sym?(delete(f, t)(n), f)
 
-select_delete: CONJECTURE
-    is_ac_sym?(t, f) AND j > i AND i < num_arg(f, t) IMPLIES
-    select(f, t)(i) = select(f, delete(f, t)(j))(i) 
+is_ac_sym?_delete: LEMMA
+    is_ac_sym?(t, f) IMPLIES
+    is_ac_sym?(delete(f, t)(n), f) = is_ac_sym?(delete(f, t)(i), f) 
 
+num_arg_select_delete: LEMMA
+    num_arg(f, t) > 1 IMPLIES
+    num_arg(f, t) = num_arg(f, select(f, t)(i)) + num_arg(f, delete(f, t)(i)) 
+
+% eq_ind_term?, gt_ind_term?
+eq_ind_term?_correctness: LEMMA
+    eq_ind_term?(i, n, f, t) IMPLIES
+    select(f, t)(i) = select(f, t)(n) AND delete(f, t)(i) = delete(f, t)(n) 
+
+gt_ind_term?_select_delete: LEMMA
+    gt_ind_term?(i, n, f, t) IMPLIES
+    select(f, delete(f, t)(i))(n) = select(f, t)(n) 
+
+gt_ind_term?_select_delete_pred: LEMMA
+    gt_ind_term?(i, n, f, t) IMPLIES
+    select(f, delete(f, t)(n))(predecessor(i, num_arg(f, t))) = select(f, t)(i)
+
+gt_ind_term?_delete_delete_pred: CONJECTURE 
+    gt_ind_term?(i, n, f, t) IMPLIES
+    delete(f, delete(f, t)(n))(predecessor(i, num_arg(f, t))) =
+    delete(f, delete(f, t)(i))(n)
+
+% TODO: maybe I won't need it 
+lt_ind_term?_select_delete: LEMMA
+    lt_ind_term?(i, n, f, t) IMPLIES
+    select(f, delete(f, t)(i))(n) = select(f, t)(n+1)
+
+% get args
 get_args_len: LEMMA
     length(get_args(f)(t)) = num_arg(f, t) 
 

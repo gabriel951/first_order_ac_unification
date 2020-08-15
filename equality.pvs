@@ -64,6 +64,9 @@ MEASURE args1 BY <<
 equal?_len: LEMMA
     equal?(args1, args2) IMPLIES length(args1) = length(args2) 
 
+equal?_num_arg: LEMMA
+    equal?(t, s) IMPLIES num_arg(f, t) = num_arg(f, s) 
+
 equal?_append: LEMMA
     equal?(args1, args2) AND equal?(args3, args4) IMPLIES
     equal?(append(args1, args3), append(args2, args4))
@@ -81,7 +84,7 @@ equal?_ref: CONJECTURE
 equal?_sym: LEMMA
     equal?(t, s) IMPLIES equal?(s, t) 
 
-equal?_ac: CONJECTURE
+equal?_ac: LEMMA
     are_ac?(t, s, f) AND equal?(t, s) IMPLIES
     FORALL i:
         EXISTS j: 
