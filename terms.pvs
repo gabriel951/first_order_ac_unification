@@ -120,6 +120,16 @@ predecessor(i, n): nat =
     ELSE i - 1
     ENDIF
 
+% return the successor of "i", considering that a term has "n" arguments.
+% when you apply "select" and "delete" and the number passed "i" is 0
+% the functions "select" and "delete" act like the number passed was 1
+% this function takes that into account and return the successor of "i" (2 when i = 0) 
+successor(i): nat =
+    IF i = 0 THEN 2 
+    ELSE i + 1
+    ENDIF
+
+
 % i = j in a sense described by the lemma of correctness of this function 
 eq_ind_term?(i, j, sym, t): bool =
    LET n = num_arg(sym, t) IN
@@ -249,10 +259,14 @@ gt_ind_term?_select_delete_pred: LEMMA
     gt_ind_term?(i, n, f, t) IMPLIES
     select(f, delete(f, t)(n))(predecessor(i, num_arg(f, t))) = select(f, t)(i)
 
-gt_ind_term?_delete_delete_pred: CONJECTURE 
+gt_ind_term?_delete_delete_pred: LEMMA 
     gt_ind_term?(i, n, f, t) IMPLIES
     delete(f, delete(f, t)(n))(predecessor(i, num_arg(f, t))) =
     delete(f, delete(f, t)(i))(n)
+
+not_gt_ind_term?_select_delete_suc: CONJECTURE
+    NOT gt_ind_term?(i, n, f, t) AND num_arg(f, t) > 1 IMPLIES 
+    select(f, delete(f, t)(i))(n) = select(f, t)(successor(n))
 
 % TODO: maybe I won't need it 
 lt_ind_term?_select_delete: LEMMA
