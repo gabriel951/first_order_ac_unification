@@ -175,6 +175,12 @@
     (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
     (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL))
    NIL))
+ (|pos?_TCC1| 0
+  (|pos?_TCC1-1| NIL 3806706133 ("" (SUBTYPE-TCC) NIL NIL) NIL NIL))
+ (|pos?_TCC2| 0
+  (|pos?_TCC2-1| NIL 3806706133 ("" (TERMINATION-TCC) NIL NIL) NIL NIL))
+ (|pos?_TCC3| 0
+  (|pos?_TCC3-1| NIL 3806706133 ("" (SUBTYPE-TCC) NIL NIL) NIL NIL))
  (|count_elem_TCC1| 0
   (|count_elem_TCC1-1| NIL 3803367839 ("" (TCC))
    ((|pos?| DEF-DECL "[bool, nat]" |list_theory| NIL)
@@ -221,6 +227,12 @@
     (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
     (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL))
    NIL))
+ (|count_elem_TCC3| 0
+  (|count_elem_TCC3-1| NIL 3806706133 ("" (SUBTYPE-TCC) NIL NIL) NIL NIL))
+ (|count_elem_TCC4| 0
+  (|count_elem_TCC4-1| NIL 3806706133 ("" (TERMINATION-TCC) NIL NIL) NIL NIL))
+ (|count_elem_TCC5| 0
+  (|count_elem_TCC5-1| NIL 3806706133 ("" (SUBTYPE-TCC) NIL NIL) NIL NIL))
  (|get_multiplicity_TCC1| 0
   (|get_multiplicity_TCC1-1| NIL 3803477476 ("" (TCC))
    ((|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
@@ -333,6 +345,16 @@
     (|real_gt_is_strict_total_order| NAME-JUDGEMENT
      "(strict_total_order?[real])" |real_props| NIL))
    SHOSTAK))
+ (|select_args_TCC2| 0
+  (|select_args_TCC2-1| NIL 3806706133 ("" (SUBTYPE-TCC) NIL NIL) NIL NIL))
+ (|select_args_TCC3| 0
+  (|select_args_TCC3-1| NIL 3806706133 ("" (TERMINATION-TCC) NIL NIL) NIL NIL))
+ (|put_in_head_TCC1| 0
+  (|put_in_head_TCC1-1| NIL 3806706133 ("" (SUBTYPE-TCC) NIL NIL) NIL NIL))
+ (|put_in_head_TCC2| 0
+  (|put_in_head_TCC2-1| NIL 3806706133 ("" (TERMINATION-TCC) NIL NIL) NIL NIL))
+ (|put_in_head_TCC3| 0
+  (|put_in_head_TCC3-1| NIL 3806706133 ("" (SUBTYPE-TCC) NIL NIL) NIL NIL))
  (|get_repeat_lst_TCC1| 0
   (|get_repeat_lst_TCC1-1| NIL 3804618454 ("" (TCC))
    ((|real_ge_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
@@ -493,6 +515,14 @@
     (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
     (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL))
    NIL))
+ (|all_lsts_length?_TCC2| 0
+  (|all_lsts_length?_TCC2-1| NIL 3806706133 ("" (TERMINATION-TCC) NIL NIL) NIL
+   NIL))
+ (|get_all_sublists_TCC1| 0
+  (|get_all_sublists_TCC1-1| NIL 3806706133 ("" (TERMINATION-TCC) NIL NIL) NIL
+   NIL))
+ (|count_TCC1| 0
+  (|count_TCC1-1| NIL 3806706133 ("" (TERMINATION-TCC) NIL NIL) NIL NIL))
  (|get_col_i_TCC1| 0
   (|get_col_i_TCC1-1| NIL 3804618454 ("" (TCC))
    ((|real_ge_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
@@ -517,6 +547,8 @@
     (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
     (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL))
    SHOSTAK))
+ (|pareate_TCC1| 0
+  (|pareate_TCC1-1| NIL 3806706133 ("" (SUBTYPE-TCC) NIL NIL) NIL NIL))
  (|get_lst_after_n_TCC1| 0
   (|get_lst_after_n_TCC1-1| NIL 3805569188 ("" (TCC))
    ((|real_ge_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
@@ -1447,22 +1479,20 @@
    SHOSTAK))
  (|from_min2max_len| 0
   (|from_min2max_len-1| NIL 3805753437
-   ("" (MEASURE-INDUCT "n" "n")
-    (("" (SKOLEM 1 "n")
-      (("" (PROP)
-        (("" (SKEEP)
-          (("" (EXPAND "from_min2max" 1)
-            (("" (LIFT-IF)
-              (("" (PROP)
-                (("1" (GRIND) NIL NIL) ("2" (GRIND) NIL NIL)
-                 ("3" (REWRITE "length_append")
-                  (("3" (EXPAND "length" 2 1)
-                    (("3" (INST -1 "n-1")
-                      (("1" (PROP)
-                        (("1" (INST -1 "i") (("1" (GRIND) NIL NIL)) NIL)
-                         ("2" (GRIND) NIL NIL))
-                        NIL)
-                       ("2" (GRIND) NIL NIL))
+   ("" (MEASURE-INDUCT "max(0, n-i + 1)" ("i" "n"))
+    (("1" (SKOLEM 1 ("i" "n"))
+      (("1" (PROP)
+        (("1" (EXPAND "from_min2max" 1)
+          (("1" (LIFT-IF)
+            (("1" (SPLIT)
+              (("1" (GRIND) NIL NIL)
+               ("2" (FLATTEN)
+                (("2" (SPLIT)
+                  (("1" (GRIND) NIL NIL)
+                   ("2" (FLATTEN)
+                    (("2" (EXPAND "length" 2 1)
+                      (("2" (INST -1 "1+i" "n") (("2" (POSTPONE) NIL NIL))
+                        NIL))
                       NIL))
                     NIL))
                   NIL))
@@ -1471,7 +1501,8 @@
             NIL))
           NIL))
         NIL))
-      NIL))
+      NIL)
+     ("2" (HIDE 2) (("2" (GRIND) NIL NIL)) NIL))
     NIL)
    ((|nnint_plus_nnint_is_nnint| APPLICATION-JUDGEMENT "nonneg_int" |integers|
      NIL)
@@ -1701,7 +1732,7 @@
     (|real_ge_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
      |real_props| NIL)
     (|int_minus_int_is_int| APPLICATION-JUDGEMENT "int" |integers| NIL)
-    (- CONST-DECL "[numfield, numfield -> numfield]" |number_fields| NIL) NIL
+    (- CONST-DECL "[numfield, numfield -> numfield]" |number_fields| NIL)
     (|nnint_plus_posint_is_posint| APPLICATION-JUDGEMENT "posint" |integers|
      NIL)
     (|real_lt_is_strict_total_order| NAME-JUDGEMENT
@@ -1736,7 +1767,7 @@
     (= CONST-DECL "[T, T -> boolean]" |equalities| NIL)
     (|from_min2max| DEF-DECL "list[nat]" |list_theory| NIL)
     (|length| DEF-DECL "nat" |list_props| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL) NIL
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
     (|list| TYPE-DECL NIL |list_adt| NIL)
     (IMPLIES CONST-DECL "[bool, bool -> bool]" |booleans| NIL))

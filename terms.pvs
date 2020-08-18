@@ -33,12 +33,13 @@ constant: TYPE = nat
 f_symbol: TYPE = string
 ac_symbol: TYPE = string
 
-IMPORTING basic_notions,
+IMPORTING 
 	  term[constant, variable, f_symbol, ac_symbol],
 	  list_theory[term]
 
 sym, f: VAR string
 n, i, j: VAR nat
+lst_nat: VAR list[nat]
 
 t, s: VAR term
 
@@ -114,36 +115,31 @@ MEASURE t by <<
 % the functions "select" and "delete" act like it the number passed is "n"
 % this function takes that into account and return the predecessor of "i"
 % the predecessor of 0 does not make sense and is defined arbitrarily as 0 itself
-predecessor(i, n): nat =
-    IF i = 0 THEN 0 
-    ELSIF i >= n THEN n - 1
-    ELSE i - 1
-    ENDIF
+%predecessor(i, n): nat =
+%    IF i = 0 THEN 0 
+%    ELSIF i >= n THEN n - 1
+%    ELSE i - 1
+%    ENDIF
 
 % return the successor of "i", considering that a term has "n" arguments.
 % when you apply "select" and "delete" and the number passed "i" is 0
 % the functions "select" and "delete" act like the number passed was 1
 % this function takes that into account and return the successor of "i" (2 when i = 0) 
-successor(i): nat =
-    IF i = 0 THEN 2 
-    ELSE i + 1
+%successor(i): nat =
+%    IF i = 0 THEN 2 
+%    ELSE i + 1
+%    ENDIF
+
+% returns true case i > 0 and i <= n.
+nice_ind?(i, n): bool = i > 0 AND i <= n
+
+% returns true case nice_ind?(i, n) for every "i" in "lst_nat"
+nice_ind?(lst_nat, n): RECURSIVE bool =
+    IF null?(lst_nat) THEN TRUE
+    ELSE nice_ind?(car(lst_nat), n) AND nice_ind?(cdr(lst_nat), n)
     ENDIF
+MEASURE lst_nat BY << 
 
-
-% i = j in a sense described by the lemma of correctness of this function 
-eq_ind_term?(i, j, sym, t): bool =
-   LET n = num_arg(sym, t) IN
-   IF n = 1 THEN TRUE  
-   ELSE (i = j) OR (i = 0 AND j = 1) OR (i = 1 AND j = 0) OR (i >= n AND j >= n) 
-   ENDIF 
-
-% i > j in the sense of eq_ind_term?
-gt_ind_term?(i, j, sym, t): bool =
-   NOT eq_ind_term?(i, j, sym, t) AND i > j 
-
-% i < j, in the sense of lt_ind_term?
-lt_ind_term?(i, j, sym, t): bool = 
-   NOT eq_ind_term?(i, j, sym, t) AND i < j
 
 % get the arguments of a term t.
 % if it encounters an ac function whose root is "sym" it goes inside the function
@@ -167,9 +163,11 @@ MEASURE args BY <<
 
 get_ac_from_args(sym)(args): term = ac_app(sym, get_term_from_args(args))
 
+% TODO: check if this is needed
 simple_term?(f, t): bool = 
    cons(t, null) = get_args(f)(t)
 
+% TODO: check if this is needed
 simple_args?(f, args): RECURSIVE bool =
     IF null?(args) THEN TRUE
     ELSE LET t = car(args) IN
@@ -247,31 +245,48 @@ num_arg_select_delete: LEMMA
     num_arg(f, t) = num_arg(f, select(f, t)(i)) + num_arg(f, delete(f, t)(i)) 
 
 % eq_ind_term?, gt_ind_term?
-eq_ind_term?_correctness: LEMMA
-    eq_ind_term?(i, n, f, t) IMPLIES
-    select(f, t)(i) = select(f, t)(n) AND delete(f, t)(i) = delete(f, t)(n) 
+%eq_ind_term?_correctness: LEMMA
+%    eq_ind_term?(i, n, f, t) IMPLIES
+%    select(f, t)(i) = select(f, t)(n) AND delete(f, t)(i) = delete(f, t)(n) 
 
-gt_ind_term?_select_delete: LEMMA
-    gt_ind_term?(i, n, f, t) IMPLIES
+% old/new
+%gt_ind_term?_select_delete: LEMMA
+%    gt_ind_term?(i, n, f, t) IMPLIES
+%    select(f, delete(f, t)(i))(n) = select(f, t)(n) 
+
+gt_select_delete: LEMMA 
+    nice_ind?((: i, n :), num_arg(f, t)) AND i > n IMPLIES 
     select(f, delete(f, t)(i))(n) = select(f, t)(n) 
 
-gt_ind_term?_select_delete_pred: LEMMA
-    gt_ind_term?(i, n, f, t) IMPLIES
-    select(f, delete(f, t)(n))(predecessor(i, num_arg(f, t))) = select(f, t)(i)
+le_select_delete: LEMMA
+    nice_ind?((: i, n :), num_arg(f, t)-1) AND num_arg(f, t) > 1 AND i <= n
+    IMPLIES select(f, delete(f, t)(i))(n) = select(f, t)(n+1)
 
-gt_ind_term?_delete_delete_pred: LEMMA 
-    gt_ind_term?(i, n, f, t) IMPLIES
-    delete(f, delete(f, t)(n))(predecessor(i, num_arg(f, t))) =
-    delete(f, delete(f, t)(i))(n)
+% old/new
+%gt_ind_term?_select_delete_pred: LEMMA
+%    gt_ind_term?(i, n, f, t) IMPLIES
+%    select(f, delete(f, t)(n))(predecessor(i, num_arg(f, t))) = select(f, t)(i)
 
-not_gt_ind_term?_select_delete_suc: CONJECTURE
-    NOT gt_ind_term?(i, n, f, t) AND num_arg(f, t) > 1 IMPLIES 
-    select(f, delete(f, t)(i))(n) = select(f, t)(successor(n))
+gt_select_delete2: LEMMA
+    nice_ind?((: i, n :), num_arg(f, t)) AND i > n IMPLIES
+    select(f, delete(f, t)(n))(i-1) = select(f, t)(i) 
+    
 
-% TODO: maybe I won't need it 
-lt_ind_term?_select_delete: LEMMA
-    lt_ind_term?(i, n, f, t) IMPLIES
-    select(f, delete(f, t)(i))(n) = select(f, t)(n+1)
+% old/new
+%gt_ind_term?_delete_delete_pred: LEMMA 
+%    gt_ind_term?(i, n, f, t) IMPLIES
+%    delete(f, delete(f, t)(n))(predecessor(i, num_arg(f, t))) =
+%    delete(f, delete(f, t)(i))(n)
+
+gt_delete_delete: LEMMA
+    nice_ind?((: i, n :), num_arg(f, t)) AND i > n IMPLIES 
+    delete(f, delete(f, t)(n))(i-1) = delete(f, delete(f, t)(i))(n)
+
+% old/new
+%gt_ind_term?_delete_delete_
+%not_gt_ind_term?_select_delete_suc: CONJECTURE
+%    NOT gt_ind_term?(i, n, f, t) AND num_arg(f, t) > 1 IMPLIES 
+%    select(f, delete(f, t)(i))(n) = select(f, t)(successor(n))
 
 % get args
 get_args_len: LEMMA

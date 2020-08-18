@@ -72,13 +72,6 @@ from_min2max(min, max): RECURSIVE list[nat] =
     ENDIF
 MEASURE max(0, max-min) 
 
-% TODO: show Ayala this
-from_min2max_bug?(min, max): RECURSIVE list[nat] =
-    IF min > max THEN null
-    ELSE cons(min, from_min2max_bug?(min, max))
-    ENDIF
-MEASURE max(0, max - min) 
-
 % increments by "inc" the number in position "n" of the list of natural numbers "lst_nat"
 % we start counting at 1
 increment(lst_nat, n, inc): RECURSIVE list[nat] =
