@@ -279,10 +279,10 @@ get_lst_mult(lst, coef): RECURSIVE list[T] =
 MEASURE lst BY << 
 
 % remove the ith element from lst.
-% counting starts at 1
+% counting starts at 0
 remove(lst, i): RECURSIVE list[T] =
     IF null?(lst) THEN null 
-    ELSIF i = 1 THEN cdr(lst) 
+    ELSIF i = 0 THEN cdr(lst) 
     ELSE LET x = car(lst) IN cons(x, remove(cdr(lst), i-1))
     ENDIF
 MEASURE lst BY << 
