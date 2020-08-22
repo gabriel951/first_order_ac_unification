@@ -6,6 +6,8 @@
      "(strict_total_order?[real])" |real_props| NIL)
     (|posint_plus_nnint_is_posint| APPLICATION-JUDGEMENT "posint" |integers|
      NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
     (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
     (TRUE CONST-DECL "bool" |booleans| NIL) (>= CONST-DECL "bool" |reals| NIL)
     (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
@@ -16,6 +18,9 @@
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
     (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
     (|char| TYPE-EQ-DECL NIL |strings| NIL)
     (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
     (|character| TYPE-DECL NIL |character_adt| NIL)
@@ -34,6 +39,8 @@
      "(strict_total_order?[real])" |real_props| NIL)
     (|posint_plus_nnint_is_posint| APPLICATION-JUDGEMENT "posint" |integers|
      NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
     (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
     (TRUE CONST-DECL "bool" |booleans| NIL) (>= CONST-DECL "bool" |reals| NIL)
     (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
@@ -44,6 +51,9 @@
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
     (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
     (|char| TYPE-EQ-DECL NIL |strings| NIL)
     (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
     (|character| TYPE-DECL NIL |character_adt| NIL)
@@ -62,6 +72,8 @@
      NIL)
     (|real_lt_is_strict_total_order| NAME-JUDGEMENT
      "(strict_total_order?[real])" |real_props| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
     (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
     (TRUE CONST-DECL "bool" |booleans| NIL) (>= CONST-DECL "bool" |reals| NIL)
     (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
@@ -72,6 +84,9 @@
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
     (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
     (|char| TYPE-EQ-DECL NIL |strings| NIL)
     (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
     (|character| TYPE-DECL NIL |character_adt| NIL)
@@ -84,19 +99,270 @@
     (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL))
    NIL))
  (|equal?_TCC4| 0
-  (|equal?_TCC4-1| NIL 3805199365 ("" (TERMINATION-TCC) NIL NIL) NIL SHOSTAK))
+  (|equal?_TCC4-1| NIL 3805199365
+   ("" (SKEEP)
+    (("" (SKEEP)
+      (("" (SKEEP)
+        (("" (LEMMA "ac_select_size")
+          (("" (INST -1 "sym" "i" "t")
+            (("" (ASSERT)
+              (("" (HIDE 2)
+                (("" (EXPAND "is_ac_sym?" 1)
+                  (("" (LEMMA "term_ac_app_eta")
+                    (("" (INST? -1) (("" (ASSERT) (("" (GRIND) NIL NIL)) NIL))
+                      NIL))
+                    NIL))
+                  NIL))
+                NIL))
+              NIL))
+            NIL))
+          NIL))
+        NIL))
+      NIL))
+    NIL)
+   ((|ac_select_size| FORMULA-DECL NIL |term_properties| NIL)
+    (|real_le_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
+     |real_props| NIL)
+    (|real_gt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|real_lt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|is_ac_sym?| CONST-DECL "bool" |term_properties| NIL)
+    (|ac_app?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL)
+    (|num_arg| DEF-DECL "nat" |term_properties| NIL)
+    (|term_ac_app_eta| FORMULA-DECL NIL |term_adt| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (>= CONST-DECL "bool" |reals| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|string| TYPE-EQ-DECL NIL |strings| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL))
+   SHOSTAK))
  (|equal?_TCC5| 0
-  (|equal?_TCC5-1| NIL 3805199365 ("" (TERMINATION-TCC) NIL NIL) NIL SHOSTAK))
+  (|equal?_TCC5-1| NIL 3805199365
+   ("" (SKEEP)
+    (("" (SKEEP)
+      (("" (SKEEP)
+        (("" (HIDE -5)
+          (("" (LEMMA "ac_delete_size")
+            (("" (INST? -1) (("" (ASSERT) NIL NIL)) NIL)) NIL))
+          NIL))
+        NIL))
+      NIL))
+    NIL)
+   ((|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|string| TYPE-EQ-DECL NIL |strings| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (>= CONST-DECL "bool" |reals| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|real_le_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
+     |real_props| NIL)
+    (|real_gt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|real_lt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|ac_delete_size| FORMULA-DECL NIL |term_properties| NIL))
+   SHOSTAK))
  (|equal?_TCC6| 0
-  (|equal?_TCC6-1| NIL 3805638096 ("" (SUBTYPE-TCC) NIL NIL) NIL NIL))
+  (|equal?_TCC6-1| NIL 3805638096 ("" (TCC))
+   ((|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL) (>= CONST-DECL "bool" |reals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|list| TYPE-DECL NIL |list_adt| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (NOT CONST-DECL "[bool -> bool]" |booleans| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL))
+   NIL))
  (|equal?_TCC7| 0
-  (|equal?_TCC7-1| NIL 3805638096 ("" (SUBTYPE-TCC) NIL NIL) NIL NIL))
+  (|equal?_TCC7-1| NIL 3805638096 ("" (TCC))
+   ((|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL) (>= CONST-DECL "bool" |reals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|list| TYPE-DECL NIL |list_adt| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (NOT CONST-DECL "[bool -> bool]" |booleans| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL))
+   NIL))
  (|equal?_TCC8| 0
-  (|equal?_TCC8-1| NIL 3805638096 ("" (TERMINATION-TCC) NIL NIL) NIL NIL))
+  (|equal?_TCC8-1| NIL 3805638096 ("" (TCC))
+   ((|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (<< ADT-DEF-DECL "(strict_well_founded?[list])" |list_adt| NIL)
+    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL) (>= CONST-DECL "bool" |reals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|list| TYPE-DECL NIL |list_adt| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (NOT CONST-DECL "[bool -> bool]" |booleans| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL))
+   NIL))
  (|equal?_TCC9| 0
-  (|equal?_TCC9-1| NIL 3805638096 ("" (SUBTYPE-TCC) NIL NIL) NIL NIL))
+  (|equal?_TCC9-1| NIL 3805638096 ("" (TCC))
+   ((|args| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL) (>= CONST-DECL "bool" |reals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|list| TYPE-DECL NIL |list_adt| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (NOT CONST-DECL "[bool -> bool]" |booleans| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL))
+   NIL))
  (|perm?_TCC1| 0
-  (|perm?_TCC1-1| NIL 3805821573 ("" (TERMINATION-TCC) NIL NIL) NIL NIL))
+  (|perm?_TCC1-1| NIL 3805821573
+   ("" (SKEEP)
+    (("" (SKEEP)
+      (("" (HIDE -1)
+        (("" (LEMMA "remove_len") (("" (INST? -1) (("" (ASSERT) NIL NIL)) NIL))
+          NIL))
+        NIL))
+      NIL))
+    NIL)
+   ((|remove_len| FORMULA-DECL NIL |list_theory| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (>= CONST-DECL "bool" |reals| NIL) (TRUE CONST-DECL "bool" |booleans| NIL)
+    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|real_lt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|length| DEF-DECL "nat" |list_props| NIL)
+    (|list| TYPE-DECL NIL |list_adt| NIL) (< CONST-DECL "bool" |reals| NIL))
+   SHOSTAK))
  (|equal?_len| 0
   (|equal?_len-1| NIL 3805638764
    ("" (MEASURE-INDUCT "length(args1)" "args1")
@@ -128,6 +394,8 @@
     (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
     (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
     (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
     (|term| TYPE-DECL NIL |term_adt| NIL) (|list| TYPE-DECL NIL |list_adt| NIL)
     (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
@@ -143,12 +411,14 @@
     (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
     (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
     (|naturalnumber| TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
     (|length| DEF-DECL "nat" |list_props| NIL)
     (< CONST-DECL "bool" |reals| NIL)
     (|well_founded?| CONST-DECL "bool" |orders| NIL)
     (|pred| TYPE-EQ-DECL NIL |defined_types| NIL)
-    (|cons?| ADT-RECOGNIZER-DECL "[list -> boolean]" |list_adt| NIL)
     (|cdr| ADT-ACCESSOR-DECL "[(cons?) -> list]" |list_adt| NIL)
+    (|cons?| ADT-RECOGNIZER-DECL "[list -> boolean]" |list_adt| NIL)
     (|nnint_plus_posint_is_posint| APPLICATION-JUDGEMENT "posint" |integers|
      NIL)
     (|posint_plus_nnint_is_posint| APPLICATION-JUDGEMENT "posint" |integers|
@@ -197,113 +467,144 @@
                   NIL)
                  ("6" (CASE "ac_app?(t)")
                   (("1" (HIDE 1 2 3 4 5)
-                    (("1" (SKEEP)
-                      (("1" (CASE "num_arg(f, t) = 1")
-                        (("1" (LEMMA "num_arg1_delete")
-                          (("1" (INST? -1)
-                            (("1" (HIDE -8)
-                              (("1" (EXPAND "num_arg" 1)
-                                (("1" (ASSERT)
-                                  (("1" (LIFT-IF)
-                                    (("1" (ASSERT)
-                                      (("1" (SPLIT 1)
-                                        (("1" (FLATTEN)
-                                          (("1" (ASSERT)
-                                            (("1" (REPLACE -1 -7)
-                                              (("1" (REPLACE -2 -8)
-                                                (("1" (EXPAND "equal?" -8)
-                                                  (("1"
-                                                    (LEMMA "delete_num_arg")
-                                                    (("1" (INST -1 "f" "j" "s")
-                                                      (("1" (ASSERT)
-                                                        (("1" (PROP)
-                                                          (("1" (HIDE -8 -9)
-                                                            (("1" (GRIND) NIL
-                                                              NIL))
-                                                            NIL)
-                                                           ("2"
-                                                            (EXPAND
-                                                             "is_ac_sym?" 1)
-                                                            (("2" (PROPAX) NIL
+                    (("1" (ASSERT)
+                      (("1" (CASE "num_arg(f, t) > 1")
+                        (("1" (FLATTEN)
+                          (("1" (HIDE -6)
+                            (("1" (SKEEP)
+                              (("1" (CASE "f = ac_sym(t)")
+                                (("1" (REPLACE -1 (-7 -9 -10 -11) RL)
+                                  (("1" (LEMMA "num_arg_select_delete")
+                                    (("1" (INST? -1)
+                                      (("1" (ASSERT)
+                                        (("1" (REPLACE -1 1)
+                                          (("1" (HIDE -1)
+                                            (("1"
+                                              (LEMMA "num_arg_select_delete")
+                                              (("1" (INST -1 "f" "j" "s")
+                                                (("1" (PROP)
+                                                  (("1" (REPLACE -1 1)
+                                                    (("1" (HIDE -1)
+                                                      (("1" (HIDE -6 -7 -8 -9)
+                                                        (("1" (REVEAL -8)
+                                                          (("1"
+                                                            (INST -1
+                                                             "select(f, t)(i)")
+                                                            (("1" (PROP)
+                                                              (("1"
+                                                                (INST -1 "f"
+                                                                 "select(f, s)(j)")
+                                                                (("1" (ASSERT)
+                                                                  (("1"
+                                                                    (REPLACE -1
+                                                                             1)
+                                                                    (("1"
+                                                                      (ASSERT)
+                                                                      (("1"
+                                                                        (HIDE
+                                                                         -1)
+                                                                        (("1"
+                                                                          (HIDE
+                                                                           -6)
+                                                                          (("1"
+                                                                            (REVEAL
+                                                                             -11)
+                                                                            (("1"
+                                                                              (INST
+                                                                               -1
+                                                                               "delete(f, t)(i)")
+                                                                              (("1"
+                                                                                (PROP)
+                                                                                (("1"
+                                                                                  (INST
+                                                                                   -1
+                                                                                   "f"
+                                                                                   "delete(f, s)(j)")
+                                                                                  (("1"
+                                                                                    (ASSERT)
+                                                                                    NIL
+                                                                                    NIL))
+                                                                                  NIL)
+                                                                                 ("2"
+                                                                                  (LEMMA
+                                                                                   "num_arg_delete_size")
+                                                                                  (("2"
+                                                                                    (INST?
+                                                                                     -1)
+                                                                                    (("2"
+                                                                                      (ASSERT)
+                                                                                      NIL
+                                                                                      NIL))
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL)
+                                                               ("2"
+                                                                (LEMMA
+                                                                 "ac_select_size")
+                                                                (("2"
+                                                                  (INST? -1)
+                                                                  (("2"
+                                                                    (ASSERT)
+                                                                    (("2"
+                                                                      (EXPAND
+                                                                       "is_ac_sym?"
+                                                                       1)
+                                                                      (("2"
+                                                                        (PROPAX)
+                                                                        NIL
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
                                                               NIL))
                                                             NIL))
                                                           NIL))
                                                         NIL))
                                                       NIL))
-                                                    NIL))
-                                                  NIL))
-                                                NIL))
-                                              NIL))
-                                            NIL))
-                                          NIL)
-                                         ("2" (PROPAX) NIL NIL))
-                                        NIL))
-                                      NIL))
-                                    NIL))
-                                  NIL))
-                                NIL))
-                              NIL))
-                            NIL))
-                          NIL)
-                         ("2" (CASE "f = ac_sym(t)")
-                          (("1" (REPLACE -1 -5 RL)
-                            (("1" (REPLACE -1 -6 RL)
-                              (("1" (CASE "num_arg(f, t) > 1")
-                                (("1" (LEMMA "num_arg_select_delete")
-                                  (("1" (INST? -1)
-                                    (("1" (ASSERT)
-                                      (("1" (REPLACE -1 2 NIL T)
-                                        (("1" (HIDE -1)
-                                          (("1" (CASE "num_arg(f, s) > 1")
-                                            (("1"
-                                              (LEMMA "num_arg_select_delete")
-                                              (("1" (INST -1 "f" "j" "s")
-                                                (("1" (ASSERT)
-                                                  (("1" (REPLACE -1 2 NIL T)
-                                                    (("1"
-                                                      (INST -8
-                                                       "select(f, t)(i)")
-                                                      (("1" (PROP)
+                                                    NIL)
+                                                   ("2"
+                                                    (CASE "num_arg(f, s) = 1")
+                                                    (("1" (HIDE -7 -8 -9 -10 2)
+                                                      (("1"
+                                                        (LEMMA
+                                                         "num_arg1_delete")
                                                         (("1"
-                                                          (INST -1 "f"
-                                                           "select(f, s)(j)")
+                                                          (INST -1 "f" "j" "s")
                                                           (("1" (ASSERT)
                                                             (("1"
-                                                              (REPLACE -1 2)
-                                                              (("1" (ASSERT)
-                                                                (("1" (HIDE -1)
+                                                              (REPLACE -1 -9)
+                                                              (("1"
+                                                                (LEMMA
+                                                                 "delete_ac_num_arg_gt1")
+                                                                (("1"
+                                                                  (INST -1 "f"
+                                                                   "i" "t")
                                                                   (("1"
-                                                                    (REVEAL -3)
+                                                                    (ASSERT)
                                                                     (("1"
-                                                                      (INST -1
-                                                                       "delete(f, t)(i)")
+                                                                      (EXPAND
+                                                                       "is_ac_sym?"
+                                                                       -1)
                                                                       (("1"
-                                                                        (PROP)
+                                                                        (EXPAND
+                                                                         "equal?"
+                                                                         -10)
                                                                         (("1"
-                                                                          (INST
-                                                                           -1
-                                                                           "f"
-                                                                           "delete(f, s)(j)")
+                                                                          (LIFT-IF)
                                                                           (("1"
                                                                             (ASSERT)
-                                                                            NIL
-                                                                            NIL))
-                                                                          NIL)
-                                                                         ("2"
-                                                                          (HIDE
-                                                                           -6
-                                                                           -7 2
-                                                                           3)
-                                                                          (("2"
-                                                                            (LEMMA
-                                                                             "ac_delete_size")
-                                                                            (("2"
-                                                                              (INST?
-                                                                               -1)
-                                                                              (("2"
-                                                                                (ASSERT)
-                                                                                NIL
-                                                                                NIL))
+                                                                            (("1"
+                                                                              (GRIND)
+                                                                              NIL
                                                                               NIL))
                                                                             NIL))
                                                                           NIL))
@@ -314,67 +615,16 @@
                                                                 NIL))
                                                               NIL))
                                                             NIL))
-                                                          NIL)
-                                                         ("2"
-                                                          (LEMMA
-                                                           "ac_select_size")
-                                                          (("2" (INST? -1)
-                                                            (("2" (ASSERT)
-                                                              (("2"
-                                                                (EXPAND
-                                                                 "is_ac_sym?")
-                                                                (("2" (PROPAX)
-                                                                  NIL NIL))
-                                                                NIL))
-                                                              NIL))
-                                                            NIL))
+                                                          NIL))
+                                                        NIL))
+                                                      NIL)
+                                                     ("2" (LEMMA "num_arg_ge1")
+                                                      (("2" (INST? -1)
+                                                        (("2" (ASSERT) NIL
                                                           NIL))
                                                         NIL))
                                                       NIL))
                                                     NIL))
-                                                  NIL))
-                                                NIL))
-                                              NIL)
-                                             ("2" (CASE "num_arg(f, s) = 1")
-                                              (("1" (LEMMA "num_arg1_delete")
-                                                (("1" (HIDE -9)
-                                                  (("1" (INST -1 "f" "j" "s")
-                                                    (("1" (ASSERT)
-                                                      (("1" (REPLACE -1 -8)
-                                                        (("1"
-                                                          (CASE
-                                                              "delete(f, t)(i) = unit")
-                                                          (("1"
-                                                            (LEMMA
-                                                             "delete_num_arg")
-                                                            (("1" (INST? -1)
-                                                              (("1" (ASSERT)
-                                                                (("1"
-                                                                  (EXPAND
-                                                                   "is_ac_sym?"
-                                                                   1)
-                                                                  (("1"
-                                                                    (PROPAX)
-                                                                    NIL NIL))
-                                                                  NIL))
-                                                                NIL))
-                                                              NIL))
-                                                            NIL)
-                                                           ("2"
-                                                            (HIDE -1 -2 -3 -4
-                                                             -6 -7 2 3 4)
-                                                            (("2" (GRIND) NIL
-                                                              NIL))
-                                                            NIL))
-                                                          NIL))
-                                                        NIL))
-                                                      NIL))
-                                                    NIL))
-                                                  NIL))
-                                                NIL)
-                                               ("2" (LEMMA "num_arg_ge1")
-                                                (("2" (INST -1 "f" "s")
-                                                  (("2" (ASSERT) NIL NIL))
                                                   NIL))
                                                 NIL))
                                               NIL))
@@ -384,16 +634,46 @@
                                       NIL))
                                     NIL))
                                   NIL)
-                                 ("2" (HIDE -5 -6 -7 3)
-                                  (("2" (LEMMA "num_arg_ge1")
-                                    (("2" (INST? -1) (("2" (GRIND) NIL NIL))
+                                 ("2" (EXPAND "num_arg" -1)
+                                  (("2" (ASSERT) NIL NIL)) NIL))
+                                NIL))
+                              NIL))
+                            NIL))
+                          NIL)
+                         ("2" (FLATTEN)
+                          (("2" (HIDE -5)
+                            (("2" (SKEEP)
+                              (("2" (CASE "num_arg(f, t) = 1")
+                                (("1" (EXPAND "num_arg" -1)
+                                  (("1" (ASSERT)
+                                    (("1" (LIFT-IF)
+                                      (("1" (SPLIT)
+                                        (("1" (FLATTEN)
+                                          (("1" (REPLACE -1)
+                                            (("1" (HIDE -10)
+                                              (("1" (EXPAND "delete" -10)
+                                                (("1" (ASSERT)
+                                                  (("1" (EXPAND "equal?" -10)
+                                                    (("1" (PROPAX) NIL NIL))
+                                                    NIL))
+                                                  NIL))
+                                                NIL))
+                                              NIL))
+                                            NIL))
+                                          NIL)
+                                         ("2" (HIDE -8 -9 2)
+                                          (("2" (GRIND) NIL NIL)) NIL))
+                                        NIL))
                                       NIL))
+                                    NIL))
+                                  NIL)
+                                 ("2" (LEMMA "num_arg_ge1")
+                                  (("2" (INST? -1) (("2" (ASSERT) NIL NIL))
                                     NIL))
                                   NIL))
                                 NIL))
                               NIL))
-                            NIL)
-                           ("2" (HIDE -4 -5) (("2" (GRIND) NIL NIL)) NIL))
+                            NIL))
                           NIL))
                         NIL))
                       NIL))
@@ -453,21 +733,21 @@
     (|term1| ADT-ACCESSOR-DECL "[(pair?) -> term]" |term_adt| NIL)
     (|arg| ADT-ACCESSOR-DECL "[(app?) -> term]" |term_adt| NIL)
     (|app?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL)
-    (|ac_sym| ADT-ACCESSOR-DECL "[(ac_app?) -> ac_symbol]" |term_adt| NIL)
-    (|delete_num_arg| FORMULA-DECL NIL |term_properties| NIL)
-    (|is_ac_sym?| CONST-DECL "bool" |term_properties| NIL)
-    (|delete| DEF-DECL "term" |term_properties| NIL)
-    (|num_arg1_delete| FORMULA-DECL NIL |term_properties| NIL)
     (> CONST-DECL "bool" |reals| NIL)
-    (|ac_delete_size| FORMULA-DECL NIL |term_properties| NIL)
-    (|ac_select_size| FORMULA-DECL NIL |term_properties| NIL)
-    (|select| DEF-DECL "term" |term_properties| NIL)
-    (|num_arg_ge1| FORMULA-DECL NIL |term_properties| NIL)
-    (|unit| ADT-CONSTRUCTOR-DECL "(unit?)" |term_adt| NIL)
-    (|unit?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL)
+    (|ac_sym| ADT-ACCESSOR-DECL "[(ac_app?) -> ac_symbol]" |term_adt| NIL)
+    (|num_arg_select_delete| FORMULA-DECL NIL |term_properties| NIL)
     (|real_gt_is_strict_total_order| NAME-JUDGEMENT
      "(strict_total_order?[real])" |real_props| NIL)
-    (|num_arg_select_delete| FORMULA-DECL NIL |term_properties| NIL)
+    (|real_le_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
+     |real_props| NIL)
+    (|num_arg1_delete| FORMULA-DECL NIL |term_properties| NIL)
+    (|delete_ac_num_arg_gt1| FORMULA-DECL NIL |term_properties| NIL)
+    (|num_arg_ge1| FORMULA-DECL NIL |term_properties| NIL)
+    (|select| DEF-DECL "term" |term_properties| NIL)
+    (|ac_select_size| FORMULA-DECL NIL |term_properties| NIL)
+    (|is_ac_sym?| CONST-DECL "bool" |term_properties| NIL)
+    (|num_arg_delete_size| FORMULA-DECL NIL |term_properties| NIL)
+    (|delete| DEF-DECL "term" |term_properties| NIL)
     (|ac_app?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL))
    SHOSTAK))
  (|equal?_append| 0
@@ -516,43 +796,47 @@
         NIL))
       NIL))
     NIL)
-   ((|cons?| ADT-RECOGNIZER-DECL "[list -> boolean]" |list_adt| NIL)
-    (|cdr| ADT-ACCESSOR-DECL "[(cons?) -> list]" |list_adt| NIL)
-    (|real_lt_is_strict_total_order| NAME-JUDGEMENT
-     "(strict_total_order?[real])" |real_props| NIL)
+   ((IMPLIES CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|append| DEF-DECL "list[T]" |list_props| NIL)
+    (|wf_nat| FORMULA-DECL NIL |naturalnumbers| NIL)
+    (|measure_induction| FORMULA-DECL NIL |measure_induction| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL) (|list| TYPE-DECL NIL |list_adt| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (>= CONST-DECL "bool" |reals| NIL) (TRUE CONST-DECL "bool" |booleans| NIL)
+    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|naturalnumber| TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|length| DEF-DECL "nat" |list_props| NIL)
+    (< CONST-DECL "bool" |reals| NIL)
+    (|well_founded?| CONST-DECL "bool" |orders| NIL)
+    (|pred| TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|list_cons_eta| FORMULA-DECL NIL |list_adt| NIL)
     (|nnint_plus_posint_is_posint| APPLICATION-JUDGEMENT "posint" |integers|
      NIL)
-    (|list_cons_eta| FORMULA-DECL NIL |list_adt| NIL)
-    (|pred| TYPE-EQ-DECL NIL |defined_types| NIL)
-    (|well_founded?| CONST-DECL "bool" |orders| NIL)
-    (< CONST-DECL "bool" |reals| NIL)
-    (|length| DEF-DECL "nat" |list_props| NIL)
-    (|naturalnumber| TYPE-EQ-DECL NIL |naturalnumbers| NIL)
-    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
-    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
-    (TRUE CONST-DECL "bool" |booleans| NIL) (>= CONST-DECL "bool" |reals| NIL)
-    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
-    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
-    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
-    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
-    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
-    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
-    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
-    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
-    (|list| TYPE-DECL NIL |list_adt| NIL) (|term| TYPE-DECL NIL |term_adt| NIL)
-    (|char| TYPE-EQ-DECL NIL |strings| NIL)
-    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
-    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
-    (|character| TYPE-DECL NIL |character_adt| NIL)
-    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
-    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
-    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
-    (|measure_induction| FORMULA-DECL NIL |measure_induction| NIL)
-    (|wf_nat| FORMULA-DECL NIL |naturalnumbers| NIL)
-    (|append| DEF-DECL "list[T]" |list_props| NIL)
-    (IMPLIES CONST-DECL "[bool, bool -> bool]" |booleans| NIL))
+    (|real_lt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|cdr| ADT-ACCESSOR-DECL "[(cons?) -> list]" |list_adt| NIL)
+    (|cons?| ADT-RECOGNIZER-DECL "[list -> boolean]" |list_adt| NIL))
    SHOSTAK))
  (|equal?_get_repeat_lst| 0
   (|equal?_get_repeat_lst-1| NIL 3805640704
@@ -580,44 +864,48 @@
         NIL))
       NIL))
     NIL)
-   ((|int_minus_int_is_int| APPLICATION-JUDGEMENT "int" |integers| NIL)
-    (|numfield| NONEMPTY-TYPE-EQ-DECL NIL |number_fields| NIL)
-    (- CONST-DECL "[numfield, numfield -> numfield]" |number_fields| NIL)
-    (|real_ge_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
-     |real_props| NIL)
+   ((|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (IMPLIES CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|list| TYPE-DECL NIL |list_adt| NIL)
+    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|get_repeat_lst| DEF-DECL "list[T]" |list_theory| NIL)
+    (|wf_nat| FORMULA-DECL NIL |naturalnumbers| NIL)
+    (|measure_induction| FORMULA-DECL NIL |measure_induction| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (>= CONST-DECL "bool" |reals| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|naturalnumber| TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (< CONST-DECL "bool" |reals| NIL)
+    (|well_founded?| CONST-DECL "bool" |orders| NIL)
+    (|pred| TYPE-EQ-DECL NIL |defined_types| NIL)
     (|real_lt_is_strict_total_order| NAME-JUDGEMENT
      "(strict_total_order?[real])" |real_props| NIL)
-    (|pred| TYPE-EQ-DECL NIL |defined_types| NIL)
-    (|well_founded?| CONST-DECL "bool" |orders| NIL)
-    (< CONST-DECL "bool" |reals| NIL)
-    (|naturalnumber| TYPE-EQ-DECL NIL |naturalnumbers| NIL)
-    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
-    (>= CONST-DECL "bool" |reals| NIL)
-    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
-    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
-    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
-    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
-    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
-    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
-    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
-    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
-    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
-    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
-    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
-    (|measure_induction| FORMULA-DECL NIL |measure_induction| NIL)
-    (|wf_nat| FORMULA-DECL NIL |naturalnumbers| NIL)
-    (|get_repeat_lst| DEF-DECL "list[T]" |list_theory| NIL)
-    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
-    (|list| TYPE-DECL NIL |list_adt| NIL)
-    (IMPLIES CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (TRUE CONST-DECL "bool" |booleans| NIL)
-    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
-    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
-    (|term| TYPE-DECL NIL |term_adt| NIL)
-    (|char| TYPE-EQ-DECL NIL |strings| NIL)
-    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
-    (|character| TYPE-DECL NIL |character_adt| NIL)
-    (|below| TYPE-EQ-DECL NIL |nat_types| NIL))
+    (|real_ge_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
+     |real_props| NIL)
+    (|numfield| NONEMPTY-TYPE-EQ-DECL NIL |number_fields| NIL)
+    (- CONST-DECL "[numfield, numfield -> numfield]" |number_fields| NIL)
+    (|int_minus_int_is_int| APPLICATION-JUDGEMENT "int" |integers| NIL))
    SHOSTAK))
  (|equal?_get_lst_mult| 0
   (|equal?_get_lst_mult-1| NIL 3805638096
@@ -685,6 +973,8 @@
     (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
     (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
     (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
     (|term| TYPE-DECL NIL |term_adt| NIL) (|list| TYPE-DECL NIL |list_adt| NIL)
     (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
@@ -700,6 +990,8 @@
     (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
     (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
     (|naturalnumber| TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
     (|length| DEF-DECL "nat" |list_props| NIL)
     (< CONST-DECL "bool" |reals| NIL)
     (|well_founded?| CONST-DECL "bool" |orders| NIL)
@@ -714,6 +1006,126 @@
      NIL)
     (|equal?_get_repeat_lst| FORMULA-DECL NIL |equality| NIL)
     (|equal?_append| FORMULA-DECL NIL |equality| NIL))
+   SHOSTAK))
+ (|equal?_ref| 0
+  (|equal?_ref-1| NIL 3806941516
+   ("" (MEASURE-INDUCT "size(t)" "t")
+    (("" (SKOLEM 1 "t")
+      (("" (PROP)
+        (("" (EXPAND "equal?" 1)
+          (("" (LIFT-IF)
+            (("" (PROP)
+              (("1" (LEMMA "term_const_eta")
+                (("1" (INST? -1) (("1" (ASSERT) NIL NIL)) NIL)) NIL)
+               ("2" (LEMMA "term_variable_eta")
+                (("2" (INST? -1) (("2" (ASSERT) NIL NIL)) NIL)) NIL)
+               ("3" (GRIND) NIL NIL)
+               ("4" (INST -2 "term1(t)") (("4" (GRIND) NIL NIL)) NIL)
+               ("5" (INST -2 "term2(t)") (("5" (GRIND) NIL NIL)) NIL)
+               ("6" (INST -2 "arg(t)") (("6" (GRIND) NIL NIL)) NIL)
+               ("7" (ASSERT)
+                (("7" (CASE "ac_app?(t)")
+                  (("1" (ASSERT)
+                    (("1" (INST 2 "1" "1")
+                      (("1" (ASSERT)
+                        (("1" (PROP)
+                          (("1" (LEMMA "num_arg_ge1")
+                            (("1" (INST? -1) (("1" (ASSERT) NIL NIL)) NIL))
+                            NIL)
+                           ("2" (LEMMA "num_arg_ge1")
+                            (("2" (INST? -1) (("2" (ASSERT) NIL NIL)) NIL))
+                            NIL)
+                           ("3" (INST? -2)
+                            (("3" (ASSERT)
+                              (("3" (LEMMA "ac_select_size")
+                                (("3" (INST? -1) (("3" (GRIND) NIL NIL)) NIL))
+                                NIL))
+                              NIL))
+                            NIL)
+                           ("4" (LEMMA "ac_delete_size")
+                            (("4" (INST? -1) (("4" (GRIND) NIL NIL)) NIL))
+                            NIL))
+                          NIL))
+                        NIL))
+                      NIL))
+                    NIL)
+                   ("2" (HIDE 3) (("2" (GRIND) NIL NIL)) NIL))
+                  NIL))
+                NIL))
+              NIL))
+            NIL))
+          NIL))
+        NIL))
+      NIL))
+    NIL)
+   ((|const?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL)
+    (|term_const_eta| FORMULA-DECL NIL |term_adt| NIL)
+    (|var?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL)
+    (|term_variable_eta| FORMULA-DECL NIL |term_adt| NIL)
+    (|posint_plus_nnint_is_posint| APPLICATION-JUDGEMENT "posint" |integers|
+     NIL)
+    (|real_lt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|pair?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL)
+    (|term1| ADT-ACCESSOR-DECL "[(pair?) -> term]" |term_adt| NIL)
+    (|term2| ADT-ACCESSOR-DECL "[(pair?) -> term]" |term_adt| NIL)
+    (|app?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL)
+    (|arg| ADT-ACCESSOR-DECL "[(app?) -> term]" |term_adt| NIL)
+    (|ac_app?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL)
+    (|ac_sym| ADT-ACCESSOR-DECL "[(ac_app?) -> ac_symbol]" |term_adt| NIL)
+    (|string| TYPE-EQ-DECL NIL |strings| NIL)
+    (|real_le_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
+     |real_props| NIL)
+    (|num_arg_ge1| FORMULA-DECL NIL |term_properties| NIL)
+    (|is_ac_sym?| CONST-DECL "bool" |term_properties| NIL)
+    (|ac_select_size| FORMULA-DECL NIL |term_properties| NIL)
+    (|select| DEF-DECL "term" |term_properties| NIL)
+    (IF CONST-DECL
+        "[boolean, T, T -> T]"
+        |if_def|
+        NIL)
+    (= CONST-DECL "[T, T -> boolean]" |equalities| NIL)
+    (|ac_arg| ADT-ACCESSOR-DECL "[(ac_app?) -> term]" |term_adt| NIL)
+    (|unit?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL)
+    (|unit| ADT-CONSTRUCTOR-DECL "(unit?)" |term_adt| NIL)
+    (|ac_app| ADT-CONSTRUCTOR-DECL "[[ac_symbol, term] -> (ac_app?)]"
+     |term_adt| NIL)
+    (|delete| DEF-DECL "term" |term_properties| NIL)
+    (|num_arg| DEF-DECL "nat" |term_properties| NIL)
+    (|ac_delete_size| FORMULA-DECL NIL |term_properties| NIL)
+    (|real_gt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|pred| TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|well_founded?| CONST-DECL "bool" |orders| NIL)
+    (< CONST-DECL "bool" |reals| NIL)
+    (|size| DEF-DECL "nat" |term_properties| NIL)
+    (|naturalnumber| TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL) (>= CONST-DECL "bool" |reals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (|measure_induction| FORMULA-DECL NIL |measure_induction| NIL)
+    (|wf_nat| FORMULA-DECL NIL |naturalnumbers| NIL))
    SHOSTAK))
  (|equal?_sym| 0
   (|equal?_sym-1| NIL 3806002216
@@ -774,36 +1186,16 @@
                   (("6" (EXPAND "equal?" 1)
                     (("6" (ASSERT)
                       (("6" (PROP)
-                        (("1" (ASSERT)
-                          (("1" (HIDE-ALL-BUT 1)
-                            (("1" (REVEAL 1 2 3 4 5) (("1" (GRIND) NIL NIL))
-                              NIL))
-                            NIL))
-                          NIL)
-                         ("2" (HIDE -1)
-                          (("2" (NAME-REPLACE "g" "ac_sym(t)")
-                            (("2" (REPLACE -1 1 RL)
+                        (("6" (ASSERT)
+                          (("6" (PROP)
+                            (("1" (HIDE -3 -4)
+                              (("1" (REVEAL 1 2 3 4 5) (("1" (GRIND) NIL NIL))
+                                NIL))
+                              NIL)
+                             ("2" (HIDE -4)
                               (("2" (SKEEP)
                                 (("2" (INST 1 "j" "i")
-                                  (("2" (ASSERT)
-                                    (("2" (PROP)
-                                      (("1" (HIDE -3)
-                                        (("1" (INST -3 "select(g, t)(i)")
-                                          (("1" (PROP)
-                                            (("1" (INST? -1)
-                                              (("1" (ASSERT) NIL NIL)) NIL)
-                                             ("2" (POSTPONE) NIL NIL))
-                                            NIL))
-                                          NIL))
-                                        NIL)
-                                       ("2" (INST -4 "delete(g, t)(i)")
-                                        (("2" (PROP)
-                                          (("1" (INST? -1)
-                                            (("1" (ASSERT) NIL NIL)) NIL)
-                                           ("2" (POSTPONE) NIL NIL))
-                                          NIL))
-                                        NIL))
-                                      NIL))
+                                  (("2" (ASSERT) (("2" (POSTPONE) NIL NIL))
                                     NIL))
                                   NIL))
                                 NIL))
@@ -3095,8 +3487,7 @@
    ((|string| TYPE-EQ-DECL NIL |strings| NIL)
     (IMPLIES CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
     (|are_ac?| CONST-DECL "bool" |term_properties| NIL)
-    (|equal?| DEF-DECL "bool" |equality| NIL) (> CONST-DECL "bool" |reals| NIL)
-    (<= CONST-DECL "bool" |reals| NIL)
+    (> CONST-DECL "bool" |reals| NIL) (<= CONST-DECL "bool" |reals| NIL)
     (|num_arg| DEF-DECL "nat" |term_properties| NIL)
     (|select| DEF-DECL "term" |term_properties| NIL)
     (|delete| DEF-DECL "term" |term_properties| NIL)
@@ -3114,7 +3505,6 @@
     (|term| TYPE-DECL NIL |term_adt| NIL)
     (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
     (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
-    (|every| ADT-DEF-DECL "boolean" |term_adt| NIL)
     (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
     (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
     (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
@@ -3259,11 +3649,121 @@
                                           (("1" (INST -1 "j")
                                             (("1" (PROP)
                                               (("1" (SKOLEM -1 "n")
-                                                (("1" (POSTPONE) NIL NIL)) NIL)
-                                               ("2" (POSTPONE) NIL NIL))
+                                                (("1" (INST 1 "n")
+                                                  (("1" (PROP)
+                                                    (("1" (HIDE -3 -4)
+                                                      (("1"
+                                                        (CASE "equal?(t1, t2)")
+                                                        (("1"
+                                                          (LEMMA
+                                                           "equal?_num_arg")
+                                                          (("1"
+                                                            (INST -1
+                                                             "ac_sym(t1)" "t2"
+                                                             "t1")
+                                                            (("1" (ASSERT) NIL
+                                                              NIL))
+                                                            NIL))
+                                                          NIL)
+                                                         ("2"
+                                                          (EXPAND "equal?" 1)
+                                                          (("2"
+                                                            (INST 1 "i" "j")
+                                                            (("2" (GRIND) NIL
+                                                              NIL))
+                                                            NIL))
+                                                          NIL))
+                                                        NIL))
+                                                      NIL)
+                                                     ("2" (REVEAL -3)
+                                                      (("2" (HIDE -14 -5 -15)
+                                                        (("2"
+                                                          (INST -1
+                                                           "select(ac_sym(t1), t1)(i)")
+                                                          (("2" (PROP)
+                                                            (("1"
+                                                              (INST -1
+                                                               "select(ac_sym(t1), t2)(j)"
+                                                               "select(ac_sym(t1), t3)(n)")
+                                                              (("1" (ASSERT)
+                                                                NIL NIL))
+                                                              NIL)
+                                                             ("2"
+                                                              (LEMMA
+                                                               "ac_select_size")
+                                                              (("2" (INST? -1)
+                                                                (("2" (ASSERT)
+                                                                  (("2"
+                                                                    (EXPAND
+                                                                     "is_ac_sym?")
+                                                                    (("2"
+                                                                      (PROPAX)
+                                                                      NIL NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL))
+                                                        NIL))
+                                                      NIL)
+                                                     ("3" (HIDE -3 -12)
+                                                      (("3" (REVEAL -5)
+                                                        (("3"
+                                                          (INST -1
+                                                           "delete(ac_sym(t1), t1)(i)")
+                                                          (("3" (PROP)
+                                                            (("1"
+                                                              (INST -1
+                                                               "delete(ac_sym(t1), t2)(j)"
+                                                               "delete(ac_sym(t1), t3)(n)")
+                                                              (("1" (ASSERT)
+                                                                NIL NIL))
+                                                              NIL)
+                                                             ("2"
+                                                              (LEMMA
+                                                               "ac_delete_size")
+                                                              (("2" (INST? -1)
+                                                                (("2" (ASSERT)
+                                                                  NIL NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL))
+                                                        NIL))
+                                                      NIL))
+                                                    NIL))
+                                                  NIL))
+                                                NIL)
+                                               ("2" (CASE "equal?(t1, t2)")
+                                                (("1" (LEMMA "equal?_num_arg")
+                                                  (("1" (HIDE -10 -11 2)
+                                                    (("1"
+                                                      (INST -1 "ac_sym(t1)"
+                                                       "t2" "t1")
+                                                      (("1" (ASSERT) NIL NIL))
+                                                      NIL))
+                                                    NIL))
+                                                  NIL)
+                                                 ("2" (HIDE 2 3)
+                                                  (("2" (EXPAND "equal?" 1)
+                                                    (("2" (INST 1 "i" "j")
+                                                      (("2" (ASSERT) NIL NIL))
+                                                      NIL))
+                                                    NIL))
+                                                  NIL))
+                                                NIL))
                                               NIL))
                                             NIL)
-                                           ("2" (POSTPONE) NIL NIL))
+                                           ("2" (HIDE 2)
+                                            (("2" (EXPAND "are_ac?")
+                                              (("2" (EXPAND "equal?" -10)
+                                                (("2" (FLATTEN)
+                                                  (("2" (ASSERT) NIL NIL))
+                                                  NIL))
+                                                NIL))
+                                              NIL))
+                                            NIL))
                                           NIL))
                                         NIL))
                                       NIL))
@@ -3276,7 +3776,8 @@
                         NIL))
                       NIL))
                     NIL)
-                   ("2" (POSTPONE) NIL NIL))
+                   ("2" (HIDE 3)
+                    (("2" (HIDE -1 -2 -3) (("2" (GRIND) NIL NIL)) NIL)) NIL))
                   NIL))
                 NIL))
               NIL))
@@ -3326,89 +3827,158 @@
     (|term2| ADT-ACCESSOR-DECL "[(pair?) -> term]" |term_adt| NIL)
     (|app?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL)
     (|arg| ADT-ACCESSOR-DECL "[(app?) -> term]" |term_adt| NIL)
-    (|select| DEF-DECL "term" |term_properties| NIL)
-    (|num_arg| DEF-DECL "nat" |term_properties| NIL)
-    (|delete| DEF-DECL "term" |term_properties| NIL)
-    (|ac_arg| ADT-ACCESSOR-DECL "[(ac_app?) -> term]" |term_adt| NIL)
-    (|ac_app?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL)
     (|real_ge_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
      |real_props| NIL)
+    (|real_gt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|real_le_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
+     |real_props| NIL)
     (NOT CONST-DECL "[bool -> bool]" |booleans| NIL)
-    (|ac_sym| ADT-ACCESSOR-DECL "[(ac_app?) -> ac_symbol]" |term_adt| NIL)
-    (= CONST-DECL "[T, T -> boolean]" |equalities| NIL)
-    (|ac_select_size| FORMULA-DECL NIL |term_properties| NIL)
-    (|is_ac_sym?| CONST-DECL "bool" |term_properties| NIL)
-    (|ac_delete_size| FORMULA-DECL NIL |term_properties| NIL)
+    (|delete| DEF-DECL "term" |term_properties| NIL)
+    (|select| DEF-DECL "term" |term_properties| NIL)
+    (|num_arg| DEF-DECL "nat" |term_properties| NIL)
+    (|ac_arg| ADT-ACCESSOR-DECL "[(ac_app?) -> term]" |term_adt| NIL)
+    (|equal?_ac| FORMULA-DECL NIL |equality| NIL)
     (|are_ac?| CONST-DECL "bool" |term_properties| NIL)
+    (|equal?_num_arg| FORMULA-DECL NIL |equality| NIL)
+    (|is_ac_sym?| CONST-DECL "bool" |term_properties| NIL)
+    (|ac_select_size| FORMULA-DECL NIL |term_properties| NIL)
+    (|ac_delete_size| FORMULA-DECL NIL |term_properties| NIL)
     (|string| TYPE-EQ-DECL NIL |strings| NIL)
-    (|equal?_ac| FORMULA-DECL NIL |equality| NIL))
+    (|ac_sym| ADT-ACCESSOR-DECL "[(ac_app?) -> ac_symbol]" |term_adt| NIL)
+    (|ac_app?| ADT-RECOGNIZER-DECL "[term -> boolean]" |term_adt| NIL))
+   SHOSTAK))
+ (|perm?_len| 0
+  (|perm?_len-1| NIL 3807091024
+   ("" (MEASURE-INDUCT "length(args1)" "args1")
+    (("" (SKOLEM 1 "args1")
+      (("" (PROP)
+        (("" (SKEEP)
+          (("" (EXPAND "perm?" -2)
+            (("" (PROP)
+              (("1" (GRIND) NIL NIL)
+               ("2" (SKEEP)
+                (("2" (INST -3 "remove(args1, i)")
+                  (("2" (PROP)
+                    (("1" (HIDE -2)
+                      (("1" (INST -1 "remove(args2, j)")
+                        (("1" (ASSERT)
+                          (("1" (LEMMA "remove_len")
+                            (("1" (INST? -1)
+                              (("1" (PROP)
+                                (("1" (HIDE -3)
+                                  (("1" (REPLACE -1 -2)
+                                    (("1" (HIDE -1)
+                                      (("1" (LEMMA "remove_len")
+                                        (("1" (INST? -1)
+                                          (("1" (PROP)
+                                            (("1" (ASSERT) NIL NIL)
+                                             ("2" (TYPEPRED "j")
+                                              (("2" (PROPAX) NIL NIL)) NIL))
+                                            NIL))
+                                          NIL))
+                                        NIL))
+                                      NIL))
+                                    NIL))
+                                  NIL)
+                                 ("2" (TYPEPRED "i") (("2" (PROPAX) NIL NIL))
+                                  NIL))
+                                NIL))
+                              NIL))
+                            NIL))
+                          NIL))
+                        NIL))
+                      NIL)
+                     ("2" (LEMMA "remove_len")
+                      (("2" (INST -1 "i" "args1") (("2" (ASSERT) NIL NIL))
+                        NIL))
+                      NIL))
+                    NIL))
+                  NIL))
+                NIL))
+              NIL))
+            NIL))
+          NIL))
+        NIL))
+      NIL))
+    NIL)
+   ((|remove| DEF-DECL "list[T]" |list_theory| NIL)
+    (|real_lt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (NOT CONST-DECL "[bool -> bool]" |booleans| NIL)
+    (|int_minus_int_is_int| APPLICATION-JUDGEMENT "int" |integers| NIL)
+    (|remove_len| FORMULA-DECL NIL |list_theory| NIL)
+    (|pred| TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|well_founded?| CONST-DECL "bool" |orders| NIL)
+    (< CONST-DECL "bool" |reals| NIL)
+    (|length| DEF-DECL "nat" |list_props| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|naturalnumber| TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL) (>= CONST-DECL "bool" |reals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (|list| TYPE-DECL NIL |list_adt| NIL) (|term| TYPE-DECL NIL |term_adt| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (|measure_induction| FORMULA-DECL NIL |measure_induction| NIL)
+    (|wf_nat| FORMULA-DECL NIL |naturalnumbers| NIL)
+    (= CONST-DECL "[T, T -> boolean]" |equalities| NIL)
+    (|perm?| DEF-DECL "bool" |equality| NIL)
+    (IMPLIES CONST-DECL "[bool, bool -> bool]" |booleans| NIL))
    SHOSTAK))
  (|perm?_sym| 0
   (|perm?_sym-1| NIL 3805994948
    ("" (MEASURE-INDUCT "length(args1)" "args1")
-    (("" (SKOLEM 1 ("args1"))
+    (("" (SKOLEM 1 "args1")
       (("" (PROP)
         (("" (SKEEP)
           (("" (EXPAND "perm?" 1)
             (("" (PROP)
-              (("1" (HIDE -2) (("1" (GRIND) NIL NIL)) NIL)
-               ("2" (EXPAND "perm?" -2)
-                (("2" (ASSERT)
-                  (("2" (PROP)
-                    (("2" (SKEEP)
-                      (("2" (INST -3 "remove(args1, 1+i)")
-                        (("2" (PROP)
-                          (("1" (INST -1 "remove(args2, 1+j)")
-                            (("1" (ASSERT)
-                              (("1" (HIDE -3)
-                                (("1" (EXPAND "perm?" -1)
-                                  (("1" (PROP)
-                                    (("1"
-                                      (CASE
-                                          "args1 = cons(car(args1), null) AND args2 = cons(car(args2), null)")
-                                      (("1" (INST 3 "0" "0")
-                                        (("1" (PROP)
-                                          (("1" (CASE "i = 0 AND j = 0")
-                                            (("1" (ASSERT)
-                                              (("1" (HIDE -2 -3 -4 -5 2 3)
-                                                (("1" (PROP)
-                                                  (("1" (REPLACE -1 -3)
-                                                    (("1" (REPLACE -2 -3)
-                                                      (("1" (POSTPONE) NIL
-                                                        NIL))
-                                                      NIL))
-                                                    NIL))
-                                                  NIL))
-                                                NIL))
-                                              NIL)
-                                             ("2" (POSTPONE) NIL NIL))
-                                            NIL)
-                                           ("2" (POSTPONE) NIL NIL))
-                                          NIL))
-                                        NIL)
-                                       ("2" (POSTPONE) NIL NIL))
-                                      NIL)
-                                     ("2" (SKOLEM -1 ("j1" "i1"))
-                                      (("2" (CASE "j1 < j AND i1 < i")
-                                        (("1" (INST 4 "j1" "i1")
-                                          (("1" (FLATTEN)
-                                            (("1" (PROP)
-                                              (("1" (POSTPONE) NIL NIL)
-                                               ("2" (POSTPONE) NIL NIL))
-                                              NIL))
-                                            NIL)
-                                           ("2" (POSTPONE) NIL NIL)
-                                           ("3" (POSTPONE) NIL NIL))
-                                          NIL)
-                                         ("2" (POSTPONE) NIL NIL))
+              (("1" (LEMMA "perm?_len")
+                (("1" (INST? -1) (("1" (HIDE -3) (("1" (GRIND) NIL NIL)) NIL))
+                  NIL))
+                NIL)
+               ("2" (HIDE -1)
+                (("2" (EXPAND "perm?" -1)
+                  (("2" (ASSERT)
+                    (("2" (PROP)
+                      (("2" (SKEEP)
+                        (("2" (INST 3 "j" "i")
+                          (("2" (PROP)
+                            (("1" (REWRITE "equal?_sym") NIL NIL)
+                             ("2" (HIDE -1)
+                              (("2" (REVEAL -2)
+                                (("2" (INST -1 "remove(args1, i)")
+                                  (("2" (PROP)
+                                    (("1" (INST -1 "remove(args2, j)")
+                                      (("1" (ASSERT) NIL NIL)) NIL)
+                                     ("2" (LEMMA "remove_len")
+                                      (("2" (INST? -1) (("2" (ASSERT) NIL NIL))
                                         NIL))
                                       NIL))
                                     NIL))
                                   NIL))
                                 NIL))
                               NIL))
-                            NIL)
-                           ("2" (POSTPONE) NIL NIL))
+                            NIL))
                           NIL))
                         NIL))
                       NIL))
@@ -3421,21 +3991,1296 @@
         NIL))
       NIL))
     NIL)
-   NIL SHOSTAK))
- (|perm?_trans| 0
-  (|perm?_trans-1| NIL 3805821573
-   ("" (SKEEP)
-    (("" (EXPAND "perm?" 1)
+   ((|nnint_plus_posint_is_posint| APPLICATION-JUDGEMENT "posint" |integers|
+     NIL)
+    (|remove| DEF-DECL "list[T]" |list_theory| NIL)
+    (|perm?_len| FORMULA-DECL NIL |equality| NIL)
+    (|remove_len| FORMULA-DECL NIL |list_theory| NIL)
+    (|real_lt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|nth| DEF-DECL "T" |list_props| NIL)
+    (|equal?_sym| FORMULA-DECL NIL |equality| NIL)
+    (|pred| TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|well_founded?| CONST-DECL "bool" |orders| NIL)
+    (< CONST-DECL "bool" |reals| NIL)
+    (|length| DEF-DECL "nat" |list_props| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|naturalnumber| TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (TRUE CONST-DECL "bool" |booleans| NIL) (>= CONST-DECL "bool" |reals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (|list| TYPE-DECL NIL |list_adt| NIL) (|term| TYPE-DECL NIL |term_adt| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (|measure_induction| FORMULA-DECL NIL |measure_induction| NIL)
+    (|wf_nat| FORMULA-DECL NIL |naturalnumbers| NIL)
+    (IMPLIES CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|perm?| DEF-DECL "bool" |equality| NIL))
+   SHOSTAK))
+ (|perm?_trans_aux| 0
+  (|perm?_trans_aux-1| NIL 3807094913
+   ("" (MEASURE-INDUCT "length(args1)" "args1")
+    (("" (SKOLEM 1 "args1")
       (("" (PROP)
-        (("1" (EXPAND "perm?" -2)
-          (("1" (ASSERT)
-            (("1" (EXPAND "perm?" -3) (("1" (PROPAX) NIL NIL)) NIL)) NIL))
-          NIL)
-         ("2" (EXPAND "perm?" -1)
-          (("2" (ASSERT) (("2" (SKEEP) (("2" (POSTPONE) NIL NIL)) NIL)) NIL))
+        (("" (HIDE -1)
+          (("" (SKEEP)
+            (("" (SKOLEM 1 "n")
+              (("" (PROP)
+                (("" (EXPAND "perm?" -1)
+                  (("" (PROP)
+                    (("1" (HIDE 1) (("1" (GRIND) NIL NIL)) NIL)
+                     ("2" (SKEEP)
+                      (("2" (CASE "n = i")
+                        (("1" (INST 2 "j") (("1" (ASSERT) NIL NIL)) NIL)
+                         ("2" (REVEAL -1)
+                          (("2" (INST -1 "remove(args1, i)")
+                            (("2" (PROP)
+                              (("1" (INST -1 "remove(args2, j)")
+                                (("1" (ASSERT)
+                                  (("1" (CASE "i > n")
+                                    (("1" (INST -2 "n")
+                                      (("1" (PROP)
+                                        (("1" (SKOLEM -1 "k")
+                                          (("1" (FLATTEN)
+                                            (("1" (CASE "j > k")
+                                              (("1" (INST 3 "k")
+                                                (("1" (ASSERT)
+                                                  (("1" (PROP)
+                                                    (("1" (HIDE -4 -6 -7)
+                                                      (("1"
+                                                        (REWRITE
+                                                         "gt_nth_remove")
+                                                        (("1"
+                                                          (REWRITE
+                                                           "gt_nth_remove")
+                                                          NIL NIL))
+                                                        NIL))
+                                                      NIL)
+                                                     ("2" (EXPAND "perm?" 1)
+                                                      (("2" (PROP)
+                                                        (("1"
+                                                          (LEMMA "remove_len")
+                                                          (("1" (HIDE -5 -6 -8)
+                                                            (("1"
+                                                              (INST -1 "n"
+                                                               "args1")
+                                                              (("1" (ASSERT)
+                                                                (("1"
+                                                                  (LEMMA
+                                                                   "perm?_len")
+                                                                  (("1"
+                                                                    (INST? -1)
+                                                                    (("1"
+                                                                      (ASSERT)
+                                                                      (("1"
+                                                                        (HIDE
+                                                                         -7)
+                                                                        (("1"
+                                                                          (LEMMA
+                                                                           "remove_len")
+                                                                          (("1"
+                                                                            (INST
+                                                                             -1
+                                                                             "i"
+                                                                             "args1")
+                                                                            (("1"
+                                                                              (ASSERT)
+                                                                              (("1"
+                                                                                (REPLACE
+                                                                                 -1
+                                                                                 -2)
+                                                                                (("1"
+                                                                                  (HIDE
+                                                                                   -1)
+                                                                                  (("1"
+                                                                                    (GRIND)
+                                                                                    NIL
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL)
+                                                         ("2" (HIDE 1 4)
+                                                          (("2" (HIDE -2 -8 2)
+                                                            (("2"
+                                                              (INST 1 "i-1"
+                                                               "j-1")
+                                                              (("1" (PROP)
+                                                                (("1"
+                                                                  (REWRITE
+                                                                   "gt_nth_remove2")
+                                                                  (("1"
+                                                                    (REWRITE
+                                                                     "gt_nth_remove2")
+                                                                    NIL NIL))
+                                                                  NIL)
+                                                                 ("2"
+                                                                  (REWRITE
+                                                                   "gt_remove_remove")
+                                                                  (("2"
+                                                                    (LEMMA
+                                                                     "gt_remove_remove")
+                                                                    (("2"
+                                                                      (INST -1
+                                                                       "j"
+                                                                       "args2"
+                                                                       "k")
+                                                                      (("2"
+                                                                        (ASSERT)
+                                                                        NIL
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL)
+                                                               ("2"
+                                                                (HIDE -2 -3 -5
+                                                                 -6)
+                                                                (("2"
+                                                                  (TYPEPRED
+                                                                   "j")
+                                                                  (("2"
+                                                                    (LEMMA
+                                                                     "remove_len")
+                                                                    (("2"
+                                                                      (INST?
+                                                                       -1)
+                                                                      (("2"
+                                                                        (ASSERT)
+                                                                        NIL
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL)
+                                                               ("3"
+                                                                (HIDE -2 -3 -5
+                                                                 -6)
+                                                                (("3"
+                                                                  (LEMMA
+                                                                   "remove_len")
+                                                                  (("3"
+                                                                    (INST -1
+                                                                     "n"
+                                                                     "args1")
+                                                                    (("3"
+                                                                      (ASSERT)
+                                                                      NIL NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL))
+                                                        NIL))
+                                                      NIL))
+                                                    NIL))
+                                                  NIL))
+                                                NIL)
+                                               ("2" (CASE "j <= k")
+                                                (("1" (HIDE 1)
+                                                  (("1" (INST 3 "k+1")
+                                                    (("1" (PROP)
+                                                      (("1"
+                                                        (LEMMA "remove_len")
+                                                        (("1"
+                                                          (HIDE -4 -5 -7 -8)
+                                                          (("1" (TYPEPRED "j")
+                                                            (("1"
+                                                              (INST -2 "j"
+                                                               "args2")
+                                                              (("1" (ASSERT)
+                                                                NIL NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL))
+                                                        NIL)
+                                                       ("2"
+                                                        (REWRITE
+                                                         "gt_nth_remove")
+                                                        (("2"
+                                                          (LEMMA
+                                                           "gt_nth_remove2")
+                                                          (("2"
+                                                            (INST -1 "k+1"
+                                                             "args2" "j")
+                                                            (("2" (ASSERT)
+                                                              (("2"
+                                                                (LEMMA
+                                                                 "remove_len")
+                                                                (("2"
+                                                                  (INST -1 "j"
+                                                                   "args2")
+                                                                  (("2"
+                                                                    (ASSERT)
+                                                                    NIL NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL))
+                                                        NIL)
+                                                       ("3" (EXPAND "perm?" 1)
+                                                        (("3" (PROP)
+                                                          (("1"
+                                                            (HIDE -4 -5 -7 -8)
+                                                            (("1"
+                                                              (LEMMA
+                                                               "remove_len")
+                                                              (("1"
+                                                                (INST -1 "1+k"
+                                                                 "args2")
+                                                                (("1" (PROP)
+                                                                  (("1"
+                                                                    (REVEAL -5)
+                                                                    (("1"
+                                                                      (LEMMA
+                                                                       "perm?_len")
+                                                                      (("1"
+                                                                        (INST?
+                                                                         -1)
+                                                                        (("1"
+                                                                          (ASSERT)
+                                                                          (("1"
+                                                                            (HIDE
+                                                                             -2)
+                                                                            (("1"
+                                                                              (LEMMA
+                                                                               "remove_len")
+                                                                              (("1"
+                                                                                (INST
+                                                                                 -1
+                                                                                 "i"
+                                                                                 "args1")
+                                                                                (("1"
+                                                                                  (ASSERT)
+                                                                                  (("1"
+                                                                                    (REPLACE
+                                                                                     -1
+                                                                                     -2)
+                                                                                    (("1"
+                                                                                      (HIDE
+                                                                                       -1)
+                                                                                      (("1"
+                                                                                        (LEMMA
+                                                                                         "remove_len")
+                                                                                        (("1"
+                                                                                          (INST
+                                                                                           -1
+                                                                                           "j"
+                                                                                           "args2")
+                                                                                          (("1"
+                                                                                            (ASSERT)
+                                                                                            (("1"
+                                                                                              (REPLACE
+                                                                                               -1
+                                                                                               -2
+                                                                                               NIL
+                                                                                               T)
+                                                                                              (("1"
+                                                                                                (LEMMA
+                                                                                                 "remove_len")
+                                                                                                (("1"
+                                                                                                  (INST
+                                                                                                   -1
+                                                                                                   "n"
+                                                                                                   "args1")
+                                                                                                  (("1"
+                                                                                                    (ASSERT)
+                                                                                                    (("1"
+                                                                                                      (GRIND)
+                                                                                                      NIL
+                                                                                                      NIL))
+                                                                                                    NIL))
+                                                                                                  NIL))
+                                                                                                NIL))
+                                                                                              NIL))
+                                                                                            NIL))
+                                                                                          NIL))
+                                                                                        NIL))
+                                                                                      NIL))
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL)
+                                                                   ("2"
+                                                                    (LEMMA
+                                                                     "remove_len")
+                                                                    (("2"
+                                                                      (INST -1
+                                                                       "j"
+                                                                       "args2")
+                                                                      (("2"
+                                                                        (ASSERT)
+                                                                        NIL
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL)
+                                                           ("2" (HIDE 3)
+                                                            (("2"
+                                                              (INST 2 "i-1"
+                                                               "j")
+                                                              (("1" (PROP)
+                                                                (("1"
+                                                                  (LEMMA
+                                                                   "gt_nth_remove2")
+                                                                  (("1"
+                                                                    (INST? -1)
+                                                                    (("1"
+                                                                      (ASSERT)
+                                                                      (("1"
+                                                                        (REPLACE
+                                                                         -1 1
+                                                                         NIL T)
+                                                                        (("1"
+                                                                          (LEMMA
+                                                                           "gt_nth_remove")
+                                                                          (("1"
+                                                                            (INST
+                                                                             -1
+                                                                             "1+k"
+                                                                             "args2"
+                                                                             "j")
+                                                                            (("1"
+                                                                              (ASSERT)
+                                                                              (("1"
+                                                                                (HIDE
+                                                                                 -3
+                                                                                 -4
+                                                                                 -6
+                                                                                 -7
+                                                                                 2
+                                                                                 3
+                                                                                 4)
+                                                                                (("1"
+                                                                                  (LEMMA
+                                                                                   "remove_len")
+                                                                                  (("1"
+                                                                                    (TYPEPRED
+                                                                                     "j")
+                                                                                    (("1"
+                                                                                      (INST
+                                                                                       -2
+                                                                                       "j"
+                                                                                       "args2")
+                                                                                      (("1"
+                                                                                        (ASSERT)
+                                                                                        NIL
+                                                                                        NIL))
+                                                                                      NIL))
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL)
+                                                                 ("2"
+                                                                  (REWRITE
+                                                                   "gt_remove_remove")
+                                                                  (("2"
+                                                                    (LEMMA
+                                                                     "gt_remove_remove")
+                                                                    (("2"
+                                                                      (HIDE -4
+                                                                       2 3 -7
+                                                                       -8)
+                                                                      (("2"
+                                                                        (INST
+                                                                         -1
+                                                                         "1+k"
+                                                                         "args2"
+                                                                         "j")
+                                                                        (("2"
+                                                                          (ASSERT)
+                                                                          (("2"
+                                                                            (HIDE
+                                                                             -3
+                                                                             2)
+                                                                            (("2"
+                                                                              (LEMMA
+                                                                               "remove_len")
+                                                                              (("2"
+                                                                                (TYPEPRED
+                                                                                 "j")
+                                                                                (("2"
+                                                                                  (INST
+                                                                                   -2
+                                                                                   "j"
+                                                                                   "args2")
+                                                                                  (("2"
+                                                                                    (ASSERT)
+                                                                                    NIL
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL)
+                                                               ("2"
+                                                                (HIDE 2 3 -3 -4
+                                                                 -6 -7)
+                                                                (("2"
+                                                                  (LEMMA
+                                                                   "remove_len")
+                                                                  (("2"
+                                                                    (INST -1
+                                                                     "1+k"
+                                                                     "args2")
+                                                                    (("2"
+                                                                      (PROP)
+                                                                      (("1"
+                                                                        (REPLACE
+                                                                         -1 1)
+                                                                        (("1"
+                                                                          (TYPEPRED
+                                                                           "j")
+                                                                          (("1"
+                                                                            (HIDE
+                                                                             -2)
+                                                                            (("1"
+                                                                              (LEMMA
+                                                                               "remove_len")
+                                                                              (("1"
+                                                                                (INST
+                                                                                 -1
+                                                                                 "j"
+                                                                                 "args2")
+                                                                                (("1"
+                                                                                  (ASSERT)
+                                                                                  NIL
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL)
+                                                                       ("2"
+                                                                        (LEMMA
+                                                                         "remove_len")
+                                                                        (("2"
+                                                                          (INST
+                                                                           -1
+                                                                           "j"
+                                                                           "args2")
+                                                                          (("2"
+                                                                            (ASSERT)
+                                                                            NIL
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL)
+                                                               ("3" (ASSERT)
+                                                                (("3"
+                                                                  (HIDE -3 -4
+                                                                   -6 -7)
+                                                                  (("3"
+                                                                    (TYPEPRED
+                                                                     "i")
+                                                                    (("3"
+                                                                      (LEMMA
+                                                                       "remove_len")
+                                                                      (("3"
+                                                                        (INST
+                                                                         -1 "n"
+                                                                         "args1")
+                                                                        (("3"
+                                                                          (ASSERT)
+                                                                          NIL
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL))
+                                                        NIL))
+                                                      NIL))
+                                                    NIL))
+                                                  NIL)
+                                                 ("2" (ASSERT) NIL NIL))
+                                                NIL))
+                                              NIL))
+                                            NIL))
+                                          NIL)
+                                         ("2" (TYPEPRED "i")
+                                          (("2" (HIDE -3 -4 -5 2 3 4)
+                                            (("2" (LEMMA "remove_len")
+                                              (("2" (INST? -1)
+                                                (("2" (ASSERT) NIL NIL)) NIL))
+                                              NIL))
+                                            NIL))
+                                          NIL))
+                                        NIL))
+                                      NIL)
+                                     ("2" (CASE "i < n")
+                                      (("1" (HIDE 1 2)
+                                        (("1" (INST -2 "n-1")
+                                          (("1" (PROP)
+                                            (("1" (SKOLEM -1 "k")
+                                              (("1" (FLATTEN)
+                                                (("1"
+                                                  (REWRITE "gt_nth_remove2")
+                                                  (("1" (CASE "j > k")
+                                                    (("1" (INST 2 "k")
+                                                      (("1" (PROP)
+                                                        (("1"
+                                                          (HIDE -3 -4 -6 -7)
+                                                          (("1"
+                                                            (LEMMA
+                                                             "remove_len")
+                                                            (("1"
+                                                              (INST -1 "j"
+                                                               "args2")
+                                                              (("1" (ASSERT)
+                                                                NIL NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL)
+                                                         ("2"
+                                                          (REWRITE
+                                                           "gt_nth_remove")
+                                                          NIL NIL)
+                                                         ("3"
+                                                          (EXPAND "perm?" 1)
+                                                          (("3" (PROP)
+                                                            (("1"
+                                                              (HIDE -2 -4 -5
+                                                               -7)
+                                                              (("1"
+                                                                (LEMMA
+                                                                 "perm?_len")
+                                                                (("1"
+                                                                  (INST? -1)
+                                                                  (("1"
+                                                                    (ASSERT)
+                                                                    (("1"
+                                                                      (HIDE -5)
+                                                                      (("1"
+                                                                        (LEMMA
+                                                                         "remove_len")
+                                                                        (("1"
+                                                                          (INST
+                                                                           -1
+                                                                           "n"
+                                                                           "args1")
+                                                                          (("1"
+                                                                            (ASSERT)
+                                                                            (("1"
+                                                                              (LEMMA
+                                                                               "remove_len")
+                                                                              (("1"
+                                                                                (INST
+                                                                                 -1
+                                                                                 "i"
+                                                                                 "args1")
+                                                                                (("1"
+                                                                                  (ASSERT)
+                                                                                  (("1"
+                                                                                    (REPLACE
+                                                                                     -1
+                                                                                     -3
+                                                                                     NIL
+                                                                                     T)
+                                                                                    (("1"
+                                                                                      (LEMMA
+                                                                                       "remove_len")
+                                                                                      (("1"
+                                                                                        (INST
+                                                                                         -1
+                                                                                         "j"
+                                                                                         "args2")
+                                                                                        (("1"
+                                                                                          (ASSERT)
+                                                                                          (("1"
+                                                                                            (REPLACE
+                                                                                             -1
+                                                                                             -3
+                                                                                             NIL
+                                                                                             T)
+                                                                                            (("1"
+                                                                                              (LEMMA
+                                                                                               "remove_len")
+                                                                                              (("1"
+                                                                                                (INST
+                                                                                                 -1
+                                                                                                 "k"
+                                                                                                 "args2")
+                                                                                                (("1"
+                                                                                                  (ASSERT)
+                                                                                                  (("1"
+                                                                                                    (HIDE
+                                                                                                     -5
+                                                                                                     -6
+                                                                                                     -7
+                                                                                                     2)
+                                                                                                    (("1"
+                                                                                                      (GRIND)
+                                                                                                      NIL
+                                                                                                      NIL))
+                                                                                                    NIL))
+                                                                                                  NIL))
+                                                                                                NIL))
+                                                                                              NIL))
+                                                                                            NIL))
+                                                                                          NIL))
+                                                                                        NIL))
+                                                                                      NIL))
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL)
+                                                             ("2" (HIDE 1)
+                                                              (("2"
+                                                                (LEMMA
+                                                                 "gt_remove_remove")
+                                                                (("2"
+                                                                  (INST -1 "n"
+                                                                   "args1" "i")
+                                                                  (("2"
+                                                                    (ASSERT)
+                                                                    (("2"
+                                                                      (REPLACE
+                                                                       -1 -5
+                                                                       NIL T)
+                                                                      (("2"
+                                                                        (INST 1
+                                                                         "i"
+                                                                         "j-1")
+                                                                        (("1"
+                                                                          (PROP)
+                                                                          (("1"
+                                                                            (REWRITE
+                                                                             "gt_nth_remove")
+                                                                            (("1"
+                                                                              (LEMMA
+                                                                               "gt_nth_remove2")
+                                                                              (("1"
+                                                                                (INST
+                                                                                 -1
+                                                                                 "j"
+                                                                                 "args2"
+                                                                                 "k")
+                                                                                (("1"
+                                                                                  (ASSERT)
+                                                                                  NIL
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL)
+                                                                           ("2"
+                                                                            (LEMMA
+                                                                             "gt_remove_remove")
+                                                                            (("2"
+                                                                              (INST
+                                                                               -1
+                                                                               "j"
+                                                                               "args2"
+                                                                               "k")
+                                                                              (("2"
+                                                                                (ASSERT)
+                                                                                NIL
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL)
+                                                                         ("2"
+                                                                          (LEMMA
+                                                                           "remove_len")
+                                                                          (("2"
+                                                                            (INST
+                                                                             -1
+                                                                             "k"
+                                                                             "args2")
+                                                                            (("2"
+                                                                              (ASSERT)
+                                                                              NIL
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL)
+                                                                         ("3"
+                                                                          (LEMMA
+                                                                           "remove_len")
+                                                                          (("3"
+                                                                            (INST
+                                                                             -1
+                                                                             "n"
+                                                                             "args1")
+                                                                            (("3"
+                                                                              (ASSERT)
+                                                                              NIL
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL))
+                                                        NIL))
+                                                      NIL)
+                                                     ("2" (INST 3 "k+1")
+                                                      (("2" (CASE "j <= k")
+                                                        (("1" (PROP)
+                                                          (("1" (HIDE 2)
+                                                            (("1"
+                                                              (LEMMA
+                                                               "remove_len")
+                                                              (("1"
+                                                                (INST -1 "j"
+                                                                 "args2")
+                                                                (("1" (ASSERT)
+                                                                  NIL NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL)
+                                                           ("2"
+                                                            (REWRITE
+                                                             "gt_nth_remove2")
+                                                            (("1" (ASSERT) NIL
+                                                              NIL)
+                                                             ("2"
+                                                              (LEMMA
+                                                               "remove_len")
+                                                              (("2"
+                                                                (INST -1 "j"
+                                                                 "args2")
+                                                                (("2" (ASSERT)
+                                                                  NIL NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL)
+                                                           ("3" (HIDE 2)
+                                                            (("3"
+                                                              (REWRITE
+                                                               "gt_remove_remove")
+                                                              (("3"
+                                                                (EXPAND "perm?"
+                                                                        1)
+                                                                (("3" (PROP)
+                                                                  (("1"
+                                                                    (HIDE -2 -4
+                                                                     -5 -7 2)
+                                                                    (("1"
+                                                                      (LEMMA
+                                                                       "perm?_len")
+                                                                      (("1"
+                                                                        (INST?
+                                                                         -1)
+                                                                        (("1"
+                                                                          (ASSERT)
+                                                                          (("1"
+                                                                            (HIDE
+                                                                             -5)
+                                                                            (("1"
+                                                                              (LEMMA
+                                                                               "remove_len")
+                                                                              (("1"
+                                                                                (INST
+                                                                                 -1
+                                                                                 "n"
+                                                                                 "args1")
+                                                                                (("1"
+                                                                                  (ASSERT)
+                                                                                  (("1"
+                                                                                    (LEMMA
+                                                                                     "remove_len")
+                                                                                    (("1"
+                                                                                      (INST
+                                                                                       -1
+                                                                                       "i"
+                                                                                       "args1")
+                                                                                      (("1"
+                                                                                        (ASSERT)
+                                                                                        (("1"
+                                                                                          (REPLACE
+                                                                                           -1
+                                                                                           -3
+                                                                                           NIL
+                                                                                           T)
+                                                                                          (("1"
+                                                                                            (LEMMA
+                                                                                             "remove_len")
+                                                                                            (("1"
+                                                                                              (INST
+                                                                                               -1
+                                                                                               "j"
+                                                                                               "args2")
+                                                                                              (("1"
+                                                                                                (ASSERT)
+                                                                                                (("1"
+                                                                                                  (REPLACE
+                                                                                                   -1
+                                                                                                   -3
+                                                                                                   NIL
+                                                                                                   T)
+                                                                                                  (("1"
+                                                                                                    (ASSERT)
+                                                                                                    (("1"
+                                                                                                      (LEMMA
+                                                                                                       "remove_len")
+                                                                                                      (("1"
+                                                                                                        (INST
+                                                                                                         -1
+                                                                                                         "1+k"
+                                                                                                         "args2")
+                                                                                                        (("1"
+                                                                                                          (ASSERT)
+                                                                                                          (("1"
+                                                                                                            (GRIND)
+                                                                                                            NIL
+                                                                                                            NIL))
+                                                                                                          NIL))
+                                                                                                        NIL))
+                                                                                                      NIL))
+                                                                                                    NIL))
+                                                                                                  NIL))
+                                                                                                NIL))
+                                                                                              NIL))
+                                                                                            NIL))
+                                                                                          NIL))
+                                                                                        NIL))
+                                                                                      NIL))
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL)
+                                                                   ("2"
+                                                                    (INST 2 "i"
+                                                                     "j")
+                                                                    (("1"
+                                                                      (PROP)
+                                                                      (("1"
+                                                                        (REWRITE
+                                                                         "gt_nth_remove")
+                                                                        (("1"
+                                                                          (REWRITE
+                                                                           "gt_nth_remove")
+                                                                          (("1"
+                                                                            (LEMMA
+                                                                             "remove_len")
+                                                                            (("1"
+                                                                              (INST
+                                                                               -1
+                                                                               "j"
+                                                                               "args2")
+                                                                              (("1"
+                                                                                (ASSERT)
+                                                                                NIL
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL)
+                                                                       ("2"
+                                                                        (LEMMA
+                                                                         "gt_remove_remove")
+                                                                        (("2"
+                                                                          (INST
+                                                                           -1
+                                                                           "1+k"
+                                                                           "args2"
+                                                                           "j")
+                                                                          (("2"
+                                                                            (ASSERT)
+                                                                            (("2"
+                                                                              (LEMMA
+                                                                               "remove_len")
+                                                                              (("2"
+                                                                                (INST
+                                                                                 -1
+                                                                                 "j"
+                                                                                 "args2")
+                                                                                (("2"
+                                                                                  (ASSERT)
+                                                                                  NIL
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL)
+                                                                     ("2"
+                                                                      (HIDE -3
+                                                                       -4 -6
+                                                                       -7)
+                                                                      (("2"
+                                                                        (LEMMA
+                                                                         "remove_len")
+                                                                        (("2"
+                                                                          (INST
+                                                                           -1
+                                                                           "1+k"
+                                                                           "args2")
+                                                                          (("2"
+                                                                            (ASSERT)
+                                                                            (("2"
+                                                                              (PROP)
+                                                                              (("1"
+                                                                                (REPLACE
+                                                                                 -1
+                                                                                 1
+                                                                                 NIL
+                                                                                 T)
+                                                                                (("1"
+                                                                                  (LEMMA
+                                                                                   "remove_len")
+                                                                                  (("1"
+                                                                                    (INST
+                                                                                     -1
+                                                                                     "j"
+                                                                                     "args2")
+                                                                                    (("1"
+                                                                                      (ASSERT)
+                                                                                      NIL
+                                                                                      NIL))
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL)
+                                                                               ("2"
+                                                                                (LEMMA
+                                                                                 "remove_len")
+                                                                                (("2"
+                                                                                  (INST
+                                                                                   -1
+                                                                                   "j"
+                                                                                   "args2")
+                                                                                  (("2"
+                                                                                    (ASSERT)
+                                                                                    NIL
+                                                                                    NIL))
+                                                                                  NIL))
+                                                                                NIL))
+                                                                              NIL))
+                                                                            NIL))
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL)
+                                                                     ("3"
+                                                                      (LEMMA
+                                                                       "remove_len")
+                                                                      (("3"
+                                                                        (INST
+                                                                         -1 "n"
+                                                                         "args1")
+                                                                        (("3"
+                                                                          (ASSERT)
+                                                                          NIL
+                                                                          NIL))
+                                                                        NIL))
+                                                                      NIL))
+                                                                    NIL))
+                                                                  NIL))
+                                                                NIL))
+                                                              NIL))
+                                                            NIL))
+                                                          NIL)
+                                                         ("2" (ASSERT) NIL
+                                                          NIL))
+                                                        NIL))
+                                                      NIL))
+                                                    NIL))
+                                                  NIL))
+                                                NIL))
+                                              NIL)
+                                             ("2" (LEMMA "remove_len")
+                                              (("2" (INST -1 "i" "args1")
+                                                (("2" (ASSERT) NIL NIL)) NIL))
+                                              NIL))
+                                            NIL)
+                                           ("2" (ASSERT) NIL NIL))
+                                          NIL))
+                                        NIL)
+                                       ("2" (ASSERT) NIL NIL))
+                                      NIL))
+                                    NIL))
+                                  NIL))
+                                NIL)
+                               ("2" (LEMMA "remove_len")
+                                (("2" (INST -1 "i" "args1")
+                                  (("2" (ASSERT) NIL NIL)) NIL))
+                                NIL))
+                              NIL))
+                            NIL))
+                          NIL))
+                        NIL))
+                      NIL))
+                    NIL))
+                  NIL))
+                NIL))
+              NIL))
+            NIL))
           NIL))
         NIL))
       NIL))
     NIL)
-   NIL SHOSTAK)))
+   ((IMPLIES CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|perm?| DEF-DECL "bool" |equality| NIL)
+    (|equal?| DEF-DECL "bool" |equality| NIL)
+    (|nth| DEF-DECL "T" |list_props| NIL)
+    (|remove| DEF-DECL "list[T]" |list_theory| NIL)
+    (|wf_nat| FORMULA-DECL NIL |naturalnumbers| NIL)
+    (|measure_induction| FORMULA-DECL NIL |measure_induction| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL) (|list| TYPE-DECL NIL |list_adt| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|every| ADT-DEF-DECL "boolean" |list_adt| NIL)
+    (|every| ADT-DEF-DECL "boolean" |term_adt| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (>= CONST-DECL "bool" |reals| NIL) (TRUE CONST-DECL "bool" |booleans| NIL)
+    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|naturalnumber| TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|length| DEF-DECL "nat" |list_props| NIL)
+    (< CONST-DECL "bool" |reals| NIL)
+    (|well_founded?| CONST-DECL "bool" |orders| NIL)
+    (|pred| TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|real_lt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (= CONST-DECL "[T, T -> boolean]" |equalities| NIL)
+    (> CONST-DECL "bool" |reals| NIL) (<= CONST-DECL "bool" |reals| NIL)
+    (+ CONST-DECL "[numfield, numfield -> numfield]" |number_fields| NIL)
+    (|real_le_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
+     |real_props| NIL)
+    (|gt_nth_remove| FORMULA-DECL NIL |list_theory| NIL)
+    (|posint_plus_nnint_is_posint| APPLICATION-JUDGEMENT "posint" |integers|
+     NIL)
+    (|nnint_plus_posint_is_posint| APPLICATION-JUDGEMENT "posint" |integers|
+     NIL)
+    (|int_minus_int_is_int| APPLICATION-JUDGEMENT "int" |integers| NIL)
+    (|perm?_len| FORMULA-DECL NIL |equality| NIL)
+    (|remove_len| FORMULA-DECL NIL |list_theory| NIL)
+    (NOT CONST-DECL "[bool -> bool]" |booleans| NIL)
+    (|gt_nth_remove2| FORMULA-DECL NIL |list_theory| NIL)
+    (|gt_remove_remove| FORMULA-DECL NIL |list_theory| NIL)
+    (|real_ge_is_total_order| NAME-JUDGEMENT "(total_order?[real])"
+     |real_props| NIL)
+    (|n| SKOLEM-CONST-DECL "nat" |equality| NIL)
+    (|i| SKOLEM-CONST-DECL "below[length(args1)]" |equality| NIL)
+    (|args1| SKOLEM-CONST-DECL "args" |equality| NIL)
+    (- CONST-DECL "[numfield, numfield -> numfield]" |number_fields| NIL)
+    (|numfield| NONEMPTY-TYPE-EQ-DECL NIL |number_fields| NIL)
+    (|k| SKOLEM-CONST-DECL "nat" |equality| NIL)
+    (|j| SKOLEM-CONST-DECL "below[length(args2)]" |equality| NIL)
+    (|args2| SKOLEM-CONST-DECL "args" |equality| NIL)
+    (|real_gt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|k| SKOLEM-CONST-DECL "nat" |equality| NIL))
+   SHOSTAK))
+ (|perm?_trans| 0
+  (|perm?_trans-1| NIL 3805821573
+   ("" (MEASURE-INDUCT "length(args1)" "args1")
+    (("" (SKOLEM 1 "args1")
+      (("" (PROP)
+        (("" (HIDE -1)
+          (("" (SKEEP)
+            ((""
+              (CASE
+                  "length(args1) = length(args2) AND length(args2) = length(args3)")
+              (("1" (EXPAND "perm?" 1)
+                (("1" (PROP)
+                  (("1" (EXPAND "perm?" -4)
+                    (("1" (ASSERT)
+                      (("1" (EXPAND "perm?" -5) (("1" (PROPAX) NIL NIL)) NIL))
+                      NIL))
+                    NIL)
+                   ("2" (EXPAND "perm?" -3)
+                    (("2" (ASSERT)
+                      (("2" (SKEEP)
+                        (("2" (LEMMA "perm?_trans_aux")
+                          (("2" (INST -1 "args2" "args3")
+                            (("2" (ASSERT)
+                              (("2" (INST -1 "j")
+                                (("2" (PROP)
+                                  (("1" (SKOLEM -1 "n")
+                                    (("1" (FLATTEN)
+                                      (("1" (INST 2 "i" "n")
+                                        (("1" (LEMMA "equal?_trans")
+                                          (("1"
+                                            (INST -1 "nth(args1, i)"
+                                             "nth(args2, j)" "nth(args3, n)")
+                                            (("1" (ASSERT)
+                                              (("1" (HIDE -1 -3 -4 -7)
+                                                (("1" (REVEAL -8)
+                                                  (("1"
+                                                    (INST -1
+                                                     "remove(args1, i)")
+                                                    (("1" (PROP)
+                                                      (("1"
+                                                        (INST -1
+                                                         "remove(args2, j)"
+                                                         "remove(args3, n)")
+                                                        (("1" (ASSERT) NIL
+                                                          NIL))
+                                                        NIL)
+                                                       ("2"
+                                                        (LEMMA "remove_len")
+                                                        (("2" (INST? -1)
+                                                          (("2" (ASSERT) NIL
+                                                            NIL))
+                                                          NIL))
+                                                        NIL))
+                                                      NIL))
+                                                    NIL))
+                                                  NIL))
+                                                NIL))
+                                              NIL))
+                                            NIL))
+                                          NIL))
+                                        NIL))
+                                      NIL))
+                                    NIL)
+                                   ("2" (TYPEPRED "j") (("2" (PROPAX) NIL NIL))
+                                    NIL))
+                                  NIL))
+                                NIL))
+                              NIL))
+                            NIL))
+                          NIL))
+                        NIL))
+                      NIL))
+                    NIL))
+                  NIL))
+                NIL)
+               ("2" (HIDE 2)
+                (("2" (PROP)
+                  (("1" (REWRITE "perm?_len") NIL NIL)
+                   ("2" (REWRITE "perm?_len") NIL NIL))
+                  NIL))
+                NIL))
+              NIL))
+            NIL))
+          NIL))
+        NIL))
+      NIL))
+    NIL)
+   ((|perm?| DEF-DECL "bool" |equality| NIL)
+    (IMPLIES CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|wf_nat| FORMULA-DECL NIL |naturalnumbers| NIL)
+    (|measure_induction| FORMULA-DECL NIL |measure_induction| NIL)
+    (|number| NONEMPTY-TYPE-DECL NIL |numbers| NIL)
+    (|nat| NONEMPTY-TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|below| TYPE-EQ-DECL NIL |nat_types| NIL)
+    (|character| TYPE-DECL NIL |character_adt| NIL)
+    (|boolean| NONEMPTY-TYPE-DECL NIL |booleans| NIL)
+    (|char?| ADT-RECOGNIZER-DECL "[character -> boolean]" |character_adt| NIL)
+    (|char| TYPE-EQ-DECL NIL |strings| NIL)
+    (|f_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|ac_symbol| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|term| TYPE-DECL NIL |term_adt| NIL) (|list| TYPE-DECL NIL |list_adt| NIL)
+    (|bool| NONEMPTY-TYPE-EQ-DECL NIL |booleans| NIL)
+    (PRED TYPE-EQ-DECL NIL |defined_types| NIL)
+    (AND CONST-DECL "[bool, bool -> bool]" |booleans| NIL)
+    (|number_field_pred| CONST-DECL "[number -> boolean]" |number_fields| NIL)
+    (|number_field| NONEMPTY-TYPE-FROM-DECL NIL |number_fields| NIL)
+    (|real_pred| CONST-DECL "[number_field -> boolean]" |reals| NIL)
+    (|real| NONEMPTY-TYPE-FROM-DECL NIL |reals| NIL)
+    (|rational_pred| CONST-DECL "[real -> boolean]" |rationals| NIL)
+    (|rational| NONEMPTY-TYPE-FROM-DECL NIL |rationals| NIL)
+    (|integer_pred| CONST-DECL "[rational -> boolean]" |integers| NIL)
+    (>= CONST-DECL "bool" |reals| NIL) (TRUE CONST-DECL "bool" |booleans| NIL)
+    (|args| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|int| NONEMPTY-TYPE-EQ-DECL NIL |integers| NIL)
+    (|naturalnumber| TYPE-EQ-DECL NIL |naturalnumbers| NIL)
+    (|constant| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|variable| TYPE-EQ-DECL NIL |term_properties| NIL)
+    (|length| DEF-DECL "nat" |list_props| NIL)
+    (< CONST-DECL "bool" |reals| NIL)
+    (|well_founded?| CONST-DECL "bool" |orders| NIL)
+    (|pred| TYPE-EQ-DECL NIL |defined_types| NIL)
+    (|perm?_len| FORMULA-DECL NIL |equality| NIL)
+    (NOT CONST-DECL "[bool -> bool]" |booleans| NIL)
+    (|nth| DEF-DECL "T" |list_props| NIL)
+    (|remove| DEF-DECL "list[T]" |list_theory| NIL)
+    (|remove_len| FORMULA-DECL NIL |list_theory| NIL)
+    (|real_lt_is_strict_total_order| NAME-JUDGEMENT
+     "(strict_total_order?[real])" |real_props| NIL)
+    (|equal?_trans| FORMULA-DECL NIL |equality| NIL)
+    (|perm?_trans_aux| FORMULA-DECL NIL |equality| NIL)
+    (= CONST-DECL "[T, T -> boolean]" |equalities| NIL))
+   SHOSTAK)))
 

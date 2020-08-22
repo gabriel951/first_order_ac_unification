@@ -408,4 +408,21 @@ snd_proj_pareate: LEMMA
     length(lst1) = length(lst2) IMPLIES 
     snd_proj(pareate(lst1, lst2)) = lst2
 
+% remove
+remove_len: LEMMA
+    i < length(lst) IMPLIES
+    length(remove(lst, i)) = length(lst) - 1
+
+gt_nth_remove: LEMMA
+    i < length(lst) AND i > n IMPLIES
+    nth(remove(lst, i), n) = nth(lst, n) 
+
+gt_nth_remove2: LEMMA
+    i < length(lst) AND i > n IMPLIES
+    nth(remove(lst, n), i-1) = nth(lst, i) 
+
+gt_remove_remove: LEMMA
+    i < length(lst) AND i > n IMPLIES
+    remove(remove(lst, n), i-1) = remove(remove(lst, i), n)
+
 END list_theory

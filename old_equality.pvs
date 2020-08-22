@@ -34,10 +34,7 @@ equal?(t, s): RECURSIVE bool =
 
 	app(sym, arg): app?(s) AND sym = f_sym(s) AND equal?(arg, arg(s)),
 
-	ac_app(sym, arg):
-	   LET n = num_arg(sym, t) IN
-	   ac_app?(s) AND sym = ac_sym(s) AND EXISTS i, j: 
-	   i > 0 AND i <= n AND j > 0 AND j <= n AND 
+	ac_app(sym, arg): ac_app?(s) AND sym = ac_sym(s) AND EXISTS i, j:
 	   equal?(select(sym, t)(i), select(sym, s)(j)) AND 
 	   equal?(delete(sym, t)(i), delete(sym, s)(j))
     ENDCASES
@@ -58,63 +55,49 @@ perm?(args1, args2): RECURSIVE bool =
     IF null?(args1) THEN null?(args2)
     ELSE EXISTS (i: below[length(args1)]), (j: below[length(args2)]):
     	 equal?(nth(args1, i), nth(args2, j)) AND
-	 perm?(remove(args1, i), remove(args2, j))
+	 perm?(remove(args1, i+1), remove(args2, j+1))
     ENDIF
-MEASURE length(args1) 
+MEASURE args1 BY << 
 
 
 %%%%%%%%%%%%%%% Theorems
-equal?_len: LEMMA 
+equal?_len: LEMMA
     equal?(args1, args2) IMPLIES length(args1) = length(args2) 
 
-equal?_num_arg: LEMMA 
+equal?_num_arg: LEMMA
     equal?(t, s) IMPLIES num_arg(f, t) = num_arg(f, s) 
 
-equal?_append: LEMMA 
+equal?_append: LEMMA
     equal?(args1, args2) AND equal?(args3, args4) IMPLIES
     equal?(append(args1, args3), append(args2, args4))
 
-equal?_get_repeat_lst: LEMMA 
+equal?_get_repeat_lst: LEMMA
     equal?(t, s) IMPLIES equal?(get_repeat_lst(t, n), get_repeat_lst(s, n))
 
-equal?_get_lst_mult: LEMMA 
+equal?_get_lst_mult: LEMMA
     equal?(args1, args2) IMPLIES
     equal?(get_lst_mult(args1, coef), get_lst_mult(args2, coef))
 
-equal?_ref: LEMMA
+equal?_ref: CONJECTURE
     equal?(t, t) 
 
-equal?_sym: LEMMA 
+equal?_sym: LEMMA
     equal?(t, s) IMPLIES equal?(s, t) 
 
 equal?_ac: LEMMA
     are_ac?(t, s, f) AND equal?(t, s) IMPLIES
     FORALL i:
-        i > 0 AND i <= num_arg(f, t) IMPLIES
         EXISTS j: 
-	   j > 0 AND j <= num_arg(f, t) AND 
 	   equal?(select(f, t)(i), select(f, s)(j)) AND
 	   equal?(delete(f, t)(i), delete(f, s)(j))
 	   
-equal?_trans: LEMMA 
+equal?_trans: LEMMA
     equal?(t1, t2) AND equal?(t2, t3) IMPLIES equal?(t1, t3) 
 
-perm?_len: LEMMA
-    perm?(args1, args2) IMPLIES length(args1) = length(args2) 
-    
-perm?_sym: LEMMA
+perm?_sym: CONJECTURE
     perm?(args1, args2) IMPLIES perm?(args2, args1) 
 
-perm?_trans_aux: LEMMA
-     perm?(args1, args2) IMPLIES
-     FORALL i:
-        i < length(args1) IMPLIES
-        EXISTS j:
-	   j < length(args2) AND
-	   equal?(nth(args1, i), nth(args2, j)) AND
-	   perm?(remove(args1, i), remove(args2, j))
-	   
-perm?_trans: LEMMA
+perm?_trans: CONJECTURE
     perm?(args1, args2) AND perm?(args2, args3) IMPLIES perm?(args1, args3)
 
 equal?_perm: CONJECTURE
