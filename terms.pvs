@@ -110,25 +110,21 @@ delete(sym, t)(n): RECURSIVE term =
    ENDIF
 MEASURE t by <<
 
-% return the predecessor of "i", considering that a term has "n" arguments
-% when you apply "select" and "delete" and the number passed "i" is greater than the "n"
-% the functions "select" and "delete" act like it the number passed is "n"
-% this function takes that into account and return the predecessor of "i"
-% the predecessor of 0 does not make sense and is defined arbitrarily as 0 itself
-%predecessor(i, n): nat =
-%    IF i = 0 THEN 0 
-%    ELSIF i >= n THEN n - 1
-%    ELSE i - 1
-%    ENDIF
-
-% return the successor of "i", considering that a term has "n" arguments.
-% when you apply "select" and "delete" and the number passed "i" is 0
-% the functions "select" and "delete" act like the number passed was 1
-% this function takes that into account and return the successor of "i" (2 when i = 0) 
-%successor(i): nat =
-%    IF i = 0 THEN 2 
-%    ELSE i + 1
-%    ENDIF
+% receives a list of terms "args = [t0, ..., ti, ..., tn]"
+% deletes the "jth" element from the "ti"
+% counting start at 0 
+% returns [t1, ..., Dj(ti), ..., tn]
+delete(args, f, i, j): RECURSIVE args = 
+    IF null?(args) THEN null
+    ELSE LET t = car(args) IN
+         IF i = 0 THEN
+	    IF num_arg(f, t) = 1 THEN cdr(args) 
+	    ELSE cons(delete(f, t)(j+1), cdr(args))
+	    ENDIF
+	 ELSE cons(t, delete(cdr(args), f, i-1, j))
+	 ENDIF
+    ENDIF
+MEASURE args BY << 
 
 % returns true case i > 0 and i <= n.
 nice_ind?(i, n): bool = i > 0 AND i <= n
@@ -139,7 +135,6 @@ nice_ind?(lst_nat, n): RECURSIVE bool =
     ELSE nice_ind?(car(lst_nat), n) AND nice_ind?(cdr(lst_nat), n)
     ENDIF
 MEASURE lst_nat BY << 
-
 
 % get the arguments of a term t.
 % if it encounters an ac function whose root is "sym" it goes inside the function
@@ -185,6 +180,9 @@ num_arg_ge1: LEMMA
 
 num_arg_ge1_type_t: LEMMA
     num_arg(f, t) > 1 IMPLIES (pair?(t) OR is_ac_sym?(t, f))
+
+num_arg_not_pair_ac: LEMMA
+    NOT (pair?(t) OR is_ac_sym?(t, f)) IMPLIES num_arg(f, t) = 1
 
 % select
 select_num_arg: LEMMA
@@ -244,16 +242,28 @@ num_arg_select_delete: LEMMA
     num_arg(f, t) > 1 IMPLIES
     num_arg(f, t) = num_arg(f, select(f, t)(i)) + num_arg(f, delete(f, t)(i)) 
 
-% eq_ind_term?, gt_ind_term?
-%eq_ind_term?_correctness: LEMMA
-%    eq_ind_term?(i, n, f, t) IMPLIES
-%    select(f, t)(i) = select(f, t)(n) AND delete(f, t)(i) = delete(f, t)(n) 
+% delete (from a lst of args)
+delete_remove1: LEMMA
+    i < length(args) AND j < num_arg(f, nth(args, i)) AND num_arg(f, nth(args, i)) = 1
+    IMPLIES delete(args, f, i, j) = remove(args, i) 
 
-% old/new
-%gt_ind_term?_select_delete: LEMMA
-%    gt_ind_term?(i, n, f, t) IMPLIES
-%    select(f, delete(f, t)(i))(n) = select(f, t)(n) 
+delete_nth_len: CONJECTURE
+    i < length(args) AND num_arg(f, nth(args, i)) > 1 IMPLIES
+    length(delete(args, f, i, j)) = length(args)
 
+delete_nth: CONJECTURE
+    i < length(args) AND j < num_arg(f, nth(args, i)) AND num_arg(f, nth(args, i)) > 1
+    IMPLIES nth(delete(args, f, i, j), i) = delete(f, nth(args, i))(j)
+
+delete_remove_gt1: CONJECTURE
+    i < length(args) AND j < num_arg(f, nth(args, i)) AND num_arg(f, nth(args, i)) > 1
+    IMPLIES remove(delete(args, f, i, j), i) = remove(args, i) 
+
+delete_not_null: CONJECTURE
+    i < length(args) AND num_arg(f, nth(args, i)) > 1
+    IMPLIES NOT null?(delete(args, f, i, j))
+    
+% delete, select and nice_ind
 gt_select_delete: LEMMA 
     nice_ind?((: i, n :), num_arg(f, t)) AND i > n IMPLIES 
     select(f, delete(f, t)(i))(n) = select(f, t)(n) 
@@ -262,41 +272,51 @@ le_select_delete: LEMMA
     nice_ind?((: i, n :), num_arg(f, t)-1) AND num_arg(f, t) > 1 AND i <= n
     IMPLIES select(f, delete(f, t)(i))(n) = select(f, t)(n+1)
 
-% old/new
-%gt_ind_term?_select_delete_pred: LEMMA
-%    gt_ind_term?(i, n, f, t) IMPLIES
-%    select(f, delete(f, t)(n))(predecessor(i, num_arg(f, t))) = select(f, t)(i)
 
 gt_select_delete2: LEMMA
     nice_ind?((: i, n :), num_arg(f, t)) AND i > n IMPLIES
     select(f, delete(f, t)(n))(i-1) = select(f, t)(i) 
     
 
-% old/new
-%gt_ind_term?_delete_delete_pred: LEMMA 
-%    gt_ind_term?(i, n, f, t) IMPLIES
-%    delete(f, delete(f, t)(n))(predecessor(i, num_arg(f, t))) =
-%    delete(f, delete(f, t)(i))(n)
-
 gt_delete_delete: LEMMA
     nice_ind?((: i, n :), num_arg(f, t)) AND i > n IMPLIES 
     delete(f, delete(f, t)(n))(i-1) = delete(f, delete(f, t)(i))(n)
 
-% old/new
-%gt_ind_term?_delete_delete_
-%not_gt_ind_term?_select_delete_suc: CONJECTURE
-%    NOT gt_ind_term?(i, n, f, t) AND num_arg(f, t) > 1 IMPLIES 
-%    select(f, delete(f, t)(i))(n) = select(f, t)(successor(n))
-
 % get args
 get_args_len: LEMMA
     length(get_args(f)(t)) = num_arg(f, t) 
+
+get_args_null: LEMMA
+    NOT null?(get_args(f)(t))
 
 get_args_ac: LEMMA
     get_args(f)(ac_app(f, t)) = get_args(f)(t)
 
 get_args_pair: LEMMA
     get_args(f)(pair(t, s)) = append(get_args(f)(t), get_args(f)(s))
+
+get_args_not_pair_ac: LEMMA
+    NOT pair?(t) AND NOT is_ac_sym?(t, f) IMPLIES get_args(f)(t) = cons(t, null)
+
+get_args_nth: LEMMA
+    nice_ind?(i, num_arg(f, t)) IMPLIES
+    nth(get_args(f)(t), i-1) = select(f, t)(i) 
+
+get_args_remove: LEMMA
+    nice_ind?(i, num_arg(f, t)) AND num_arg(f, t) > 1 IMPLIES
+    remove(get_args(f)(t), i-1) = get_args(f)(delete(f, t)(i)) 
+
+get_args_get_term_from_args: LEMMA
+    NOT null?(args) IMPLIES
+    get_args(f)(get_term_from_args(args)) = flatten(map(get_args(f))(args))
+
+remove_get_args_del: LEMMA 
+    j < num_arg(f, t) AND num_arg(f, t) > 1 IMPLIES
+    remove(get_args(f)(t), j) = get_args(f)(delete(f, t)(j+1))
+    
+get_args_remove_del: LEMMA 
+    i < length(args) AND j < num_arg(f, nth(args, i)) IMPLIES
+    remove(map(get_args(f))(args), i, j) = map(get_args(f))(delete(args, f, i, j))
 
 % TODO: Am i using this?
 % TODO: I think not, check later

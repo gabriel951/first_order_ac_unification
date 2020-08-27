@@ -12,10 +12,11 @@
 
 equality: THEORY
 BEGIN
-	IMPORTING term_properties
+	IMPORTING termination, list_theory[args] 
 
 t, t1, t2, t3, s: VAR term
 args1, args2, args3, args4: VAR args
+lst_args1, lst_args2: VAR list[args]
 sym, f: VAR string
 
 i, j, n: VAR nat
@@ -62,6 +63,10 @@ perm?(args1, args2): RECURSIVE bool =
     ENDIF
 MEASURE length(args1) 
 
+% receives two lists of arguments, "lst_args1" and "lst_args2"
+% lst_args1 = [args11 ... args1n] and lst_args2 = [args21 ... args2n] 
+perm?(lst_args1, lst_args2): bool =
+    perm?(flatten(lst_args1), flatten(lst_args2)) 
 
 %%%%%%%%%%%%%%% Theorems
 equal?_len: LEMMA 
@@ -102,6 +107,10 @@ equal?_trans: LEMMA
 perm?_len: LEMMA
     perm?(args1, args2) IMPLIES length(args1) = length(args2) 
     
+perm?_append: LEMMA
+    perm?(args1, args2) AND perm?(args3, args4) IMPLIES
+    perm?(append(args1, args3), append(args2, args4))
+
 perm?_sym: LEMMA
     perm?(args1, args2) IMPLIES perm?(args2, args1) 
 
@@ -117,19 +126,36 @@ perm?_trans_aux: LEMMA
 perm?_trans: LEMMA
     perm?(args1, args2) AND perm?(args2, args3) IMPLIES perm?(args1, args3)
 
-equal?_perm: CONJECTURE
+equal?_perm: LEMMA
     equal?(args1, args2) IMPLIES perm?(args1, args2) 
 
-ac_perm_args: CONJECTURE
+ac_perm_args: LEMMA
     are_ac?(t, s, sym) AND equal?(t, s) IMPLIES perm?(get_args(sym)(t), get_args(sym)(s))
+
+ac_perm_args2: LEMMA
+    equal?(t, s) IMPLIES perm?(get_args(f)(t), get_args(f)(s))
    
-perm_args_ac: CONJECTURE
+perm_args_ac: LEMMA
     perm?(get_args(sym)(t), get_args(sym)(s)) AND are_ac?(t, s, sym) IMPLIES equal?(t, s) 
 
+% TODO: use ac_perm_args
+% TODO: check if both of them are necessary
 perm_args_ac2: CONJECTURE
     are_ac?(t, s, f) AND equal?(t, s) IMPLIES perm?(get_args(f)(t), get_args(f)(s)) 
 
-perm_get_ac_from_args: CONJECTURE
+perm?_map_get_args: CONJECTURE
+    perm?(args1, args2) IMPLIES
+    perm?(map(get_args(f))(args1), map(get_args(f))(args2))
+     
+perm?_get_args_flatten: LEMMA
+    perm?(args1, args2) IMPLIES
+    perm?(flatten(map(get_args(f))(args1)), flatten(map(get_args(f))(args2)))
+
+perm?_get_ac_from_args_equal?: LEMMA
+    perm?(args1, args2) IMPLIES
+    equal?(get_ac_from_args(f)(args1), get_ac_from_args(f)(args2))
+
+perm_get_ac_from_args: LEMMA
     perm?(args1, args2) IMPLIES 
     perm?(get_args(f)(get_ac_from_args(f)(args1)), get_args(f)(get_ac_from_args(f)(args2)))
 

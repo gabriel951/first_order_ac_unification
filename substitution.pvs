@@ -96,12 +96,9 @@ subs_get_lst_mult: CONJECTURE
     subs(sigma)(get_lst_mult(args, coef)) = get_lst_mult(subs(sigma)(args), coef)
 
 % Is this correct? I think so. 
-% TODO: how will I prove that?
-% TODO: is this hypothesis necessary? I think not
 % induction on t I guess
 args_subs_ac: CONJECTURE 
     get_args(f)(subs(sigma)(t)) = flatten(map(get_args(f), map(subs(sigma), get_args(f)(t))))
-
 
 perm?_get_args_subs: CONJECTURE
     perm?(subs(sigma)(get_args(f)(t)), subs(sigma)(get_args(f)(s))) IMPLIES

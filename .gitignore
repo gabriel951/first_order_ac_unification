@@ -3,3 +3,5 @@ pvsbin/
 
 # ignore files .pvs~
 *~
+old_equality.pvs
+old_equality.prf

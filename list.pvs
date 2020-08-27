@@ -56,6 +56,22 @@ flatten(lst_of_lsts): RECURSIVE list[T] =
     ENDIF
 MEASURE lst_of_lsts BY <<
 
+% let lst_i = nth(lst_of_lsts, i) and x = nth(lst_i, j).
+% returns 0 when i or j are not valid indexes
+% find the index "n" such that x = nth(flatten(lst_of_lsts), n)
+ind_flatten(lst_of_lsts, i, j): RECURSIVE nat =
+    IF i >= length(lst_of_lsts) THEN 0
+    ELSE LET lst = car(lst_of_lsts) IN
+       IF i = 0 THEN
+          IF j >= length(lst) THEN 0
+          ELSE j 
+	  ENDIF
+       ELSE length(lst) + ind_flatten(cdr(lst_of_lsts), i-1, j) 
+       ENDIF
+    ENDIF
+MEASURE lst_of_lsts BY <<
+	 
+
 % returns a list [min, min+1, ..., max]
 % if max < min, return null
 %from_min2max(min, max): RECURSIVE list[nat] =
@@ -287,6 +303,23 @@ remove(lst, i): RECURSIVE list[T] =
     ENDIF
 MEASURE lst BY << 
 
+% receives lst_of_lsts = [lst_0, ..., lst_i, ..., lst_n]
+% removes the jth element of lst_i, obtaining lst'_i
+% returns lst_of_lsts = [lst_0, ..., lst'_i, ..., lst_n]
+% counting start at 0 
+remove(lst_of_lsts, i, j): RECURSIVE list[list[T]] =
+    IF null?(lst_of_lsts) THEN null 
+    ELSE LET lst = car(lst_of_lsts) IN
+         IF i = 0 THEN
+	     IF length(lst) <= 1 THEN cdr(lst_of_lsts)
+	     ELSE cons(remove(lst, j), cdr(lst_of_lsts))
+	     ENDIF
+	 ELSE cons(lst, remove(cdr(lst_of_lsts), i-1, j))
+	 ENDIF
+    ENDIF
+MEASURE lst_of_lsts BY << 
+
+
 %%%%%%%%%%%%%%%%%%%%% Theorems
 %% general properties
 member_append: LEMMA
@@ -332,6 +365,23 @@ cart_prod_aux_mem2: LEMMA
 cart_prod_mem: LEMMA
     (member(x, lst1) AND member(y, lst2)) = member((x, y), cartesian_product(lst1, lst2))
     
+% flatten
+null_flatten_nth: LEMMA
+    i < length(lst_of_lsts) AND null?(flatten(lst_of_lsts)) IMPLIES
+    null?(nth(lst_of_lsts, i))
+
+len0_ind_flatten: LEMMA
+    length(flatten(lst_of_lsts)) = 0 IMPLIES ind_flatten(lst_of_lsts, i, j) = 0
+
+ind_flatten_len: LEMMA
+    i < length(lst_of_lsts) AND j < length(nth(lst_of_lsts, i)) IMPLIES
+    ind_flatten(lst_of_lsts, i, j) < length(flatten(lst_of_lsts))
+
+nth_flatten: LEMMA 
+    i < length(lst_of_lsts) AND j < length(nth(lst_of_lsts, i)) IMPLIES
+    nth(nth(lst_of_lsts, i), j) = nth(flatten(lst_of_lsts), ind_flatten(lst_of_lsts, i, j))
+
+
 % from_min2max:
 from_min2max_len: LEMMA
     length(from_min2max(i, n)) = max(0, n-i+1)
@@ -424,5 +474,16 @@ gt_nth_remove2: LEMMA
 gt_remove_remove: LEMMA
     i < length(lst) AND i > n IMPLIES
     remove(remove(lst, n), i-1) = remove(remove(lst, i), n)
+
+remove_append: LEMMA
+    remove(append(lst1, lst2), i) =
+    IF i < length(lst1) THEN append(remove(lst1, i), lst2)
+    ELSE append(lst1, remove(lst2, i - length(lst1)))
+    ENDIF
+
+flatten_remove: LEMMA
+    i < length(lst_of_lsts) AND j < length(nth(lst_of_lsts, i)) IMPLIES
+    remove(flatten(lst_of_lsts), ind_flatten(lst_of_lsts, i, j)) =
+    flatten(remove(lst_of_lsts, i, j))
 
 END list_theory
