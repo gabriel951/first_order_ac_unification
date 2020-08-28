@@ -144,9 +144,7 @@ ac_perm_args2: LEMMA
 perm_args_ac: LEMMA
     perm?(get_args(sym)(t), get_args(sym)(s)) AND are_ac?(t, s, sym) IMPLIES equal?(t, s) 
 
-% TODO: use ac_perm_args
-% TODO: check if both of them are necessary
-perm_args_ac2: CONJECTURE
+perm_args_ac2: LEMMA
     are_ac?(t, s, f) AND equal?(t, s) IMPLIES perm?(get_args(f)(t), get_args(f)(s)) 
 
 perm?_map_get_args: LEMMA

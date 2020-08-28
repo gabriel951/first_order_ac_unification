@@ -165,18 +165,6 @@ MEASURE args BY <<
 
 get_ac_from_args(sym)(args): term = ac_app(sym, get_term_from_args(args))
 
-% TODO: check if this is needed
-simple_term?(f, t): bool = 
-   cons(t, null) = get_args(f)(t)
-
-% TODO: check if this is needed
-simple_args?(f, args): RECURSIVE bool =
-    IF null?(args) THEN TRUE
-    ELSE LET t = car(args) IN
-         simple_term?(f, t) AND simple_args?(f, cdr(args))
-    ENDIF
-MEASURE args BY << 
-
 %%%%%%%%%%%%%%%
 % size
 size_ge1: LEMMA
@@ -329,12 +317,6 @@ remove_get_args_del: LEMMA
 get_args_remove_del: LEMMA 
     i < length(args) AND j < num_arg(f, nth(args, i)) IMPLIES
     remove(map(get_args(f))(args), i, j) = map(get_args(f))(delete(args, f, i, j))
-
-% TODO: Am i using this?
-% TODO: I think not, check later
-get_ac_from_args_cor: CONJECTURE
-    simple_args?(f, args) AND NOT null?(args) IMPLIES 
-    get_args(f)(get_ac_from_args(f)(args)) = args
 
 
 END term_properties
