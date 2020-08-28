@@ -58,6 +58,13 @@ size(t): RECURSIVE nat =
     ENDCASES
 MEASURE t BY << 
 
+% size of a list of arguments
+size(args): RECURSIVE nat =
+     IF null?(args) THEN 1
+     ELSE LET t = car(args) IN size(t) + size(cdr(args)) 
+     ENDIF 
+MEASURE length(args) 
+
 % test if t is an AC function symbol headed by sym
 is_ac_sym?(t, sym): bool = ac_app?(t) AND sym = ac_sym(t)
 
@@ -171,6 +178,7 @@ simple_args?(f, args): RECURSIVE bool =
 MEASURE args BY << 
 
 %%%%%%%%%%%%%%%
+% size
 size_ge1: LEMMA
     size(t) >= 1
     
@@ -204,6 +212,7 @@ ac_select_size: LEMMA
 % delete
 delete_size: LEMMA
     size(delete(f, t)(n)) <= size(t)
+
 
 num_arg_delete: LEMMA
     num_arg(f, delete(f, t)(n)) <= num_arg(f, t)
@@ -243,23 +252,26 @@ num_arg_select_delete: LEMMA
     num_arg(f, t) = num_arg(f, select(f, t)(i)) + num_arg(f, delete(f, t)(i)) 
 
 % delete (from a lst of args)
+delete_size2: LEMMA 
+    i < length(args) IMPLIES size(delete(args, f, i, j)) < size(args)
+
 delete_remove1: LEMMA
     i < length(args) AND j < num_arg(f, nth(args, i)) AND num_arg(f, nth(args, i)) = 1
     IMPLIES delete(args, f, i, j) = remove(args, i) 
 
-delete_nth_len: CONJECTURE
+delete_nth_len: LEMMA
     i < length(args) AND num_arg(f, nth(args, i)) > 1 IMPLIES
     length(delete(args, f, i, j)) = length(args)
 
-delete_nth: CONJECTURE
+delete_nth: LEMMA
     i < length(args) AND j < num_arg(f, nth(args, i)) AND num_arg(f, nth(args, i)) > 1
-    IMPLIES nth(delete(args, f, i, j), i) = delete(f, nth(args, i))(j)
+    IMPLIES nth(delete(args, f, i, j), i) = delete(f, nth(args, i))(j+1)
 
-delete_remove_gt1: CONJECTURE
+delete_remove_gt1: LEMMA
     i < length(args) AND j < num_arg(f, nth(args, i)) AND num_arg(f, nth(args, i)) > 1
     IMPLIES remove(delete(args, f, i, j), i) = remove(args, i) 
 
-delete_not_null: CONJECTURE
+delete_not_null: LEMMA
     i < length(args) AND num_arg(f, nth(args, i)) > 1
     IMPLIES NOT null?(delete(args, f, i, j))
     

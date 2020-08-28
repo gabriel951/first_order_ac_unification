@@ -12,7 +12,7 @@
 
 equality: THEORY
 BEGIN
-	IMPORTING termination, list_theory[args] 
+	IMPORTING term_properties, list_theory[args] 
 
 t, t1, t2, t3, s: VAR term
 args1, args2, args3, args4: VAR args
@@ -104,6 +104,12 @@ equal?_ac: LEMMA
 equal?_trans: LEMMA 
     equal?(t1, t2) AND equal?(t2, t3) IMPLIES equal?(t1, t3) 
 
+equal?_select_delete: LEMMA
+    equal?(t, s) IMPLIES EXISTS i, j:
+    nice_ind?((: i+1, j+1:), num_arg(f, t)) AND
+    equal?(select(f, t)(i+1), select(f, s)(j+1)) AND
+    equal?(delete(f, t)(i+1), delete(f, s)(j+1))
+
 perm?_len: LEMMA
     perm?(args1, args2) IMPLIES length(args1) = length(args2) 
     
@@ -143,7 +149,7 @@ perm_args_ac: LEMMA
 perm_args_ac2: CONJECTURE
     are_ac?(t, s, f) AND equal?(t, s) IMPLIES perm?(get_args(f)(t), get_args(f)(s)) 
 
-perm?_map_get_args: CONJECTURE
+perm?_map_get_args: LEMMA
     perm?(args1, args2) IMPLIES
     perm?(map(get_args(f))(args1), map(get_args(f))(args2))
      
