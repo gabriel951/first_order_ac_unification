@@ -370,6 +370,9 @@ null_flatten_nth: LEMMA
     i < length(lst_of_lsts) AND null?(flatten(lst_of_lsts)) IMPLIES
     null?(nth(lst_of_lsts, i))
 
+flatten_append: LEMMA
+    flatten(append(lst_of_lsts1, lst_of_lsts2)) = append(flatten(lst_of_lsts1), flatten(lst_of_lsts2))
+
 len0_ind_flatten: LEMMA
     length(flatten(lst_of_lsts)) = 0 IMPLIES ind_flatten(lst_of_lsts, i, j) = 0
 
@@ -487,3 +490,17 @@ flatten_remove: LEMMA
     flatten(remove(lst_of_lsts, i, j))
 
 END list_theory
+
+
+map_theory [T1, T2: TYPE]: THEORY
+ BEGIN
+  f: VAR [T1 -> T2]
+  l1, l2: VAR list[T1]
+
+map_append: LEMMA
+    map(f, append(l1, l2)) = append(map(f, l1), map(f, l2))
+
+map_append2: LEMMA
+    map(f)(append(l1, l2)) = append(map(f)(l1), map(f)(l2))
+    
+END map_theory

@@ -14,9 +14,9 @@
 
 substitution: THEORY
 BEGIN
-	IMPORTING equality
+	IMPORTING equality, map_theory[term, term], map_theory[term, args]
 	
-a: VAR nat
+a, i: VAR nat
 X, Y: VAR variable
 t, s, arg: VAR term
 args, args1, args2: VAR args
@@ -80,8 +80,20 @@ subs_unit: LEMMA
 subs_pair: LEMMA
     subs(sigma)(pair(t, s)) = pair(subs(sigma)(t), subs(sigma)(s))
 
+subs_app: LEMMA
+    subs(sigma)(app(f, arg)) = app(f, subs(sigma)(arg))
+
 subs_ac: LEMMA
     subs(sigma)(ac_app(f, arg)) = ac_app(f, subs(sigma)(arg))
+
+subs_len: LEMMA
+    length(subs(sigma)(args)) = length(args)
+
+subs_append: LEMMA
+    subs(sigma)(append(args1, args2)) = append(subs(sigma)(args1), subs(sigma)(args2))
+    
+subs_map: LEMMA
+    map(subs(sigma))(args) = subs(sigma)(args)
 
 subs_get_term_from_args: LEMMA
     subs(sigma)(get_term_from_args(args1)) = get_term_from_args(subs(sigma)(args1))
@@ -89,18 +101,40 @@ subs_get_term_from_args: LEMMA
 subs_get_ac_from_args: LEMMA
     subs(sigma)(get_ac_from_args(f)(args)) = get_ac_from_args(f)(subs(sigma)(args))
 
-subs_perm?: CONJECTURE
+subs_args_nth: LEMMA
+    i < length(args) IMPLIES
+    nth(subs(sigma)(args), i) = subs(sigma)(nth(args, i))
+ 
+subs_remove: LEMMA
+    remove(subs(sigma)(args), i) = subs(sigma)(remove(args, i))
+
+args_subs_ac: LEMMA 
+    get_args(f)(subs(sigma)(t)) = flatten(map(get_args(f))(map(subs(sigma))(get_args(f)(t))))
+
+subs_get_args1: LEMMA 
+    num_arg(f, t) = 1 IMPLIES
+    get_args(f)(subs(sigma)(t)) = get_args(f)(subs(sigma)(select(f, t)(i)))
+
+subs_perm_get_args_ge1: LEMMA
+    num_arg(f, t) > 1 IMPLIES 
+    perm?(get_args(f)(subs(sigma)(t)),
+          append(get_args(f)(subs(sigma)(select(f, t)(i))),
+	  	 get_args(f)(subs(sigma)(delete(f, t)(i)))))
+
+subs_equal?: LEMMA
+    equal?(t, s) IMPLIES
+    equal?(subs(sigma)(t), subs(sigma)(s))
+
+subs_perm?: LEMMA
     perm?(args1, args2) => perm?(subs(sigma)(args1), subs(sigma)(args2))
 
-subs_get_lst_mult: CONJECTURE
+subs_get_repeat_lst: LEMMA
+    subs(sigma)(get_repeat_lst(t, i)) = get_repeat_lst(subs(sigma)(t), i)
+
+subs_get_lst_mult: LEMMA
     subs(sigma)(get_lst_mult(args, coef)) = get_lst_mult(subs(sigma)(args), coef)
 
-% Is this correct? I think so. 
-% induction on t I guess
-args_subs_ac: CONJECTURE 
-    get_args(f)(subs(sigma)(t)) = flatten(map(get_args(f), map(subs(sigma), get_args(f)(t))))
-
-perm?_get_args_subs: CONJECTURE
+perm?_get_args_subs: LEMMA
     perm?(subs(sigma)(get_args(f)(t)), subs(sigma)(get_args(f)(s))) IMPLIES
     perm?(get_args(f)(subs(sigma)(t)), get_args(f)(subs(sigma)(s)))
 

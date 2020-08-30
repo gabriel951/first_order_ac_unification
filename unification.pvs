@@ -45,7 +45,7 @@ unifies?_append: LEMMA
     unifies?(sigma, append(unif_prb1, unif_prb2)) =
     (unifies?(sigma, unif_prb1) AND unifies?(sigma, unif_prb2))
 
-unifies?_pareate: CONJECTURE 
+unifies?_pareate: LEMMA
     length(args1) = length(args2) AND unifies?(sigma, pareate(args1, args2))
     IMPLIES equal?(subs(sigma)(args1), subs(sigma)(args2))
     

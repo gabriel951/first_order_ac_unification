@@ -117,6 +117,13 @@ perm?_append: LEMMA
     perm?(args1, args2) AND perm?(args3, args4) IMPLIES
     perm?(append(args1, args3), append(args2, args4))
 
+perm?_append2: LEMMA
+    perm?(args1, args2) AND perm?(args3, args4) IMPLIES
+    perm?(append(args1, args3), append(args4, args2))
+
+perm?_ref: LEMMA
+    perm?(args1, args1)
+
 perm?_sym: LEMMA
     perm?(args1, args2) IMPLIES perm?(args2, args1) 
 
@@ -131,6 +138,10 @@ perm?_trans_aux: LEMMA
 	   
 perm?_trans: LEMMA
     perm?(args1, args2) AND perm?(args2, args3) IMPLIES perm?(args1, args3)
+
+perm?_append3: LEMMA 
+    perm?(args4, append(args2, args3)) IMPLIES 
+    perm?(append(args1, args4), append(args2, append(args1, args3)))
 
 equal?_perm: LEMMA
     equal?(args1, args2) IMPLIES perm?(args1, args2) 
