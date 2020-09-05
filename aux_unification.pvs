@@ -33,7 +33,8 @@ t, t1, t2: VAR term
 args: VAR args
 lst_args: VAR list[args]
 
-mult_t1, mult_t2, row, col: VAR list[nat]
+mult_t1, mult_t2: VAR list[posnat]
+row, col: VAR list[nat]
 bound, i, n, num_col: VAR nat
 num: VAR number
 
@@ -50,19 +51,33 @@ ac_sol_simp_lst: VAR list[[sub, unif_prb]]
 f: VAR ac_symbol
 
 % this corresponds to function elimcom in Fages paper
+% TODO: change this version
+%elim_com_arg(t1, t2, sym): [args, list[nat], list[nat]] =
+%    LET 
+%    % get the arguments of t1 and how many times they appear
+%    (args_t1, coef_t1) = get_args_coef_ac(t1, sym),
+%    % get the arguments of t2 and how many times they appear
+%    (args_t2, coef_t2) = get_args_coef_ac(t2, sym),
+%    % get the arguments that appear more in t1 than in t2 and how many times
+%    % they appear more in t1
+%    (new_args_t1, new_coef_t1) = select_args(args_t1, coef_t1, args_t2, coef_t2),
+%    % get the arguments that appear more in t1 than in t2 and how many times
+%    % they appear more in t2
+%    (new_args_t2, new_coef_t2) = select_args(args_t2, coef_t2, args_t1, coef_t1)
+%    IN (append(new_args_t1, new_args_t2), new_coef_t1, new_coef_t2)
+
 elim_com_arg(t1, t2, sym): [args, list[nat], list[nat]] =
-    LET 
-    % get the arguments of t1 and how many times they appear
-    (args_t1, coef_t1) = get_args_coef_ac(t1, sym),
-    % get the arguments of t2 and how many times they appear
-    (args_t2, coef_t2) = get_args_coef_ac(t2, sym),
-    % get the arguments that appear more in t1 than in t2 and how many times
-    % they appear more in t1
-    (new_args_t1, new_coef_t1) = select_args(args_t1, coef_t1, args_t2, coef_t2),
-    % get the arguments that appear more in t1 than in t2 and how many times
-    % they appear more in t2
-    (new_args_t2, new_coef_t2) = select_args(args_t2, coef_t2, args_t1, coef_t1)
-    IN (append(new_args_t1, new_args_t2), new_coef_t1, new_coef_t2)
+     LET
+     % get arguments of t1 and t2
+     args1 = get_args(sym)(t1), args2 = get_args(sym)(t2),
+     % remove common elements
+     (no_rep_args1, no_rep_args2) = remove_common(args1, args2), 
+     % get arguments of t1 and their multiplicity
+     (new_args_t1, new_coef_t1) = count_elem(null, null, args1), 
+     % get arguments of t2 and their multiplicity
+     (new_args_t2, new_coef_t2) = count_elem(null, null, args2)
+     IN (append(new_args_t1, new_args_t2), new_coef_t1, new_coef_t2)
+     
 
 elim_com_arg_pos: LEMMA
    member(num, elim_com_arg(t1, t2, sym)`2) IMPLIES num > 0 
@@ -223,12 +238,24 @@ MEASURE ac_sol_simp_lst BY <<
 
 
 %%%%%%%%%%%%%%%%%%%%%%% Theorems
-extract_submatrices_cor: CONJECTURE
+get_nice_submatrices_mem: LEMMA
+   member(dio_matrix, get_nice_submatrices(dio_matrix_lst, args)) IMPLIES
+   member(dio_matrix, dio_matrix_lst)
+   
+get_all_sublists_dio_cor: LEMMA
+   member(dio_matrix1, get_all_sublists(dio_matrix)) AND 
+   dio_matrix_correct?(dio_matrix, mult_t1, mult_t2) IMPLIES
+   dio_matrix_correct?(dio_matrix1, mult_t1, mult_t2)
+
+extract_submatrices_cor: LEMMA
    dio_matrix_correct?(dio_matrix, mult_t1, mult_t2) AND 
    member(dio_matrix1, extract_submatrices(dio_matrix, args))
    IMPLIES dio_matrix_correct?(dio_matrix1, mult_t1, mult_t2) 
    
-get_pre_new_args_len: CONJECTURE
+add_new_arg_len: LEMMA
+    length(add_new_arg(lst_args, row, t)) = length(lst_args)
+    
+get_pre_new_args_len: LEMMA
     LET (new_lst_args, new_vars2avoid) = get_pre_new_args(lst_args, dio_matrix, vars2avoid) IN
     length(new_lst_args) = length(lst_args) 
 

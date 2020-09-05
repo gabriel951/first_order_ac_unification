@@ -14,16 +14,19 @@ list_theory[T: TYPE]: THEORY
 BEGIN
 
 x, y, z: VAR T
-pair_lst: VAR [list[T], list[T]]
+pair: VAR [T, T]
 
+pair_lst: VAR [list[T], list[T]]
 lst_pair, lst_pair1, lst_pair2: VAR list[[T, T]]
 
 lst, lst1, lst2, new_lst1, new_lst2: VAR list[T]
-lst_of_lsts, lst_of_lsts1, lst_of_lsts2: VAR list[list[T]]
+lst_of_lsts, lst_of_lsts1, lst_of_lsts2, matrix, matrix1, matrix2: VAR list[list[T]]
 
 num: VAR number
 n, i, j, min, max, inc, elem_seen_so_far, cur_greater: VAR nat
 coef, coef1, coef2, lst_nat, lst_nat1, lst_nat2: VAR list[nat]
+
+equal: VAR [T, T -> boolean]
 
 % append_pair((l1, l2)) = append(l1, l2)
 append_pair(pair_lst): list[T] =
@@ -102,11 +105,11 @@ MEASURE lst_nat BY <<
 % the first call to this function should be pos?(x, lst, 0)
 % returns a bool to indicate if x is in lst and a natural number, to indicate the position
 % elem_seen_so_far indicates how many elements so far we have seen in the list
-% we start counting the position at 1
+% we start counting the position at 0
 pos?(x, lst, elem_seen_so_far): RECURSIVE [bool, nat] =
     IF null?(lst) THEN (FALSE, 0)
     ELSE LET y = car(lst) IN
-    	 IF x = y THEN (TRUE, elem_seen_so_far + 1)
+    	 IF x = y THEN (TRUE, elem_seen_so_far )
 	 ELSE pos?(x, cdr(lst), elem_seen_so_far + 1)
 	 ENDIF
     ENDIF
@@ -163,7 +166,7 @@ MEASURE lst1 BY <<
 
 % receives a lst of lists = [l1, ..., ln] and an element x
 % put element x as the first element of each lst li.
-% the resul is [cons(x, l1), ..., cons(x, ln)]
+% the result is [cons(x, l1), ..., cons(x, ln)]
 put_in_head(lst_of_lsts, x): RECURSIVE list[list[T]] =
     IF null?(lst_of_lsts) THEN null
     ELSE LET lst = car(lst_of_lsts) IN
@@ -189,11 +192,10 @@ select_greater(lst_nat, cur_greater): RECURSIVE nat =
     ENDIF
 MEASURE lst_nat BY << 
 
-
-% tests if all lists in lst_of_lsts have length n
-all_lsts_length?(lst_of_lsts, n): RECURSIVE bool =
+% returns TRUE if lst_of_lsts is a matrix with all rows having n columns
+matrix?(lst_of_lsts, n): RECURSIVE bool = 
     IF null?(lst_of_lsts) THEN TRUE
-    ELSE IF length(car(lst_of_lsts)) = n THEN all_lsts_length?(cdr(lst_of_lsts), n)
+    ELSE IF length(car(lst_of_lsts)) = n THEN matrix?(cdr(lst_of_lsts), n)
     	 ELSE FALSE
 	 ENDIF
     ENDIF
@@ -203,7 +205,7 @@ MEASURE lst_of_lsts BY <<
 matrix?(lst_of_lsts): bool =
     IF null?(lst_of_lsts) THEN TRUE
     ELSE LET lst = car(lst_of_lsts) IN
-    	     all_lsts_length?(lst_of_lsts, length(lst))
+    	     matrix?(lst_of_lsts, length(lst))
     ENDIF
 
 % returns TRUE if lst_of_lsts is not a matrix. Returns FALSE otherwise
@@ -275,6 +277,17 @@ MEASURE n
 % lst1 = [x1, ..., xn] and lst2 = [xn+1, ..., xj]
 split(lst, n): [list[T], list[T]] =
     (get_lst_until_n(lst, n), get_lst_after_n(lst, n))  
+
+split_matrix(matrix, n): RECURSIVE [list[list[T]], list[list[T]]] =
+    IF null?(matrix) THEN (null, null)
+    ELSE LET
+    	 row = car(matrix),
+	 (row1, row2) = split(row, n), 
+	 (cdr_matrix1, cdr_matrix2) = split_matrix(cdr(matrix), n) IN
+	 (cons(row1, cdr_matrix1), cons(row2, cdr_matrix2))
+    ENDIF
+MEASURE matrix BY << 
+    
 
 % receives a list of the form [[x1, y1], ..., [xn, yn]]
 % returns [y1, ..., yn]
@@ -384,6 +397,11 @@ nth_flatten: LEMMA
     i < length(lst_of_lsts) AND j < length(nth(lst_of_lsts, i)) IMPLIES
     nth(nth(lst_of_lsts, i), j) = nth(flatten(lst_of_lsts), ind_flatten(lst_of_lsts, i, j))
 
+flatten_mem: CONJECTURE
+    member(x, flatten(lst_of_lsts)) IMPLIES
+    EXISTS (n: below[length(lst_of_lsts)]):
+        member(x, nth(lst_of_lsts, n))
+
 
 % from_min2max:
 from_min2max_len: LEMMA
@@ -403,7 +421,7 @@ nth_from_min2max2: LEMMA
     n < length(from_min2max(1, j)) IMPLIES
     nth(from_min2max(1, j), n) = n + 1
     
-% select_args 
+% select_args - TODO: this is probably deprecated
 select_args_pos: LEMMA
     member(n, select_args(lst1, coef1, lst2, coef2)`2) IMPLIES n > 0 
     
@@ -415,9 +433,34 @@ select_args_len: LEMMA
     LET (lst3, coef3) = select_args(lst1, coef1, lst2, coef2) IN
     length(lst3) = length(coef3) 
 
+% put in head
+put_in_head_matrix?: LEMMA
+    matrix?(matrix, n) IMPLIES matrix?(put_in_head(matrix, x), n+1)
+
+put_in_head_mem: LEMMA
+    member(lst, put_in_head(matrix, x)) IMPLIES
+    (NOT null?(lst)) AND x = car(lst) AND member(cdr(lst), matrix)
+
 % get_repeat_lst
 get_repeat_lst_len: LEMMA
     length(get_repeat_lst(x, n)) = n
+
+get_repeat_lst_append: LEMMA
+    append(get_repeat_lst(x, i), get_repeat_lst(x, n)) = get_repeat_lst(x, i + n) 
+
+get_repeat_lst_nth: LEMMA
+    i < n IMPLIES
+    nth(get_repeat_lst(x, n), i) = x
+
+% matrix
+matrix_append: LEMMA
+    matrix?(append(lst_of_lsts1, lst_of_lsts2), n) =
+    (matrix?(lst_of_lsts1, n) AND matrix?(lst_of_lsts2, n))
+
+matrix_mem: LEMMA
+   matrix?(lst_of_lsts, n) AND member(lst, lst_of_lsts) IMPLIES
+   length(lst) = n
+
 
 % pareate
 pareate_append: LEMMA
@@ -455,6 +498,23 @@ split_cor: LEMMA
 
 split_append: LEMMA
     split(append(lst1, lst2), length(lst1)) = (lst1, lst2)
+
+split_append_pair: LEMMA
+    n = length(pair_lst`1) IMPLIES
+    split(append_pair(pair_lst), n)`1 = pair_lst`1 AND
+    split(append_pair(pair_lst), n)`2 = pair_lst`2 
+
+split_matrix_len: LEMMA
+    length(split_matrix(matrix, n)`1) = length(matrix)
+    AND length(split_matrix(matrix, n)`2) = length(matrix)
+
+split_matrix_nth: LEMMA
+    i < length(matrix) IMPLIES
+    nth(split_matrix(matrix, n)`1, i) = split(nth(matrix, i), n)`1   
+
+split_matrix_nth2: LEMMA
+    i < length(matrix) IMPLIES
+    nth(split_matrix(matrix, n)`2, i) = split(nth(matrix, i), n)`2   
 
 % snd_proj:
 snd_proj_pareate: LEMMA
