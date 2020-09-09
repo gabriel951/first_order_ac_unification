@@ -151,9 +151,9 @@ get_args(sym)(t): args =
     
 % get a list of arguments of an AC_term t (whose function symbol is sym)
 % and how many times they appear as arguments
-get_args_coef_ac(t, sym): [args, list[nat]] =
-    LET args = get_args(sym)(t) IN
-    count_elem(null, null, args)
+%get_args_coef_ac(t, sym): [args, list[nat]] =
+%    LET args = get_args(sym)(t) IN
+%    count_elem(null, null, args)
 
 % obtain a term to represent a whole list of terms
 get_term_from_args(args): RECURSIVE term =

@@ -280,7 +280,8 @@ dio_matrix2ac_sol_correct: CONJECTURE
 	args1_cor_mult = get_lst_mult(args1, mult_t1), 
 	args2_cor_mult = get_lst_mult(args2, mult_t2) IN 
     dio_matrix_correct?(dio_matrix, mult_t1, mult_t2) IMPLIES 
-    perm?(args1_cor_mult, args2_cor_mult)
+    %perm?(args1_cor_mult, args2_cor_mult)
+    perm?(map(get_args(f))(args1_cor_mult), map(get_args(f))(args2_cor_mult))
 
 
 solve_ac_soundness: LEMMA

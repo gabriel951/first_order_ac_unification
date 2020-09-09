@@ -68,17 +68,6 @@ MEASURE length(args1)
 perm?(lst_args1, lst_args2): bool =
     perm?(flatten(lst_args1), flatten(lst_args2)) 
 
-remove_common(args1, args2): 
-   IF null?(args1) THEN null
-   ELSE LET t = car(args1) IN
-        IF t in args2:
-	    cons(t, remove_common(cdr(args1), )
-	ELSE cdr()
-MEASURE args1 BY <<
-        
-get_common(args1, args2): RECURSIVE [args, args] =
-MEASURE args1 BY <<
-
 %%%%%%%%%%%%%%% Theorems
 equal?_len: LEMMA 
     equal?(args1, args2) IMPLIES length(args1) = length(args2) 
@@ -157,6 +146,27 @@ perm?_append3: LEMMA
 equal?_perm: LEMMA
     equal?(args1, args2) IMPLIES perm?(args1, args2) 
 
+perm?_equiv_same_count?: LEMMA
+    perm?(args1, args2) IFF same_count?(args1, args2, equal?)
+
+perm?_get_common: LEMMA
+    LET (bool1, ind1) = pos?(t, args1, equal?),
+        (bool2, ind2) = pos?(t, args2, equal?) IN
+    bool1 AND bool2 IMPLIES
+    perm?(get_common(args1, args2, equal?),
+    	  cons(nth(args1, ind1), get_common(remove(args1, ind1), remove(args2, ind2), equal?)))
+
+perm?_get_common_sym: LEMMA
+    perm?(get_common(args1, args2, equal?), get_common(args2, args1, equal?))
+
+perm?_remove_common_get_common: LEMMA
+    perm?(args1, append(remove_common(args1, args2, equal?), get_common(args1, args2, equal?)))
+
+perm?_get_lst_mult_count_elem: LEMMA
+    LET (new_args, new_coef) = count_elem(args1, coef, args2, equal?) IN
+    length(args1) = length(coef) IMPLIES
+    perm?(append(args2, get_lst_mult(args1, coef)), get_lst_mult(new_args, new_coef))
+
 ac_perm_args: LEMMA
     are_ac?(t, s, sym) AND equal?(t, s) IMPLIES perm?(get_args(sym)(t), get_args(sym)(s))
 
@@ -185,7 +195,6 @@ perm_get_ac_from_args: LEMMA
     perm?(args1, args2) IMPLIES 
     perm?(get_args(f)(get_ac_from_args(f)(args1)), get_args(f)(get_ac_from_args(f)(args2)))
 
-perm_remove_common_get_common: CONJECTURE
-    perm?(args1, append(remove_common(args1, args2)`1, get_common(args1, args2)`1))
+
 
 END equality
