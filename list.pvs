@@ -510,6 +510,17 @@ count_elem_len: LEMMA
     length(lst) = length(coef) IMPLIES
     length(new_lst) = length(new_coef)
 
+count_elem_null1: LEMMA
+    null?(count_elem(lst, coef, lst2, equal?)`1) IMPLIES null?(lst2)
+
+count_elem_null2: LEMMA
+    length(lst) = length(coef) AND
+    null?(count_elem(lst, coef, lst2, equal?)`2) IMPLIES null?(lst2) 
+
+count_elem_gt0: CONJECTURE
+    (member(i, coef) IMPLIES i > 0) AND member(n, count_elem(lst, coef, lst2, equal?)`2)
+    IMPLIES n > 0 
+
 % put in head
 put_in_head_matrix?: LEMMA
     matrix?(matrix, n) IMPLIES matrix?(put_in_head(matrix, x), n+1)

@@ -81,10 +81,10 @@ elim_com_arg(t1, t2, sym): [args, list[nat], list[nat]] =
      
 
 elim_com_arg_pos: LEMMA
-   member(num, elim_com_arg(t1, t2, sym)`2) IMPLIES num > 0 
+   member(n, elim_com_arg(t1, t2, sym)`2) IMPLIES n > 0 
    
 elim_com_arg_pos2: LEMMA
-   member(num, elim_com_arg(t1, t2, sym)`3) IMPLIES num > 0 
+   member(n, elim_com_arg(t1, t2, sym)`3) IMPLIES n > 0 
 
 % check if column i is empty (all coeficients equal to 0)
 % you must make sure dio_matrix is a matrix and i < num_col_dio_matrix 
@@ -260,10 +260,10 @@ get_pre_new_args_len: LEMMA
     LET (new_lst_args, new_vars2avoid) = get_pre_new_args(lst_args, dio_matrix, vars2avoid) IN
     length(new_lst_args) = length(lst_args) 
 
-% TODO: this is wrong
+% TODO: this was wrong
 % a possible fix is adding the constraint that neither args1 nor args2 are null
 % when one of the sides is null, solve_ac returns null so this should be ok to deal with in the algorithm 
-elim_com_arg_correct: CONJECTURE
+elim_com_arg_correct: LEMMA
    LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),
        (args1, args2) = split(args, length(mult_t1)),  
        args1_cor_mult = get_lst_mult(args1, mult_t1),
@@ -271,8 +271,14 @@ elim_com_arg_correct: CONJECTURE
        new_t1 = get_ac_from_args(f)(args1_cor_mult),
        new_t2 = get_ac_from_args(f)(args2_cor_mult)
        IN are_ac?(t1, t2, f) AND unifies?(sigma, (new_t1, new_t2))
-       % AND NOT null?(args1) AND NOT null?(args2) IMPLIES
-       IMPLIES unifies?(sigma, (t1, t2)) 
+       AND NOT null?(args1) AND NOT null?(args2) IMPLIES
+       unifies?(sigma, (t1, t2)) 
+
+elim_com_arg_solve_ac_null: CONJECTURE
+   LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),
+       (args1, args2) = split(args, length(mult_t1)) IN
+   null?(args1) OR null?(args2) IMPLIES
+   solve_ac(t1, t2, vars2avoid, f) = null
 
 % this lemma was very wrong
 dio_matrix2ac_sol_correct: CONJECTURE 
@@ -285,11 +291,6 @@ dio_matrix2ac_sol_correct: CONJECTURE
     % perm?(args1_cor_mult, args2_cor_mult)
     perm?(map(get_args(f))(args1_cor_mult), map(get_args(f))(args2_cor_mult))
 
-elim_com_arg_solve_ac_null: CONJECTURE
-   LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),
-       (args1, args2) = split(args, length(mult_t1)) IN
-   null?(args1) OR null?(args2) IMPLIES
-   solve_ac(t1, t2, vars2avoid, f) = [null, null]
 
 solve_ac_soundness: LEMMA
     member((unif_prb, new_vars2avoid), solve_ac(t1, t2, vars2avoid, f)) AND   
