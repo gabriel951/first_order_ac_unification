@@ -44,15 +44,15 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
   term_ord_defaxiom: AXIOM
          (FORALL (a: constant): term_ord(const(a)) = 0)
      AND (FORALL (V: variable): term_ord(variable(V)) = 1)
-     AND term_ord(unit) = 2
+     AND (term_ord(unit) = 2)
      AND (FORALL (term1: term, term2: term):
             term_ord(pair(term1, term2)) = 3)
      AND (FORALL (f_sym: f_symbol, arg: term):
             term_ord(app(f_sym, arg)) = 4)
-     AND (FORALL (ac_sym: ac_symbol, ac_arg: term):
-            term_ord(ac_app(ac_sym, ac_arg)) = 5);
+     AND FORALL (ac_sym: ac_symbol, ac_arg: term):
+           term_ord(ac_app(ac_sym, ac_arg)) = 5;
 
-  ord(x: term): [term -> upto(5)] =
+  ord(x: term): upto(5) =
       CASES x
         OF const(const1_var): 0,
            variable(variable1_var): 1,
@@ -142,22 +142,22 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
 
   term_inclusive: AXIOM
     FORALL (term_var: term):
-          const?(term_var) OR var?(term_var) OR unit?(term_var)
+           const?(term_var) OR var?(term_var) OR unit?(term_var)
        OR pair?(term_var) OR app?(term_var) OR ac_app?(term_var);
 
   term_induction: AXIOM
     FORALL (p: [term -> boolean]):
-      (     FORALL (const1_var: constant): p(const(const1_var))
-        AND FORALL (variable1_var: variable): p(variable(variable1_var))
+      (     (FORALL (const1_var: constant): p(const(const1_var)))
+        AND (FORALL (variable1_var: variable): p(variable(variable1_var)))
         AND p(unit)
-        AND FORALL (pair1_var: term, pair2_var: term):
-              p(pair1_var) AND p(pair2_var) IMPLIES
-               p(pair(pair1_var, pair2_var))
-        AND FORALL (app1_var: f_symbol, app2_var: term):
-              p(app2_var) IMPLIES p(app(app1_var, app2_var))
+        AND (FORALL (pair1_var: term, pair2_var: term):
+               p(pair1_var) AND p(pair2_var) IMPLIES
+                p(pair(pair1_var, pair2_var)))
+        AND (FORALL (app1_var: f_symbol, app2_var: term):
+               p(app2_var) IMPLIES p(app(app1_var, app2_var)))
         AND FORALL (ac_app1_var: ac_symbol, ac_app2_var: term):
               p(ac_app2_var) IMPLIES p(ac_app(ac_app1_var, ac_app2_var)))
-       IMPLIES (FORALL (term_var: term): p(term_var));
+       IMPLIES FORALL (term_var: term): p(term_var);
 
   every(p1: PRED[constant], p2: PRED[variable], p3: PRED[f_symbol],
         p4: PRED[ac_symbol])
@@ -245,10 +245,10 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
              unit: FALSE,
              pair(pair1_var, pair2_var):
                (x = pair1_var OR x << pair1_var) OR
-                x = pair2_var OR x << pair2_var,
-             app(app1_var, app2_var): x = app2_var OR x << app2_var,
+                (x = pair2_var OR x << pair2_var),
+             app(app1_var, app2_var): (x = app2_var OR x << app2_var),
              ac_app(ac_app1_var, ac_app2_var):
-               x = ac_app2_var OR x << ac_app2_var
+               (x = ac_app2_var OR x << ac_app2_var)
           ENDCASES;
 
   term_well_founded: AXIOM strict_well_founded?[term](<<);
@@ -399,19 +399,21 @@ term_adt_map[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
        (x: term[constant, variable, f_symbol, ac_symbol],
         y: term[constant1, variable1, f_symbol1, ac_symbol1]):
         boolean =
-          const?(x) AND const?(y) AND R1(a(x), a(y))
-       OR var?(x) AND var?(y) AND R2(V(x), V(y)) OR unit?(x) AND unit?(y)
-       OR pair?(x) AND
-           pair?(y) AND
-            every(R1, R2, R3, R4)(term1(x), term1(y)) AND
-             every(R1, R2, R3, R4)(term2(x), term2(y))
-       OR app?(x) AND
-           app?(y) AND
-            R3(f_sym(x), f_sym(y)) AND every(R1, R2, R3, R4)(arg(x), arg(y))
-       OR ac_app?(x) AND
-           ac_app?(y) AND
-            R4(ac_sym(x), ac_sym(y)) AND
-             every(R1, R2, R3, R4)(ac_arg(x), ac_arg(y));
+           (const?(x) AND const?(y) AND R1(a(x), a(y)))
+       OR (var?(x) AND var?(y) AND R2(V(x), V(y)))
+       OR (unit?(x) AND unit?(y))
+       OR (pair?(x) AND
+            pair?(y) AND
+             every(R1, R2, R3, R4)(term1(x), term1(y)) AND
+              every(R1, R2, R3, R4)(term2(x), term2(y)))
+       OR (app?(x) AND
+            app?(y) AND
+             R3(f_sym(x), f_sym(y)) AND
+              every(R1, R2, R3, R4)(arg(x), arg(y)))
+       OR (ac_app?(x) AND
+            ac_app?(y) AND
+             R4(ac_sym(x), ac_sym(y)) AND
+              every(R1, R2, R3, R4)(ac_arg(x), ac_arg(y)));
  END term_adt_map
 
 term_adt_reduce[constant: TYPE, variable: TYPE+, f_symbol: TYPE,

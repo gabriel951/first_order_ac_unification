@@ -271,8 +271,10 @@ elim_com_arg_correct: CONJECTURE
        new_t1 = get_ac_from_args(f)(args1_cor_mult),
        new_t2 = get_ac_from_args(f)(args2_cor_mult)
        IN are_ac?(t1, t2, f) AND unifies?(sigma, (new_t1, new_t2))
+       % AND NOT null?(args1) AND NOT null?(args2) IMPLIES
        IMPLIES unifies?(sigma, (t1, t2)) 
 
+% this lemma was very wrong
 dio_matrix2ac_sol_correct: CONJECTURE 
    LET (unif_prb, new_vars2avoid) = dio_matrix2ac_sol(args, vars2avoid, f)(dio_matrix), 
     	new_args = snd_proj(unif_prb),
@@ -280,8 +282,14 @@ dio_matrix2ac_sol_correct: CONJECTURE
 	args1_cor_mult = get_lst_mult(args1, mult_t1), 
 	args2_cor_mult = get_lst_mult(args2, mult_t2) IN 
     dio_matrix_correct?(dio_matrix, mult_t1, mult_t2) IMPLIES 
-    perm?(args1_cor_mult, args2_cor_mult)
+    % perm?(args1_cor_mult, args2_cor_mult)
+    perm?(map(get_args(f))(args1_cor_mult), map(get_args(f))(args2_cor_mult))
 
+elim_com_arg_solve_ac_null: CONJECTURE
+   LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),
+       (args1, args2) = split(args, length(mult_t1)) IN
+   null?(args1) OR null?(args2) IMPLIES
+   solve_ac(t1, t2, vars2avoid, f) = [null, null]
 
 solve_ac_soundness: LEMMA
     member((unif_prb, new_vars2avoid), solve_ac(t1, t2, vars2avoid, f)) AND   
