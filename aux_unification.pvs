@@ -16,7 +16,8 @@
 aux_unification: THEORY
 BEGIN
 	IMPORTING unification, diophantine, list_theory[number], list_theory[args],
-		  list_theory[unif_pair], list_theory[dio_matrix]
+		  list_theory[unif_pair], list_theory[dio_matrix], list_theory[bool],
+		  more_list_theory_props[term]
 
 % an ac solution is a unification problem and a list of variables to stay away
 ac_sol: TYPE = [unif_prb, list[variable]]
@@ -36,7 +37,6 @@ lst_args: VAR list[args]
 mult_t1, mult_t2: VAR list[posnat]
 row, col: VAR list[nat]
 bound, i, n, num_col: VAR nat
-num: VAR number
 
 dio_sol_matrix, dio_matrix, dio_matrix1: VAR dio_matrix
 submatrix_sol_lst, dio_matrix_lst: VAR list[dio_matrix]
@@ -89,7 +89,7 @@ elim_com_arg_pos2: LEMMA
 % check if column i is empty (all coeficients equal to 0)
 % you must make sure dio_matrix is a matrix and i < num_col_dio_matrix 
 empty_col?(dio_matrix)(i): bool =
-    LET col_i = get_col_i[nat](dio_matrix, i, 0) IN 
+    LET col_i = get_col_i[nat](dio_matrix, i) IN 
     	IF (FORALL n: member(n, col_i) => n = 0) THEN TRUE
     	ELSE FALSE
     	ENDIF
@@ -113,7 +113,7 @@ if_non_var_const2_col?(dio_matrix, args)(i): bool =
     IF i > length(args) OR i = 0 THEN FALSE 
     ELSE LET arg = nth(args, i-1) IN 
     	     IF var?(arg) THEN TRUE
-	     ELSE LET col_i = get_col_i[nat](dio_matrix, i, 0) IN
+	     ELSE LET col_i = get_col_i[nat](dio_matrix, i) IN
 	     	      const2?(col_i)
 	     ENDIF
     ENDIF
@@ -129,6 +129,7 @@ if_non_var_const2?(dio_matrix, args): bool =
 % a nice submatrix is one that satisfies constraint 1 and for every column that is not a variable
 % satisfies constraint 2
 nice_submatrix?(dio_matrix, args): bool =
+     length(args) > 0 AND matrix?(dio_matrix, length(args)) AND
      const1?(dio_matrix, length(args)) AND if_non_var_const2?(dio_matrix, args)
 
 % receives a list of dio matrix
@@ -164,7 +165,7 @@ add_new_arg(lst_args, row, t): RECURSIVE list[args] =
 MEASURE row BY << 
 
 % return a variable that is not in vars2avoid
-get_new_var(vars2avoid): variable = select_greater[number](vars2avoid, 0) + 1
+get_new_var(vars2avoid): variable = select_greater[nat](vars2avoid) + 1
 
 % the initial call to this function should be with lst_args = [null, ..., null]
 % each row in dio_matrix gives rise to a new variable 
@@ -188,7 +189,8 @@ dio_matrix2ac_sol(args, vars2avoid, sym)(dio_matrix): ac_sol =
      null_lst = get_repeat_lst[args](null, num_col), 
      (pre_new_args, new_vars2avoid) = get_pre_new_args(null_lst, dio_matrix, vars2avoid),
      % for each "args" in pre_new_args, make an ac term whose args are "args"
-     new_args = map(get_ac_from_args(sym))(pre_new_args), 
+     %new_args = get_ac_from_args_gt1(sym)(pre_new_args), 
+     new_args = map(get_ac_from_args(sym))(pre_new_args),
      % pareate
      new_unif_prb = pareate(args, new_args) IN
      (new_unif_prb, new_vars2avoid) 
@@ -207,7 +209,7 @@ solve_ac(t1, t2, vars2avoid, sym): list[ac_sol] =
 %    extract "nice" submatrices of solutions
      submatrix_sol_lst = extract_submatrices(dio_sol_matrix, args), 
 %    for every diophantine submatrix obtain the corresponding unification solution
-     results = map(dio_matrix2ac_sol(args, vars2avoid, sym))(submatrix_sol_lst)
+     results = map(dio_matrix2ac_sol(args, vars2avoid, sym))(submatrix_sol_lst) 
      IN results
 
 
@@ -253,16 +255,73 @@ extract_submatrices_cor: LEMMA
    member(dio_matrix1, extract_submatrices(dio_matrix, args))
    IMPLIES dio_matrix_correct?(dio_matrix1, mult_t1, mult_t2) 
    
+get_new_var_select_greater: LEMMA
+    select_greater[nat](cons(get_new_var(vars2avoid), vars2avoid)) =
+    select_greater[nat](vars2avoid) + 1
+
 add_new_arg_len: LEMMA
     length(add_new_arg(lst_args, row, t)) = length(lst_args)
+
+add_new_arg_split: LEMMA
+    split(add_new_arg(lst_args, row, t), n)`1 =
+    add_new_arg(split(lst_args, n)`1, split[nat](row, n)`1, t)
+
+add_new_arg_split2: LEMMA
+    split(add_new_arg(lst_args, row, t), n)`2 =
+    add_new_arg(split(lst_args, n)`2, split[nat](row, n)`2, t)
+
+add_new_arg_all_var?: LEMMA
+    all_var?(lst_args) IMPLIES all_var?(add_new_arg(lst_args, row, variable(n)))
+
+add_new_arg_null_nth: LEMMA
+    n < length(lst_args) AND length(lst_args) = length(row) AND null?(nth(add_new_arg(lst_args, row, t), n))
+    IMPLIES null?(nth(lst_args, n)) AND nth(row, n) = 0
+    
+map_count_add_new_arg: LEMMA
+    length(row) = length(lst_args) IMPLIES
+    map(count(t1, equal?))(add_new_arg(lst_args, row, t2)) = 
+    IF equal?(t1, t2) THEN sum_lsts(map(count(t1, equal?))(lst_args), row)
+    ELSE map(count(t1, equal?))(lst_args)
+    ENDIF
     
 get_pre_new_args_len: LEMMA
-    LET (new_lst_args, new_vars2avoid) = get_pre_new_args(lst_args, dio_matrix, vars2avoid) IN
-    length(new_lst_args) = length(lst_args) 
+    length(get_pre_new_args(lst_args, dio_matrix, vars2avoid)`1) = length(lst_args) 
+
+get_pre_new_args_all_var?: LEMMA
+    all_var?(lst_args) IMPLIES
+    all_var?(get_pre_new_args(lst_args, dio_matrix, vars2avoid)`1)
+    
+split_get_pre_new_args: LEMMA
+    split(get_pre_new_args(lst_args, dio_matrix, vars2avoid)`1, n)`1 = 
+    get_pre_new_args(split(lst_args, n)`1, split_matrix[nat](dio_matrix, n)`1, vars2avoid)`1
+
+split_get_pre_new_args2: LEMMA
+    split(get_pre_new_args(lst_args, dio_matrix, vars2avoid)`1, n)`2 = 
+    get_pre_new_args(split(lst_args, n)`2, split_matrix[nat](dio_matrix, n)`2, vars2avoid)`1
+
+get_pre_new_args_null_nth: LEMMA
+    n < length(lst_args) AND matrix?(dio_matrix, length(lst_args)) AND
+    null?(nth(get_pre_new_args(lst_args, dio_matrix, vars2avoid)`1, n)) IMPLIES
+    null?(nth(lst_args, n)) AND empty_col?(dio_matrix)(n+1)
+    
+no_null_get_pre_new_args: LEMMA
+    const1?(dio_matrix, length(lst_args)) AND length(lst_args) > 0 AND
+    matrix?(dio_matrix, length(lst_args)) IMPLIES
+    no_null_entries?(get_pre_new_args(lst_args, dio_matrix, vars2avoid)`1)
+
+get_pre_new_args_count: LEMMA
+    matrix?(dio_matrix, length(lst_args)) IMPLIES
+    dot_product(map(count(t, equal?))(get_pre_new_args(lst_args, dio_matrix, vars2avoid)`1), mult_t1) =
+    IF var?(t) AND V(t) > select_greater[nat](vars2avoid) AND
+       V(t) <= select_greater[nat](vars2avoid) + length(dio_matrix) THEN
+       LET n = V(t) - select_greater[nat](vars2avoid) IN 
+       dot_product(nth(dio_matrix, n-1), mult_t1) +
+       dot_product(map(count(t, equal?))(lst_args), mult_t1)
+    ELSE dot_product(map(count(t, equal?))(lst_args), mult_t1)   
+    ENDIF
 
 % TODO: this was wrong
-% a possible fix is adding the constraint that neither args1 nor args2 are null
-% when one of the sides is null, solve_ac returns null so this should be ok to deal with in the algorithm 
+% my fix is adding the constraint that neither args1 nor args2 are null
 elim_com_arg_correct: LEMMA
    LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),
        (args1, args2) = split(args, length(mult_t1)),  
@@ -274,23 +333,23 @@ elim_com_arg_correct: LEMMA
        AND NOT null?(args1) AND NOT null?(args2) IMPLIES
        unifies?(sigma, (t1, t2)) 
 
-elim_com_arg_solve_ac_null: CONJECTURE
+elim_com_arg_solve_ac_null: LEMMA
    LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),
        (args1, args2) = split(args, length(mult_t1)) IN
    null?(args1) OR null?(args2) IMPLIES
    solve_ac(t1, t2, vars2avoid, f) = null
 
-% this lemma was very wrong
-dio_matrix2ac_sol_correct: CONJECTURE 
+% TODO: add a comment explaining
+dio_matrix2ac_sol_correct: LEMMA
    LET (unif_prb, new_vars2avoid) = dio_matrix2ac_sol(args, vars2avoid, f)(dio_matrix), 
     	new_args = snd_proj(unif_prb),
 	(args1, args2) = split(new_args, length(mult_t1)),
 	args1_cor_mult = get_lst_mult(args1, mult_t1), 
 	args2_cor_mult = get_lst_mult(args2, mult_t2) IN 
-    dio_matrix_correct?(dio_matrix, mult_t1, mult_t2) IMPLIES 
-    % perm?(args1_cor_mult, args2_cor_mult)
+    dio_matrix_correct?(dio_matrix, mult_t1, mult_t2) AND
+    length(args) = length(mult_t1) + length(mult_t2) AND
+    nice_submatrix?(dio_matrix, args) IMPLIES
     perm?(map(get_args(f))(args1_cor_mult), map(get_args(f))(args2_cor_mult))
-
 
 solve_ac_soundness: LEMMA
     member((unif_prb, new_vars2avoid), solve_ac(t1, t2, vars2avoid, f)) AND   

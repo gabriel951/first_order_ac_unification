@@ -104,7 +104,7 @@ equal?_ac: LEMMA
 equal?_trans: LEMMA 
     equal?(t1, t2) AND equal?(t2, t3) IMPLIES equal?(t1, t3) 
 
-equal?_equiv: CONJECTURE
+equal?_equiv: LEMMA
     equivalence?[term](equal?)
     
 equal?_select_delete: LEMMA

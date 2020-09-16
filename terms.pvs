@@ -35,7 +35,7 @@ ac_symbol: TYPE = string
 
 IMPORTING 
 	  term[constant, variable, f_symbol, ac_symbol],
-	  list_theory[term] 
+	  list_theory[term]
 
 sym, f: VAR string
 n, i, j: VAR nat
@@ -44,7 +44,9 @@ lst_nat: VAR list[nat]
 t, s: VAR term
 
 args: TYPE = list[term]
-args: VAR args
+args, args1, args2: VAR args
+lst_args: VAR list[args]
+
 
 % the size of a term 
 size(t): RECURSIVE nat =
@@ -149,12 +151,6 @@ get_args(sym)(t): args =
     LET n = num_arg(sym, t), lst_until_n = from_min2max(1, n) IN 
     	map(select(sym, t))(lst_until_n)
     
-% get a list of arguments of an AC_term t (whose function symbol is sym)
-% and how many times they appear as arguments
-%get_args_coef_ac(t, sym): [args, list[nat]] =
-%    LET args = get_args(sym)(t) IN
-%    count_elem(null, null, args)
-
 % obtain a term to represent a whole list of terms
 get_term_from_args(args): RECURSIVE term =
     IF null?(args) THEN unit
@@ -164,6 +160,32 @@ get_term_from_args(args): RECURSIVE term =
 MEASURE args BY << 
 
 get_ac_from_args(sym)(args): term = ac_app(sym, get_term_from_args(args))
+
+all_var?(args): RECURSIVE bool =
+   IF null?(args) THEN TRUE
+   ELSE var?(car(args)) AND all_var?(cdr(args))
+   ENDIF
+MEASURE args BY << 
+
+all_var?(lst_args): RECURSIVE bool =
+   IF null?(lst_args) THEN TRUE 
+   ELSE all_var?(car(lst_args)) AND all_var?(cdr(lst_args))
+   ENDIF
+MEASURE lst_args BY << 
+
+% TODO: deprecated
+% receives a list of arguments: [args_1, ..., args_n]
+% iterate over this list, if args_i is not null, use args_i to form an ac-term headed by "sym"
+%get_ac_from_args_gt1(sym)(lst_args): RECURSIVE args =
+%    IF null?(lst_args) THEN null
+%    ELSE LET args = car(lst_args) IN
+%         IF null?(args) THEN get_ac_from_args_gt1(sym)(cdr(lst_args))
+%	 ELSIF length(args) = 1 THEN cons(car(args), get_ac_from_args_gt1(sym)(cdr(lst_args)))
+%	 ELSE cons(get_ac_from_args(sym)(args), get_ac_from_args_gt1(sym)(cdr(lst_args)))
+%	 ENDIF
+%    ENDIF
+%MEASURE lst_args BY << 
+
 
 %%%%%%%%%%%%%%%
 % size
@@ -310,6 +332,10 @@ get_args_get_term_from_args: LEMMA
     NOT null?(args) IMPLIES
     get_args(f)(get_term_from_args(args)) = flatten(map(get_args(f))(args))
 
+get_args_get_ac_from_args_all_var: LEMMA
+    all_var?(args) AND NOT null?(args) IMPLIES
+    get_args(f)(get_ac_from_args(f)(args)) = args
+
 remove_get_args_del: LEMMA 
     j < num_arg(f, t) AND num_arg(f, t) > 1 IMPLIES
     remove(get_args(f)(t), j) = get_args(f)(delete(f, t)(j+1))
@@ -318,5 +344,34 @@ get_args_remove_del: LEMMA
     i < length(args) AND j < num_arg(f, nth(args, i)) IMPLIES
     remove(map(get_args(f))(args), i, j) = map(get_args(f))(delete(args, f, i, j))
 
+% get_ac_from_args
+map_get_args_get_ac_from_args: LEMMA
+    all_var?(lst_args) AND no_null_entries?(lst_args) IMPLIES 
+    map(get_args(f))(map(get_ac_from_args(f))(lst_args)) = lst_args
+
+% all_var
+all_var?_append: LEMMA
+    all_var?(append(args1, args2)) = (all_var?(args1) AND all_var?(args2))
+
+all_var?_get_repeat_lst: LEMMA
+    var?(t) IMPLIES all_var?(get_repeat_lst(t, n))
+
+all_var?_split: LEMMA
+    all_var?(args) IMPLIES all_var?(split(args, n)`1)
+
+all_var?_split2: LEMMA
+    all_var?(args) IMPLIES all_var?(split(args, n)`2)
+
+IMPORTING
+          list_theory[args] 
+
+all_var?_get_repeat_lst_null: LEMMA
+    all_var?(get_repeat_lst[args](null, n))
+
+all_var?_split_lst_args: LEMMA
+    all_var?(lst_args) IMPLIES all_var?(split(lst_args, n)`1)
+
+all_var?_split_lst_args2: LEMMA
+    all_var?(lst_args) IMPLIES all_var?(split(lst_args, n)`2)
 
 END term_properties

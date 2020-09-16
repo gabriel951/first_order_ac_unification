@@ -40,7 +40,7 @@ lcm(a1, a2): posnat = min({k: posnat | divides(a1, k) AND divides(a2, k)})
 max_lcm(mult_t1, mult_t2): nat =
     IF null?(mult_t1) OR null?(mult_t2) THEN 0
     ELSE LET lcm_seq = map(lcm)(cartesian_product(mult_t1, mult_t2)) IN 
-             select_greater[nat](lcm_seq, 0)
+             select_greater[nat](lcm_seq)
     ENDIF
     
 % calculate the upper bound of solutions, where we can stop
@@ -156,6 +156,9 @@ MEASURE dio_matrix BY <<
 %%%%%%%%%%%%%%%%%%%%%%
 prod_get_repeat_lst0: LEMMA
     prod(mult_t)(get_repeat_lst(0, n)) = 0
+
+prod_equiv_dot_product: LEMMA
+    prod(mult_t)(value_lst) = dot_product(mult_t, value_lst)
 
 % get_new_value_lst
 get_new_value_lst_len: LEMMA

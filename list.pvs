@@ -6,11 +6,34 @@
 %		(*) - University of Brasília			(**) - King's College London
 
 % File: list.pvs
-% Description: 
+% Description: Properties about lists and maps
 %%%%%%%%%%%%%%%%%%%%%%%
+
+list_nat_theory: THEORY
+BEGIN 
+
+n, i, j, min, max, inc: VAR nat
+
+lst_nat, lst_nat1, lst_nat2: VAR list[nat]
+
+% the lemmas of this theory are proved together with list_theory
+dot_product(lst_nat1, lst_nat2): RECURSIVE nat =
+    IF null?(lst_nat1) OR null?(lst_nat2) THEN 0
+    ELSE car(lst_nat1) * car(lst_nat2) + dot_product(cdr(lst_nat1), cdr(lst_nat2))
+    ENDIF
+MEASURE lst_nat1 BY << 
+
+sum_lsts(lst_nat1, lst_nat2): RECURSIVE list[nat] =
+    IF null?(lst_nat1) OR null?(lst_nat2) THEN null
+    ELSE cons(car(lst_nat1) + car(lst_nat2), sum_lsts(cdr(lst_nat1), cdr(lst_nat2)))
+    ENDIF
+MEASURE lst_nat1 BY << 
+
+END list_nat_theory
 
 list_theory[T: TYPE]: THEORY
 BEGIN
+     IMPORTING list_nat_theory
 
 x, y, z: VAR T
 pair: VAR [T, T]
@@ -21,13 +44,47 @@ lst_pair, lst_pair1, lst_pair2: VAR list[[T, T]]
 lst, lst1, lst2, new_lst1, new_lst2: VAR list[T]
 lst_of_lsts, lst_of_lsts1, lst_of_lsts2, matrix, matrix1, matrix2: VAR list[list[T]]
 
+f: VAR [[T, T] -> T]
+g: VAR [T -> list[T]]
+h: VAR [list[T] -> T]
+
 num: VAR number
-n, i, j, min, max, inc, elem_seen_so_far, cur_greater: VAR nat
+n, i, j, min, max, inc: VAR nat
 coef, coef1, coef2, lst_nat, lst_nat1, lst_nat2: VAR list[nat]
 
 % an equivalence definition
 equiv: TYPE = {R: PRED[[T, T]]| equivalence?(R)}
 equal?: VAR equiv
+
+% TODO: change the code, so that this functions are all ONLY in list_nat_theory
+% the lemmas of this theory are proved together with list_theory
+from_min2max(min, max): RECURSIVE list[nat] =
+    IF min > max THEN null
+    ELSIF min = max THEN cons(min, null) 
+    ELSE cons(min, from_min2max(min + 1, max)) 
+    ENDIF
+MEASURE max(0, max-min) 
+
+% increments by "inc" the number in position "n" of the list of natural numbers "lst_nat"
+% we start counting at 0
+increment(lst_nat, n, inc): RECURSIVE list[nat] =
+    IF null?(lst_nat) THEN lst_nat
+    ELSE LET x = car(lst_nat) IN
+         IF n = 0 THEN cons(x + inc, cdr(lst_nat))
+	 ELSE cons(x, increment(cdr(lst_nat), n - 1, inc))
+	 ENDIF
+    ENDIF
+MEASURE lst_nat BY << 
+
+
+% receives lst1 = [x1, ..., xn] and lst2 = [y1, ..., yn]
+% returns [f(x1, y1), ..., f(xn, yn)]
+apply(lst1, lst2, f): RECURSIVE list[T] =
+    IF null?(lst1) OR null?(lst2) THEN null
+    ELSE LET x = car(lst1), y = car(lst2) IN
+         cons(f(x, y), apply(cdr(lst1), cdr(lst2), f))
+    ENDIF
+MEASURE lst1 BY << 
 
 % append_pair((l1, l2)) = append(l1, l2)
 append_pair(pair_lst): list[T] =
@@ -75,33 +132,14 @@ ind_flatten(lst_of_lsts, i, j): RECURSIVE nat =
     ENDIF
 MEASURE lst_of_lsts BY <<
 	 
-
-% returns a list [min, min+1, ..., max]
-% if max < min, return null
-%from_min2max(min, max): RECURSIVE list[nat] =
-%    IF min > max THEN null
-%    ELSIF min = max THEN cons(max, null)
-%    ELSE  append(from_min2max(min, max-1), cons(max, null))
-%    ENDIF
-%MEASURE max
-
-from_min2max(min, max): RECURSIVE list[nat] =
-    IF min > max THEN null
-    ELSIF min = max THEN cons(min, null) 
-    ELSE cons(min, from_min2max(min + 1, max)) 
+no_null_entries?(lst_of_lsts): RECURSIVE bool =
+    IF null?(lst_of_lsts) THEN TRUE
+    ELSIF null?(car(lst_of_lsts)) THEN FALSE
+    ELSE no_null_entries?(cdr(lst_of_lsts)) 
     ENDIF
-MEASURE max(0, max-min) 
+MEASURE lst_of_lsts BY << 
 
-% increments by "inc" the number in position "n" of the list of natural numbers "lst_nat"
-% we start counting at 0
-increment(lst_nat, n, inc): RECURSIVE list[nat] =
-    IF null?(lst_nat) THEN lst_nat
-    ELSE LET x = car(lst_nat) IN
-         IF n = 0 THEN cons(x + inc, cdr(lst_nat))
-	 ELSE cons(x, increment(cdr(lst_nat), n - 1, inc))
-	 ENDIF
-    ENDIF
-MEASURE lst_nat BY << 
+
 
 % returns a bool to indicate if x is in lst and a natural number, to indicate the position
 % we start counting the position at 0
@@ -134,35 +172,6 @@ count_elem(lst1, coef, lst2, equal?): RECURSIVE [list[T], list[nat]] =
     ENDIF
 MEASURE lst2 BY << 
 
-% lst - list of elements, coef - list of the multiplicities of each element in lst
-% get multiplicity of element x in lst
-%get_multiplicity(x, lst, coef): RECURSIVE nat =
-%    IF null?(lst) OR null?(coef) THEN 0
-%    ELSE IF x = car(lst) THEN car(coef)
-%    	 ELSE get_multiplicity(x, cdr(lst), cdr(coef))
-%	 ENDIF
-%    ENDIF
-%MEASURE lst BY << 
-
-% lst1 - list of elements, coef1 - list of the multiplicities of each element in lst1
-% lst2 - list of elements, coef2 - list of the multiplicities of each element in lst2
-% this function returns the elements that appear more times in lst1 than in lst2,
-% and how many times they appear more in lst1 than in lst2
-%select_args(lst1, coef1, lst2, coef2): RECURSIVE [list[T], list[nat]] =
-%    IF null?(lst1) OR null?(coef1) THEN (null, null)
-%    ELSE LET
-%    	 x = car(lst1),
-%	 n1 = car(coef1), 
-%	 n2 = get_multiplicity(x, lst2, coef2) IN
-%	 IF n1 > n2 THEN LET
-%	    lst3 = cons(x, select_args(cdr(lst1), cdr(coef1), lst2, coef2)`1),
-%	    coef3 = cons(n1 - n2, select_args(cdr(lst1), cdr(coef1), lst2, coef2)`2)
-%	    IN (lst3, coef3) 
-%	 ELSE select_args(cdr(lst1), cdr(coef1), lst2, coef2)
-%	 ENDIF
-%    ENDIF
-%MEASURE lst1 BY << 
-
 % receives a lst_of_lsts = [l1, ..., ln] and an element x
 % put element x as the first element of each lst li.
 % the result is [cons(x, l1), ..., cons(x, ln)]
@@ -180,14 +189,10 @@ get_repeat_lst(x, n): RECURSIVE list[T] =
     ENDIF
 MEASURE n
 
-% outside call to this function should be select_greater(lst_nat, 0)
 % selects the greatest element in lst_nat
-select_greater(lst_nat, cur_greater): RECURSIVE nat =
+select_greater(lst_nat): RECURSIVE nat =
     IF null?(lst_nat) THEN 0
-    ELSE LET n = car(lst_nat) IN
-     	 IF n > cur_greater THEN select_greater(cdr(lst_nat), n)
-	 ELSE select_greater(cdr(lst_nat), cur_greater)
-	 ENDIF 
+    ELSE max(car(lst_nat), select_greater(cdr(lst_nat)))
     ENDIF
 MEASURE lst_nat BY << 
 
@@ -214,6 +219,7 @@ nonmatrix?(lst_of_lsts): bool = NOT matrix?(lst_of_lsts)
 % returns a list [lst_1, ..., lst_m] such that every lst_i is a sublist of lst
 get_all_sublists(lst): RECURSIVE list[list[T]] =
     IF null?(lst) THEN null
+    ELSIF length(lst) = 1 THEN cons(lst, null)
     ELSE LET x = car(lst),
 	     % get all lists without the element x
 	     lst_of_lsts1 = get_all_sublists(cdr(lst)), 
@@ -224,6 +230,7 @@ get_all_sublists(lst): RECURSIVE list[list[T]] =
 MEASURE lst BY <<
 
 % count how many times the element x appears on lst
+% TODO: I think this function is deprecated...
 count(x, lst): RECURSIVE nat =
     IF null?(lst) THEN 0
     ELSE LET y = car(lst) IN
@@ -243,16 +250,19 @@ count(x, lst, equal?): RECURSIVE nat =
     ENDIF
 MEASURE lst BY <<
 
+% curried version of function count
+count(x, equal?)(lst): nat = count(x, lst, equal?)
+
 % let lst_of_lsts = [l1, ..., ln].
 % get the ith element (we start counting at 1) in l1 "x1_i", ..., get the ith element in ln "xn_i"
 % returns [x1_i, ..., xn_i]
-% if a list lj has no ith element, put x instead
-get_col_i(lst_of_lsts, i, x): RECURSIVE list[T] =
+% if a list lj has no ith element, do not put anything
+get_col_i(lst_of_lsts, i): RECURSIVE list[T] =
     IF null?(lst_of_lsts) THEN null
     ELSE LET lst = car(lst_of_lsts) IN
     	 IF i <= length(lst) AND i > 0 THEN LET y = nth(lst, i-1) IN
-	    cons(y, get_col_i(cdr(lst_of_lsts), i, x))
-	 ELSE cons(x, get_col_i(cdr(lst_of_lsts), i, x))
+	    cons(y, get_col_i(cdr(lst_of_lsts), i))
+	 ELSE get_col_i(cdr(lst_of_lsts), i)
 	 ENDIF
     ENDIF
 MEASURE lst_of_lsts BY << 
@@ -316,13 +326,6 @@ get_lst_mult(lst, coef): RECURSIVE list[T] =
     ENDIF
 MEASURE lst BY << 
 
-% receives a list of natural numbers [a1, ..., an] and an index i
-% returns the sum a1 + ... + a_i. 
-sum(coef, i): RECURSIVE nat =
-    IF null?(coef) OR i = 0 THEN 0
-    ELSE car(coef) + sum(cdr(coef), i-1)
-    ENDIF
-MEASURE coef BY << 
 
 % remove the ith element from lst.
 % counting starts at 0
@@ -382,6 +385,9 @@ same_count?(lst1, lst2, equal?): bool =
 member_append: LEMMA
     member(x, append(lst1, lst2)) = (member(x, lst1) OR member(x, lst2)) 
 
+member_append_nat: LEMMA
+    member(n, append(lst_nat1, lst_nat2)) = (member(n, lst_nat1) OR member(n, lst_nat2)) 
+
 member_append2: LEMMA
     member((x, y), append(lst_pair1, lst_pair2)) = (member((x,y), lst_pair1) OR member((x,y), lst_pair2))
 
@@ -405,12 +411,26 @@ equal_lst_nth: LEMMA
     length(lst1) = length(lst2) AND (FORALL (n: below[length(lst1)]): nth(lst1, n) = nth(lst2, n))
     IMPLIES lst1 = lst2
 
+
 % a property about nth and member
 member_nth: LEMMA
     i < length(lst) IMPLIES member(nth(lst, i), lst)
 
 member_nth2: LEMMA
     member(x, lst) = EXISTS (n:below[length(lst)]): x = nth(lst, n)
+
+% dot product
+dot_product_sym: LEMMA
+    dot_product(lst_nat1, lst_nat2) = dot_product(lst_nat2, lst_nat1)
+
+dot_product_sum_lsts: LEMMA
+    length(lst_nat1) = length(lst_nat2) IMPLIES 
+    dot_product(sum_lsts(lst_nat1, lst_nat2), coef) =
+    dot_product(lst_nat1, coef) + dot_product(lst_nat2, coef)
+
+dot_product_zero_lst: LEMMA
+    (FORALL n: member(n, lst_nat1) IMPLIES n = 0)
+    IMPLIES dot_product(lst_nat1, lst_nat2) = 0
 
 % cartesian product
 cart_prod_aux_mem: LEMMA
@@ -446,6 +466,10 @@ flatten_mem: LEMMA
     EXISTS (n: below[length(lst_of_lsts)]):
         member(x, nth(lst_of_lsts, n))
 
+% no_null_entries?
+no_null_entries?_nth: LEMMA
+    (FORALL n: n < length(lst_of_lsts) IMPLIES NOT null?(nth(lst_of_lsts, n)))
+    IMPLIES no_null_entries?(lst_of_lsts)
 
 % from_min2max:
 from_min2max_len: LEMMA
@@ -469,6 +493,10 @@ nth_from_min2max2: LEMMA
 % increment, pos?, count_elem
 increment_len: LEMMA
     length(increment(lst_nat, n, inc)) = length(lst_nat)
+
+increment_mantains_gt0: LEMMA
+    (FORALL i: member(i, coef) IMPLIES i > 0) IMPLIES
+    (FORALL i: member(i, increment(coef, n, 1)) IMPLIES i > 0)
 
 pos?_len: LEMMA
    pos?(x, lst, equal?)`1 IMPLIES
@@ -517,8 +545,8 @@ count_elem_null2: LEMMA
     length(lst) = length(coef) AND
     null?(count_elem(lst, coef, lst2, equal?)`2) IMPLIES null?(lst2) 
 
-count_elem_gt0: CONJECTURE
-    (member(i, coef) IMPLIES i > 0) AND member(n, count_elem(lst, coef, lst2, equal?)`2)
+count_elem_gt0: LEMMA
+    (FORALL i: member(i, coef) IMPLIES i > 0) AND member(n, count_elem(lst, coef, lst2, equal?)`2)
     IMPLIES n > 0 
 
 % put in head
@@ -540,10 +568,14 @@ get_repeat_lst_nth: LEMMA
     i < n IMPLIES
     nth(get_repeat_lst(x, n), i) = x
 
+get_repeat_lst_mem: LEMMA
+    member(y, get_repeat_lst(x, n)) IMPLIES y = x
+
 get_repeat_lst_count: LEMMA
     IF equal?(x, y) THEN count(x, get_repeat_lst(y, n), equal?) = n
     ELSE count(x, get_repeat_lst(y, n), equal?) = 0
     ENDIF
+
 
 % matrix
 matrix_append: LEMMA
@@ -562,6 +594,10 @@ count_gt0: LEMMA
 count_append: LEMMA
    count(x, append(lst1, lst2), equal?) = (count(x, lst1, equal?) + count(x, lst2, equal?))
    
+get_repeat_lst_count_flatten: LEMMA
+    count(x, flatten(map(g)(get_repeat_lst(y, n))), equal?) =
+    count(x, g(y), equal?) * n
+
 % pareate
 pareate_append: LEMMA
     (length(lst1) = length(new_lst1) AND length(lst2) = length(new_lst2)) IMPLIES
@@ -599,6 +635,7 @@ split_cor: LEMMA
 split_append: LEMMA
     split(append(lst1, lst2), length(lst1)) = (lst1, lst2)
 
+
 split_append_pair: LEMMA
     n = length(pair_lst`1) IMPLIES
     split(append_pair(pair_lst), n)`1 = pair_lst`1 AND
@@ -616,21 +653,22 @@ split_matrix_nth2: LEMMA
     i < length(matrix) IMPLIES
     nth(split_matrix(matrix, n)`2, i) = split(nth(matrix, i), n)`2   
 
+split_matrix_preserves_matrix: LEMMA
+    i <= n AND matrix?(matrix, n) IMPLIES matrix?(split_matrix(matrix, i)`1, i)
+
+split_matrix_preserves_matrix2: LEMMA
+    i <= n AND matrix?(matrix, n) IMPLIES matrix?(split_matrix(matrix, i)`2, n-i)
+
 % snd_proj:
 snd_proj_pareate: LEMMA
     length(lst1) = length(lst2) IMPLIES 
     snd_proj(pareate(lst1, lst2)) = lst2
 
+snd_proj_pareate2: LEMMA
+    length(lst2) <= length(lst1) IMPLIES
+    snd_proj(pareate(lst1, lst2)) = lst2
+
 % sum, get_lst_mult
-sum_ind: LEMMA
-    i < n AND n <= length(coef) IMPLIES sum(coef, i) <= sum(coef, n)
-
-sum_ind2: LEMMA 
-    i < length(coef) IMPLIES sum(coef, i+1) = sum(coef, i) + nth(coef, i)
-
-get_lst_mult_len: LEMMA
-    length(get_lst_mult(lst, coef)) = sum(coef, min(length(lst), length(coef)))
-
 get_lst_mult_count_increment: LEMMA
     i < length(coef) AND i < length(lst) IMPLIES 
     IF equal?(x, nth(lst, i)) THEN 
@@ -640,15 +678,19 @@ get_lst_mult_count_increment: LEMMA
     	 count(x, get_lst_mult(lst, coef), equal?)
     ENDIF
 
+get_lst_mult_append: LEMMA
+    length(lst1) = length(coef1) IMPLIES
+    get_lst_mult(append(lst1, lst2), append(coef1, coef2)) =
+    append(get_lst_mult(lst1, coef1), get_lst_mult(lst2, coef2))
+
 get_lst_mult_count_append: LEMMA
     length(lst1) = length(coef1) IMPLIES 
     count(x, get_lst_mult(append(lst1, lst2), append(coef1, coef2)), equal?) =
     count(x, get_lst_mult(lst1, coef1), equal?) + count(x, get_lst_mult(lst2, coef2), equal?)
 
-% TODO: maybe not necessary
-%get_lst_mult_ind: LEMMA
-%    i < length(coef) AND i < length(lst) AND nth(coef, i) > 0 IMPLIES
-%    nth(lst, i) = nth(get_lst_mult(lst, coef), sum(coef, i))
+get_lst_mult_count: LEMMA
+    count(x, flatten(map(g)(get_lst_mult(lst, coef))), equal?) =
+    dot_product(map(count(x, equal?))(map(g)(lst)), coef)
 
 % remove
 remove_len: LEMMA
@@ -715,11 +757,13 @@ same_count?_get_lst_mul: LEMMA
     
 END list_theory
 
-
 map_theory [T1, T2: TYPE]: THEORY
  BEGIN
+
   f: VAR [T1 -> T2]
+  
   l1, l2: VAR list[T1]
+  mult: VAR list[nat]
 
 map_append: LEMMA
     map(f, append(l1, l2)) = append(map(f, l1), map(f, l2))
@@ -728,3 +772,38 @@ map_append2: LEMMA
     map(f)(append(l1, l2)) = append(map(f)(l1), map(f)(l2))
     
 END map_theory
+
+% this theory depends on importing "list_theory" with a specific type T
+more_list_theory_props [T: TYPE]: THEORY 
+BEGIN
+    IMPORTING list_theory[T], list_theory[list[T]], list_theory[nat]
+
+x: VAR T
+h: VAR [list[T] -> T]
+
+lst: VAR list[T]
+lst_of_lsts: VAR list[list[T]]
+
+n: VAR nat
+
+% an equivalence definition
+equiv: TYPE = {R: PRED[[T, T]]| equivalence?(R)}
+equal?: VAR equiv
+
+
+get_repeat_lst_map_count: LEMMA
+    map(count(x, equal?))(get_repeat_lst(null, n)) = get_repeat_lst(0, n)
+
+map_split: LEMMA
+    split(map(h)(lst_of_lsts), n)`1 = map(h)(split[list[T]](lst_of_lsts, n)`1)
+
+map_split2: LEMMA
+    split(map(h)(lst_of_lsts), n)`2 = map(h)(split[list[T]](lst_of_lsts, n)`2)
+
+split_no_null_entries?1: LEMMA
+    no_null_entries?(lst_of_lsts) IMPLIES no_null_entries?(split(lst_of_lsts, n)`1)
+
+split_no_null_entries?2: LEMMA
+    no_null_entries?(lst_of_lsts) IMPLIES no_null_entries?(split(lst_of_lsts, n)`2)
+
+END more_list_theory_props
