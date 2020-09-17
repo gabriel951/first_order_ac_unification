@@ -51,6 +51,7 @@ h: VAR [list[T] -> T]
 num: VAR number
 n, i, j, min, max, inc: VAR nat
 coef, coef1, coef2, lst_nat, lst_nat1, lst_nat2: VAR list[nat]
+lst_pos_nat: VAR list[posnat]
 
 % an equivalence definition
 equiv: TYPE = {R: PRED[[T, T]]| equivalence?(R)}
@@ -635,7 +636,6 @@ split_cor: LEMMA
 split_append: LEMMA
     split(append(lst1, lst2), length(lst1)) = (lst1, lst2)
 
-
 split_append_pair: LEMMA
     n = length(pair_lst`1) IMPLIES
     split(append_pair(pair_lst), n)`1 = pair_lst`1 AND
@@ -677,6 +677,9 @@ get_lst_mult_count_increment: LEMMA
     ELSE count(x, get_lst_mult(lst, increment(coef, i, inc)), equal?) =
     	 count(x, get_lst_mult(lst, coef), equal?)
     ENDIF
+
+get_lst_mult_null: LEMMA
+    null?(get_lst_mult(lst, lst_pos_nat)) IMPLIES null?(lst) OR null?(lst_pos_nat)
 
 get_lst_mult_append: LEMMA
     length(lst1) = length(coef1) IMPLIES

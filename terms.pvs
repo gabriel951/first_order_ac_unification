@@ -332,6 +332,10 @@ get_args_get_term_from_args: LEMMA
     NOT null?(args) IMPLIES
     get_args(f)(get_term_from_args(args)) = flatten(map(get_args(f))(args))
 
+get_args_get_ac_from_args: CONJECTURE
+    NOT null?(args) IMPLIES
+    get_args(f)(get_ac_from_args(f)(args)) = flatten(map(get_args(f))(args))
+
 get_args_get_ac_from_args_all_var: LEMMA
     all_var?(args) AND NOT null?(args) IMPLIES
     get_args(f)(get_ac_from_args(f)(args)) = args

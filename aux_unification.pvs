@@ -51,21 +51,6 @@ ac_sol_simp_lst: VAR list[[sub, unif_prb]]
 f: VAR ac_symbol
 
 % this corresponds to function elimcom in Fages paper
-% TODO: change this version
-%elim_com_arg(t1, t2, sym): [args, list[nat], list[nat]] =
-%    LET 
-%    % get the arguments of t1 and how many times they appear
-%    (args_t1, coef_t1) = get_args_coef_ac(t1, sym),
-%    % get the arguments of t2 and how many times they appear
-%    (args_t2, coef_t2) = get_args_coef_ac(t2, sym),
-%    % get the arguments that appear more in t1 than in t2 and how many times
-%    % they appear more in t1
-%    (new_args_t1, new_coef_t1) = select_args(args_t1, coef_t1, args_t2, coef_t2),
-%    % get the arguments that appear more in t1 than in t2 and how many times
-%    % they appear more in t2
-%    (new_args_t2, new_coef_t2) = select_args(args_t2, coef_t2, args_t1, coef_t1)
-%    IN (append(new_args_t1, new_args_t2), new_coef_t1, new_coef_t2)
-
 elim_com_arg(t1, t2, sym): [args, list[nat], list[nat]] =
      LET
      % get arguments of t1 and t2
@@ -250,11 +235,19 @@ get_all_sublists_dio_cor: LEMMA
    dio_matrix_correct?(dio_matrix, mult_t1, mult_t2) IMPLIES
    dio_matrix_correct?(dio_matrix1, mult_t1, mult_t2)
 
+get_nice_submatrices_cor: LEMMA
+   member(dio_matrix1, get_nice_submatrices(dio_matrix_lst, args)) IMPLIES
+   nice_submatrix?(dio_matrix1, args)
+
 extract_submatrices_cor: LEMMA
    dio_matrix_correct?(dio_matrix, mult_t1, mult_t2) AND 
    member(dio_matrix1, extract_submatrices(dio_matrix, args))
    IMPLIES dio_matrix_correct?(dio_matrix1, mult_t1, mult_t2) 
    
+extract_submatrices_nice: LEMMA
+   member(dio_matrix1, extract_submatrices(dio_matrix, args)) IMPLIES
+   nice_submatrix?(dio_matrix1, args)
+
 get_new_var_select_greater: LEMMA
     select_greater[nat](cons(get_new_var(vars2avoid), vars2avoid)) =
     select_greater[nat](vars2avoid) + 1
