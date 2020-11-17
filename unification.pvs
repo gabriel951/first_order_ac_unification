@@ -28,15 +28,28 @@ unif_pair: VAR unif_pair
 unif_prb: TYPE = list[unif_pair]
 unif_prb, unif_prb1, unif_prb2: VAR unif_prb
 
-% check if sigma unifies an unification pair
+% check if sigma unifies a unification pair
 unifies?(sigma, unif_pair): bool = 
     LET (t, s) = unif_pair IN equal?(subs(sigma)(t), subs(sigma)(s))
 
-% check if sigma unifies an unification problem
+% check if sigma unifies a unification problem
 unifies?(sigma, unif_prb): RECURSIVE bool =
     IF null?(unif_prb) THEN TRUE 
     ELSE LET unif_pair = car(unif_prb) IN
          unifies?(sigma, unif_pair) AND unifies?(sigma, cdr(unif_prb))
+    ENDIF
+MEASURE unif_prb BY << 
+
+% apply sigma to an unification pair
+apply_sub(sigma, unif_pair): unif_pair =
+   LET (t, s) = unif_pair IN (subs(sigma)(t), subs(sigma)(s))
+ 
+
+% apply sigma to all equations of both sides of a unification problem
+apply_sub(sigma, unif_prb): RECURSIVE unif_prb =
+    IF null?(unif_prb) THEN null
+    ELSE LET unif_pair = car(unif_prb) IN 
+         cons(apply_sub(sigma, unif_pair), apply_sub(sigma, cdr(unif_prb)))
     ENDIF
 MEASURE unif_prb BY << 
 

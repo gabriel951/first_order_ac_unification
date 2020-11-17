@@ -60,6 +60,19 @@ size(t): RECURSIVE nat =
     ENDCASES
 MEASURE t BY << 
 
+% variables of a term
+vars(t): RECURSIVE finite_set[variable] =
+   CASES t OF
+        const(a): emptyset,
+	variable(X): singleton(X), 
+	unit: emptyset, 
+	pair(t1, t2): union(vars(t1), vars(t2)),
+	app(sym, arg): vars(arg),
+	ac_app(sym, arg): vars(arg)
+    ENDCASES
+MEASURE t BY << 
+       
+
 % size of a list of arguments
 size(args): RECURSIVE nat =
      IF null?(args) THEN 1

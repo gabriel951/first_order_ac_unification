@@ -49,7 +49,7 @@ MEASURE t by <<
 % "(sigma o delta)" can be implemented as "append(sigma, delta)".
 sub: TYPE = list[basic_sub]
 
-sigma, delta: VAR sub
+sigma, delta, delta2: VAR sub
 
 % action of a substitution sigma on a term t.
 % notice that in "(sigma o delta)(t) = sigma(delta(t))" we apply the substitution delta first,
@@ -68,6 +68,15 @@ subs(sigma)(args): RECURSIVE args =
     ELSE LET t = car(args) IN cons(subs(sigma)(t), subs(sigma)(cdr(args)))
     ENDIF
 MEASURE args BY << 
+
+% define when two substitutions are equal
+equal?(sigma, delta): bool =
+    FORALL t: subs(sigma)(t) = subs(delta)(t)
+
+% define when sigma is more general than delta
+more_general?(sigma, delta): bool = 
+    EXISTS delta2: equal?(sigma, append(delta2, delta))
+    
 
 %%%%%%%%%%%%%%%%%%% Theorems
 % substitution and their effects on the terms
