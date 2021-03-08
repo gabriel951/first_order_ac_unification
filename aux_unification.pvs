@@ -17,7 +17,7 @@ aux_unification: THEORY
 BEGIN
 	IMPORTING unification, diophantine, list_theory[number], list_theory[args],
 		  list_theory[unif_pair], list_theory[dio_matrix], list_theory[bool],
-		  more_list_theory_props[term]
+		  more_list_theory_props[term], list_theory[unif_prb], list_theory2[unif_prb, list[variable]]
 
 % an ac solution is a unification problem and a list of variables to stay away
 ac_sol: TYPE = [unif_prb, list[variable]]
@@ -29,11 +29,14 @@ ac_sol_simp: TYPE = [sub, unif_prb, list[variable]]
 
 sigma: VAR sub
 
-unif_prb: VAR unif_prb
+unif_pair: VAR unif_pair
+unif_prb, seen_unif_prb, unseen_unif_prb: VAR unif_prb
+ac_results_so_far, lst_unif_prb: VAR list[unif_prb]
+
 
 sym: VAR string
 
-t, t1, t2: VAR term
+t, s, t1, t2: VAR term
 args: VAR args
 lst_args: VAR list[args]
 
@@ -201,52 +204,116 @@ solve_ac(t1, t2, vars2avoid, sym): list[ac_sol] =
      IN results
 
 
-% this functions corresponds to the homonymous function "elimvar" in Fages paper
-% "sigma" is the substitution computed so far, "unif_prb" is our unification problem 
-% in the unification problem (A_i, B_i) instantiate the A_i to B_i if A_i is a variable
-elimvar(sigma, unif_prb): RECURSIVE [sub, unif_prb] =
-    IF null?(unif_prb) THEN (sigma, null) 
+% apply the ac-step to a list of unification problems
+% "unif_prb" - unification problems we still have to apply the ac-step
+% "ac_results_so_far" - list of unification problems after applying ac-step (considering all branches) 
+apply_ac_step(unif_prb)(ac_results_so_far): RECURSIVE list[unif_prb] =  
+   IF null?(unif_prb) THEN ac_results_so_far
+   ELSE LET
+   	unif_pair = car(unif_prb),
+   	(t, s) = unif_pair,
+	vars1 = lst_vars(unif_prb),
+	vars2 = lst_vars(flatten(ac_results_so_far)),
+	vars2avoid = append(vars1, vars2) IN
+	IF NOT ac_app?(t) THEN null
+	ELSE LET
+	    ac_results = first_proj[unif_prb, list[variable]](solve_ac(t, s, vars2avoid, ac_sym(t))),
+	    new_ac_results_so_far = put_in_head[unif_prb](ac_results, ac_results_so_far) IN
+	    flatten(map(apply_ac_step(cdr(unif_prb)))(new_ac_results_so_far))
+	ENDIF
+   ENDIF
+MEASURE unif_prb BY << 
+
+% try to unify two terms t and s by instantiating them (may skip) 
+% returns
+%   1 - a substitution "sigma", indicating the substitution if it happened
+%   2 - a boolean "skip" indicating that the terms can't be unified via a simple instantiation
+%       and therefore we skipped 
+%   3 - a boolean "impossible" indicating that the terms can't be unified
+instantiate_step(t, s): [sub, bool, bool] =  
+   IF var?(t) THEN
+        IF (NOT member(V(t), vars(s))) THEN LET
+	    sigma = cons((V(t), s), null), skip = FALSE, impossible = FALSE IN
+	    (sigma, skip, impossible) 
+	ELSIF var?(s) AND V(t) = V(s) THEN LET
+	    sigma = null, skip = FALSE, impossible = FALSE IN 
+	    (sigma, skip, impossible) 
+	ELSE LET 
+	    sigma = null, skip = FALSE, impossible = TRUE IN
+	    (sigma, skip, impossible) 
+	ENDIF
+   ELSIF var?(s) THEN
+        IF (NOT member(V(s), vars(t))) THEN LET
+	    sigma = cons((V(s), t), null), skip = FALSE, impossible = FALSE IN
+	    (sigma, skip, impossible) 
+	ELSE LET 
+	    sigma = null, skip = FALSE, impossible = TRUE IN
+	    (sigma, skip, impossible) 
+	ENDIF
+   ELSE LET sigma = null, skip = TRUE, impossible = FALSE IN
+   	(sigma, skip, impossible) 
+   ENDIF
+
+% extends "instantiate_step" to a unification problem
+% receives:
+%	1 - a unification problem "unif_prb"
+% 	2 - the substitution "sigma" computed so far
+% returns:
+%	1 - the unification problem after we make all the instantiations
+% 	2 - the substitution computed
+% 	3 - a boolean that is TRUE if none of the unification pairs
+% 	    gave an impossible substitution
+instantiate_step(unif_prb, sigma): RECURSIVE [unif_prb, sub, bool] = 
+   IF null?(unif_prb) THEN (null, sigma, TRUE) 
+   ELSE LET
+   	(t, s) = car(unif_prb),
+   	(delta, skip, fail) = instantiate_step(t, s) IN
+	IF fail THEN (null, null, FALSE)
+	ELSIF skip THEN LET
+	      (cdr_new_unif_prb, new_sigma, impossible) = instantiate_step(cdr(unif_prb), sigma), 
+	      new_unif_pair = apply_sub(new_sigma, (t, s)) IN 
+	      (cons(new_unif_pair, cdr_new_unif_prb), new_sigma, impossible) 
+	ELSE LET new_unif_prb = apply_sub(delta, cdr(unif_prb)), 
+	     	 new_sigma = append(delta, sigma) IN
+		 instantiate_step(new_unif_prb, new_sigma)
+	ENDIF 
+   ENDIF
+MEASURE length(unif_prb)
+
+% extends "instantiate_step" to a list of unification problems
+instantiate_step(lst_unif_prb): RECURSIVE list[[unif_prb, sub]] =
+    IF null?(lst_unif_prb) THEN null
     ELSE LET
-    	 unif_pair = car(unif_prb), t = unif_pair`1, s = unif_pair`2 IN
-	 IF var?(t) THEN
-	    LET basic_sub = (V(t), s), new_sigma = cons(basic_sub, sigma) IN 
-	    elimvar(new_sigma, cdr(unif_prb))
-	 ELSE
-	    LET (new_sigma, new_unif_prb) = elimvar(sigma, cdr(unif_prb)) IN
-	    (new_sigma, cons(unif_pair, new_unif_prb))
+    	 unif_prb = car(lst_unif_prb),
+    	 (new_unif_prb, sigma, fail) = instantiate_step(unif_prb, null) IN 
+	 IF fail THEN instantiate_step(cdr(lst_unif_prb))
+	 ELSE cons((new_unif_prb, sigma), instantiate_step(cdr(lst_unif_prb)))
 	 ENDIF
     ENDIF
-MEASURE unif_prb BY <<  
-	    
+MEASURE lst_unif_prb BY << 
 
-% apply function elimvar to a list of ac_solutions, simplifying them
-apply_elim_var(ac_sol_lst): RECURSIVE list[ac_sol_simp] = 
-    IF null?(ac_sol_lst) THEN null
-    ELSE LET unif_prb = car(ac_sol_lst)`1, vars2avoid = car(ac_sol_lst)`2, 
-    	     (sigma, new_unif_prb) = elimvar(null, unif_prb) IN  
-    	     cons((sigma, new_unif_prb, vars2avoid), apply_elim_var(cdr(ac_sol_lst)))
-    ENDIF
-MEASURE ac_sol_lst BY << 
+% choose the first non-ac unification problem it encounters
+choose_not_ac(seen_unif_prb, unseen_unif_prb): RECURSIVE [unif_pair, unif_prb] =
+   IF null?(unseen_unif_prb) THEN ((unit, unit), seen_unif_prb)
+   ELSE LET unif_pair = car(unseen_unif_prb) IN
+   	IF ac_prb?(unif_pair) THEN choose_not_ac(cons(unif_pair, seen_unif_prb), cdr(unseen_unif_prb))
+	ELSE (unif_pair, append(seen_unif_prb, cdr(unseen_unif_prb)))
+	ENDIF
+   ENDIF
+MEASURE unseen_unif_prb BY << 
 
-
-% construct a new input to be passed to unify
-construct_input(ac_sol_simp, sigma, unif_prb, vars2avoid): [sub, unif_prb, list[variable]] =
-    LET (sigma1, unif_prb1, vars2avoid1) = ac_sol_simp,
-    	new_sigma = append(sigma1, sigma),
-	new_unif_prb = append(unif_prb1, unif_prb),  
-	new_vars2avoid = append(vars2avoid1, vars2avoid) IN
-	(new_sigma, new_unif_prb, new_vars2avoid)
-
-% construct a list of inputs that will be passed to unify
-construct_input_lst(ac_sol_simp_lst, sigma, unif_prb, vars2avoid): RECURSIVE list[[sub, unif_prb, list[variable]]] =
-    IF null?(ac_sol_simp_lst) THEN (::)
-    ELSE LET input = construct_input(car(ac_sol_simp_lst), sigma, unif_prb, vars2avoid)
-    	     IN cons(input, construct_input_lst(cdr(ac_sol_simp_lst), sigma, unif_prb, vars2avoid))
-    ENDIF
-MEASURE ac_sol_simp_lst BY << 
-
+% choose the unification pair that will be simplified
+% prioritizes non-AC unification problems, if possible
+% return (unif_pair, remaining_unification_problems)
+% should be passed with unif_prb different than null
+choose_unif_pair(unif_prb): [unif_pair, unif_prb] = 
+   IF null?(unif_prb) THEN ((unit, unit), unif_prb)
+   ELSIF all_ac_prb?(unif_prb) THEN (car(unif_prb), cdr(unif_prb))
+   ELSE choose_not_ac(null, unif_prb) 
+   ENDIF
 
 %%%%%%%%%%%%%%%%%%%%%%% Theorems
+% get nice submatrices and get_all_sublists
 get_nice_submatrices_mem: LEMMA
    member(dio_matrix, get_nice_submatrices(dio_matrix_lst, args)) IMPLIES
    member(dio_matrix, dio_matrix_lst)
@@ -260,6 +327,7 @@ get_nice_submatrices_cor: LEMMA
    member(dio_matrix1, get_nice_submatrices(dio_matrix_lst, args)) IMPLIES
    nice_submatrix?(dio_matrix1, args)
 
+% extract submatrices
 extract_submatrices_cor: LEMMA
    dio_matrix_correct?(dio_matrix, mult_t1, mult_t2) AND 
    member(dio_matrix1, extract_submatrices(dio_matrix, args))
@@ -269,6 +337,7 @@ extract_submatrices_nice: LEMMA
    member(dio_matrix1, extract_submatrices(dio_matrix, args)) IMPLIES
    nice_submatrix?(dio_matrix1, args)
 
+% get_new_var
 get_new_var_select_greater: LEMMA
     select_greater[nat](cons(get_new_var(vars2avoid), vars2avoid)) =
     select_greater[nat](vars2avoid) + 1
@@ -334,8 +403,6 @@ get_pre_new_args_count: LEMMA
     ELSE dot_product(map(count(t, equal?))(lst_args), mult_t1)   
     ENDIF
 
-% TODO: this was wrong
-% my fix is adding the constraint that neither args1 nor args2 are null
 elim_com_arg_correct: LEMMA
    LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),
        (args1, args2) = split(args, length(mult_t1)),  
@@ -365,9 +432,51 @@ dio_matrix2ac_sol_correct: LEMMA
     nice_submatrix?(dio_matrix, args) IMPLIES
     perm?(map(get_args(f))(args1_cor_mult), map(get_args(f))(args2_cor_mult))
 
+% solve_ac
 solve_ac_soundness: LEMMA
     member((unif_prb, new_vars2avoid), solve_ac(t1, t2, vars2avoid, f)) AND   
     are_ac?(t1, t2, f) AND unifies?(sigma, unif_prb)
     IMPLIES unifies?(sigma, (t1, t2))
     
+% choose not ac 
+choose_not_ac_seen: LEMMA
+   member(unif_pair, seen_unif_prb) IMPLIES member(unif_pair, choose_not_ac(seen_unif_prb, unseen_unif_prb)`2)
+
+choose_not_ac_unseen: LEMMA
+   LET result = choose_not_ac(seen_unif_prb, unseen_unif_prb) IN 
+   member(unif_pair, unseen_unif_prb)
+   IMPLIES
+   (unif_pair = result`1 OR member(unif_pair, result`2))
+    
+choose_not_ac_mem1: LEMMA
+   NOT all_ac_prb?(unif_prb) IMPLIES 
+   member(choose_not_ac(seen_unif_prb, unif_prb)`1, unif_prb)
+
+choose_not_ac_mem2: LEMMA
+   member(unif_pair, choose_not_ac(seen_unif_prb, unseen_unif_prb)`2) IMPLIES 
+   member(unif_pair, seen_unif_prb) OR member(unif_pair, unseen_unif_prb)  
+
+choose_not_ac2_size: LEMMA
+   NOT all_ac_prb?(unseen_unif_prb) IMPLIES
+   size(choose_not_ac(seen_unif_prb, unseen_unif_prb)`2) <
+   size(seen_unif_prb) + size(unseen_unif_prb)
+
+% choose_unif
+choose_unif_pair_mem: LEMMA
+    member(unif_pair, unif_prb) IMPLIES
+    (unif_pair = choose_unif_pair(unif_prb)`1 OR
+    member(unif_pair, choose_unif_pair(unif_prb)`2))
+
+choose_unif_pair_mem1: LEMMA
+    NOT null?(unif_prb) IMPLIES 
+    member(choose_unif_pair(unif_prb)`1, unif_prb) 
+
+choose_unif_pair_mem2: LEMMA
+    member(unif_pair, choose_unif_pair(unif_prb)`2) IMPLIES
+    member(unif_pair, unif_prb)
+
+choose_unif_size2: LEMMA
+    NOT null?(unif_prb) IMPLIES 
+    size(choose_unif_pair(unif_prb)`2) < size(unif_prb) 
+
 END aux_unification 

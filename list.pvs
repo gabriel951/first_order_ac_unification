@@ -43,6 +43,9 @@ lst_pair, lst_pair1, lst_pair2: VAR list[[T, T]]
 
 lst, lst1, lst2, new_lst1, new_lst2: VAR list[T]
 lst_of_lsts, lst_of_lsts1, lst_of_lsts2, matrix, matrix1, matrix2: VAR list[list[T]]
+fin_set: VAR finite_set[T]
+lst_of_fin_sets: VAR list[finite_set[T]]
+
 
 f: VAR [[T, T] -> T]
 g: VAR [T -> list[T]]
@@ -183,6 +186,18 @@ put_in_head(lst_of_lsts, x): RECURSIVE list[list[T]] =
     ENDIF
 MEASURE lst_of_lsts BY <<
 
+% receives lst1 = [x1, ..., xm] and lst2 = [y1, ..., yn]
+% returns a list with m entries, putting every element of lst1 as
+% the head and lst2 as the tail:
+% [[x1, y1, ..., yn], ..., [xm, y1, ..., yn]]
+put_in_head(lst1, lst2): RECURSIVE list[list[T]] = 
+   IF null?(lst1) THEN null
+   ELSE LET x = car(lst1) IN
+    	cons(cons(x, lst2), put_in_head(cdr(lst1), lst2))
+   ENDIF
+MEASURE lst1 BY << 
+
+
 % returns a list [x, ..., x] of length n
 get_repeat_lst(x, n): RECURSIVE list[T] =
     IF n = 0 THEN null
@@ -308,6 +323,8 @@ split_matrix(matrix, n): RECURSIVE [list[list[T]], list[list[T]]] =
     ENDIF
 MEASURE matrix BY << 
     
+
+
 
 % receives a list of the form [[x1, y1], ..., [xn, yn]]
 % returns [y1, ..., yn]
@@ -758,13 +775,51 @@ same_count?_get_lst_mul: LEMMA
     length(lst1) = length(coef) IMPLIES
     same_count?(append(lst2, get_lst_mult(lst1, coef)), get_lst_mult(new_args, new_coef), equal?)
     
+% list2set
+mem_lst2set: LEMMA
+   member(x, lst) IMPLIES member(x, list2set[T](lst))
+
+is_fin_lst2set: LEMMA
+   is_finite(list2set(lst_of_fin_sets))
+
+mem_union_lst2set: LEMMA
+   member(x, Union(list2set(lst_of_fin_sets))) IFF
+   EXISTS fin_set:
+   	  member(x, fin_set) AND member(fin_set, lst_of_fin_sets)
+
 END list_theory
 
+% differs from list theory since takes two types
+list_theory2 [T1, T2: TYPE]: THEORY
+BEGIN
+    lst_pair, lst_pair1, lst_pair2: VAR list[[T1, T2]]
+    x: T1
+
+% receives a list of the form [[x1, y1], ..., [xn, yn]]
+% returns [x1, ..., xn]
+first_proj(lst_pair): RECURSIVE list[T1] = 
+    IF null?(lst_pair) THEN null
+    ELSE LET x = car(lst_pair)`1 IN
+         cons(x, first_proj(cdr(lst_pair)))
+    ENDIF
+MEASURE lst_pair BY << 
+
+END list_theory2
+  
+
+% 
 map_theory [T1, T2: TYPE]: THEORY
  BEGIN
+	IMPORTING list_theory[T2]
 
   f: VAR [T1 -> T2]
+  f_set: VAR [T1 -> finite_set[T2]]
   
+
+  x: VAR T2 
+  y: VAR T1
+  fin_set: VAR finite_set[T2]
+
   l1, l2: VAR list[T1]
   mult: VAR list[nat]
 
@@ -773,6 +828,22 @@ map_append: LEMMA
 
 map_append2: LEMMA
     map(f)(append(l1, l2)) = append(map(f)(l1), map(f)(l2))
+
+map_member: LEMMA
+    member(fin_set, map(f_set)(l1)) IFF 
+    EXISTS y:
+    member(y, l1) AND fin_set = f_set(y)
+
+map_member2: LEMMA
+    member(y, l1) IMPLIES member(f_set(y), map(f_set)(l1))
+
+map_member3: LEMMA
+    member(x, map(f)(l1)) = EXISTS (n: below[length(l1)]): x = f(nth(l1, n))
+    
+mem_union_map: LEMMA
+    member(x, Union(list2set(map(f_set)(l1)))) IFF
+    EXISTS y:
+        member(y, l1) AND member(x, f_set(y))
     
 END map_theory
 

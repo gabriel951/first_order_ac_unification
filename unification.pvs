@@ -19,6 +19,8 @@ BEGIN
 sigma, sigma1: VAR sub
 vars2avoid: VAR set[variable]
 args1, args2: VAR args
+X: VAR variable
+t: VAR term
 
 % a unification pair (t, s) is composed of terms t and s that must be unified
 unif_pair: TYPE = [term, term]
@@ -27,6 +29,30 @@ unif_pair: VAR unif_pair
 % a unification problem is a list of unification pairs
 unif_prb: TYPE = list[unif_pair]
 unif_prb, unif_prb1, unif_prb2: VAR unif_prb
+
+% variables of a unification pair
+vars(unif_pair): finite_set[variable] =
+    LET (t, s) = unif_pair IN union(vars(t), vars(s))
+
+% variables of a unification problem
+vars(unif_prb): RECURSIVE finite_set[variable] =
+    IF null?(unif_prb) THEN emptyset
+    ELSE LET unif_pair = car(unif_prb) IN
+    	     union(vars(unif_pair), vars(cdr(unif_prb)))
+    ENDIF
+MEASURE unif_prb BY << 
+
+% subterms of a unification pair
+subterms(unif_pair): finite_set[term] =
+    LET (t, s) = unif_pair IN union(subterms(t), subterms(s))
+
+% subterms of a unification problem
+subterms(unif_prb): RECURSIVE finite_set[term] =
+    IF null?(unif_prb) THEN emptyset
+    ELSE LET unif_pair = car(unif_prb) IN
+    	     union(subterms(unif_pair), subterms(cdr(unif_prb)))
+    ENDIF
+MEASURE unif_prb BY << 
 
 % check if sigma unifies a unification pair
 unifies?(sigma, unif_pair): bool = 
@@ -53,7 +79,51 @@ apply_sub(sigma, unif_prb): RECURSIVE unif_prb =
     ENDIF
 MEASURE unif_prb BY << 
 
+% size of a unification pair
+size(unif_pair): nat =
+    LET (t, s) = unif_pair IN size(t) + size(s) 
+
+% size of a unification problem
+size(unif_prb): RECURSIVE nat =
+    IF null?(unif_prb) THEN 0
+    ELSE LET unif_pair = car(unif_prb) in
+    	 size(unif_pair) + size(cdr(unif_prb))
+    ENDIF
+MEASURE unif_prb BY << 
+     
+% lst of vars in an unif_pair
+lst_vars(unif_pair): list[variable] =
+    LET (t, s) = unif_pair IN append(lst_vars(t), lst_vars(s))
+  
+% lst of vars in an unif_prb
+lst_vars(unif_prb): RECURSIVE list[variable] =
+    IF null?(unif_prb) THEN null
+    ELSE LET unif_pair = car(unif_prb) in
+    	 append(lst_vars(unif_pair), lst_vars(cdr(unif_prb)))
+    ENDIF
+MEASURE unif_prb BY << 
+
+% returns true if it's an ac unification pair 
+ac_prb?(unif_pair): bool =
+   LET (t, s) = unif_pair IN ac_app?(t) AND ac_app?(s) AND ac_sym(t) = ac_sym(s) 
+
+% returns true if all members of unif_prb are ac_problems
+all_ac_prb?(unif_prb): bool =
+   FORALL unif_pair: 
+   member(unif_pair, unif_prb) IMPLIES ac_prb?(unif_pair)
+
 %%%%%%%%%%%%%%%%%% Theorems and Lemmas
+% size
+size_app_unif_prb: LEMMA
+    size(append(unif_prb1, unif_prb2)) = size(unif_prb1) + size(unif_prb2)
+
+% subterms 
+subterms_mem: LEMMA
+    member(t, subterms(unif_prb)) IFF
+    EXISTS unif_pair:
+    	   member(t, subterms(unif_pair)) AND member(unif_pair, unif_prb) 
+
+% unifies?
 unifies?_append: LEMMA
     unifies?(sigma, append(unif_prb1, unif_prb2)) =
     (unifies?(sigma, unif_prb1) AND unifies?(sigma, unif_prb2))
@@ -62,4 +132,17 @@ unifies?_pareate: LEMMA
     length(args1) = length(args2) AND unifies?(sigma, pareate(args1, args2))
     IMPLIES equal?(subs(sigma)(args1), subs(sigma)(args2))
     
+% apply_sub_elim_var
+apply_sub_elim_var_t: LEMMA
+    member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
+    IMPLIES NOT member(X, vars(subs(sigma)(t)))
+
+apply_sub_elim_var_unif_pair: LEMMA
+    member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
+    IMPLIES NOT member(X, vars(apply_sub(sigma, unif_pair)))
+
+apply_sub_elim_var: LEMMA
+    member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
+    IMPLIES NOT member(X, vars(apply_sub(sigma, unif_prb)))
+
 END unification 

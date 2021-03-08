@@ -62,6 +62,9 @@ subs(sigma)(t): RECURSIVE term =
     ENDCASES
 MEASURE sigma BY << 
 
+% action of a substitution on a variable
+subs(sigma)(X): term = subs(sigma)(variable(X))
+
 % apply substitution to a list of terms
 subs(sigma)(args): RECURSIVE args =
     IF null?(args) THEN null
@@ -77,6 +80,27 @@ equal?(sigma, delta): bool =
 more_general?(sigma, delta): bool = 
     EXISTS delta2: equal?(sigma, append(delta2, delta))
     
+% a superset of the domain of a substitution sigma
+supset_dom(sigma): RECURSIVE finite_set[variable] = 
+    IF null?(sigma) THEN emptyset
+    ELSE LET X = car(sigma)`1 IN add(X, supset_dom(cdr(sigma)))
+    ENDIF
+MEASURE sigma BY << 
+
+% if subs(sigma)(X) /= variable(X) then member(X, supset_dom(sigma))
+% needed for the TCC of dom
+supset_dom_correct: LEMMA
+   subs(sigma)(X) /= variable(X) IMPLIES member(X, supset_dom(sigma))
+
+% domain of a substitution
+dom(sigma): finite_set[variable] = {X | subs(sigma)(X) /= variable(X)}
+
+supset_dom_correct2: LEMMA
+    subset?(dom(sigma), supset_dom(sigma))
+
+% image of a substitution 
+img(sigma): finite_set[term] = {t | EXISTS X: member(X, dom(sigma)) AND subs(sigma)(X) = t} 
+
 
 %%%%%%%%%%%%%%%%%%% Theorems
 % substitution and their effects on the terms
@@ -146,5 +170,12 @@ subs_get_lst_mult: LEMMA
 perm?_get_args_subs: LEMMA
     perm?(subs(sigma)(get_args(f)(t)), subs(sigma)(get_args(f)(s))) IMPLIES
     perm?(get_args(f)(subs(sigma)(t)), get_args(f)(subs(sigma)(s)))
+
+% domain and img of a substitution lemmas
+dom_basic_sub: LEMMA
+    dom(cons((X, t), null)) = singleton(X) OR member(X, vars(t))
+
+img_basic_sub: LEMMA
+    img(cons((X, t), null)) = singleton(t) OR member(X, vars(t)) 
 
 END substitution
