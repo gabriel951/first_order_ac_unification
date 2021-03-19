@@ -172,7 +172,7 @@ MEASURE lst_nat BY <<
 % get the arguments of a term t.
 % if it encounters an ac function whose root is "sym" it goes inside the function
 get_args(sym)(t): args =
-    LET n = num_arg(sym, t), lst_until_n = from_min2max(1, n) IN 
+    LET n = num_arg(sym, t), lst_until_n = from_min2max[nat](1, n) IN 
     	map(select(sym, t))(lst_until_n)
     
 % obtain a term to represent a whole list of terms
@@ -501,6 +501,9 @@ all_var?_split_lst_args2: LEMMA
     all_var?(lst_args) IMPLIES all_var?(split(lst_args, n)`2)
 
 % not_var_args
+not_var_args_append: LEMMA
+    not_var_args(append(args1, args2)) = append(not_var_args(args1), not_var_args(args2))
+
 not_var_args_nth: LEMMA
     i < length(not_var_args(args)) IMPLIES EXISTS j:
     j < length(args) AND
@@ -509,8 +512,16 @@ not_var_args_nth: LEMMA
 not_var_args_mem: LEMMA
     member(t, not_var_args(args)) IMPLIES member(t, args)
 
+not_var_args_mem2: LEMMA
+    member(t, not_var_args(args)) IFF member(t, args) AND
+    NOT var?(t) 
+
 not_var_args_get_args: LEMMA
     member(s, not_var_args(f)(t)) IMPLIES member(s, get_args(f)(t))
+
+not_var_args_get_args2: LEMMA
+    member(s, not_var_args(f)(t)) IFF member(s, get_args(f)(t)) AND
+    NOT var?(s)
 
 not_var_args_nth2: LEMMA
     i < length(not_var_args(f)(t)) IMPLIES EXISTS j:

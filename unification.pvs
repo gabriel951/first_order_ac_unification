@@ -29,6 +29,7 @@ unif_pair: VAR unif_pair
 % a unification problem is a list of unification pairs
 unif_prb: TYPE = list[unif_pair]
 unif_prb, unif_prb1, unif_prb2: VAR unif_prb
+lst_unif_prb: VAR list[unif_prb]
 
 % variables of a unification pair
 vars(unif_pair): finite_set[variable] =
@@ -53,6 +54,14 @@ subterms(unif_prb): RECURSIVE finite_set[term] =
     	     union(subterms(unif_pair), subterms(cdr(unif_prb)))
     ENDIF
 MEASURE unif_prb BY << 
+
+% subterms of a list of unification problems
+subterms(lst_unif_prb): RECURSIVE finite_set[term] =
+    IF null?(lst_unif_prb) THEN emptyset
+    ELSE LET unif_prb = car(lst_unif_prb) IN
+    	     union(subterms(unif_prb), subterms(cdr(lst_unif_prb)))
+    ENDIF
+MEASURE lst_unif_prb BY << 
 
 % check if sigma unifies a unification pair
 unifies?(sigma, unif_pair): bool = 

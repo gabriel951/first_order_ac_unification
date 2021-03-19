@@ -575,6 +575,10 @@ put_in_head_mem: LEMMA
     member(lst, put_in_head(matrix, x)) IMPLIES
     (NOT null?(lst)) AND x = car(lst) AND member(cdr(lst), matrix)
 
+put_in_head_mem2: LEMMA
+    member(lst, put_in_head(lst1, lst2)) IMPLIES
+    null?(lst) OR (member(car(lst), lst1) AND cdr(lst) = lst2)
+
 % get_repeat_lst
 get_repeat_lst_len: LEMMA
     length(get_repeat_lst(x, n)) = n
@@ -793,7 +797,13 @@ END list_theory
 list_theory2 [T1, T2: TYPE]: THEORY
 BEGIN
     lst_pair, lst_pair1, lst_pair2: VAR list[[T1, T2]]
-    x: T1
+    pair: VAR [T1, T2]
+    f: VAR [[T1, T2] -> T1]
+    x: VAR T1
+    n: VAR nat
+    
+% will be needed for a lemma
+first_proj(pair): T1 = pair`1
 
 % receives a list of the form [[x1, y1], ..., [xn, yn]]
 % returns [x1, ..., xn]
@@ -804,23 +814,34 @@ first_proj(lst_pair): RECURSIVE list[T1] =
     ENDIF
 MEASURE lst_pair BY << 
 
+first_proj_nth_mem: LEMMA
+    n < length(lst_pair) IMPLIES 
+    member(nth(lst_pair, n)`1, first_proj(lst_pair)) 
+
+first_proj_is_map: LEMMA
+   EXISTS f:
+        FORALL lst_pair:  first_proj(lst_pair) = map(f)(lst_pair)
+
 END list_theory2
   
 
 % 
 map_theory [T1, T2: TYPE]: THEORY
  BEGIN
-	IMPORTING list_theory[T2]
+	IMPORTING list_theory[T1], list_theory[T2]
 
   f: VAR [T1 -> T2]
   f_set: VAR [T1 -> finite_set[T2]]
+  f_lst: VAR [T1 -> list[T1]]
+  f_lst2: VAR [list[T1] -> list[T2]]
+  f_lst3: VAR [T1 -> list[T2]]
   
-
   x: VAR T2 
-  y: VAR T1
+  y, y1: VAR T1
   fin_set: VAR finite_set[T2]
 
   l1, l2: VAR list[T1]
+  lst_of_lsts: VAR list[list[T1]]
   mult: VAR list[nat]
 
 map_append: LEMMA
@@ -839,12 +860,37 @@ map_member2: LEMMA
 
 map_member3: LEMMA
     member(x, map(f)(l1)) = EXISTS (n: below[length(l1)]): x = f(nth(l1, n))
+
+map_member4: LEMMA
+    member(x, map(f)(l1)) IFF EXISTS y: member(y, l1) AND x = f(y)
     
 mem_union_map: LEMMA
     member(x, Union(list2set(map(f_set)(l1)))) IFF
     EXISTS y:
         member(y, l1) AND member(x, f_set(y))
-    
+
+mem_flatten_map: LEMMA
+    member(y1, flatten(map(f_lst)(l1))) IMPLIES 
+    EXISTS y: 
+       member(y, l1) AND member(y1, f_lst(y))
+
+mem_flatten_map2: LEMMA
+    member(x, flatten(map(f_lst3)(l1))) IFF
+    EXISTS y:
+       member(y, l1) AND member(x, f_lst3(y))
+        
+func_flatten_map: LEMMA
+    (EXISTS f:
+    	FORALL l1: 
+        f_lst2(l1) = map(f)(l1))
+    IMPLIES
+    f_lst2(flatten(lst_of_lsts)) = flatten(map(f_lst2)(lst_of_lsts))
+
+func_flatten_map2: LEMMA
+    (f_lst2(null) = null AND FORALL l1, l2: f_lst2(append(l1, l2)) = append(f_lst2(l1), f_lst2(l2))) IMPLIES
+    f_lst2(flatten(lst_of_lsts)) = flatten(map(f_lst2)(lst_of_lsts))
+
+
 END map_theory
 
 % this theory depends on importing "list_theory" with a specific type T

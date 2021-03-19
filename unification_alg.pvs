@@ -73,7 +73,7 @@ unify(unif_prb, sigma): RECURSIVE list[sub] =
 	  IF NOT ac_app?(s) OR f /= ac_sym(s) THEN null
 	  ELSE LET lst_unif_prb = apply_ac_step(unif_prb)(null), 
 	  lst_unif_prb_and_subs = instantiate_step(lst_unif_prb),
-	  lst_results = map(unify, lst_unif_prb_and_subs) IN 
+	  lst_results = map(unify)(lst_unif_prb_and_subs) IN 
 	  flatten(lst_results) 
 	  ENDIF
         ENDCASES
@@ -81,7 +81,7 @@ unify(unif_prb, sigma): RECURSIVE list[sub] =
   ENDIF
 MEASURE lex4(card(vars_not_ac(unif_prb)), card(vars_under2more(unif_prb)),
 	card(admissible_subterms(unif_prb)), size(unif_prb))
-     
+
 % Theorem of Correctness
 unify_alg_correct: LEMMA
     member(delta, unify(unif_prb, sigma)) IMPLIES 

@@ -31,7 +31,7 @@ sigma: VAR sub
 
 unif_pair: VAR unif_pair
 unif_prb, seen_unif_prb, unseen_unif_prb: VAR unif_prb
-ac_results_so_far, lst_unif_prb: VAR list[unif_prb]
+ac_results_so_far, lst_unif_prb, lst_unif_prb1, lst_unif_prb2: VAR list[unif_prb]
 
 
 sym: VAR string
@@ -337,7 +337,7 @@ extract_submatrices_nice: LEMMA
    member(dio_matrix1, extract_submatrices(dio_matrix, args)) IMPLIES
    nice_submatrix?(dio_matrix1, args)
 
-% get_new_var
+% get_new_var, add_new_arg_len
 get_new_var_select_greater: LEMMA
     select_greater[nat](cons(get_new_var(vars2avoid), vars2avoid)) =
     select_greater[nat](vars2avoid) + 1
@@ -367,6 +367,7 @@ map_count_add_new_arg: LEMMA
     ELSE map(count(t1, equal?))(lst_args)
     ENDIF
     
+% get_pre_new_args
 get_pre_new_args_len: LEMMA
     length(get_pre_new_args(lst_args, dio_matrix, vars2avoid)`1) = length(lst_args) 
 
@@ -403,6 +404,7 @@ get_pre_new_args_count: LEMMA
     ELSE dot_product(map(count(t, equal?))(lst_args), mult_t1)   
     ENDIF
 
+% elim_com_arg
 elim_com_arg_correct: LEMMA
    LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),
        (args1, args2) = split(args, length(mult_t1)),  
@@ -461,6 +463,9 @@ choose_not_ac2_size: LEMMA
    size(choose_not_ac(seen_unif_prb, unseen_unif_prb)`2) <
    size(seen_unif_prb) + size(unseen_unif_prb)
 
+choose_not_ac_not_ac: LEMMA
+   NOT ac_prb?(choose_not_ac(seen_unif_prb, unseen_unif_prb)`1)
+
 % choose_unif
 choose_unif_pair_mem: LEMMA
     member(unif_pair, unif_prb) IMPLIES
@@ -478,5 +483,14 @@ choose_unif_pair_mem2: LEMMA
 choose_unif_size2: LEMMA
     NOT null?(unif_prb) IMPLIES 
     size(choose_unif_pair(unif_prb)`2) < size(unif_prb) 
+
+choose_unif_correct: LEMMA
+    ac_prb?(choose_unif_pair(unif_prb)`1) IMPLIES 
+    all_ac_prb?(unif_prb)
+
+% instantiate step
+instantiate_step_append: LEMMA
+    instantiate_step(append(lst_unif_prb1, lst_unif_prb2)) =
+    append(instantiate_step(lst_unif_prb1), instantiate_step(lst_unif_prb2))
 
 END aux_unification 
