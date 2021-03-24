@@ -135,6 +135,61 @@
    (all_var? termination
     "term_properties.all_var?(list_adt[args].cdr(term_properties.lst_args))"
     "nil")))
+ (term_opt_TCC1 0
+  (term_opt_TCC1-1 nil 3825441259 ("" (subtype-tcc) nil nil) nil nil
+   (term_opt subtype "term_properties.t"
+    "(term_adt[constant, variable, f_symbol, ac_symbol].const?)")))
+ (term_opt_TCC2 0
+  (term_opt_TCC2-1 nil 3825441259 ("" (subtype-tcc) nil nil) nil nil
+   (term_opt subtype "term_properties.t"
+    "(term_adt[constant, variable, f_symbol, ac_symbol].var?)")))
+ (term_opt_TCC3 0
+  (term_opt_TCC3-1 nil 3825441259 ("" (subtype-tcc) nil nil) nil nil
+   (term_opt subtype "term_properties.t"
+    "pair[constant, variable, f_symbol, ac_symbol]")))
+ (term_opt_TCC4 0
+  (term_opt_TCC4-1 nil 3825441259 ("" (subtype-tcc) nil nil) nil nil
+   (term_opt subtype "term_properties.t"
+    "(term_adt[constant, variable, f_symbol, ac_symbol].app?)")))
+ (term_opt_TCC5 0
+  (term_opt_TCC5-1 nil 3825441259 ("" (subtype-tcc) nil nil) nil nil
+   (term_opt subtype "term_properties.t"
+    "(term_adt[constant, variable, f_symbol, ac_symbol].ac_app?)")))
+ (term_opt 0
+  (term_opt-1 nil 3825441259
+   ("" (skeep)
+    (("" (lemma "term_const_eta") (("" (grind) nil nil)) nil)) nil)
+   ((ac_symbol type-eq-decl nil term_properties nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (char type-eq-decl nil strings nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (character type-decl nil character_adt nil)
+    (below type-eq-decl nil nat_types nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (variable type-eq-decl nil term_properties nil)
+    (constant type-eq-decl nil term_properties nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (term_const_eta formula-decl nil term_adt nil)
+    (const? adt-recognizer-decl "[term -> boolean]" term_adt nil)
+    (TRUE const-decl "bool" booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (every adt-def-decl "boolean" term_adt nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (term type-decl nil term_adt nil))
+   shostak))
  (size_ge1 0
   (size_ge1-1 nil 3806329573
    ("" (induct "t")
@@ -4536,6 +4591,12 @@
    (subterms termination-subtype
     "term_properties.get_args(term_properties.sym)(term_properties.t)"
     "[{z: term_adt[constant, variable, f_symbol, ac_symbol].term | reals.<(term_properties.size(z), term_properties.size(term_properties.t))} -> finite_set[term[constant, variable, f_symbol, ac_symbol]]]")))
+ (subterms_TCC5 0
+  (subterms_TCC5-1 nil 3825441259 ("" (termination-tcc) nil nil) nil
+   nil
+   (subterms termination
+    "term_properties.subterms(list_adt[term[constant, variable, f_symbol, ac_symbol]].cdr(term_properties.args))"
+    "nil")))
  (prop_subterms_TCC1 0
   (prop_subterms_TCC1-1 nil 3819387232
    ("" (skeep)
@@ -4577,7 +4638,7 @@
     (term type-decl nil term_adt nil))
    shostak
    (prop_subterms subtype
-    "sets[term[constant, variable, f_symbol, ac_symbol]].Union(extend[setof[term[constant, variable, f_symbol, ac_symbol]], finite_set[term[constant, variable, f_symbol, ac_symbol]], booleans.bool, booleans.FALSE].extend(list2set[finite_set[term[constant, variable, f_symbol, ac_symbol]]].list2set(list_adt_map[term[constant, variable, f_symbol, ac_symbol], finite_set[term[constant, variable, f_symbol, ac_symbol]]].map(term_properties.subterms)(term_properties.get_args(term_properties.sym)(term_properties.t)))))"
+    "{s | booleans.AND(sets[term[constant, variable, f_symbol, ac_symbol]].member(term_properties.s, term_properties.subterms(term_properties.t)), term_properties.s /= term_properties.t)}"
     "finite_set[term[constant, variable, f_symbol, ac_symbol]]")))
  (im_under_TCC1 0
   (im_under_TCC1-1 nil 3823789730 ("" (subtype-tcc) nil nil) nil nil
@@ -4837,8 +4898,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil)
-    (every adt-def-decl "boolean" term_adt nil)
+    (PRED type-eq-decl nil defined_types nil) nil
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -4856,8 +4916,7 @@
     (append def-decl "list[T]" list_props nil)
     (not_var_args def-decl "args" term_properties nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
-    (args type-eq-decl nil term_properties nil)
-    (every adt-def-decl "boolean" list_adt nil)
+    (args type-eq-decl nil term_properties nil) nil
     (list type-decl nil list_adt nil))
    shostak))
  (not_var_args_nth 0
@@ -5307,10 +5366,7 @@
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (set type-eq-decl nil sets nil) (member const-decl "bool" sets nil)
     (is_finite const-decl "bool" finite_sets nil)
-    (finite_set type-eq-decl nil finite_sets nil)
-    (subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     term_properties nil)
+    (finite_set type-eq-decl nil finite_sets nil) nil
     (nonempty_singleton_finite application-judgement
      "non_empty_finite_set" finite_sets nil)
     (finite_emptyset name-judgement "finite_set" finite_sets nil)
@@ -5490,10 +5546,7 @@
      real_props nil)
     (nonempty_singleton_finite application-judgement
      "non_empty_finite_set" finite_sets nil)
-    (<= const-decl "bool" reals nil)
-    (subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     term_properties nil)
+    (<= const-decl "bool" reals nil) nil
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
@@ -5665,10 +5718,7 @@
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (set type-eq-decl nil sets nil) (member const-decl "bool" sets nil)
     (is_finite const-decl "bool" finite_sets nil)
-    (finite_set type-eq-decl nil finite_sets nil)
-    (prop_subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     term_properties nil)
+    (finite_set type-eq-decl nil finite_sets nil) nil
     (emptyset const-decl "set" sets nil)
     (finite_emptyset name-judgement "finite_set" finite_sets nil)
     (posint_plus_nnint_is_posint application-judgement "posint"
@@ -5689,10 +5739,7 @@
     (get_args const-decl "args" term_properties nil)
     (args type-eq-decl nil term_properties nil)
     (string type-eq-decl nil strings nil)
-    (list type-decl nil list_adt nil)
-    (subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     term_properties nil)
+    (list type-decl nil list_adt nil) nil
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
@@ -5870,10 +5917,7 @@
     (get_args const-decl "args" term_properties nil)
     (args type-eq-decl nil term_properties nil)
     (string type-eq-decl nil strings nil)
-    (list type-decl nil list_adt nil)
-    (subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     term_properties nil)
+    (list type-decl nil list_adt nil) nil
     (mem_union_map formula-decl nil map_theory nil)
     (Union_surjective name-judgement
      "(surjective?[setofsets[T], set[T]])" sets_lemmas nil)
@@ -5894,10 +5938,7 @@
     (nonempty_singleton_finite application-judgement
      "non_empty_finite_set" finite_sets nil)
     (emptyset const-decl "set" sets nil)
-    (finite_emptyset name-judgement "finite_set" finite_sets nil)
-    (prop_subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     term_properties nil)
+    (finite_emptyset name-judgement "finite_set" finite_sets nil) nil
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)

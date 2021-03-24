@@ -41,6 +41,16 @@
     "{X | EXISTS t, s:      term_properties.dif_func?(termination_alg.t, termination_alg.s) AND term_properties.im_under?(termination_alg.X, termination_alg.t) AND term_properties.im_under?(termination_alg.X, termination_alg.s) AND sets[term[constant, variable, f_symbol, ac_symbol]].member(termination_alg.t, unification.subterms(termination_alg.lst_unif_prb)) AND sets[term[constant, variable, f_symbol, ac_symbol]].member(termination_alg.s, unification.subterms(termination_alg.lst_unif_prb))}"
     "finite_set[variable]")))
  (vars_not_ac_TCC1 0
+  (vars_not_ac_TCC1-1 nil 3825583706 ("" (termination-tcc) nil nil) nil
+   nil
+   (vars_not_ac termination
+    "termination_alg.vars_not_ac(termination_alg.t1)" "nil")))
+ (vars_not_ac_TCC2 0
+  (vars_not_ac_TCC2-1 nil 3825583706 ("" (termination-tcc) nil nil) nil
+   nil
+   (vars_not_ac termination
+    "termination_alg.vars_not_ac(termination_alg.t2)" "nil")))
+ (vars_not_ac_TCC3 0
   (vars_not_ac_TCC1-1 nil 3819454827 ("" (tcc))
    ((boolean nonempty-type-decl nil booleans nil)
     (bool nonempty-type-eq-decl nil booleans nil)
@@ -75,287 +85,76 @@
     (posint_plus_nnint_is_posint application-judgement "posint"
      integers nil))
    nil
-   (vars_not_ac termination
-    "termination_alg.vars_not_ac(termination_alg.t1)" "nil")))
- (vars_not_ac_TCC2 0
-  (vars_not_ac_TCC2-1 nil 3819454827 ("" (tcc))
-   ((boolean nonempty-type-decl nil booleans nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (NOT const-decl "[bool -> bool]" booleans nil)
-    (number nonempty-type-decl nil numbers nil)
-    (PRED type-eq-decl nil defined_types nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (below type-eq-decl nil nat_types nil)
-    (character type-decl nil character_adt nil)
-    (char? adt-recognizer-decl "[character -> boolean]" character_adt
-     nil)
-    (char type-eq-decl nil strings nil)
-    (f_symbol type-eq-decl nil term_properties nil)
-    (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (>= const-decl "bool" reals nil)
-    (TRUE const-decl "bool" booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil))
-   nil
-   (vars_not_ac termination
-    "termination_alg.vars_not_ac(termination_alg.t2)" "nil")))
- (vars_not_ac_TCC3 0
-  (vars_not_ac_TCC3-1 nil 3819454827 ("" (tcc))
-   ((boolean nonempty-type-decl nil booleans nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (NOT const-decl "[bool -> bool]" booleans nil)
-    (number nonempty-type-decl nil numbers nil)
-    (PRED type-eq-decl nil defined_types nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (below type-eq-decl nil nat_types nil)
-    (character type-decl nil character_adt nil)
-    (char? adt-recognizer-decl "[character -> boolean]" character_adt
-     nil)
-    (char type-eq-decl nil strings nil)
-    (f_symbol type-eq-decl nil term_properties nil)
-    (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (>= const-decl "bool" reals nil)
-    (TRUE const-decl "bool" booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil))
-   nil
-   (vars_not_ac termination
-    "termination_alg.vars_not_ac(termination_alg.arg)" "nil")))
+   (vars_not_ac subtype "term_properties.subterms(termination_alg.arg)"
+    "(sets[term[constant, variable, f_symbol, ac_symbol]].singleton?)")))
  (vars_not_ac_TCC4 0
-  (vars_not_ac_TCC1-1 nil 3819454692
-   ("" (skeep)
-    (("" (lemma "every_nth[term[number, number, f_symbol, ac_symbol]]")
-      (("" (inst? -1)
-        (("" (assert)
-          (("" (hide 2)
-            (("" (skeep)
-              (("" (typepred "i")
-                (("" (lemma "not_var_args_nth2")
-                  (("" (inst? -1)
-                    (("" (assert)
-                      (("" (skeep)
-                        (("" (replace -2 1)
-                          (("" (lemma "get_args_nth")
-                            (("" (inst? -1)
-                              ((""
-                                (split -1)
-                                (("1"
-                                  (replace -1 1)
-                                  (("1"
-                                    (prop)
-                                    (("1"
-                                      (lemma "subterms_aux_TCC")
-                                      (("1" (inst? -1) nil nil))
-                                      nil)
-                                     ("2"
-                                      (lemma "ac_select_size")
-                                      (("2"
-                                        (inst? -1)
-                                        (("2"
-                                          (assert)
-                                          (("2" (grind) nil nil))
-                                          nil))
-                                        nil))
-                                      nil))
-                                    nil))
-                                  nil)
-                                 ("2"
-                                  (hide 2)
-                                  (("2"
-                                    (hide -2)
-                                    (("2"
-                                      (rewrite "get_args_len")
-                                      (("2" (grind) nil nil))
-                                      nil))
-                                    nil))
-                                  nil))
-                                nil))
-                              nil))
-                            nil))
-                          nil))
-                        nil))
-                      nil))
-                    nil))
-                  nil))
-                nil))
-              nil))
-            nil))
-          nil))
-        nil))
-      nil))
-    nil)
-   ((bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (>= const-decl "bool" reals nil)
-    (TRUE const-decl "bool" booleans nil)
-    (< const-decl "bool" reals nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil)
-    (list type-decl nil list_adt nil)
-    (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil)
-    (not_var_args const-decl "args" term_properties nil)
-    (below type-eq-decl nil naturalnumbers nil)
-    (length def-decl "nat" list_props nil)
-    (NOT const-decl "[bool -> bool]" booleans nil)
-    (get_args_nth formula-decl nil term_properties nil)
-    (subterms_aux_TCC formula-decl nil term_properties nil)
-    (nnint_plus_posint_is_posint application-judgement "posint"
-     integers nil)
-    (real_gt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (is_ac_sym? const-decl "bool" term_properties nil)
-    (select def-decl "term" term_properties nil)
-    (num_arg def-decl "nat" term_properties nil)
-    (from_min2max def-decl "list[nat]" list_theory nil)
-    (get_args const-decl "args" term_properties nil)
-    (not_var_args def-decl "args" term_properties nil)
-    (nth def-decl "T" list_props nil)
-    (int_minus_int_is_int application-judgement "int" integers nil)
-    (ac_select_size formula-decl nil term_properties nil)
-    (real_le_is_total_order name-judgement "(total_order?[real])"
-     real_props nil)
-    (nice_ind? const-decl "bool" term_properties nil)
-    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
-     integers nil)
-    (get_args_len formula-decl nil term_properties nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (not_var_args_nth2 formula-decl nil term_properties nil)
-    (every_nth formula-decl nil list_props nil)
-    (number nonempty-type-decl nil numbers nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (below type-eq-decl nil nat_types nil)
-    (character type-decl nil character_adt nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (char? adt-recognizer-decl "[character -> boolean]" character_adt
-     nil)
-    (char type-eq-decl nil strings nil)
-    (f_symbol type-eq-decl nil term_properties nil)
-    (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil))
-   shostak
-   (vars_not_ac termination-subtype
-    "term_properties.not_var_args(termination_alg.sym)(termination_alg.t)"
-    "[{z: term_adt[constant, variable, f_symbol, ac_symbol].term | reals.<(term_properties.size(z), term_properties.size(termination_alg.t))} -> finite_set[variable]]")))
+  (vars_not_ac_TCC4-1 nil 3825583706 ("" (termination-tcc) nil nil) nil
+   nil
+   (vars_not_ac termination
+    "termination_alg.vars_not_ac(sets[term[constant, variable, f_symbol, ac_symbol]].singleton_elt(term_properties.subterms(termination_alg.arg)))"
+    "nil")))
  (vars_not_ac_TCC5 0
-  (vars_not_ac_TCC5-1 nil 3824129283 ("" (subtype-tcc) nil nil) nil nil
-   (vars_not_ac subtype "termination_alg.unif_prb"
-    "(list_adt[unif_pair].cons?)")))
+  (vars_not_ac_TCC5-1 nil 3825583706 ("" (termination-tcc) nil nil) nil
+   nil
+   (vars_not_ac termination-subtype
+    "term_properties.get_args(termination_alg.sym)(termination_alg.t)"
+    "[{z: term_adt[constant, variable, f_symbol, ac_symbol].term | reals.<(term_properties.size(z), term_properties.size(termination_alg.t))} -> finite_set[variable]]")))
  (vars_not_ac_TCC6 0
-  (vars_not_ac_TCC6-1 nil 3824129283 ("" (termination-tcc) nil nil) nil
-   nil
-   (vars_not_ac termination
-    "termination_alg.vars_not_ac(list_adt[unif_pair].cdr(termination_alg.unif_prb))"
-    "nil")))
- (vars_not_ac_TCC7 0
-  (vars_not_ac_TCC7-1 nil 3824129283 ("" (subtype-tcc) nil nil) nil nil
-   (vars_not_ac subtype "termination_alg.unif_prb"
-    "(list_adt[unif_pair].cons?)")))
- (vars_not_ac_TCC8 0
-  (vars_not_ac_TCC8-1 nil 3824407778 ("" (subtype-tcc) nil nil) nil nil
-   (vars_not_ac subtype "termination_alg.lst_unif_prb"
-    "(list_adt[unification.unif_prb].cons?)")))
- (vars_not_ac_TCC9 0
-  (vars_not_ac_TCC9-1 nil 3824407778 ("" (termination-tcc) nil nil) nil
-   nil
-   (vars_not_ac termination
-    "termination_alg.vars_not_ac(list_adt[unification.unif_prb].cdr(termination_alg.lst_unif_prb))"
-    "nil")))
- (vars_not_ac_TCC10 0
-  (vars_not_ac_TCC10-1 nil 3824407778 ("" (subtype-tcc) nil nil) nil
-   nil
-   (vars_not_ac subtype "termination_alg.lst_unif_prb"
-    "(list_adt[unification.unif_prb].cons?)")))
- (vars_not_ac_TCC11 0
-  (vars_not_ac_TCC5-1 nil 3823285901 ("" (tcc))
-   ((boolean nonempty-type-decl nil booleans nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (NOT const-decl "[bool -> bool]" booleans nil)
-    (number nonempty-type-decl nil numbers nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (below type-eq-decl nil nat_types nil)
-    (character type-decl nil character_adt nil)
-    (char? adt-recognizer-decl "[character -> boolean]" character_adt
-     nil)
-    (char type-eq-decl nil strings nil)
-    (f_symbol type-eq-decl nil term_properties nil)
-    (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil)
-    (PRED type-eq-decl nil defined_types nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (>= const-decl "bool" reals nil)
-    (TRUE const-decl "bool" booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil)
-    (set type-eq-decl nil sets nil)
-    (is_finite const-decl "bool" finite_sets nil)
-    (finite_set type-eq-decl nil finite_sets nil)
-    (member const-decl "bool" sets nil)
-    (empty? const-decl "bool" sets nil)
-    (nonempty? const-decl "bool" sets nil))
-   nil
+  (vars_not_ac_TCC2-1 nil 3825262936 ("" (subtype-tcc) nil nil) nil nil
    (vars_not_ac subtype "termination_alg.fin_set_t"
     "(sets[term[constant, variable, f_symbol, ac_symbol]].nonempty?)")))
- (vars_not_ac_TCC12 0
-  (vars_not_ac_TCC6-1 nil 3823285901 ("" (termination-tcc) nil nil) nil
-   shostak
+ (vars_not_ac_TCC7 0
+  (vars_not_ac_TCC7-1 nil 3825594969 ("" (termination-tcc) nil nil) nil
+   nil
    (vars_not_ac termination
     "termination_alg.vars_not_ac(sets[term[constant, variable, f_symbol, ac_symbol]].rest(termination_alg.fin_set_t))"
     "nil")))
+ (vars_not_ac_TCC8 0
+  (vars_not_ac_TCC4-1 nil 3825262936 ("" (subtype-tcc) nil nil) nil nil
+   (vars_not_ac subtype "termination_alg.args"
+    "(list_adt[term[constant, variable, f_symbol, ac_symbol]].cons?)")))
+ (vars_not_ac_TCC9 0
+  (vars_not_ac_TCC9-1 nil 3825594969 ("" (termination-tcc) nil nil) nil
+   nil
+   (vars_not_ac termination
+    "termination_alg.vars_not_ac(list_adt[term[constant, variable, f_symbol, ac_symbol]].cdr(termination_alg.args))"
+    "nil")))
+ (vars_not_ac_TCC10 0
+  (vars_not_ac_TCC10-1 nil 3825594969 ("" (subtype-tcc) nil nil) nil
+   nil
+   (vars_not_ac subtype "termination_alg.args"
+    "(list_adt[term[constant, variable, f_symbol, ac_symbol]].cons?)")))
+ (vars_not_ac_TCC11 0
+  (vars_not_ac_TCC5-1 nil 3824129283 ("" (subtype-tcc) nil nil) nil nil
+   (vars_not_ac subtype "termination_alg.unif_prb"
+    "(list_adt[unif_pair].cons?)")))
+ (vars_not_ac_TCC12 0
+  (vars_not_ac_TCC12-1 nil 3825597481 ("" (termination-tcc) nil nil)
+   nil nil
+   (vars_not_ac termination
+    "termination_alg.vars_not_ac(list_adt[unif_pair].cdr(termination_alg.unif_prb))"
+    "nil")))
+ (vars_not_ac_TCC13 0
+  (vars_not_ac_TCC7-1 nil 3824129283 ("" (subtype-tcc) nil nil) nil nil
+   (vars_not_ac subtype "termination_alg.unif_prb"
+    "(list_adt[unif_pair].cons?)")))
+ (vars_not_ac_TCC14 0
+  (vars_not_ac_TCC8-1 nil 3824407778 ("" (subtype-tcc) nil nil) nil nil
+   (vars_not_ac subtype
+    "{X | EXISTS t: booleans.AND(sets[term[constant, variable, f_symbol, ac_symbol]].member(termination_alg.t, unification.subterms(termination_alg.lst_unif_prb)), booleans.AND(((booleans.NOT)(term_adt[constant, variable, f_symbol, ac_symbol].ac_app?(termination_alg.t))), (booleans.OR(term_adt[constant, variable, f_symbol, ac_symbol].variable(termination_alg.X) = termination_alg.t, term_properties.im_under?(termination_alg.X, termination_alg.t)))))}"
+    "finite_set[variable]")))
+ (vars_not_ac_var_TCC1 0
+  (vars_not_ac_var_TCC1-1 nil 3825174514 ("" (subtype-tcc) nil nil) nil
+   nil
+   (vars_not_ac_var subtype
+    "{X | booleans.AND(sets[variable].member(termination_alg.X, termination_alg.vars_not_ac(termination_alg.t)), (booleans.NOT)(term_adt[constant, variable, f_symbol, ac_symbol].var?(termination_alg.t)))}"
+    "finite_set[variable]")))
+ (vars_not_ac_var_TCC2 0
+  (vars_not_ac_var_TCC2-1 nil 3825174514 ("" (subtype-tcc) nil nil) nil
+   nil
+   (vars_not_ac_var subtype
+    "{X | EXISTS t: booleans.AND(sets[term[constant, variable, f_symbol, ac_symbol]].member(termination_alg.t, unification.subterms(termination_alg.unif_prb)), booleans.AND(((booleans.NOT)(term_adt[constant, variable, f_symbol, ac_symbol].ac_app?(termination_alg.t))), term_properties.im_under?(termination_alg.X, termination_alg.t)))}"
+    "finite_set[variable]")))
  (admissible_subterms_TCC1 0
   (admissible_subterms_TCC1-1 nil 3819316174
    ("" (skeep)
@@ -377,13 +176,22 @@
     (term type-decl nil term_adt nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (f_symbol type-eq-decl nil term_properties nil)
-    (var? adt-recognizer-decl "[term -> boolean]" term_adt nil)
-    (prop_subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     term_properties nil))
+    (var? adt-recognizer-decl "[term -> boolean]" term_adt nil))
    shostak
    (admissible_subterms subtype
     "{s | booleans.AND(sets[term[constant, variable, f_symbol, ac_symbol]].member(termination_alg.s, term_properties.prop_subterms(termination_alg.t)), (booleans.NOT)(term_adt[constant, variable, f_symbol, ac_symbol].var?(termination_alg.s)))}"
+    "finite_set[term[constant, variable, f_symbol, ac_symbol]]")))
+ (admissible_subterms_TCC2 0
+  (admissible_subterms_TCC2-1 nil 3825433197 ("" (subtype-tcc) nil nil)
+   nil nil
+   (admissible_subterms subtype
+    "{s | EXISTS t: booleans.AND(sets[term[constant, variable, f_symbol, ac_symbol]].member(termination_alg.t, unification.subterms(termination_alg.unif_pair)), sets[term[constant, variable, f_symbol, ac_symbol]].member(termination_alg.s, termination_alg.admissible_subterms(termination_alg.t)))}"
+    "finite_set[term[constant, variable, f_symbol, ac_symbol]]")))
+ (admissible_subterms_TCC3 0
+  (admissible_subterms_TCC3-1 nil 3825433197 ("" (subtype-tcc) nil nil)
+   nil nil
+   (admissible_subterms subtype
+    "{s | EXISTS t: booleans.AND(sets[term[constant, variable, f_symbol, ac_symbol]].member(termination_alg.t, unification.subterms(termination_alg.unif_prb)), sets[term[constant, variable, f_symbol, ac_symbol]].member(termination_alg.s, termination_alg.admissible_subterms(termination_alg.t)))}"
     "finite_set[term[constant, variable, f_symbol, ac_symbol]]")))
  (vars_under2more_null 0
   (vars_under2more_null-1 nil 3824482826
@@ -437,7 +245,6 @@
     (emptyset const-decl "set" sets nil)
     (subset_emptyset formula-decl nil sets_lemmas nil)
     (member const-decl "bool" sets nil)
-    (im_under? const-decl "bool" term_properties nil)
     (dif_func? const-decl "bool" term_properties nil)
     (sym const-decl "string" term_properties nil)
     (list2finseq const-decl "finseq[T]" list2finseq nil)
@@ -712,8 +519,7 @@
         nil))
       nil))
     nil)
-   ((vars_not_ac const-decl "finite_set[variable]" termination_alg nil)
-    (union const-decl "set" sets nil)
+   ((union const-decl "set" sets nil)
     (vars_not_ac_vars_t formula-decl nil termination_alg nil)
     (unif_pair type-eq-decl nil unification nil)
     (constant type-eq-decl nil term_properties nil)
@@ -892,7 +698,6 @@
     (variable type-eq-decl nil term_properties nil)
     (unif_pair type-eq-decl nil unification nil)
     (member def-decl "bool" list_props nil)
-    (vars_not_ac const-decl "finite_set[variable]" termination_alg nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
@@ -2297,7 +2102,6 @@
       nil))
     nil)
    ((subset? const-decl "bool" sets nil)
-    (vars_not_ac const-decl "finite_set[variable]" termination_alg nil)
     (union const-decl "set" sets nil)
     (number nonempty-type-decl nil numbers nil)
     (boolean nonempty-type-decl nil booleans nil)
@@ -2447,9 +2251,172 @@
     (vars_not_ac_apply_sub_unif_pair formula-decl nil termination_alg
      nil)
     (finite_union application-judgement "finite_set" finite_sets nil)
-    (apply_sub const-decl "unif_pair" unification nil)
-    (vars_not_ac const-decl "finite_set[variable]" termination_alg
-     nil))
+    (apply_sub const-decl "unif_pair" unification nil))
+   shostak))
+ (vars_not_ac_var_apply_sub_t 0
+  (vars_not_ac_var_apply_sub_t-1 nil 3825599977
+   ("" (skeep)
+    (("" (expand "subset?" 1)
+      (("" (skeep)
+        (("" (expand "member" -1)
+          (("" (expand "vars_not_ac_var" -1)
+            (("" (flatten)
+              (("" (lemma "vars_not_ac_apply_sub_t")
+                (("" (inst? -1)
+                  (("" (expand "subset?" -1)
+                    (("" (inst -1 "x")
+                      (("" (assert)
+                        (("" (expand "member" -1)
+                          (("" (expand "union" -1)
+                            (("" (expand "union" 2)
+                              ((""
+                                (expand "member" 2 1)
+                                ((""
+                                  (flatten)
+                                  ((""
+                                    (assert)
+                                    ((""
+                                      (expand "vars_not_ac_var" 3)
+                                      ((""
+                                        (expand "member" 3 1)
+                                        ((""
+                                          (lemma "term_variable_eta")
+                                          ((""
+                                            (inst? -1)
+                                            ((""
+                                              (case
+                                               "member(V(t), dom(sigma))")
+                                              (("1"
+                                                (lemma
+                                                 "vars_not_ac_mem_finset")
+                                                (("1"
+                                                  (inst
+                                                   -1
+                                                   "x"
+                                                   "img(sigma)"
+                                                   "subs(sigma)(t)")
+                                                  (("1"
+                                                    (assert)
+                                                    (("1"
+                                                      (expand "img" 1)
+                                                      (("1"
+                                                        (expand
+                                                         "member"
+                                                         1
+                                                         1)
+                                                        (("1"
+                                                          (inst
+                                                           1
+                                                           "V(t)")
+                                                          (("1"
+                                                            (assert)
+                                                            (("1"
+                                                              (expand
+                                                               "subs"
+                                                               1
+                                                               1)
+                                                              (("1"
+                                                                (assert)
+                                                                nil
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil)
+                                               ("2"
+                                                (expand "dom" 1)
+                                                (("2"
+                                                  (expand "member" 1)
+                                                  (("2"
+                                                    (assert)
+                                                    (("2"
+                                                      (flatten)
+                                                      (("2"
+                                                        (expand
+                                                         "subs"
+                                                         -1)
+                                                        (("2"
+                                                          (propax)
+                                                          nil
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((vars_not_ac_apply_sub_t formula-decl nil termination_alg nil)
+    (finite_union application-judgement "finite_set" finite_sets nil)
+    (union const-decl "set" sets nil)
+    (var? adt-recognizer-decl "[term -> boolean]" term_adt nil)
+    (vars_not_ac_mem_finset formula-decl nil termination_alg nil)
+    (subs const-decl "term" substitution nil)
+    (img const-decl
+     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
+     substitution nil)
+    (set type-eq-decl nil sets nil)
+    (V adt-accessor-decl "[(var?) -> variable]" term_adt nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (dom const-decl "finite_set[variable]" substitution nil)
+    (term_variable_eta formula-decl nil term_adt nil)
+    (sub type-eq-decl nil substitution nil)
+    (list type-decl nil list_adt nil)
+    (basic_sub type-eq-decl nil substitution nil)
+    (constant type-eq-decl nil term_properties nil)
+    (TRUE const-decl "bool" booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (term type-decl nil term_adt nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (char type-eq-decl nil strings nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (character type-decl nil character_adt nil)
+    (below type-eq-decl nil nat_types nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (variable type-eq-decl nil term_properties nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (member const-decl "bool" sets nil)
+    (subset? const-decl "bool" sets nil))
    shostak))
  (admissible_subterms_mem 0
   (admissible_subterms_mem-1 nil 3824391151
@@ -2540,9 +2507,6 @@
     (variable type-eq-decl nil term_properties nil)
     (unif_pair type-eq-decl nil unification nil)
     (member def-decl "bool" list_props nil)
-    (admissible_subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     termination_alg nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
@@ -2578,9 +2542,6 @@
     (unif_prb type-eq-decl nil unification nil)
     (is_finite const-decl "bool" finite_sets nil)
     (finite_set type-eq-decl nil finite_sets nil)
-    (admissible_subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     termination_alg nil)
     (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
     (null adt-constructor-decl "(null?)" list_adt nil)
     (emptyset const-decl "set" sets nil)
@@ -2618,6 +2579,925 @@
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil))
+   shostak))
+ (vars_not_ac_var_inst_step 0
+  (vars_not_ac_var_inst_step-1 nil 3825175316
+   ("" (measure-induct "length(unif_prb1)" "unif_prb1")
+    (("" (skolem 1 "unif_prb1")
+      (("" (prop)
+        (("" (skeep)
+          (("" (expand "subset?" 1)
+            (("" (skeep)
+              (("" (expand "instantiate_step" -2)
+                (("" (name-replace "t" "car(unif_prb1)`1")
+                  (("1" (name-replace "s" "car(unif_prb1)`2")
+                    (("1" (lift-if)
+                      (("1" (split)
+                        (("1" (flatten) (("1" (grind) nil nil)) nil)
+                         ("2" (flatten)
+                          (("2"
+                            (name-replace "delta"
+                             "instantiate_step(t, s)`1")
+                            (("2"
+                              (name-replace "skip1"
+                               "instantiate_step(t, s)`2")
+                              (("2"
+                                (name-replace
+                                 "fail1"
+                                 "instantiate_step(t, s)`3")
+                                (("2"
+                                  (split)
+                                  (("1"
+                                    (hide-all-but -1)
+                                    (("1" (grind) nil nil))
+                                    nil)
+                                   ("2"
+                                    (flatten)
+                                    (("2"
+                                      (hide -2)
+                                      (("2"
+                                        (split)
+                                        (("1"
+                                          (flatten)
+                                          (("1"
+                                            (reveal -1)
+                                            (("1"
+                                              (inst
+                                               -1
+                                               "cdr(unif_prb1)")
+                                              (("1"
+                                                (prop)
+                                                (("1"
+                                                  (inst
+                                                   -1
+                                                   "sigma"
+                                                   "cons((t, s), unif_prb2)")
+                                                  (("1"
+                                                    (expand
+                                                     "subset?"
+                                                     -1)
+                                                    (("1"
+                                                      (inst -1 "x")
+                                                      (("1"
+                                                        (assert)
+                                                        (("1"
+                                                          (hide -3)
+                                                          (("1"
+                                                            (expand
+                                                             "member"
+                                                             3
+                                                             1)
+                                                            (("1"
+                                                              (expand
+                                                               "union"
+                                                               3
+                                                               1)
+                                                              (("1"
+                                                                (flatten)
+                                                                (("1"
+                                                                  (expand
+                                                                   "member"
+                                                                   3)
+                                                                  (("1"
+                                                                    (expand
+                                                                     "union"
+                                                                     3)
+                                                                    (("1"
+                                                                      (flatten)
+                                                                      (("1"
+                                                                        (expand
+                                                                         "member"
+                                                                         -1)
+                                                                        (("1"
+                                                                          (expand
+                                                                           "union"
+                                                                           -1
+                                                                           1)
+                                                                          (("1"
+                                                                            (expand
+                                                                             "member"
+                                                                             -1
+                                                                             1)
+                                                                            (("1"
+                                                                              (expand
+                                                                               "union"
+                                                                               -1)
+                                                                              (("1"
+                                                                                (prop)
+                                                                                (("1"
+                                                                                  (expand
+                                                                                   "sec_proj"
+                                                                                   3)
+                                                                                  (("1"
+                                                                                    (expand
+                                                                                     "vars_not_ac_var"
+                                                                                     3)
+                                                                                    (("1"
+                                                                                      (expand
+                                                                                       "member"
+                                                                                       3
+                                                                                       1)
+                                                                                      (("1"
+                                                                                        (expand
+                                                                                         "union"
+                                                                                         3
+                                                                                         1)
+                                                                                        (("1"
+                                                                                          (flatten)
+                                                                                          nil
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil)
+                                                                                 ("2"
+                                                                                  (expand
+                                                                                   "first_proj"
+                                                                                   4)
+                                                                                  (("2"
+                                                                                    (expand
+                                                                                     "vars_not_ac"
+                                                                                     4)
+                                                                                    (("2"
+                                                                                      (expand
+                                                                                       "member"
+                                                                                       4)
+                                                                                      (("2"
+                                                                                        (expand
+                                                                                         "union"
+                                                                                         4)
+                                                                                        (("2"
+                                                                                          (assert)
+                                                                                          nil
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil)
+                                                                                 ("3"
+                                                                                  (expand
+                                                                                   "vars_not_ac"
+                                                                                   -1)
+                                                                                  (("3"
+                                                                                    (expand
+                                                                                     "member"
+                                                                                     -1)
+                                                                                    (("3"
+                                                                                      (expand
+                                                                                       "union"
+                                                                                       -1)
+                                                                                      (("3"
+                                                                                        (prop)
+                                                                                        (("3"
+                                                                                          (expand
+                                                                                           "vars_not_ac"
+                                                                                           -1
+                                                                                           1)
+                                                                                          (("3"
+                                                                                            (expand
+                                                                                             "union"
+                                                                                             -1)
+                                                                                            (("3"
+                                                                                              (expand
+                                                                                               "member"
+                                                                                               -1
+                                                                                               1)
+                                                                                              (("3"
+                                                                                                (prop)
+                                                                                                (("1"
+                                                                                                  (reveal
+                                                                                                   -9)
+                                                                                                  (("1"
+                                                                                                    (expand
+                                                                                                     "first_proj"
+                                                                                                     4)
+                                                                                                    (("1"
+                                                                                                      (expand
+                                                                                                       "vars_not_ac"
+                                                                                                       4)
+                                                                                                      (("1"
+                                                                                                        (expand
+                                                                                                         "member"
+                                                                                                         4)
+                                                                                                        (("1"
+                                                                                                          (expand
+                                                                                                           "union"
+                                                                                                           4)
+                                                                                                          (("1"
+                                                                                                            (flatten)
+                                                                                                            (("1"
+                                                                                                              (assert)
+                                                                                                              nil
+                                                                                                              nil))
+                                                                                                            nil))
+                                                                                                          nil))
+                                                                                                        nil))
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil)
+                                                                                                 ("2"
+                                                                                                  (expand
+                                                                                                   "sec_proj"
+                                                                                                   3)
+                                                                                                  (("2"
+                                                                                                    (expand
+                                                                                                     "vars_not_ac_var"
+                                                                                                     3)
+                                                                                                    (("2"
+                                                                                                      (expand
+                                                                                                       "member"
+                                                                                                       3)
+                                                                                                      (("2"
+                                                                                                        (expand
+                                                                                                         "union"
+                                                                                                         3)
+                                                                                                        (("2"
+                                                                                                          (flatten)
+                                                                                                          (("2"
+                                                                                                            (reveal
+                                                                                                             -8)
+                                                                                                            (("2"
+                                                                                                              (expand
+                                                                                                               "vars_not_ac_var"
+                                                                                                               3)
+                                                                                                              (("2"
+                                                                                                                (expand
+                                                                                                                 "member"
+                                                                                                                 3)
+                                                                                                                (("2"
+                                                                                                                  (assert)
+                                                                                                                  (("2"
+                                                                                                                    (replace
+                                                                                                                     -1)
+                                                                                                                    (("2"
+                                                                                                                      (expand
+                                                                                                                       "member"
+                                                                                                                       -2)
+                                                                                                                      (("2"
+                                                                                                                        (assert)
+                                                                                                                        (("2"
+                                                                                                                          (lemma
+                                                                                                                           "instantiate_step_skip")
+                                                                                                                          (("2"
+                                                                                                                            (inst
+                                                                                                                             -1
+                                                                                                                             "s"
+                                                                                                                             "t")
+                                                                                                                            (("2"
+                                                                                                                              (assert)
+                                                                                                                              (("2"
+                                                                                                                                (expand
+                                                                                                                                 "skip1")
+                                                                                                                                (("2"
+                                                                                                                                  (propax)
+                                                                                                                                  nil
+                                                                                                                                  nil))
+                                                                                                                                nil))
+                                                                                                                              nil))
+                                                                                                                            nil))
+                                                                                                                          nil))
+                                                                                                                        nil))
+                                                                                                                      nil))
+                                                                                                                    nil))
+                                                                                                                  nil))
+                                                                                                                nil))
+                                                                                                              nil))
+                                                                                                            nil))
+                                                                                                          nil))
+                                                                                                        nil))
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil)
+                                                 ("2" (grind) nil nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (flatten)
+                                          (("2"
+                                            (reveal -1)
+                                            (("2"
+                                              (inst
+                                               -1
+                                               "apply_sub(delta, cdr(unif_prb1))")
+                                              (("2"
+                                                (prop)
+                                                (("1"
+                                                  (inst
+                                                   -1
+                                                   "append(delta, sigma)"
+                                                   "apply_sub(delta, unif_prb2)")
+                                                  (("1"
+                                                    (expand
+                                                     "subset?"
+                                                     -1)
+                                                    (("1"
+                                                      (inst -1 "x")
+                                                      (("1"
+                                                        (assert)
+                                                        (("1"
+                                                          (hide -2)
+                                                          (("1"
+                                                            (case
+                                                             "member(x, vars_not_ac(img(delta)))")
+                                                            (("1"
+                                                              (expand
+                                                               "delta"
+                                                               -1)
+                                                              (("1"
+                                                                (lemma
+                                                                 "instantiate_step_img")
+                                                                (("1"
+                                                                  (inst?
+                                                                   -1)
+                                                                  (("1"
+                                                                    (prop)
+                                                                    (("1"
+                                                                      (replace
+                                                                       -1
+                                                                       -2)
+                                                                      (("1"
+                                                                        (hide-all-but
+                                                                         -2)
+                                                                        (("1"
+                                                                          (grind)
+                                                                          nil
+                                                                          nil))
+                                                                        nil))
+                                                                      nil)
+                                                                     ("2"
+                                                                      (replace
+                                                                       -1
+                                                                       -2)
+                                                                      (("2"
+                                                                        (hide
+                                                                         -1)
+                                                                        (("2"
+                                                                          (rewrite
+                                                                           "vars_not_ac_singleton")
+                                                                          (("2"
+                                                                            (hide
+                                                                             -2)
+                                                                            (("2"
+                                                                              (reveal
+                                                                               -12)
+                                                                              (("2"
+                                                                                (expand
+                                                                                 "union"
+                                                                                 4
+                                                                                 1)
+                                                                                (("2"
+                                                                                  (expand
+                                                                                   "member"
+                                                                                   4
+                                                                                   1)
+                                                                                  (("2"
+                                                                                    (flatten)
+                                                                                    (("2"
+                                                                                      (expand
+                                                                                       "union"
+                                                                                       4
+                                                                                       1)
+                                                                                      (("2"
+                                                                                        (expand
+                                                                                         "member"
+                                                                                         4
+                                                                                         1)
+                                                                                        (("2"
+                                                                                          (flatten)
+                                                                                          (("2"
+                                                                                            (expand
+                                                                                             "first_proj"
+                                                                                             5)
+                                                                                            (("2"
+                                                                                              (expand
+                                                                                               "vars_not_ac"
+                                                                                               5)
+                                                                                              (("2"
+                                                                                                (expand
+                                                                                                 "union"
+                                                                                                 5)
+                                                                                                (("2"
+                                                                                                  (expand
+                                                                                                   "member"
+                                                                                                   5
+                                                                                                   1)
+                                                                                                  (("2"
+                                                                                                    (flatten)
+                                                                                                    (("2"
+                                                                                                      (assert)
+                                                                                                      nil
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil)
+                                                                     ("3"
+                                                                      (replace
+                                                                       -1
+                                                                       -2)
+                                                                      (("3"
+                                                                        (hide
+                                                                         -3)
+                                                                        (("3"
+                                                                          (rewrite
+                                                                           "vars_not_ac_singleton")
+                                                                          (("3"
+                                                                            (expand
+                                                                             "member"
+                                                                             5
+                                                                             1)
+                                                                            (("3"
+                                                                              (expand
+                                                                               "union"
+                                                                               5
+                                                                               1)
+                                                                              (("3"
+                                                                                (flatten)
+                                                                                (("3"
+                                                                                  (hide
+                                                                                   6)
+                                                                                  (("3"
+                                                                                    (expand
+                                                                                     "union"
+                                                                                     5
+                                                                                     1)
+                                                                                    (("3"
+                                                                                      (expand
+                                                                                       "member"
+                                                                                       5
+                                                                                       1)
+                                                                                      (("3"
+                                                                                        (flatten)
+                                                                                        (("3"
+                                                                                          (reveal
+                                                                                           -10)
+                                                                                          (("3"
+                                                                                            (expand
+                                                                                             "sec_proj"
+                                                                                             5)
+                                                                                            (("3"
+                                                                                              (expand
+                                                                                               "vars_not_ac_var"
+                                                                                               5)
+                                                                                              (("3"
+                                                                                                (expand
+                                                                                                 "member"
+                                                                                                 5)
+                                                                                                (("3"
+                                                                                                  (expand
+                                                                                                   "union"
+                                                                                                   5)
+                                                                                                  (("3"
+                                                                                                    (flatten)
+                                                                                                    (("3"
+                                                                                                      (hide
+                                                                                                       6
+                                                                                                       7)
+                                                                                                      (("3"
+                                                                                                        (replace
+                                                                                                         -1)
+                                                                                                        (("3"
+                                                                                                          (expand
+                                                                                                           "vars_not_ac_var"
+                                                                                                           5)
+                                                                                                          (("3"
+                                                                                                            (expand
+                                                                                                             "member"
+                                                                                                             5
+                                                                                                             1)
+                                                                                                            (("3"
+                                                                                                              (assert)
+                                                                                                              nil
+                                                                                                              nil))
+                                                                                                            nil))
+                                                                                                          nil))
+                                                                                                        nil))
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil)
+                                                             ("2"
+                                                              (rewrite
+                                                               "apply_sub_sec_proj"
+                                                               :dir
+                                                               rl)
+                                                              (("2"
+                                                                (rewrite
+                                                                 "apply_sub_first_proj"
+                                                                 :dir
+                                                                 rl)
+                                                                (("2"
+                                                                  (expand
+                                                                   "member"
+                                                                   -1)
+                                                                  (("2"
+                                                                    (expand
+                                                                     "union"
+                                                                     -1
+                                                                     1)
+                                                                    (("2"
+                                                                      (expand
+                                                                       "member"
+                                                                       -1)
+                                                                      (("2"
+                                                                        (expand
+                                                                         "union"
+                                                                         -1)
+                                                                        (("2"
+                                                                          (expand
+                                                                           "member"
+                                                                           5
+                                                                           1)
+                                                                          (("2"
+                                                                            (expand
+                                                                             "union"
+                                                                             5
+                                                                             1)
+                                                                            (("2"
+                                                                              (flatten)
+                                                                              (("2"
+                                                                                (expand
+                                                                                 "union"
+                                                                                 5)
+                                                                                (("2"
+                                                                                  (expand
+                                                                                   "member"
+                                                                                   5
+                                                                                   1)
+                                                                                  (("2"
+                                                                                    (flatten)
+                                                                                    (("2"
+                                                                                      (prop)
+                                                                                      (("1"
+                                                                                        (lemma
+                                                                                         "vars_not_ac_var_apply_sub_args")
+                                                                                        (("1"
+                                                                                          (inst?
+                                                                                           -1)
+                                                                                          (("1"
+                                                                                            (expand
+                                                                                             "subset?"
+                                                                                             -1)
+                                                                                            (("1"
+                                                                                              (inst
+                                                                                               -1
+                                                                                               "x")
+                                                                                              (("1"
+                                                                                                (assert)
+                                                                                                (("1"
+                                                                                                  (hide
+                                                                                                   -2)
+                                                                                                  (("1"
+                                                                                                    (expand
+                                                                                                     "union"
+                                                                                                     -1)
+                                                                                                    (("1"
+                                                                                                      (expand
+                                                                                                       "member"
+                                                                                                       -1
+                                                                                                       1)
+                                                                                                      (("1"
+                                                                                                        (expand
+                                                                                                         "sec_proj"
+                                                                                                         5)
+                                                                                                        (("1"
+                                                                                                          (expand
+                                                                                                           "vars_not_ac_var"
+                                                                                                           5)
+                                                                                                          (("1"
+                                                                                                            (expand
+                                                                                                             "union"
+                                                                                                             5)
+                                                                                                            (("1"
+                                                                                                              (expand
+                                                                                                               "member"
+                                                                                                               5
+                                                                                                               1)
+                                                                                                              (("1"
+                                                                                                                (flatten)
+                                                                                                                nil
+                                                                                                                nil))
+                                                                                                              nil))
+                                                                                                            nil))
+                                                                                                          nil))
+                                                                                                        nil))
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil)
+                                                                                       ("2"
+                                                                                        (lemma
+                                                                                         "vars_not_ac_apply_sub_args")
+                                                                                        (("2"
+                                                                                          (inst?
+                                                                                           -1)
+                                                                                          (("2"
+                                                                                            (expand
+                                                                                             "subset?"
+                                                                                             -1)
+                                                                                            (("2"
+                                                                                              (inst
+                                                                                               -1
+                                                                                               "x")
+                                                                                              (("2"
+                                                                                                (assert)
+                                                                                                (("2"
+                                                                                                  (expand
+                                                                                                   "member"
+                                                                                                   -1)
+                                                                                                  (("2"
+                                                                                                    (expand
+                                                                                                     "union"
+                                                                                                     -1)
+                                                                                                    (("2"
+                                                                                                      (hide
+                                                                                                       -2)
+                                                                                                      (("2"
+                                                                                                        (expand
+                                                                                                         "first_proj"
+                                                                                                         6)
+                                                                                                        (("2"
+                                                                                                          (expand
+                                                                                                           "vars_not_ac"
+                                                                                                           6)
+                                                                                                          (("2"
+                                                                                                            (expand
+                                                                                                             "member"
+                                                                                                             6)
+                                                                                                            (("2"
+                                                                                                              (expand
+                                                                                                               "union"
+                                                                                                               6)
+                                                                                                              (("2"
+                                                                                                                (assert)
+                                                                                                                nil
+                                                                                                                nil))
+                                                                                                              nil))
+                                                                                                            nil))
+                                                                                                          nil))
+                                                                                                        nil))
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil)
+                                                                                       ("3"
+                                                                                        (lemma
+                                                                                         "vars_not_ac_apply_sub")
+                                                                                        (("3"
+                                                                                          (inst
+                                                                                           -1
+                                                                                           "delta"
+                                                                                           "unif_prb2")
+                                                                                          (("3"
+                                                                                            (expand
+                                                                                             "subset?"
+                                                                                             -1)
+                                                                                            (("3"
+                                                                                              (inst
+                                                                                               -1
+                                                                                               "x")
+                                                                                              (("3"
+                                                                                                (expand
+                                                                                                 "member"
+                                                                                                 -1)
+                                                                                                (("3"
+                                                                                                  (assert)
+                                                                                                  (("3"
+                                                                                                    (hide
+                                                                                                     -2)
+                                                                                                    (("3"
+                                                                                                      (expand
+                                                                                                       "union"
+                                                                                                       -1)
+                                                                                                      (("3"
+                                                                                                        (propax)
+                                                                                                        nil
+                                                                                                        nil))
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil)
+                                                 ("2"
+                                                  (lemma
+                                                   "apply_sub_len")
+                                                  (("2"
+                                                    (inst? -1)
+                                                    (("2"
+                                                      (replace -1 1)
+                                                      (("2"
+                                                        (grind)
+                                                        nil
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil)
+                     ("2" (assert)
+                      (("2" (hide -1 1) (("2" (grind) nil nil)) nil))
+                      nil))
+                    nil)
+                   ("2" (assert) (("2" (grind) nil nil)) nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((pred type-eq-decl nil defined_types nil)
+    (well_founded? const-decl "bool" orders nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (below type-eq-decl nil nat_types nil)
+    (character type-decl nil character_adt nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (char type-eq-decl nil strings nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (term type-decl nil term_adt nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (every adt-def-decl "boolean" term_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (>= const-decl "bool" reals nil)
+    (TRUE const-decl "bool" booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (constant type-eq-decl nil term_properties nil)
+    (variable type-eq-decl nil term_properties nil)
+    (unif_pair type-eq-decl nil unification nil)
+    (list type-decl nil list_adt nil)
+    (naturalnumber type-eq-decl nil naturalnumbers nil)
+    (unif_prb type-eq-decl nil unification nil)
+    (length def-decl "nat" list_props nil)
+    (< const-decl "bool" reals nil)
+    (wf_nat formula-decl nil naturalnumbers nil)
+    (basic_sub type-eq-decl nil substitution nil)
+    (sub type-eq-decl nil substitution nil)
+    (set type-eq-decl nil sets nil)
+    (subset? const-decl "bool" sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (vars_not_ac def-decl "finite_set[variable]" termination_alg nil)
+    (instantiate_step def-decl "[unif_prb, sub, bool]" aux_unification
+     nil)
+    (union const-decl "set" sets nil)
+    (every adt-def-decl "boolean" list_adt nil)
+    (args type-eq-decl nil term_properties nil)
+    (vars_not_ac_var def-decl "finite_set[variable]" termination_alg
+     nil)
+    (sec_proj def-decl "list[T2]" list_theory2 nil)
+    (vars_not_ac def-decl "finite_set[variable]" termination_alg nil)
+    (first_proj def-decl "list[T1]" list_theory2 nil)
+    (member const-decl "bool" sets nil)
+    (emptyset const-decl "set" sets nil)
+    (finite_emptyset name-judgement "finite_set" finite_sets nil)
+    (finite_union application-judgement "finite_set" finite_sets nil)
+    (instantiate_step const-decl "[sub, bool, bool]" aux_unification
+     nil)
+    (skip1 skolem-const-decl "bool" termination_alg nil)
+    (instantiate_step_skip formula-decl nil aux_unification nil)
+    (vars_not_ac_var const-decl "finite_set[variable]" termination_alg
+     nil)
+    (vars_not_ac const-decl "finite_set[variable]" termination_alg nil)
+    (cons adt-constructor-decl "[[T, list] -> (cons?)]" list_adt nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (vars_not_ac def-decl "finite_set[variable]" termination_alg nil)
+    (img const-decl
+     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
+     substitution nil)
+    (instantiate_step_img formula-decl nil aux_unification nil)
+    (empty? const-decl "bool" sets nil)
+    (vars_not_ac_singleton formula-decl nil termination_alg nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (delta skolem-const-decl "sub" termination_alg nil)
+    (apply_sub_first_proj formula-decl nil unification nil)
+    (vars_not_ac_apply_sub formula-decl nil termination_alg nil)
+    (vars_not_ac_apply_sub_args formula-decl nil termination_alg nil)
+    (vars_not_ac_var_apply_sub_args formula-decl nil termination_alg
+     nil)
+    (apply_sub_sec_proj formula-decl nil unification nil)
+    (append def-decl "list[T]" list_props nil)
+    (apply_sub_len formula-decl nil unification nil)
+    (apply_sub def-decl "unif_prb" unification nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (car adt-accessor-decl "[(cons?) -> T]" list_adt nil))
    shostak))
  (apply_ac_step_vars_not_ac_aux 0
   (apply_ac_step_vars_not_ac_aux-1 nil 3825152152
@@ -3193,7 +4073,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -3227,8 +4107,8 @@
     (set type-eq-decl nil sets nil)
     (subset? const-decl "bool" sets nil)
     (is_finite const-decl "bool" finite_sets nil)
-    (finite_set type-eq-decl nil finite_sets nil) nil
-    (union const-decl "set" sets nil) nil
+    (finite_set type-eq-decl nil finite_sets nil)
+    (union const-decl "set" sets nil)
     (car adt-accessor-decl "[(cons?) -> T]" list_adt nil)
     (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
@@ -3241,9 +4121,7 @@
     (func_flatten_map2 formula-decl nil map_theory nil)
     (func_flatten_map formula-decl nil map_theory nil)
     (mem_flatten_map2 formula-decl nil map_theory nil)
-    (vars_not_ac const-decl "finite_set[variable]" termination_alg nil)
-    nil (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
-    nil
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
     (apply_ac_step_vars_not_ac_aux formula-decl nil termination_alg
      nil)
     (instantiate_step def-decl "[unif_prb, sub, bool]" aux_unification
@@ -3257,9 +4135,9 @@
     (first_proj_is_map formula-decl nil list_theory2 nil)
     (O const-decl "T3" function_props nil)
     (map_list_composition formula-decl nil map_props nil)
-    (instantiate_step_append formula-decl nil aux_unification nil) nil
-    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil) nil
-    (append def-decl "list[T]" list_props nil) nil
+    (instantiate_step_append formula-decl nil aux_unification nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (append def-decl "list[T]" list_props nil)
     (lst_vars def-decl "list[variable]" unification nil)
     (finite_emptyset name-judgement "finite_set" finite_sets nil)
     (finite_union application-judgement "finite_set" finite_sets nil)

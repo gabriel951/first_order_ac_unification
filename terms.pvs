@@ -51,7 +51,6 @@ args: TYPE = list[term]
 args, args1, args2: VAR args
 lst_args: VAR list[args]
 
-
 % the size of a term 
 size(t): RECURSIVE nat =
     CASES t OF
@@ -169,11 +168,22 @@ nice_ind?(lst_nat, n): RECURSIVE bool =
     ENDIF
 MEASURE lst_nat BY << 
 
+
+% receives a term
+% if its a pair, flatten it in a list 
+% else return a list containing only the term 
+flatten_pair(t): RECURSIVE args =
+    IF pair?(t) THEN append(flatten_pair(term1(t)), flatten_pair(term2(t)))
+    ELSE cons(t, null) 
+    ENDIF
+MEASURE t BY << 
+
 % get the arguments of a term t.
 % if it encounters an ac function whose root is "sym" it goes inside the function
 get_args(sym)(t): args =
     LET n = num_arg(sym, t), lst_until_n = from_min2max[nat](1, n) IN 
     	map(select(sym, t))(lst_until_n)
+
     
 % obtain a term to represent a whole list of terms
 get_term_from_args(args): RECURSIVE term =
@@ -199,6 +209,11 @@ all_var?(lst_args): RECURSIVE bool =
 MEASURE lst_args BY << 
 
 %%%%%%%%%%%%%%%
+% options of a term:
+term_opt: LEMMA
+    t = const(a(t)) OR t = variable(V(t)) OR t = unit OR
+    t = pair(term1(t), term2(t)) OR t = app(f_sym(t), arg(t)) OR
+    t = ac_app(ac_sym(t), ac_arg(t)) 
 
 % size
 size_ge1: LEMMA
@@ -439,32 +454,37 @@ subterms(t): RECURSIVE finite_set[term] =
     ENDCASES
 MEASURE size(t)
 
+% extends subterm to a list of terms
+subterms(args): RECURSIVE finite_set[term] =
+    IF null?(args) THEN emptyset
+    ELSE LET t = car(args) IN
+    	 union(subterms(t), subterms(cdr(args)))
+    ENDIF
+MEASURE args BY << 
+
+subterms(fin_set_t): RECURSIVE finite_set[term] =
+   IF empty?(fin_set_t) THEN emptyset
+   ELSE union(subterms(choose(fin_set_t)), subterms(rest(fin_set_t)))
+   ENDIF
+MEASURE card(fin_set_t)
+
 % set of all proper subterms of t
-prop_subterms(t): RECURSIVE finite_set[term] =
-   CASES t OF
-        const(a): emptyset,
-	variable(X): emptyset, 
-	unit: emptyset, 
-	pair(t1, t2): union(prop_subterms(t1), prop_subterms(t2)),
-	app(sym, arg): subterms(arg),
-	ac_app(sym, arg): Union(list2set(map(subterms)(get_args(sym)(t))))
-    ENDCASES
-MEASURE size(t)
+prop_subterms(t): finite_set[term] =
+   {s | member(s, subterms(t)) AND s /= t}
 
 % set of all terms immediately under t
 im_under(t): RECURSIVE finite_set[term] =
-   CASES t OF
-        const(a): emptyset,
-	variable(X): emptyset, 
-	unit: emptyset, 
-	pair(t1, t2): union(im_under(t1), im_under(t2)),
-	app(sym, arg): {t | member(t, subterms(arg)) AND NOT member(t, prop_subterms(arg))},
-	ac_app(sym, arg): list2set(get_args(sym)(t))
-    ENDCASES
+   IF app?(t) THEN list2set(flatten_pair(arg(t)))
+   ELSIF ac_app?(t) THEN list2set(get_args(ac_sym(t))(t))
+   ELSE emptyset
+   ENDIF
 MEASURE t BY <<  
 
 % returns a bool that indicates if a variable is immediately under t
 im_under?(X, t): bool = member(variable(X), im_under(t))
+
+im_under?(X, fin_set_t): bool =
+    EXISTS t: member(t, fin_set_t) AND im_under?(X, t)
 
 % lemmas
 % vars
@@ -528,14 +548,21 @@ not_var_args_nth2: LEMMA
     j < length(get_args(f)(t)) AND
     nth(not_var_args(f)(t), i) = nth(get_args(f)(t), j) 
 
+
 % subterms
+subterm_reflexive: CONJECTURE
+   member(t, subterms(t))
+
+subterm_fin_set_mem: CONJECTURE
+   member(t, fin_set_t) IMPLIES subset?(subterms(t), subterms(fin_set_t))
+  
 vars_subterm: LEMMA
    (member(X, vars(s)) AND member(s, subterms(t))) IMPLIES member(X, vars(t))
 
 subterm_size: LEMMA
    member(s, subterms(t)) IMPLIES size(s) <= size(t) 
 
-% prop_subterms
+% TODO: reprove this, as I changed the def of prop_subterms
 prop_subterm_size: LEMMA
     member(s, prop_subterms(t)) IMPLIES size(s) < size(t)
 

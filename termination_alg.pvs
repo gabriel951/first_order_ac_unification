@@ -15,12 +15,15 @@ termination_alg: THEORY
 BEGIN
 	IMPORTING unification, list_theory[variable], list_theory[set[variable]],
 		  aux_unification, list_theory2[unif_prb, sub], map_theory[unif_prb, [unif_prb, sub]],
-		  map_theory[[unif_prb, sub], unif_prb], map_theory[list[unif_prb], unif_prb]
+		  map_theory[[unif_prb, sub], unif_prb], map_theory[list[unif_prb], unif_prb],
+		  list_theory2[term, term]
 
 under_ac: VAR bool 
 sym: VAR string
 	  
 t, s: VAR term
+args: VAR args
+
 unif_pair: VAR unif_pair
 unif_prb, unif_prb1, unif_prb2: VAR unif_prb
 lst_unif_prb: VAR list[unif_prb] 
@@ -32,6 +35,7 @@ vars2avoid: VAR list[variable]
 
 X: VAR variable
 
+% vars_under2more
 vars_under2more(unif_prb): finite_set[variable] =
     {X | EXISTS t, s: dif_func?(t, s) AND im_under?(X, t) and im_under?(X, s) AND
     member(t, subterms(unif_prb)) AND member(s, subterms(unif_prb))}
@@ -41,78 +45,80 @@ vars_under2more(lst_unif_prb): finite_set[variable] =
     member(t, subterms(lst_unif_prb)) AND member(s, subterms(lst_unif_prb))}
 
 % vars_not_ac
-vars_not_ac(t): finite_set[variable] = 
-    {X | EXISTS s: member(s, subterms(t)) AND (NOT ac_app?(s)) AND member(X, vars(s))}
-
-
-% variables in the term t, except those that occur immediately under  
-% an AC-function symbol
-%vars_not_ac(t): RECURSIVE finite_set[variable] = 
-%   CASES t OF
-%        const(a): emptyset,
-%	variable(X): singleton(X),
-%	unit: emptyset, 
-%	pair(t1, t2): union(vars_not_ac(t1), vars_not_ac(t2)),
-%	app(sym, arg): vars_not_ac(arg),
-%	ac_app(sym, arg): Union(list2set(map(vars_not_ac)(not_var_args(sym)(t))))
-%    ENDCASES
-%MEASURE size(t)  
-
-% extends vars_not_ac to a unification pair
-vars_not_ac(unif_pair): finite_set[variable] =
-    LET (t, s) = unif_pair IN union(vars_not_ac(t), vars_not_ac(s))
+vars_not_ac(t): RECURSIVE finite_set[variable] = 
+   CASES t OF
+        const(a): emptyset,
+	variable(X): emptyset, 
+	unit: emptyset, 
+	pair(t1, t2): union(vars_not_ac(t1), vars_not_ac(t2)),
+	app(sym, arg): vars_not_ac(arg), 
+	ac_app(sym, arg): Union(list2set(map(vars_not_ac)(get_args(sym)(t))))
+    ENDCASES
+MEASURE size(t)
     
-% extend vars_not_ac to a unification problem
-vars_not_ac(unif_prb): RECURSIVE finite_set[variable] =
+
+vars_not_ac(fin_set_t): RECURSIVE finite_set[variable] = 
+   IF empty?(fin_set_t) THEN emptyset
+   ELSE union(vars_not_ac(choose(fin_set_t)), vars_not_ac(rest(fin_set_t)))
+   ENDIF
+MEASURE card(fin_set_t)
+
+vars_not_ac(args): RECURSIVE finite_set[variable] = 
+    IF null?(args) THEN emptyset
+    ELSE LET t = car(args) IN
+    	 union(vars_not_ac(t), vars_not_ac(cdr(args)))
+    ENDIF
+MEASURE args BY << 
+
+vars_not_ac(unif_pair): finite_set[variable] = union(vars_not_ac(unif_pair`1), vars_not_ac(unif_pair`2))
+
+vars_not_ac(unif_prb): RECURSIVE finite_set[variable] = 
     IF null?(unif_prb) THEN emptyset
     ELSE LET unif_pair = car(unif_prb) IN
     	 union(vars_not_ac(unif_pair), vars_not_ac(cdr(unif_prb)))
     ENDIF
 MEASURE unif_prb BY << 
 
-% extend vars_not_ac to a list of unification problem
-vars_not_ac(lst_unif_prb): RECURSIVE finite_set[variable] =
-    IF null?(lst_unif_prb) THEN emptyset
-    ELSE LET unif_prb = car(lst_unif_prb) IN
-    	 union(vars_not_ac(unif_prb), vars_not_ac(cdr(lst_unif_prb)))
-    ENDIF
-MEASURE lst_unif_prb BY << 
 
-% extend vars_not_ac to a finite set of terms
-vars_not_ac(fin_set_t): RECURSIVE finite_set[variable] =
+vars_not_ac(lst_unif_prb): finite_set[variable] =
+    {X | EXISTS t: member(t, subterms(lst_unif_prb)) AND (NOT ac_app?(t)) AND
+       	 (variable(X) = t OR im_under?(X, t))}
+
+% vars_not_ac_var
+vars_not_ac_var(t): finite_set[variable] = 
+    {X | member(X, vars_not_ac(t)) AND NOT var?(t)}
+
+vars_not_ac_var(fin_set_t): RECURSIVE finite_set[variable] =
    IF empty?(fin_set_t) THEN emptyset
-   ELSE union(vars_not_ac(choose(fin_set_t)), vars_not_ac(rest(fin_set_t)))
+   ELSE union(vars_not_ac_var(choose(fin_set_t)), vars_not_ac_var(rest(fin_set_t)))
    ENDIF
 MEASURE card(fin_set_t)
 
-% vars_not_ac_var
-vars_not_ac_var(t): finite_set[variable] =
-    {X | EXISTS s: member(s, subterms(t)) AND (NOT ac_app?(s)) AND (var?(s))
-       	 AND member(X, vars(s))}
+vars_not_ac_var(args): RECURSIVE finite_set[variable] =
+    IF null?(args) THEN emptyset
+    ELSE LET t = car(args) IN
+    	 union(vars_not_ac_var(t), vars_not_ac_var(cdr(args)))
+    ENDIF
+MEASURE args BY << 
 
 vars_not_ac_var(unif_prb): finite_set[variable] =
-    {X | EXISTS s: member(s, subterms(unif_prb)) AND (NOT ac_app?(s)) AND (var?(s))
-       	 AND member(X, vars(s))}
+    {X | EXISTS t: member(t, subterms(unif_prb)) AND (NOT ac_app?(t)) AND
+       	 im_under?(X, t)}
 
 % admissible_subterm
 admissible_subterms(t): finite_set[term] = {s | member(s, prop_subterms(t)) AND NOT var?(s)}
 
 admissible_subterms(unif_pair): finite_set[term] = 
-    LET (t, s) = unif_pair IN union(admissible_subterms(t), admissible_subterms(s))
+    {s | EXISTS t: member(t, subterms(unif_pair)) AND member(s, admissible_subterms(t))}
 
-admissible_subterms(unif_prb): RECURSIVE finite_set[term] =
-    IF null?(unif_prb) THEN emptyset
-    ELSE LET unif_pair = car(unif_prb) IN 
-    	 union(admissible_subterms(unif_pair), admissible_subterms(cdr(unif_prb)))
-    ENDIF
-MEASURE unif_prb BY << 
+admissible_subterms(unif_prb): finite_set[term] =
+    {s | EXISTS t: member(t, subterms(unif_prb)) AND member(s, admissible_subterms(t))}
 
 %%%%%%%%%%%%%%%%%%%%%
 % vars_under2more
 vars_under2more_null: LEMMA
     vars_under2more(null[unif_prb]) = emptyset
 
-% TODO: redo all this lemmas - vars_not_ac
 vars_not_ac_vars_t: LEMMA
     member(X, vars_not_ac(t)) IMPLIES member(X, vars(t))
 
@@ -142,14 +148,31 @@ vars_not_ac_not_var_args: LEMMA
     member(s, not_var_args(sym)(t)) IMPLIES
     subset?(vars_not_ac(s), vars_not_ac(t))
 
+
 vars_not_ac_apply_sub_t: LEMMA
     subset?(vars_not_ac(subs(sigma)(t)), union(vars_not_ac(img(sigma)), vars_not_ac(t)))
+
+vars_not_ac_apply_sub_args: CONJECTURE
+    subset?(vars_not_ac(subs(sigma)(args)), union(vars_not_ac(img(sigma)), vars_not_ac(args)))
 
 vars_not_ac_apply_sub_unif_pair: LEMMA
     subset?(vars_not_ac(apply_sub(sigma, unif_pair)), union(vars_not_ac(img(sigma)), vars_not_ac(unif_pair)))
 
 vars_not_ac_apply_sub: LEMMA
     subset?(vars_not_ac(apply_sub(sigma, unif_prb)), union(vars_not_ac(img(sigma)), vars_not_ac(unif_prb)))
+
+% wrong!
+%vars_not_ac_var_apply_sub_t: CONJECTURE 
+%    subset?(vars_not_ac_var(subs(sigma)(t)), union(vars_not_ac_var(img(sigma)), vars_not_ac_var(t)))
+
+vars_not_ac_var_apply_sub_t: LEMMA
+     subset?(vars_not_ac_var(subs(sigma)(t)), union(vars_not_ac(img(sigma)), vars_not_ac_var(t)))
+
+vars_not_ac_var_apply_sub_args: CONJECTURE
+     subset?(vars_not_ac_var(subs(sigma)(args)), union(vars_not_ac(img(sigma)), vars_not_ac_var(args)))
+
+vars_not_ac_var_apply_sub: CONJECTURE
+     subset?(vars_not_ac_var(apply_sub(sigma, unif_prb)), union(vars_not_ac(img(sigma)), vars_not_ac_var(unif_prb)))
 
 % admissible subterms
 admissible_subterms_mem: LEMMA
@@ -161,16 +184,16 @@ admissible_subterms_null: LEMMA
     admissible_subterms(null) = emptyset
 
 % instantiate step / apply ac step
-vars_not_ac_var_inst_step: CONJECTURE 
-    subset?(vars_not_ac(instantiate_step(unif_prb, sigma)`1), vars_not_ac_var(unif_prb))
-
-%subset?(vars_not_acvar(unif_prb),
-%	union(vars_not_ac(t), vars_not_ac(s)))
+vars_not_ac_var_inst_step: LEMMA
+    subset?(vars_not_ac(instantiate_step(unif_prb1, unif_prb2, sigma)`1),
+	    union(union(vars_not_ac_var(sec_proj(unif_prb1)),
+			vars_not_ac(first_proj(unif_prb1))), 
+	    	  vars_not_ac(unif_prb2)))
 
 apply_ac_step_vars_not_ac_aux: CONJECTURE
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, sym)))
     IMPLIES
-    subset?(vars_not_ac(instantiate_step(unif_prb, sigma)`1),
+    subset?(vars_not_ac(instantiate_step(unif_prb, null, sigma)`1),
     	    union(vars_not_ac(t), vars_not_ac(s)))
 
 inst_step_vars_not_ac: LEMMA

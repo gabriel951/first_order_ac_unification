@@ -18,8 +18,9 @@ BEGIN
 	
 a, i: VAR nat
 X, Y: VAR variable
-t, s, arg: VAR term
+t, s, ti, arg: VAR term
 args, args1, args2: VAR args
+fin_set_t: VAR finite_set[term]
 
 f: VAR ac_symbol
 coef: VAR list[nat]
@@ -72,6 +73,10 @@ subs(sigma)(args): RECURSIVE args =
     ENDIF
 MEASURE args BY << 
 
+% apply substitution to a list of terms
+subs(sigma)(fin_set_t): finite_set[term] = 
+    {t | EXISTS s: member(s, fin_set_t) AND t = subs(sigma)(s)}
+
 % define when two substitutions are equal
 equal?(sigma, delta): bool =
     FORALL t: subs(sigma)(t) = subs(delta)(t)
@@ -119,6 +124,7 @@ subs_app: LEMMA
 subs_ac: LEMMA
     subs(sigma)(ac_app(f, arg)) = ac_app(f, subs(sigma)(arg))
 
+% substitution in list of arguments
 subs_len: LEMMA
     length(subs(sigma)(args)) = length(args)
 
@@ -128,6 +134,7 @@ subs_append: LEMMA
 subs_map: LEMMA
     map(subs(sigma))(args) = subs(sigma)(args)
 
+% more lemmas about subs 
 subs_get_term_from_args: LEMMA
     subs(sigma)(get_term_from_args(args1)) = get_term_from_args(subs(sigma)(args1))
 
@@ -177,5 +184,17 @@ dom_basic_sub: LEMMA
 
 img_basic_sub: LEMMA
     img(cons((X, t), null)) = singleton(t) OR member(X, vars(t)) 
+
+% substitution, subterms, variables, im_under
+subs_subterm_t: CONJECTURE
+    subterms(subs(sigma)(t)) = subs(sigma)(subterms(t))
+
+subs_subterm_arg: CONJECTURE
+    subterms(subs(sigma)(args)) = subs(sigma)(subterms(args))
+
+subs_subterm_mem: CONJECTURE
+    member(s, subterms(subs(sigma)(t))) IMPLIES
+    EXISTS ti:
+       member(ti, subterms(t)) AND s = subs(sigma)(ti)
 
 END substitution

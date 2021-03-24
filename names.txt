@@ -1,0 +1,27 @@
+# term
+(case "const?(t)")
+(case "var?(t)")
+(case "unit?(t)")
+(case "pair?(t)")
+(case "app?(t)")
+(case "ac_app?(t)")
+
+# apply_ac_step
+(name-replace "unif_pair" "car(unif_prb)")
+(name-replace "t" "unif_pair`1")
+(name-replace "s" "unif_pair`2")
+(name-replace "vars1"  "lst_vars(unif_prb)")
+(name-replace "vars2" "lst_vars(flatten(lst_unif_prb))")
+(name-replace "vars2avoid" "append(vars1, vars2)") 
+(name-replace "ac_results" "first_proj(solve_ac(t, s, vars2avoid, ac_sym(t)))")
+
+# instantiate_step
+(name-replace "t" "car(unif_prb)`1")
+(name-replace "s" "car(unif_prb)`2")
+(name-replace "delta" "instantiate_step(t, s)`1") 
+(name-replace "skip1" "instantiate_step(t, s)`2")
+(name-replace "fail1" "instantiate_step(t, s)`3")
+
+(name-replace "cdr_new_unif_prb" "instantiate_step(cdr(unif_prb), sigma)`1")
+(name-replace "new_sigma" "instantiate_step(cdr(unif_prb), sigma)`2")
+(name-replace "impossible" "instantiate_step(cdr(unif_prb), sigma)`3")

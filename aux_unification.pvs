@@ -33,7 +33,6 @@ unif_pair: VAR unif_pair
 unif_prb, seen_unif_prb, unseen_unif_prb: VAR unif_prb
 ac_results_so_far, lst_unif_prb, lst_unif_prb1, lst_unif_prb2: VAR list[unif_prb]
 
-
 sym: VAR string
 
 t, s, t1, t2: VAR term
@@ -231,20 +230,20 @@ MEASURE unif_prb BY <<
 %       and therefore we skipped 
 %   3 - a boolean "impossible" indicating that the terms can't be unified
 instantiate_step(t, s): [sub, bool, bool] =  
-   IF var?(t) THEN
-        IF (NOT member(V(t), vars(s))) THEN LET
-	    sigma = cons((V(t), s), null), skip = FALSE, impossible = FALSE IN
-	    (sigma, skip, impossible) 
-	ELSIF var?(s) AND V(t) = V(s) THEN LET
-	    sigma = null, skip = FALSE, impossible = FALSE IN 
+   IF var?(s) THEN
+        IF (NOT member(V(s), vars(t))) THEN LET
+	    sigma = cons((V(s), t), null), skip = FALSE, impossible = FALSE IN
 	    (sigma, skip, impossible) 
 	ELSE LET 
 	    sigma = null, skip = FALSE, impossible = TRUE IN
 	    (sigma, skip, impossible) 
 	ENDIF
-   ELSIF var?(s) THEN
-        IF (NOT member(V(s), vars(t))) THEN LET
-	    sigma = cons((V(s), t), null), skip = FALSE, impossible = FALSE IN
+   ELSIF var?(t) THEN
+        IF (NOT member(V(t), vars(s))) THEN LET
+	    sigma = cons((V(t), s), null), skip = FALSE, impossible = FALSE IN
+	    (sigma, skip, impossible) 
+	ELSIF var?(s) AND V(t) = V(s) THEN LET
+	    sigma = null, skip = FALSE, impossible = FALSE IN 
 	    (sigma, skip, impossible) 
 	ELSE LET 
 	    sigma = null, skip = FALSE, impossible = TRUE IN
@@ -256,36 +255,55 @@ instantiate_step(t, s): [sub, bool, bool] =
 
 % extends "instantiate_step" to a unification problem
 % receives:
-%	1 - a unification problem "unif_prb"
+%	1 - list of unification problem we still have not tried to instantiate
+%       2 - list of unification problem we already have tried to instantiate
 % 	2 - the substitution "sigma" computed so far
 % returns:
 %	1 - the unification problem after we make all the instantiations
 % 	2 - the substitution computed
 % 	3 - a boolean that is TRUE if none of the unification pairs
 % 	    gave an impossible substitution
-instantiate_step(unif_prb, sigma): RECURSIVE [unif_prb, sub, bool] = 
-   IF null?(unif_prb) THEN (null, sigma, TRUE) 
-   ELSE LET
-   	(t, s) = car(unif_prb),
+instantiate_step(unseen_unif_prb, seen_unif_prb, sigma): RECURSIVE [unif_prb, sub, bool] =
+   IF null?(unseen_unif_prb) THEN (seen_unif_prb, sigma, TRUE) 
+   ELSE LET 
+   	(t, s) = car(unseen_unif_prb),
    	(delta, skip, fail) = instantiate_step(t, s) IN
 	IF fail THEN (null, null, FALSE)
-	ELSIF skip THEN LET
-	      (cdr_new_unif_prb, new_sigma, impossible) = instantiate_step(cdr(unif_prb), sigma), 
-	      new_unif_pair = apply_sub(new_sigma, (t, s)) IN 
-	      (cons(new_unif_pair, cdr_new_unif_prb), new_sigma, impossible) 
-	ELSE LET new_unif_prb = apply_sub(delta, cdr(unif_prb)), 
-	     	 new_sigma = append(delta, sigma) IN
-		 instantiate_step(new_unif_prb, new_sigma)
-	ENDIF 
+	ELSIF skip THEN  
+	     instantiate_step(cdr(unseen_unif_prb), cons((t, s), seen_unif_prb), sigma)
+	ELSE LET
+	     new_unseen_unif_prb = apply_sub(delta, cdr(unseen_unif_prb)), 
+	     new_seen_unif_prb = apply_sub(delta, seen_unif_prb), 
+	     new_sigma = append(delta, sigma) IN
+	     instantiate_step(new_unseen_unif_prb, new_seen_unif_prb, new_sigma)
+	ENDIF
    ENDIF
-MEASURE length(unif_prb)
+MEASURE length(unseen_unif_prb)
+
+%instantiate_step(unif_prb, sigma): RECURSIVE [unif_prb, sub, bool] = 
+%   IF null?(unif_prb) THEN (null, sigma, TRUE) 
+%   ELSE LET
+%   
+%   	(t, s) = car(unif_prb),
+%   	(delta, skip, fail) = instantiate_step(t, s) IN
+%	IF fail THEN (null, null, FALSE)
+%	ELSIF skip THEN LET
+%	      (cdr_new_unif_prb, new_sigma, impossible) = instantiate_step(cdr(unif_prb), sigma), 
+%	      new_unif_pair = apply_sub(new_sigma, (t, s)) IN 
+%	      (cons(new_unif_pair, cdr_new_unif_prb), new_sigma, impossible) 
+%	ELSE LET new_unif_prb = apply_sub(delta, cdr(unif_prb)), 
+%	     	 new_sigma = append(delta, sigma) IN
+%		 instantiate_step(new_unif_prb, new_sigma)
+%	ENDIF 
+%   ENDIF
+%MEASURE length(unif_prb)
 
 % extends "instantiate_step" to a list of unification problems
 instantiate_step(lst_unif_prb): RECURSIVE list[[unif_prb, sub]] =
     IF null?(lst_unif_prb) THEN null
     ELSE LET
     	 unif_prb = car(lst_unif_prb),
-    	 (new_unif_prb, sigma, fail) = instantiate_step(unif_prb, null) IN 
+    	 (new_unif_prb, sigma, fail) = instantiate_step(unif_prb, null, null) IN 
 	 IF fail THEN instantiate_step(cdr(lst_unif_prb))
 	 ELSE cons((new_unif_prb, sigma), instantiate_step(cdr(lst_unif_prb)))
 	 ENDIF
@@ -489,8 +507,18 @@ choose_unif_correct: LEMMA
     all_ac_prb?(unif_prb)
 
 % instantiate step
+instantiate_step_skip: CONJECTURE
+    LET skip = instantiate_step(t, s)`2 IN
+    skip IMPLIES (NOT var?(t) AND NOT var?(s))
+
 instantiate_step_append: LEMMA
     instantiate_step(append(lst_unif_prb1, lst_unif_prb2)) =
     append(instantiate_step(lst_unif_prb1), instantiate_step(lst_unif_prb2))
+
+instantiate_step_img: CONJECTURE
+    img(instantiate_step(t, s)`1) = emptyset OR
+    img(instantiate_step(t, s)`1) = singleton(t) OR
+    (img(instantiate_step(t, s)`1) = singleton(s) AND NOT var?(s))
+    
 
 END aux_unification 

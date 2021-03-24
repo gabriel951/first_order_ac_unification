@@ -1,5 +1,0 @@
-# How will I prove that elimcom is correct?
-Probably I will prove that after the posterior steps of function solve_ac,
-the result obtained is correct in the sense that it unifies (t', s') = elimcom(t, s). Then, 
-the correctness of elimcom will be used to show that they unify t, s. 
-OBS: there are some issues with the format that elimcom returns...

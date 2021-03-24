@@ -14,7 +14,7 @@
 
 unification: THEORY
 BEGIN
-	IMPORTING substitution
+	IMPORTING substitution, list_theory2[term, term]
 
 sigma, sigma1: VAR sub
 vars2avoid: VAR set[variable]
@@ -122,6 +122,7 @@ all_ac_prb?(unif_prb): bool =
    member(unif_pair, unif_prb) IMPLIES ac_prb?(unif_pair)
 
 %%%%%%%%%%%%%%%%%% Theorems and Lemmas
+
 % size
 size_app_unif_prb: LEMMA
     size(append(unif_prb1, unif_prb2)) = size(unif_prb1) + size(unif_prb2)
@@ -141,7 +142,16 @@ unifies?_pareate: LEMMA
     length(args1) = length(args2) AND unifies?(sigma, pareate(args1, args2))
     IMPLIES equal?(subs(sigma)(args1), subs(sigma)(args2))
     
-% apply_sub_elim_var
+% apply_sub
+apply_sub_len: CONJECTURE
+    length(apply_sub(sigma, unif_prb)) = length(unif_prb)
+
+apply_sub_first_proj: CONJECTURE 
+    subs(sigma)(first_proj(unif_prb)) = first_proj(apply_sub(sigma, unif_prb))
+
+apply_sub_sec_proj: CONJECTURE 
+    subs(sigma)(sec_proj(unif_prb)) = sec_proj(apply_sub(sigma, unif_prb))
+
 apply_sub_elim_var_t: LEMMA
     member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
     IMPLIES NOT member(X, vars(subs(sigma)(t)))
@@ -153,5 +163,6 @@ apply_sub_elim_var_unif_pair: LEMMA
 apply_sub_elim_var: LEMMA
     member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
     IMPLIES NOT member(X, vars(apply_sub(sigma, unif_prb)))
+
 
 END unification 

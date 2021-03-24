@@ -800,6 +800,7 @@ BEGIN
     pair: VAR [T1, T2]
     f: VAR [[T1, T2] -> T1]
     x: VAR T1
+    y: VAR T2
     n: VAR nat
     
 % will be needed for a lemma
@@ -811,6 +812,16 @@ first_proj(lst_pair): RECURSIVE list[T1] =
     IF null?(lst_pair) THEN null
     ELSE LET x = car(lst_pair)`1 IN
          cons(x, first_proj(cdr(lst_pair)))
+    ENDIF
+MEASURE lst_pair BY << 
+
+
+% receives a list of the form [[x1, y1], ..., [xn, yn]]
+% returns [y1, ..., yn]
+sec_proj(lst_pair): RECURSIVE list[T2] = 
+    IF null?(lst_pair) THEN null
+    ELSE LET y = car(lst_pair)`2 IN
+         cons(y, sec_proj(cdr(lst_pair)))
     ENDIF
 MEASURE lst_pair BY << 
 
