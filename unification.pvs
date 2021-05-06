@@ -20,7 +20,7 @@ sigma, sigma1: VAR sub
 vars2avoid: VAR set[variable]
 args1, args2: VAR args
 X: VAR variable
-t: VAR term
+t, s: VAR term
 
 % a unification pair (t, s) is composed of terms t and s that must be unified
 unif_pair: TYPE = [term, term]
@@ -30,6 +30,23 @@ unif_pair: VAR unif_pair
 unif_prb: TYPE = list[unif_pair]
 unif_prb, unif_prb1, unif_prb2: VAR unif_prb
 lst_unif_prb: VAR list[unif_prb]
+
+% defines when a term is a member of a unification problem
+member(t, unif_prb): RECURSIVE bool =
+   IF null?(unif_prb) THEN FALSE
+   ELSE LET unif_pair = car(unif_prb) IN
+    	IF t = unif_pair`1 OR t = unif_pair`2 THEN TRUE
+	ELSE member(t, cdr(unif_prb)) 
+	ENDIF 
+   ENDIF
+MEASURE unif_prb BY << 
+   
+% extends membership to a lst of unification problems
+member(t, lst_unif_prb): RECURSIVE bool =
+   IF null?(lst_unif_prb) THEN FALSE
+   ELSE LET unif_prb = car(lst_unif_prb) IN member(t, unif_prb) OR member(t, cdr(lst_unif_prb)) 
+   ENDIF
+MEASURE lst_unif_prb BY << 
 
 % variables of a unification pair
 vars(unif_pair): finite_set[variable] =
@@ -122,6 +139,26 @@ all_ac_prb?(unif_prb): bool =
    member(unif_pair, unif_prb) IMPLIES ac_prb?(unif_pair)
 
 %%%%%%%%%%%%%%%%%% Theorems and Lemmas
+% vars
+vars_unif_prb: LEMMA
+   member(X, vars(unif_prb)) IFF
+   EXISTS t:
+      member(t, unif_prb) AND member(X, vars(t))
+
+% member
+member_unif_prb_equiv: LEMMA
+   member(t, unif_prb) IFF
+   EXISTS unif_pair:
+    (t = unif_pair`1 OR t = unif_pair`2) AND member(unif_pair, unif_prb)
+
+member_unif_prb_append: LEMMA
+   member(t, append(unif_prb1, unif_prb2)) IFF
+   (member(t, unif_prb1) OR member(t, unif_prb2))
+
+member_lst_unif_prb_equiv: LEMMA
+   member(t, lst_unif_prb) IFF
+   EXISTS unif_prb:
+    member(t, unif_prb) AND member(unif_prb, lst_unif_prb)
 
 % size
 size_app_unif_prb: LEMMA
@@ -143,18 +180,25 @@ unifies?_pareate: LEMMA
     IMPLIES equal?(subs(sigma)(args1), subs(sigma)(args2))
     
 % apply_sub
-apply_sub_len: CONJECTURE
+apply_sub_mem: LEMMA
+    member(t, apply_sub(sigma, unif_prb)) IFF
+    EXISTS s:
+       member(s, unif_prb) AND t = subs(sigma)(s)
+
+apply_sub_null: LEMMA
+    apply_sub(null, unif_prb) = unif_prb
+
+apply_sub_sub_append: LEMMA
+    apply_sub(sigma, apply_sub(sigma1, unif_prb)) = apply_sub(append(sigma, sigma1), unif_prb)
+
+apply_sub_len: LEMMA
     length(apply_sub(sigma, unif_prb)) = length(unif_prb)
 
-apply_sub_first_proj: CONJECTURE 
+apply_sub_first_proj: LEMMA
     subs(sigma)(first_proj(unif_prb)) = first_proj(apply_sub(sigma, unif_prb))
 
-apply_sub_sec_proj: CONJECTURE 
+apply_sub_sec_proj: LEMMA
     subs(sigma)(sec_proj(unif_prb)) = sec_proj(apply_sub(sigma, unif_prb))
-
-apply_sub_elim_var_t: LEMMA
-    member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
-    IMPLIES NOT member(X, vars(subs(sigma)(t)))
 
 apply_sub_elim_var_unif_pair: LEMMA
     member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
@@ -163,6 +207,5 @@ apply_sub_elim_var_unif_pair: LEMMA
 apply_sub_elim_var: LEMMA
     member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
     IMPLIES NOT member(X, vars(apply_sub(sigma, unif_prb)))
-
 
 END unification 

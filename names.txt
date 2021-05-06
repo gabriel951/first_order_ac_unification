@@ -1,27 +1,37 @@
-# term
-(case "const?(t)")
-(case "var?(t)")
-(case "unit?(t)")
-(case "pair?(t)")
-(case "app?(t)")
-(case "ac_app?(t)")
+# solve_ac
+(name-replace "args" "elim_com_arg(t1, t2, f)`1")
+(name-replace "mult_t1" "elim_com_arg(t1, t2, f)`2")
+(name-replace "mult_t2" "elim_com_arg(t1, t2, f)`3")
+(name-replace "bound" "calculate_upper_bound(mult_t1, mult_t2)") 
+(name-replace "dio_sol_matrix" "dio_solver(mult_t1, mult_t2, bound)")
+(name-replace "submatrix_sol_lst" "extract_submatrices(dio_sol_matrix, args)")
+(name-replace "results" "map(dio_matrix2ac_sol(args, vars2avoid, f))(submatrix_sol_lst)")
 
 # apply_ac_step
 (name-replace "unif_pair" "car(unif_prb)")
-(name-replace "t" "unif_pair`1")
+(name-replace "t1" "unif_pair`1")
 (name-replace "s" "unif_pair`2")
 (name-replace "vars1"  "lst_vars(unif_prb)")
 (name-replace "vars2" "lst_vars(flatten(lst_unif_prb))")
 (name-replace "vars2avoid" "append(vars1, vars2)") 
-(name-replace "ac_results" "first_proj(solve_ac(t, s, vars2avoid, ac_sym(t)))")
+(name-replace "ac_results" "first_proj(solve_ac(t1, s, vars2avoid, ac_sym(t1)))")
 
-# instantiate_step
+# instantiate_step unif_prb
 (name-replace "t" "car(unif_prb)`1")
 (name-replace "s" "car(unif_prb)`2")
 (name-replace "delta" "instantiate_step(t, s)`1") 
 (name-replace "skip1" "instantiate_step(t, s)`2")
 (name-replace "fail1" "instantiate_step(t, s)`3")
 
-(name-replace "cdr_new_unif_prb" "instantiate_step(cdr(unif_prb), sigma)`1")
-(name-replace "new_sigma" "instantiate_step(cdr(unif_prb), sigma)`2")
-(name-replace "impossible" "instantiate_step(cdr(unif_prb), sigma)`3")
+
+# instantiate_step lst_unif_prb
+(name-replace "unif_prb" "car(lst_unif_prb)") 
+(name-replace "new_unif_prb" "instantiate_step(unif_prb, null, null)`1") 
+(name-replace "sigma1" "instantiate_step(unif_prb, null, null)`2")
+(name-replace "fail1" "instantiate_step(unif_prb, null, null)`3")
+
+# get_pre_new_args
+(name-replace "row" "car(dio_matrix)") 
+(name-replace "new_var" "get_new_var(vars2avoid)") 
+(name-replace "new_lst_args" "add_new_arg(lst_args, row, variable(new_var))")
+(name-replace "new_vars2avoid" "cons(new_var, vars2avoid)")

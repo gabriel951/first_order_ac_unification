@@ -1,7 +1,6 @@
 %%% ADT file generated from terms
 
-term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
-         ac_symbol: TYPE]: THEORY
+term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE, ac_symbol: TYPE]: THEORY
  BEGIN
   ASSUMING
    variable_TCC1: ASSUMPTION EXISTS (x: variable): TRUE;
@@ -11,12 +10,9 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
 
   const?, var?, unit?, pair?, app?, ac_app?: [term -> boolean]
 
-  plain(x: term):  boolean =
-           const?(x) OR var?(x) OR unit?(x) OR app?(x) OR ac_app?(x);
+  plain(x: term):  boolean =      const?(x) OR var?(x) OR unit?(x) OR app?(x) OR ac_app?(x);
 
-  plain: TYPE =
-        {x: term |
-                const?(x) OR var?(x) OR unit?(x) OR app?(x) OR ac_app?(x)}
+  plain: TYPE = {x: term |      const?(x) OR var?(x) OR unit?(x) OR app?(x) OR ac_app?(x)}
 
   pair(x: term):  boolean = pair?(x);
 
@@ -63,15 +59,9 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
   term_ord: [term -> upto(5)]
 
   term_ord_defaxiom: AXIOM
-         (FORALL (a: constant): term_ord(const(a)) = 0)
-     AND (FORALL (V: variable): term_ord(variable(V)) = 1)
-     AND (term_ord(unit) = 2)
-     AND (FORALL (term1: term, term2: term):
-            term_ord(pair(term1, term2)) = 3)
-     AND (FORALL (f_sym: f_symbol, arg: term):
-            term_ord(app(f_sym, arg)) = 4)
-     AND FORALL (ac_sym: ac_symbol, ac_arg: pair):
-           term_ord(ac_app(ac_sym, ac_arg)) = 5;
+         (FORALL (a: constant): term_ord(const(a)) = 0) AND (FORALL (V: variable): term_ord(variable(V)) = 1) AND (term_ord(unit) = 2)
+     AND (FORALL (term1: term, term2: term): term_ord(pair(term1, term2)) = 3) AND (FORALL (f_sym: f_symbol, arg: term): term_ord(app(f_sym, arg)) = 4)
+     AND FORALL (ac_sym: ac_symbol, ac_arg: pair): term_ord(ac_app(ac_sym, ac_arg)) = 5;
 
   ord(x: term): upto(5) =
       CASES x
@@ -83,167 +73,98 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
            ac_app(ac_app1_var, ac_app2_var): 5
         ENDCASES
 
-  term_const_extensionality: AXIOM
-    FORALL (const?_var: (const?), const?_var2: (const?)):
-      a(const?_var) = a(const?_var2) IMPLIES const?_var = const?_var2;
+  term_const_extensionality: AXIOM FORALL (const?_var: (const?), const?_var2: (const?)): a(const?_var) = a(const?_var2) IMPLIES const?_var = const?_var2;
 
-  term_const_eta: AXIOM
-    FORALL (const?_var: (const?)): const(a(const?_var)) = const?_var;
+  term_const_eta: AXIOM FORALL (const?_var: (const?)): const(a(const?_var)) = const?_var;
 
-  term_variable_extensionality: AXIOM
-    FORALL (var?_var: (var?), var?_var2: (var?)):
-      V(var?_var) = V(var?_var2) IMPLIES var?_var = var?_var2;
+  term_variable_extensionality: AXIOM FORALL (var?_var: (var?), var?_var2: (var?)): V(var?_var) = V(var?_var2) IMPLIES var?_var = var?_var2;
 
-  term_variable_eta: AXIOM
-    FORALL (var?_var: (var?)): variable(V(var?_var)) = var?_var;
+  term_variable_eta: AXIOM FORALL (var?_var: (var?)): variable(V(var?_var)) = var?_var;
 
-  term_unit_extensionality: AXIOM
-    FORALL (unit?_var: (unit?), unit?_var2: (unit?)):
-      unit?_var = unit?_var2;
+  term_unit_extensionality: AXIOM FORALL (unit?_var: (unit?), unit?_var2: (unit?)): unit?_var = unit?_var2;
 
   term_pair_extensionality: AXIOM
     FORALL (pair?_var: (pair?), pair?_var2: (pair?)):
-      term1(pair?_var) = term1(pair?_var2) AND
-       term2(pair?_var) = term2(pair?_var2)
-       IMPLIES pair?_var = pair?_var2;
+      term1(pair?_var) = term1(pair?_var2) AND term2(pair?_var) = term2(pair?_var2) IMPLIES pair?_var = pair?_var2;
 
-  term_pair_eta: AXIOM
-    FORALL (pair?_var: (pair?)):
-      pair(term1(pair?_var), term2(pair?_var)) = pair?_var;
+  term_pair_eta: AXIOM FORALL (pair?_var: (pair?)): pair(term1(pair?_var), term2(pair?_var)) = pair?_var;
 
   term_app_extensionality: AXIOM
-    FORALL (app?_var: (app?), app?_var2: (app?)):
-      f_sym(app?_var) = f_sym(app?_var2) AND arg(app?_var) = arg(app?_var2)
-       IMPLIES app?_var = app?_var2;
+    FORALL (app?_var: (app?), app?_var2: (app?)): f_sym(app?_var) = f_sym(app?_var2) AND arg(app?_var) = arg(app?_var2) IMPLIES app?_var = app?_var2;
 
-  term_app_eta: AXIOM
-    FORALL (app?_var: (app?)):
-      app(f_sym(app?_var), arg(app?_var)) = app?_var;
+  term_app_eta: AXIOM FORALL (app?_var: (app?)): app(f_sym(app?_var), arg(app?_var)) = app?_var;
 
   term_ac_app_extensionality: AXIOM
     FORALL (ac_app?_var: (ac_app?), ac_app?_var2: (ac_app?)):
-      ac_sym(ac_app?_var) = ac_sym(ac_app?_var2) AND
-       ac_arg(ac_app?_var) = ac_arg(ac_app?_var2)
-       IMPLIES ac_app?_var = ac_app?_var2;
+      ac_sym(ac_app?_var) = ac_sym(ac_app?_var2) AND ac_arg(ac_app?_var) = ac_arg(ac_app?_var2) IMPLIES ac_app?_var = ac_app?_var2;
 
-  term_ac_app_eta: AXIOM
-    FORALL (ac_app?_var: (ac_app?)):
-      ac_app(ac_sym(ac_app?_var), ac_arg(ac_app?_var)) = ac_app?_var;
+  term_ac_app_eta: AXIOM FORALL (ac_app?_var: (ac_app?)): ac_app(ac_sym(ac_app?_var), ac_arg(ac_app?_var)) = ac_app?_var;
 
-  term_a_const: AXIOM
-    FORALL (const1_var: constant): a(const(const1_var)) = const1_var;
+  term_a_const: AXIOM FORALL (const1_var: constant): a(const(const1_var)) = const1_var;
 
-  term_V_variable: AXIOM
-    FORALL (variable1_var: variable):
-      V(variable(variable1_var):: (var?)) = variable1_var;
+  term_V_variable: AXIOM FORALL (variable1_var: variable): V(variable(variable1_var):: (var?)) = variable1_var;
 
-  term_term1_pair: AXIOM
-    FORALL (pair1_var: term, pair2_var: term):
-      term1(pair(pair1_var, pair2_var):: (pair?)) = pair1_var;
+  term_term1_pair: AXIOM FORALL (pair1_var: term, pair2_var: term): term1(pair(pair1_var, pair2_var):: (pair?)) = pair1_var;
 
-  term_term2_pair: AXIOM
-    FORALL (pair1_var: term, pair2_var: term):
-      term2(pair(pair1_var, pair2_var):: (pair?)) = pair2_var;
+  term_term2_pair: AXIOM FORALL (pair1_var: term, pair2_var: term): term2(pair(pair1_var, pair2_var):: (pair?)) = pair2_var;
 
-  term_f_sym_app: AXIOM
-    FORALL (app1_var: f_symbol, app2_var: term):
-      f_sym(app(app1_var, app2_var)) = app1_var;
+  term_f_sym_app: AXIOM FORALL (app1_var: f_symbol, app2_var: term): f_sym(app(app1_var, app2_var)) = app1_var;
 
-  term_arg_app: AXIOM
-    FORALL (app1_var: f_symbol, app2_var: term):
-      arg(app(app1_var, app2_var)) = app2_var;
+  term_arg_app: AXIOM FORALL (app1_var: f_symbol, app2_var: term): arg(app(app1_var, app2_var)) = app2_var;
 
-  term_ac_sym_ac_app: AXIOM
-    FORALL (ac_app1_var: ac_symbol, ac_app2_var: pair):
-      ac_sym(ac_app(ac_app1_var, ac_app2_var)) = ac_app1_var;
+  term_ac_sym_ac_app: AXIOM FORALL (ac_app1_var: ac_symbol, ac_app2_var: pair): ac_sym(ac_app(ac_app1_var, ac_app2_var)) = ac_app1_var;
 
-  term_ac_arg_ac_app: AXIOM
-    FORALL (ac_app1_var: ac_symbol, ac_app2_var: pair):
-      ac_arg(ac_app(ac_app1_var, ac_app2_var)) = ac_app2_var;
+  term_ac_arg_ac_app: AXIOM FORALL (ac_app1_var: ac_symbol, ac_app2_var: pair): ac_arg(ac_app(ac_app1_var, ac_app2_var)) = ac_app2_var;
 
   term_inclusive: AXIOM
-    FORALL (term_var: term):
-           const?(term_var) OR var?(term_var) OR unit?(term_var)
-       OR pair?(term_var) OR app?(term_var) OR ac_app?(term_var);
+    FORALL (term_var: term):      const?(term_var) OR var?(term_var) OR unit?(term_var) OR pair?(term_var) OR app?(term_var) OR ac_app?(term_var);
 
   term_induction: AXIOM
     FORALL (p: [term -> boolean]):
-      (     (FORALL (const1_var: constant): p(const(const1_var)))
-        AND (FORALL (variable1_var: variable): p(variable(variable1_var)))
-        AND p(unit)
-        AND (FORALL (pair1_var: term, pair2_var: term):
-               p(pair1_var) AND p(pair2_var) IMPLIES
-                p(pair(pair1_var, pair2_var)))
-        AND (FORALL (app1_var: f_symbol, app2_var: term):
-               p(app2_var) IMPLIES p(app(app1_var, app2_var)))
-        AND FORALL (ac_app1_var: ac_symbol, ac_app2_var: pair):
-              p(ac_app2_var) IMPLIES p(ac_app(ac_app1_var, ac_app2_var)))
+      (     (FORALL (const1_var: constant): p(const(const1_var))) AND (FORALL (variable1_var: variable): p(variable(variable1_var))) AND p(unit)
+        AND (FORALL (pair1_var: term, pair2_var: term): p(pair1_var) AND p(pair2_var) IMPLIES p(pair(pair1_var, pair2_var)))
+        AND (FORALL (app1_var: f_symbol, app2_var: term): p(app2_var) IMPLIES p(app(app1_var, app2_var)))
+        AND FORALL (ac_app1_var: ac_symbol, ac_app2_var: pair): p(ac_app2_var) IMPLIES p(ac_app(ac_app1_var, ac_app2_var)))
        IMPLIES FORALL (term_var: term): p(term_var);
 
-  every(p1: PRED[constant], p2: PRED[variable], p3: PRED[f_symbol],
-        p4: PRED[ac_symbol])
-       (a1: term):
-        boolean =
+  every(p1: PRED[constant], p2: PRED[variable], p3: PRED[f_symbol], p4: PRED[ac_symbol])(a1: term):  boolean =
       CASES a1
         OF const(const1_var): p1(const1_var),
            variable(variable1_var): p2(variable1_var),
            unit: TRUE,
-           pair(pair1_var, pair2_var):
-             every(p1, p2, p3, p4)(pair1_var) AND
-              every(p1, p2, p3, p4)(pair2_var),
-           app(app1_var, app2_var):
-             p3(app1_var) AND every(p1, p2, p3, p4)(app2_var),
-           ac_app(ac_app1_var, ac_app2_var):
-             p4(ac_app1_var) AND every(p1, p2, p3, p4)(ac_app2_var)
+           pair(pair1_var, pair2_var): every(p1, p2, p3, p4)(pair1_var) AND every(p1, p2, p3, p4)(pair2_var),
+           app(app1_var, app2_var): p3(app1_var) AND every(p1, p2, p3, p4)(app2_var),
+           ac_app(ac_app1_var, ac_app2_var): p4(ac_app1_var) AND every(p1, p2, p3, p4)(ac_app2_var)
         ENDCASES;
 
-  every(p1: PRED[constant], p2: PRED[variable], p3: PRED[f_symbol],
-        p4: PRED[ac_symbol], a1: term):
-        boolean =
+  every(p1: PRED[constant], p2: PRED[variable], p3: PRED[f_symbol], p4: PRED[ac_symbol], a1: term):  boolean =
       CASES a1
         OF const(const1_var): p1(const1_var),
            variable(variable1_var): p2(variable1_var),
            unit: TRUE,
-           pair(pair1_var, pair2_var):
-             every(p1, p2, p3, p4, pair1_var) AND
-              every(p1, p2, p3, p4, pair2_var),
-           app(app1_var, app2_var):
-             p3(app1_var) AND every(p1, p2, p3, p4, app2_var),
-           ac_app(ac_app1_var, ac_app2_var):
-             p4(ac_app1_var) AND every(p1, p2, p3, p4, ac_app2_var)
+           pair(pair1_var, pair2_var): every(p1, p2, p3, p4, pair1_var) AND every(p1, p2, p3, p4, pair2_var),
+           app(app1_var, app2_var): p3(app1_var) AND every(p1, p2, p3, p4, app2_var),
+           ac_app(ac_app1_var, ac_app2_var): p4(ac_app1_var) AND every(p1, p2, p3, p4, ac_app2_var)
         ENDCASES;
 
-  some(p1: PRED[constant], p2: PRED[variable], p3: PRED[f_symbol],
-       p4: PRED[ac_symbol])
-      (a1: term):
-        boolean =
+  some(p1: PRED[constant], p2: PRED[variable], p3: PRED[f_symbol], p4: PRED[ac_symbol])(a1: term):  boolean =
       CASES a1
         OF const(const1_var): p1(const1_var),
            variable(variable1_var): p2(variable1_var),
            unit: FALSE,
-           pair(pair1_var, pair2_var):
-             some(p1, p2, p3, p4)(pair1_var) OR
-              some(p1, p2, p3, p4)(pair2_var),
-           app(app1_var, app2_var):
-             p3(app1_var) OR some(p1, p2, p3, p4)(app2_var),
-           ac_app(ac_app1_var, ac_app2_var):
-             p4(ac_app1_var) OR some(p1, p2, p3, p4)(ac_app2_var)
+           pair(pair1_var, pair2_var): some(p1, p2, p3, p4)(pair1_var) OR some(p1, p2, p3, p4)(pair2_var),
+           app(app1_var, app2_var): p3(app1_var) OR some(p1, p2, p3, p4)(app2_var),
+           ac_app(ac_app1_var, ac_app2_var): p4(ac_app1_var) OR some(p1, p2, p3, p4)(ac_app2_var)
         ENDCASES;
 
-  some(p1: PRED[constant], p2: PRED[variable], p3: PRED[f_symbol],
-       p4: PRED[ac_symbol], a1: term):
-        boolean =
+  some(p1: PRED[constant], p2: PRED[variable], p3: PRED[f_symbol], p4: PRED[ac_symbol], a1: term):  boolean =
       CASES a1
         OF const(const1_var): p1(const1_var),
            variable(variable1_var): p2(variable1_var),
            unit: FALSE,
-           pair(pair1_var, pair2_var):
-             some(p1, p2, p3, p4, pair1_var) OR
-              some(p1, p2, p3, p4, pair2_var),
-           app(app1_var, app2_var):
-             p3(app1_var) OR some(p1, p2, p3, p4, app2_var),
-           ac_app(ac_app1_var, ac_app2_var):
-             p4(ac_app1_var) OR some(p1, p2, p3, p4, ac_app2_var)
+           pair(pair1_var, pair2_var): some(p1, p2, p3, p4, pair1_var) OR some(p1, p2, p3, p4, pair2_var),
+           app(app1_var, app2_var): p3(app1_var) OR some(p1, p2, p3, p4, app2_var),
+           ac_app(ac_app1_var, ac_app2_var): p4(ac_app1_var) OR some(p1, p2, p3, p4, ac_app2_var)
         ENDCASES;
 
   subterm(x: term, y: term):  boolean =
@@ -252,8 +173,7 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
          OF const(const1_var): FALSE,
             variable(variable1_var): FALSE,
             unit: FALSE,
-            pair(pair1_var, pair2_var):
-              subterm(x, pair1_var) OR subterm(x, pair2_var),
+            pair(pair1_var, pair2_var): subterm(x, pair1_var) OR subterm(x, pair2_var),
             app(app1_var, app2_var): subterm(x, app2_var),
             ac_app(ac_app1_var, ac_app2_var): subterm(x, ac_app2_var)
          ENDCASES;
@@ -264,112 +184,72 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
           OF const(const1_var): FALSE,
              variable(variable1_var): FALSE,
              unit: FALSE,
-             pair(pair1_var, pair2_var):
-               (x = pair1_var OR x << pair1_var) OR
-                (x = pair2_var OR x << pair2_var),
+             pair(pair1_var, pair2_var): (x = pair1_var OR x << pair1_var) OR (x = pair2_var OR x << pair2_var),
              app(app1_var, app2_var): (x = app2_var OR x << app2_var),
-             ac_app(ac_app1_var, ac_app2_var):
-               (x = ac_app2_var OR x << ac_app2_var)
+             ac_app(ac_app1_var, ac_app2_var): (x = ac_app2_var OR x << ac_app2_var)
           ENDCASES;
 
   term_well_founded: AXIOM strict_well_founded?[term](<<);
 
-  reduce_nat(const?_fun: [constant -> nat], var?_fun: [variable -> nat],
-             unit?_fun: nat, pair?_fun: [[nat, nat] -> nat],
-             app?_fun: [[f_symbol, nat] -> nat],
+  reduce_nat(const?_fun: [constant -> nat], var?_fun: [variable -> nat], unit?_fun: nat, pair?_fun: [[nat, nat] -> nat], app?_fun: [[f_symbol, nat] -> nat],
              ac_app?_fun: [[ac_symbol, nat] -> nat]):
         [term -> nat] =
       LAMBDA (term_adtvar: term):
-        LET red: [term -> nat] =
-              reduce_nat(const?_fun, var?_fun, unit?_fun, pair?_fun,
-                         app?_fun, ac_app?_fun)
-          IN
+        LET red: [term -> nat] = reduce_nat(const?_fun, var?_fun, unit?_fun, pair?_fun, app?_fun, ac_app?_fun) IN
           CASES term_adtvar
             OF const(const1_var): const?_fun(const1_var),
                variable(variable1_var): var?_fun(variable1_var),
                unit: unit?_fun,
-               pair(pair1_var, pair2_var):
-                 pair?_fun(red(pair1_var), red(pair2_var)),
+               pair(pair1_var, pair2_var): pair?_fun(red(pair1_var), red(pair2_var)),
                app(app1_var, app2_var): app?_fun(app1_var, red(app2_var)),
-               ac_app(ac_app1_var, ac_app2_var):
-                 ac_app?_fun(ac_app1_var, red(ac_app2_var))
+               ac_app(ac_app1_var, ac_app2_var): ac_app?_fun(ac_app1_var, red(ac_app2_var))
             ENDCASES;
 
-  REDUCE_nat(const?_fun: [[constant, term] -> nat],
-             var?_fun: [[variable, term] -> nat], unit?_fun: [term -> nat],
-             pair?_fun: [[nat, nat, term] -> nat],
-             app?_fun: [[f_symbol, nat, term] -> nat],
-             ac_app?_fun: [[ac_symbol, nat, term] -> nat]):
+  REDUCE_nat(const?_fun: [[constant, term] -> nat], var?_fun: [[variable, term] -> nat], unit?_fun: [term -> nat], pair?_fun: [[nat, nat, term] -> nat],
+             app?_fun: [[f_symbol, nat, term] -> nat], ac_app?_fun: [[ac_symbol, nat, term] -> nat]):
         [term -> nat] =
       LAMBDA (term_adtvar: term):
-        LET red: [term -> nat] =
-              REDUCE_nat(const?_fun, var?_fun, unit?_fun, pair?_fun,
-                         app?_fun, ac_app?_fun)
-          IN
+        LET red: [term -> nat] = REDUCE_nat(const?_fun, var?_fun, unit?_fun, pair?_fun, app?_fun, ac_app?_fun) IN
           CASES term_adtvar
             OF const(const1_var): const?_fun(const1_var, term_adtvar),
-               variable(variable1_var):
-                 var?_fun(variable1_var, term_adtvar),
+               variable(variable1_var): var?_fun(variable1_var, term_adtvar),
                unit: unit?_fun(term_adtvar),
-               pair(pair1_var, pair2_var):
-                 pair?_fun(red(pair1_var), red(pair2_var), term_adtvar),
-               app(app1_var, app2_var):
-                 app?_fun(app1_var, red(app2_var), term_adtvar),
-               ac_app(ac_app1_var, ac_app2_var):
-                 ac_app?_fun(ac_app1_var, red(ac_app2_var), term_adtvar)
+               pair(pair1_var, pair2_var): pair?_fun(red(pair1_var), red(pair2_var), term_adtvar),
+               app(app1_var, app2_var): app?_fun(app1_var, red(app2_var), term_adtvar),
+               ac_app(ac_app1_var, ac_app2_var): ac_app?_fun(ac_app1_var, red(ac_app2_var), term_adtvar)
             ENDCASES;
 
-  reduce_ordinal(const?_fun: [constant -> ordinal],
-                 var?_fun: [variable -> ordinal], unit?_fun: ordinal,
-                 pair?_fun: [[ordinal, ordinal] -> ordinal],
-                 app?_fun: [[f_symbol, ordinal] -> ordinal],
-                 ac_app?_fun: [[ac_symbol, ordinal] -> ordinal]):
+  reduce_ordinal(const?_fun: [constant -> ordinal], var?_fun: [variable -> ordinal], unit?_fun: ordinal, pair?_fun: [[ordinal, ordinal] -> ordinal],
+                 app?_fun: [[f_symbol, ordinal] -> ordinal], ac_app?_fun: [[ac_symbol, ordinal] -> ordinal]):
         [term -> ordinal] =
       LAMBDA (term_adtvar: term):
-        LET red: [term -> ordinal] =
-              reduce_ordinal(const?_fun, var?_fun, unit?_fun, pair?_fun,
-                             app?_fun, ac_app?_fun)
-          IN
+        LET red: [term -> ordinal] = reduce_ordinal(const?_fun, var?_fun, unit?_fun, pair?_fun, app?_fun, ac_app?_fun) IN
           CASES term_adtvar
             OF const(const1_var): const?_fun(const1_var),
                variable(variable1_var): var?_fun(variable1_var),
                unit: unit?_fun,
-               pair(pair1_var, pair2_var):
-                 pair?_fun(red(pair1_var), red(pair2_var)),
+               pair(pair1_var, pair2_var): pair?_fun(red(pair1_var), red(pair2_var)),
                app(app1_var, app2_var): app?_fun(app1_var, red(app2_var)),
-               ac_app(ac_app1_var, ac_app2_var):
-                 ac_app?_fun(ac_app1_var, red(ac_app2_var))
+               ac_app(ac_app1_var, ac_app2_var): ac_app?_fun(ac_app1_var, red(ac_app2_var))
             ENDCASES;
 
-  REDUCE_ordinal(const?_fun: [[constant, term] -> ordinal],
-                 var?_fun: [[variable, term] -> ordinal],
-                 unit?_fun: [term -> ordinal],
-                 pair?_fun: [[ordinal, ordinal, term] -> ordinal],
-                 app?_fun: [[f_symbol, ordinal, term] -> ordinal],
+  REDUCE_ordinal(const?_fun: [[constant, term] -> ordinal], var?_fun: [[variable, term] -> ordinal], unit?_fun: [term -> ordinal],
+                 pair?_fun: [[ordinal, ordinal, term] -> ordinal], app?_fun: [[f_symbol, ordinal, term] -> ordinal],
                  ac_app?_fun: [[ac_symbol, ordinal, term] -> ordinal]):
         [term -> ordinal] =
       LAMBDA (term_adtvar: term):
-        LET red: [term -> ordinal] =
-              REDUCE_ordinal(const?_fun, var?_fun, unit?_fun, pair?_fun,
-                             app?_fun, ac_app?_fun)
-          IN
+        LET red: [term -> ordinal] = REDUCE_ordinal(const?_fun, var?_fun, unit?_fun, pair?_fun, app?_fun, ac_app?_fun) IN
           CASES term_adtvar
             OF const(const1_var): const?_fun(const1_var, term_adtvar),
-               variable(variable1_var):
-                 var?_fun(variable1_var, term_adtvar),
+               variable(variable1_var): var?_fun(variable1_var, term_adtvar),
                unit: unit?_fun(term_adtvar),
-               pair(pair1_var, pair2_var):
-                 pair?_fun(red(pair1_var), red(pair2_var), term_adtvar),
-               app(app1_var, app2_var):
-                 app?_fun(app1_var, red(app2_var), term_adtvar),
-               ac_app(ac_app1_var, ac_app2_var):
-                 ac_app?_fun(ac_app1_var, red(ac_app2_var), term_adtvar)
+               pair(pair1_var, pair2_var): pair?_fun(red(pair1_var), red(pair2_var), term_adtvar),
+               app(app1_var, app2_var): app?_fun(app1_var, red(app2_var), term_adtvar),
+               ac_app(ac_app1_var, ac_app2_var): ac_app?_fun(ac_app1_var, red(ac_app2_var), term_adtvar)
             ENDCASES;
  END term_adt
 
-term_adt_map[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
-             ac_symbol: TYPE, constant1: TYPE, variable1: TYPE+,
-             f_symbol1: TYPE, ac_symbol1: TYPE]: THEORY
+term_adt_map[constant: TYPE, variable: TYPE+, f_symbol: TYPE, ac_symbol: TYPE, constant1: TYPE, variable1: TYPE+, f_symbol1: TYPE, ac_symbol1: TYPE]: THEORY
  BEGIN
   ASSUMING
    variable_TCC1: ASSUMPTION EXISTS (x: variable): TRUE;
@@ -379,68 +259,41 @@ term_adt_map[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
 
   IMPORTING term_adt
 
-  map(f1: [constant -> constant1], f2: [variable -> variable1],
-      f3: [f_symbol -> f_symbol1], f4: [ac_symbol -> ac_symbol1])
+  map(f1: [constant -> constant1], f2: [variable -> variable1], f3: [f_symbol -> f_symbol1], f4: [ac_symbol -> ac_symbol1])
      (a1: term[constant, variable, f_symbol, ac_symbol]):
-        {x: term[constant1, variable1, f_symbol1, ac_symbol1] |
-           (pair?(a1) => pair?(x))} =
+        {x: term[constant1, variable1, f_symbol1, ac_symbol1] | (pair?(a1) => pair?(x))} =
       CASES a1
         OF const(const1_var): const(f1(const1_var)),
            variable(variable1_var): variable(f2(variable1_var)),
            unit: unit,
-           pair(pair1_var, pair2_var):
-             pair(map(f1, f2, f3, f4)(pair1_var),
-                  map(f1, f2, f3, f4)(pair2_var)),
-           app(app1_var, app2_var):
-             app(f3(app1_var), map(f1, f2, f3, f4)(app2_var)),
-           ac_app(ac_app1_var, ac_app2_var):
-             ac_app(f4(ac_app1_var), map(f1, f2, f3, f4)(ac_app2_var))
+           pair(pair1_var, pair2_var): pair(map(f1, f2, f3, f4)(pair1_var), map(f1, f2, f3, f4)(pair2_var)),
+           app(app1_var, app2_var): app(f3(app1_var), map(f1, f2, f3, f4)(app2_var)),
+           ac_app(ac_app1_var, ac_app2_var): ac_app(f4(ac_app1_var), map(f1, f2, f3, f4)(ac_app2_var))
         ENDCASES;
 
-  map(f1: [constant -> constant1], f2: [variable -> variable1],
-      f3: [f_symbol -> f_symbol1], f4: [ac_symbol -> ac_symbol1],
+  map(f1: [constant -> constant1], f2: [variable -> variable1], f3: [f_symbol -> f_symbol1], f4: [ac_symbol -> ac_symbol1],
       a1: term[constant, variable, f_symbol, ac_symbol]):
-        {x: term[constant1, variable1, f_symbol1, ac_symbol1] |
-           (pair?(a1) => pair?(x))} =
+        {x: term[constant1, variable1, f_symbol1, ac_symbol1] | (pair?(a1) => pair?(x))} =
       CASES a1
         OF const(const1_var): const(f1(const1_var)),
            variable(variable1_var): variable(f2(variable1_var)),
            unit: unit,
-           pair(pair1_var, pair2_var):
-             pair(map(f1, f2, f3, f4, pair1_var),
-                  map(f1, f2, f3, f4, pair2_var)),
-           app(app1_var, app2_var):
-             app(f3(app1_var), map(f1, f2, f3, f4, app2_var)),
-           ac_app(ac_app1_var, ac_app2_var):
-             ac_app(f4(ac_app1_var), map(f1, f2, f3, f4, ac_app2_var))
+           pair(pair1_var, pair2_var): pair(map(f1, f2, f3, f4, pair1_var), map(f1, f2, f3, f4, pair2_var)),
+           app(app1_var, app2_var): app(f3(app1_var), map(f1, f2, f3, f4, app2_var)),
+           ac_app(ac_app1_var, ac_app2_var): ac_app(f4(ac_app1_var), map(f1, f2, f3, f4, ac_app2_var))
         ENDCASES;
 
-  every(R1: [[constant, constant1] -> boolean],
-        R2: [[variable, variable1] -> boolean],
-        R3: [[f_symbol, f_symbol1] -> boolean],
+  every(R1: [[constant, constant1] -> boolean], R2: [[variable, variable1] -> boolean], R3: [[f_symbol, f_symbol1] -> boolean],
         R4: [[ac_symbol, ac_symbol1] -> boolean])
-       (x: term[constant, variable, f_symbol, ac_symbol],
-        y: term[constant1, variable1, f_symbol1, ac_symbol1]):
+       (x: term[constant, variable, f_symbol, ac_symbol], y: term[constant1, variable1, f_symbol1, ac_symbol1]):
         boolean =
-           (const?(x) AND const?(y) AND R1(a(x), a(y)))
-       OR (var?(x) AND var?(y) AND R2(V(x), V(y)))
-       OR (unit?(x) AND unit?(y))
-       OR (pair?(x) AND
-            pair?(y) AND
-             every(R1, R2, R3, R4)(term1(x), term1(y)) AND
-              every(R1, R2, R3, R4)(term2(x), term2(y)))
-       OR (app?(x) AND
-            app?(y) AND
-             R3(f_sym(x), f_sym(y)) AND
-              every(R1, R2, R3, R4)(arg(x), arg(y)))
-       OR (ac_app?(x) AND
-            ac_app?(y) AND
-             R4(ac_sym(x), ac_sym(y)) AND
-              every(R1, R2, R3, R4)(ac_arg(x), ac_arg(y)));
+           (const?(x) AND const?(y) AND R1(a(x), a(y))) OR (var?(x) AND var?(y) AND R2(V(x), V(y))) OR (unit?(x) AND unit?(y))
+       OR (pair?(x) AND pair?(y) AND every(R1, R2, R3, R4)(term1(x), term1(y)) AND every(R1, R2, R3, R4)(term2(x), term2(y)))
+       OR (app?(x) AND app?(y) AND R3(f_sym(x), f_sym(y)) AND every(R1, R2, R3, R4)(arg(x), arg(y)))
+       OR (ac_app?(x) AND ac_app?(y) AND R4(ac_sym(x), ac_sym(y)) AND every(R1, R2, R3, R4)(ac_arg(x), ac_arg(y)));
  END term_adt_map
 
-term_adt_reduce[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
-                ac_symbol: TYPE, range: TYPE]: THEORY
+term_adt_reduce[constant: TYPE, variable: TYPE+, f_symbol: TYPE, ac_symbol: TYPE, range: TYPE]: THEORY
  BEGIN
   ASSUMING
    variable_TCC1: ASSUMPTION EXISTS (x: variable): TRUE;
@@ -448,63 +301,34 @@ term_adt_reduce[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
 
   IMPORTING term_adt[constant, variable, f_symbol, ac_symbol]
 
-  reduce(const?_fun: [constant -> range], var?_fun: [variable -> range],
-         unit?_fun: range, pair?_fun: [[range, range] -> range],
-         app?_fun: [[f_symbol, range] -> range],
-         ac_app?_fun: [[ac_symbol, range] -> range]):
+  reduce(const?_fun: [constant -> range], var?_fun: [variable -> range], unit?_fun: range, pair?_fun: [[range, range] -> range],
+         app?_fun: [[f_symbol, range] -> range], ac_app?_fun: [[ac_symbol, range] -> range]):
         [term[constant, variable, f_symbol, ac_symbol] -> range] =
       LAMBDA (term_adtvar: term[constant, variable, f_symbol, ac_symbol]):
-        LET red: [term[constant, variable, f_symbol, ac_symbol] -> range] =
-              reduce(const?_fun, var?_fun, unit?_fun, pair?_fun, app?_fun,
-                     ac_app?_fun)
-          IN
+        LET red: [term[constant, variable, f_symbol, ac_symbol] -> range] = reduce(const?_fun, var?_fun, unit?_fun, pair?_fun, app?_fun, ac_app?_fun) IN
           CASES term_adtvar
             OF const(const1_var): const?_fun(const1_var),
                variable(variable1_var): var?_fun(variable1_var),
                unit: unit?_fun,
-               pair(pair1_var, pair2_var):
-                 pair?_fun(red(pair1_var), red(pair2_var)),
+               pair(pair1_var, pair2_var): pair?_fun(red(pair1_var), red(pair2_var)),
                app(app1_var, app2_var): app?_fun(app1_var, red(app2_var)),
-               ac_app(ac_app1_var, ac_app2_var):
-                 ac_app?_fun(ac_app1_var, red(ac_app2_var))
+               ac_app(ac_app1_var, ac_app2_var): ac_app?_fun(ac_app1_var, red(ac_app2_var))
             ENDCASES;
 
-  REDUCE(const?_fun:
-           [[constant, term[constant, variable, f_symbol, ac_symbol]] ->
-              range],
-         var?_fun:
-           [[variable, term[constant, variable, f_symbol, ac_symbol]] ->
-              range],
-         unit?_fun:
-           [term[constant, variable, f_symbol, ac_symbol] -> range],
-         pair?_fun:
-           [[range, range,
-             term[constant, variable, f_symbol, ac_symbol]] ->
-              range],
-         app?_fun:
-           [[f_symbol, range,
-             term[constant, variable, f_symbol, ac_symbol]] ->
-              range],
-         ac_app?_fun:
-           [[ac_symbol, range,
-             term[constant, variable, f_symbol, ac_symbol]] ->
-              range]):
+  REDUCE(const?_fun: [[constant, term[constant, variable, f_symbol, ac_symbol]] -> range],
+         var?_fun: [[variable, term[constant, variable, f_symbol, ac_symbol]] -> range], unit?_fun: [term[constant, variable, f_symbol, ac_symbol] -> range],
+         pair?_fun: [[range, range, term[constant, variable, f_symbol, ac_symbol]] -> range],
+         app?_fun: [[f_symbol, range, term[constant, variable, f_symbol, ac_symbol]] -> range],
+         ac_app?_fun: [[ac_symbol, range, term[constant, variable, f_symbol, ac_symbol]] -> range]):
         [term[constant, variable, f_symbol, ac_symbol] -> range] =
       LAMBDA (term_adtvar: term[constant, variable, f_symbol, ac_symbol]):
-        LET red: [term[constant, variable, f_symbol, ac_symbol] -> range] =
-              REDUCE(const?_fun, var?_fun, unit?_fun, pair?_fun, app?_fun,
-                     ac_app?_fun)
-          IN
+        LET red: [term[constant, variable, f_symbol, ac_symbol] -> range] = REDUCE(const?_fun, var?_fun, unit?_fun, pair?_fun, app?_fun, ac_app?_fun) IN
           CASES term_adtvar
             OF const(const1_var): const?_fun(const1_var, term_adtvar),
-               variable(variable1_var):
-                 var?_fun(variable1_var, term_adtvar),
+               variable(variable1_var): var?_fun(variable1_var, term_adtvar),
                unit: unit?_fun(term_adtvar),
-               pair(pair1_var, pair2_var):
-                 pair?_fun(red(pair1_var), red(pair2_var), term_adtvar),
-               app(app1_var, app2_var):
-                 app?_fun(app1_var, red(app2_var), term_adtvar),
-               ac_app(ac_app1_var, ac_app2_var):
-                 ac_app?_fun(ac_app1_var, red(ac_app2_var), term_adtvar)
+               pair(pair1_var, pair2_var): pair?_fun(red(pair1_var), red(pair2_var), term_adtvar),
+               app(app1_var, app2_var): app?_fun(app1_var, red(app2_var), term_adtvar),
+               ac_app(ac_app1_var, ac_app2_var): ac_app?_fun(ac_app1_var, red(ac_app2_var), term_adtvar)
             ENDCASES;
  END term_adt_reduce

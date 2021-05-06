@@ -16,7 +16,7 @@ substitution: THEORY
 BEGIN
 	IMPORTING equality, map_theory[term, term], map_theory[term, args]
 	
-a, i: VAR nat
+a, i, n: VAR nat
 X, Y: VAR variable
 t, s, ti, arg: VAR term
 args, args1, args2: VAR args
@@ -106,6 +106,8 @@ supset_dom_correct2: LEMMA
 % image of a substitution 
 img(sigma): finite_set[term] = {t | EXISTS X: member(X, dom(sigma)) AND subs(sigma)(X) = t} 
 
+idempotent?(sigma): bool = 
+   FORALL X: subs(sigma)(subs(sigma)(X)) = subs(sigma)(X)
 
 %%%%%%%%%%%%%%%%%%% Theorems
 % substitution and their effects on the terms
@@ -124,12 +126,24 @@ subs_app: LEMMA
 subs_ac: LEMMA
     subs(sigma)(ac_app(f, arg)) = ac_app(f, subs(sigma)(arg))
 
+subs_var: LEMMA
+    var?(subs(sigma)(t)) IMPLIES var?(t) 
+    
 % substitution in list of arguments
+subs_select: LEMMA
+   (EXISTS i: 
+      nice_ind?(i, num_arg(f, t)) AND
+      select(f, subs(sigma)(t))(n) = subs(sigma)(select(f, t)(i)))
+   OR member(select(f, subs(sigma)(t))(n), subterms(img(sigma)))
+
 subs_len: LEMMA
     length(subs(sigma)(args)) = length(args)
 
 subs_append: LEMMA
     subs(sigma)(append(args1, args2)) = append(subs(sigma)(args1), subs(sigma)(args2))
+    
+subs_append2: LEMMA
+    subs(append(sigma, delta))(t) = subs(sigma)(subs(delta)(t))
     
 subs_map: LEMMA
     map(subs(sigma))(args) = subs(sigma)(args)
@@ -150,6 +164,12 @@ subs_remove: LEMMA
 
 args_subs_ac: LEMMA 
     get_args(f)(subs(sigma)(t)) = flatten(map(get_args(f))(map(subs(sigma))(get_args(f)(t))))
+
+mem_get_args_subs: LEMMA
+    member(s, get_args(f)(subs(sigma)(t))) IMPLIES
+    (EXISTS ti: 
+        member(ti, get_args(f)(t)) AND s = subs(sigma)(ti))
+    OR member(s, subterms(img(sigma))) 
 
 subs_get_args1: LEMMA 
     num_arg(f, t) = 1 IMPLIES
@@ -179,22 +199,46 @@ perm?_get_args_subs: LEMMA
     perm?(get_args(f)(subs(sigma)(t)), get_args(f)(subs(sigma)(s)))
 
 % domain and img of a substitution lemmas
+vars_subs_t: LEMMA
+    subset?(vars(subs(sigma)(t)), union(vars(img(sigma)), vars(t)))
+
 dom_basic_sub: LEMMA
     dom(cons((X, t), null)) = singleton(X) OR member(X, vars(t))
+
+dom_null: LEMMA
+    dom(null) = emptyset
+
+dom_append: LEMMA
+    subset?(dom(append(delta, sigma)), union(dom(delta), dom(sigma)))
 
 img_basic_sub: LEMMA
     img(cons((X, t), null)) = singleton(t) OR member(X, vars(t)) 
 
-% substitution, subterms, variables, im_under
-subs_subterm_t: CONJECTURE
-    subterms(subs(sigma)(t)) = subs(sigma)(subterms(t))
+img_null: LEMMA
+    img(null) = emptyset
 
-subs_subterm_arg: CONJECTURE
-    subterms(subs(sigma)(args)) = subs(sigma)(subterms(args))
+subs_no_effect_t: LEMMA
+    disjoint?(dom(sigma), vars(t)) IMPLIES subs(sigma)(t) = t
 
-subs_subterm_mem: CONJECTURE
-    member(s, subterms(subs(sigma)(t))) IMPLIES
-    EXISTS ti:
-       member(ti, subterms(t)) AND s = subs(sigma)(ti)
+apply_sub_elim_var_t: LEMMA
+    member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
+    IMPLIES NOT member(X, vars(subs(sigma)(t)))
+
+vars_img_append: LEMMA
+    subset?(vars(img(append(delta, sigma))), union(vars(img(delta)), vars(img(sigma))))
+
+% idempotent and properties of substitutios
+var_dom_sub_dif_term: LEMMA
+   member(X, vars(t)) AND member(X, dom(sigma)) IMPLIES
+   subs(sigma)(t) /= t
+   
+idempotent_disjoint_dom_img: LEMMA
+    idempotent?(sigma) IMPLIES disjoint?(dom(sigma), vars(img(sigma)))
+
+idempotent_disjoint_dom_img2: LEMMA
+    disjoint?(dom(sigma), vars(img(sigma))) IMPLIES idempotent?(sigma)
+
+subs_singleton: LEMMA
+    subs(sigma)(singleton(t)) = singleton(subs(sigma)(t))
 
 END substitution

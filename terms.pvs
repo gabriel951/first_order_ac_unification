@@ -6,7 +6,7 @@
 %		(*) - University of Brasília			(**) - King's College London
 %
 
-% File: Terms.pvs
+% File: terms.pvs
 % Description: Definition of a first order term and properties related to them
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,8 +63,6 @@ size(t): RECURSIVE nat =
     ENDCASES
 MEASURE t BY <<
 
-
-
 % size of a list of arguments
 size(args): RECURSIVE nat =
      IF null?(args) THEN 1
@@ -72,6 +70,14 @@ size(args): RECURSIVE nat =
      ENDIF 
 MEASURE length(args) 
 
+% membership for a list of arguments
+member(t, lst_args): RECURSIVE bool =
+     IF null?(lst_args) THEN FALSE
+     ELSE LET args = car(lst_args) IN
+     	      member(t, args) OR member(t, cdr(lst_args))
+     ENDIF 
+MEASURE lst_args BY <<
+     
 % test if t is an AC function symbol headed by sym
 is_ac_sym?(t, sym): bool = ac_app?(t) AND sym = ac_sym(t)
 
@@ -85,6 +91,7 @@ sym(t): string =
     ELSE "-"
     ENDIF
 
+% tests whether t is a function symbol (not necessarily ac) 
 func?(t): bool =
     IF ac_app?(t) OR app?(t) THEN TRUE
     ELSE FALSE
@@ -168,7 +175,6 @@ nice_ind?(lst_nat, n): RECURSIVE bool =
     ENDIF
 MEASURE lst_nat BY << 
 
-
 % receives a term
 % if its a pair, flatten it in a list 
 % else return a list containing only the term 
@@ -215,6 +221,12 @@ term_opt: LEMMA
     t = pair(term1(t), term2(t)) OR t = app(f_sym(t), arg(t)) OR
     t = ac_app(ac_sym(t), ac_arg(t)) 
 
+% membership in a lst of arguments
+member_t_lst_args: LEMMA
+    member(t, lst_args) IFF
+    EXISTS args:
+        member(args, lst_args) AND member(t, args)
+
 % size
 size_ge1: LEMMA
     size(t) >= 1
@@ -232,6 +244,9 @@ num_arg_not_pair_ac: LEMMA
 % select
 select_num_arg: LEMMA
     num_arg(f, select(f, t)(i)) = 1
+
+select_not_pair: LEMMA
+    NOT pair?(select(f, t)(i))
 
 select_le1: LEMMA
     n <= 1 IMPLIES select(f, t)(n) = select(f, t)(1)
@@ -386,7 +401,7 @@ map_get_args_get_ac_from_args: LEMMA
 
 
 %%% additional lemmas about variables of a term, subterms and proper subterms
-IMPORTING list_theory[variable]
+IMPORTING list_theory[variable], map_theory[term, variable]
 
 % needed for some tccs
 subterms_aux_TCC: LEMMA every[number, number, f_symbol, ac_symbol]
@@ -415,6 +430,13 @@ vars(fin_set_t): RECURSIVE finite_set[variable] =
    ELSE union(vars(choose(fin_set_t)), vars(rest(fin_set_t)))
    ENDIF
 MEASURE card(fin_set_t)
+
+
+vars(args): RECURSIVE finite_set[variable] = 
+   IF null?(args) THEN emptyset
+   ELSE union(vars(car(args)), vars(cdr(args)))
+   ENDIF
+MEASURE args BY << 
 
 % list of variables of a term
 lst_vars(t): RECURSIVE list[variable] =
@@ -486,14 +508,48 @@ im_under?(X, t): bool = member(variable(X), im_under(t))
 im_under?(X, fin_set_t): bool =
     EXISTS t: member(t, fin_set_t) AND im_under?(X, t)
 
+% all_ac_or_var?
+% all terms in "args" are either a variable or an ac-function whose symbol is "f" with only variables as arguments
+all_ac_or_var?(f, args): bool =
+	FORALL t:
+	    member(t, args) IMPLIES var?(t) OR
+	    (ac_app?(t) AND ac_sym(t) = f AND all_var?(get_args(f)(t)))
+
+all_ac_or_var?(args): bool =
+    EXISTS f: 
+    all_ac_or_var?(f, args)
+
 % lemmas
-% vars
+% vars 
+vars_append: LEMMA
+   vars(append(args1, args2)) = union(vars(args1), vars(args2))
+
 vars_correct: LEMMA
    member(X, vars(t)) AND member(t, fin_set_t)
    IMPLIES member(X, vars(fin_set_t))
 
 vars_singleton: LEMMA
     vars(singleton(t)) = vars(t) 
+
+vars_finset: LEMMA
+    member(X, vars(fin_set_t)) IFF
+    EXISTS t:
+        member(t, fin_set_t) AND member(X, vars(t))
+
+vars_args: LEMMA
+   member(X, vars(args)) IFF
+   EXISTS t:
+      member(t, args) AND member(X, vars(t))
+
+vars_map: LEMMA
+   Union(list2set(map(vars)(args))) = vars(args)
+
+vars_get_args: LEMMA
+   vars(get_args(f)(t)) = vars(t) 
+
+vars_ac: LEMMA
+   pair?(t) IMPLIES
+   (member(X, vars(ac_app(f, t))) IFF member(X, vars(t)))
 
 % all_var
 all_var?_append: LEMMA
@@ -550,10 +606,18 @@ not_var_args_nth2: LEMMA
 
 
 % subterms
-subterm_reflexive: CONJECTURE
-   member(t, subterms(t))
+subterm_fin_set: LEMMA
+   member(s, subterms(fin_set_t)) IFF
+   EXISTS t:
+   member(t, fin_set_t) AND member(s, subterms(t))
+   
+subterm_reflexive: LEMMA
+   NOT pair?(t) IMPLIES member(t, subterms(t))
 
-subterm_fin_set_mem: CONJECTURE
+select_subterms: LEMMA
+   member(select(f, t)(n), subterms(t))
+
+subterm_fin_set_mem: LEMMA
    member(t, fin_set_t) IMPLIES subset?(subterms(t), subterms(fin_set_t))
   
 vars_subterm: LEMMA
