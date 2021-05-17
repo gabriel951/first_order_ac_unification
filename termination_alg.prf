@@ -191,83 +191,6 @@
    (admissible_subterms subtype
     "{s | EXISTS t: booleans.AND(sets[term[constant, variable, f_symbol, ac_symbol]].member(termination_alg.t, unification.subterms(termination_alg.unif_prb)), sets[term[constant, variable, f_symbol, ac_symbol]].member(termination_alg.s, termination_alg.admissible_subterms(termination_alg.t)))}"
     "finite_set[term[constant, variable, f_symbol, ac_symbol]]")))
- (vars_under2more_null 0
-  (vars_under2more_null-1 nil 3824482826
-   ("" (lemma "subset_antisymmetric[variable]")
-    (("" (inst? -1)
-      (("" (assert)
-        (("" (hide 2)
-          (("" (prop)
-            (("1" (expand "vars_under2more" 1)
-              (("1" (expand "subset?" 1)
-                (("1" (skeep)
-                  (("1" (hide 1)
-                    (("1" (expand "member" -1 1)
-                      (("1" (skeep)
-                        (("1" (expand "subterms" -4)
-                          (("1" (grind) nil nil)) nil))
-                        nil))
-                      nil))
-                    nil))
-                  nil))
-                nil))
-              nil)
-             ("2" (lemma "subset_emptyset[variable]")
-              (("2" (inst? -1) nil nil)) nil))
-            nil))
-          nil))
-        nil))
-      nil))
-    nil)
-   ((variable type-eq-decl nil term_properties nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil)
-    (subset_antisymmetric formula-decl nil sets_lemmas nil)
-    (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
-     sets_lemmas nil)
-    (finite_emptyset name-judgement "finite_set" finite_sets nil)
-    (subset? const-decl "bool" sets nil)
-    (func? const-decl "bool" term_properties nil)
-    (length def-decl "nat" list_props nil)
-    (list2finseq const-decl "finseq[T]" list2finseq nil)
-    (sym const-decl "string" term_properties nil)
-    (dif_func? const-decl "bool" term_properties nil)
-    (member const-decl "bool" sets nil)
-    (subset_emptyset formula-decl nil sets_lemmas nil)
-    (emptyset const-decl "set" sets nil)
-    (null adt-constructor-decl "(null?)" list_adt nil)
-    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
-    (finite_set type-eq-decl nil finite_sets nil)
-    (is_finite const-decl "bool" finite_sets nil)
-    (unif_prb type-eq-decl nil unification nil)
-    (list type-decl nil list_adt nil)
-    (unif_pair type-eq-decl nil unification nil)
-    (constant type-eq-decl nil term_properties nil)
-    (TRUE const-decl "bool" booleans nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (PRED type-eq-decl nil defined_types nil)
-    (term type-decl nil term_adt nil)
-    (ac_symbol type-eq-decl nil term_properties nil)
-    (f_symbol type-eq-decl nil term_properties nil)
-    (char type-eq-decl nil strings nil)
-    (char? adt-recognizer-decl "[character -> boolean]" character_adt
-     nil)
-    (character type-decl nil character_adt nil)
-    (below type-eq-decl nil nat_types nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (set type-eq-decl nil sets nil))
-   shostak))
  (vars_not_ac_vars_t 0
   (vars_not_ac_vars_t-1 nil 3823286315
    ("" (measure-induct "size(t)" "t")
@@ -6599,6 +6522,83 @@
     (nnint_plus_posint_is_posint application-judgement "posint"
      integers nil))
    shostak))
+ (vars_under2more_null 0
+  (vars_under2more_null-1 nil 3824482826
+   ("" (lemma "subset_antisymmetric[variable]")
+    (("" (inst? -1)
+      (("" (assert)
+        (("" (hide 2)
+          (("" (prop)
+            (("1" (expand "vars_under2more" 1)
+              (("1" (expand "subset?" 1)
+                (("1" (skeep)
+                  (("1" (hide 1)
+                    (("1" (expand "member" -1 1)
+                      (("1" (skeep)
+                        (("1" (expand "subterms" -4)
+                          (("1" (grind) nil nil)) nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil)
+             ("2" (lemma "subset_emptyset[variable]")
+              (("2" (inst? -1) nil nil)) nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((variable type-eq-decl nil term_properties nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (subset_antisymmetric formula-decl nil sets_lemmas nil)
+    (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil)
+    (finite_emptyset name-judgement "finite_set" finite_sets nil)
+    (subset? const-decl "bool" sets nil)
+    (func? const-decl "bool" term_properties nil)
+    (length def-decl "nat" list_props nil)
+    (list2finseq const-decl "finseq[T]" list2finseq nil)
+    (sym const-decl "string" term_properties nil)
+    (dif_func? const-decl "bool" term_properties nil)
+    (member const-decl "bool" sets nil)
+    (subset_emptyset formula-decl nil sets_lemmas nil)
+    (emptyset const-decl "set" sets nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (unif_prb type-eq-decl nil unification nil)
+    (list type-decl nil list_adt nil)
+    (unif_pair type-eq-decl nil unification nil)
+    (constant type-eq-decl nil term_properties nil)
+    (TRUE const-decl "bool" booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (term type-decl nil term_adt nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (char type-eq-decl nil strings nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (character type-decl nil character_adt nil)
+    (below type-eq-decl nil nat_types nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (set type-eq-decl nil sets nil))
+   shostak))
  (admissible_subterms_mem 0
   (admissible_subterms_mem-1 nil 3824391151
    ("" (induct "unif_prb" 1)
@@ -11685,7 +11685,6 @@
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (PRED type-eq-decl nil defined_types nil)
-    (every adt-def-decl "boolean" term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -11711,18 +11710,11 @@
     (set type-eq-decl nil sets nil) (member const-decl "bool" sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (finite_set type-eq-decl nil finite_sets nil)
-    (vars_not_ac_var const-decl "finite_set[variable]" termination_alg
-     nil)
     (all_ac_prb? const-decl "bool" unification nil)
-    (member def-decl "bool" unification nil)
     (apply_ac_step def-decl "list[unif_prb]" aux_unification nil)
     (OR const-decl "[bool, bool -> bool]" booleans nil)
-    (vars_not_ac def-decl "finite_set[variable]" termination_alg nil)
-    (vars_not_ac_var def-decl "finite_set[variable]" termination_alg
-     nil)
     (vars_not_ac_var_lst_unif_prb formula-decl nil termination_alg nil)
     (lst_vars def-decl "list[variable]" unification nil)
-    (every adt-def-decl "boolean" list_adt nil)
     (append def-decl "list[T]" list_props nil)
     (member_lst_unif_prb_equiv formula-decl nil unification nil)
     (mem_flatten_map2 formula-decl nil map_theory nil)
@@ -11736,7 +11728,6 @@
     (vars_not_ac_var_dio_matrix2ac_sol formula-decl nil termination_alg
      nil)
     (vars_not_ac_var_args formula-decl nil termination_alg nil)
-    (equal? def-decl "bool" equality nil)
     (get_args const-decl "args" term_properties nil)
     (remove_common def-decl "list[T]" list_theory nil)
     (null adt-constructor-decl "(null?)" list_adt nil)
@@ -11751,21 +11742,16 @@
     (Union_surjective name-judgement
      "(surjective?[setofsets[T], set[T]])" sets_lemmas nil)
     (not_var_args_get_args2 formula-decl nil term_properties nil)
-    (f skolem-const-decl "ac_symbol" termination_alg nil)
     (not_var_args const-decl "args" term_properties nil)
-    (vars_not_ac def-decl "finite_set[variable]" termination_alg nil)
     (vars_not_ac const-decl "finite_set[variable]" termination_alg nil)
     (remove_common_mem formula-decl nil list_theory nil)
     (member_append formula-decl nil list_theory nil)
-    (args skolem-const-decl "args" termination_alg nil)
-    (results skolem-const-decl "list[ac_sol]" termination_alg nil)
     (extract_submatrices const-decl "list[dio_matrix]" aux_unification
      nil)
     (> const-decl "bool" reals nil)
     (nonneg_int nonempty-type-eq-decl nil integers nil)
     (posnat nonempty-type-eq-decl nil integers nil)
     (calculate_upper_bound const-decl "nat" diophantine nil)
-    (ac_results skolem-const-decl "list[unif_prb]" termination_alg nil)
     (put_in_head_mem3 formula-decl nil list_theory nil)
     (vars_not_ac_var_lst_unif_prb2 formula-decl nil termination_alg
      nil)
@@ -11773,9 +11759,7 @@
      "(strict_total_order?[real])" real_props nil)
     (nnint_plus_posint_is_posint application-judgement "posint"
      integers nil)
-    (map adt-def-decl "list[T1]" list_adt_map nil)
     (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
-    (put_in_head def-decl "list[list[T]]" list_theory nil)
     (first_proj def-decl "list[T1]" list_theory2 nil)
     (string type-eq-decl nil strings nil)
     (ac_sol type-eq-decl nil aux_unification nil)
@@ -11787,6 +11771,9 @@
     (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
     (car adt-accessor-decl "[(cons?) -> T]" list_adt nil))
    shostak))
+ (not_vars_under2more_inst_step 0
+  (not_vars_under2more_inst_step-1 nil 3829937138
+   ("" (postpone) nil nil) nil shostak))
  (inst_step_vars_not_ac 0
   (inst_step_vars_not_ac-2 nil 3825153194
    ("" (skeep)
@@ -12900,6 +12887,697 @@
                                             nil))
                                           nil)
                                          ("2" (postpone) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   nil shostak))
+ (apply_ac_step_vars_under2more 0
+  (apply_ac_step_vars_under2more-1 nil 3829344218
+   ("" (skeep)
+    ((""
+      (case "subset?(vars_under2more(unif_prb1), image(vars_not_ac_magic_fun(sigma), vars_under2more(unif_prb)))")
+      (("1" (lemma "card_subset[variable]")
+        (("1"
+          (inst -1 "vars_under2more(unif_prb1)"
+           "image(vars_not_ac_magic_fun(sigma), vars_under2more(unif_prb))")
+          (("1" (assert)
+            (("1" (lemma "card_image[variable, variable]")
+              (("1" (inst? -1) (("1" (assert) nil nil)) nil)) nil))
+            nil))
+          nil))
+        nil)
+       ("2" (hide 2)
+        (("2" (expand "subset?" 1)
+          (("2" (skolem 1 "Y")
+            (("2" (prop)
+              (("2" (expand "vars_under2more" -1)
+                (("2" (expand "member" -1 1)
+                  (("2" (skolem -1 ("t1" "s1"))
+                    (("2" (prop)
+                      (("2" (hide -6)
+                        (("2" (lemma "instantiate_step_mem")
+                          (("2" (inst? -1)
+                            (("2" (assert)
+                              (("2"
+                                (skolem -1 "unif_prb2")
+                                (("2"
+                                  (prop)
+                                  (("2"
+                                    (hide -9)
+                                    (("2"
+                                      (lemma
+                                       "instantiate_step_im_under_subterm")
+                                      (("2"
+                                        (inst? -1)
+                                        (("2"
+                                          (inst -1 "unif_prb2")
+                                          (("2"
+                                            (assert)
+                                            (("2"
+                                              (replace -3 :dir rl)
+                                              (("2"
+                                                (assert)
+                                                (("2"
+                                                  (skolem -1 "t2")
+                                                  (("2"
+                                                    (hide -1)
+                                                    (("2"
+                                                      (lemma
+                                                       "instantiate_step_im_under_subterm")
+                                                      (("2"
+                                                        (inst
+                                                         -1
+                                                         "Y"
+                                                         "s1"
+                                                         "unif_prb2")
+                                                        (("2"
+                                                          (assert)
+                                                          (("2"
+                                                            (skolem
+                                                             -1
+                                                             "s2")
+                                                            (("2"
+                                                              (reveal
+                                                               -1)
+                                                              (("2"
+                                                                (prop)
+                                                                (("1"
+                                                                  (lemma
+                                                                   "apply_ac_step_new_var")
+                                                                  (("1"
+                                                                    (inst
+                                                                     -1
+                                                                     "Y"
+                                                                     "t2"
+                                                                     "unif_prb"
+                                                                     "unif_prb2")
+                                                                    (("1"
+                                                                      (prop)
+                                                                      (("1"
+                                                                        (hide
+                                                                         -4)
+                                                                        (("1"
+                                                                          (hide
+                                                                           -10
+                                                                           -11
+                                                                           -12
+                                                                           -13
+                                                                           -14)
+                                                                          (("1"
+                                                                            (lemma
+                                                                             "apply_ac_step_new_var")
+                                                                            (("1"
+                                                                              (inst
+                                                                               -1
+                                                                               "Y"
+                                                                               "s2"
+                                                                               "unif_prb"
+                                                                               "unif_prb2")
+                                                                              (("1"
+                                                                                (prop)
+                                                                                (("1"
+                                                                                  (expand
+                                                                                   "member"
+                                                                                   1)
+                                                                                  (("1"
+                                                                                    (expand
+                                                                                     "image")
+                                                                                    (("1"
+                                                                                      (inst
+                                                                                       1
+                                                                                       "Y")
+                                                                                      (("1"
+                                                                                        (expand
+                                                                                         "vars_not_ac_magic_fun"
+                                                                                         1)
+                                                                                        (("1"
+                                                                                          (lift-if)
+                                                                                          (("1"
+                                                                                            (prop)
+                                                                                            (("1"
+                                                                                              (hide
+                                                                                               -2
+                                                                                               -3
+                                                                                               -4
+                                                                                               -5
+                                                                                               -6
+                                                                                               -7
+                                                                                               -8
+                                                                                               -9
+                                                                                               -10
+                                                                                               -11)
+                                                                                              (("1"
+                                                                                                (reveal
+                                                                                                 -12
+                                                                                                 -14)
+                                                                                                (("1"
+                                                                                                  (reveal
+                                                                                                   -10)
+                                                                                                  (("1"
+                                                                                                    (replace
+                                                                                                     -1)
+                                                                                                    (("1"
+                                                                                                      (hide
+                                                                                                       -1)
+                                                                                                      (("1"
+                                                                                                        (reveal
+                                                                                                         -10)
+                                                                                                        (("1"
+                                                                                                          (replace
+                                                                                                           -1
+                                                                                                           :dir
+                                                                                                           rl)
+                                                                                                          (("1"
+                                                                                                            (hide
+                                                                                                             -1)
+                                                                                                            (("1"
+                                                                                                              (lemma
+                                                                                                               "subterms_mem_unif_prb")
+                                                                                                              (("1"
+                                                                                                                (inst
+                                                                                                                 -1
+                                                                                                                 "t1"
+                                                                                                                 "unif_prb1")
+                                                                                                                (("1"
+                                                                                                                  (assert)
+                                                                                                                  (("1"
+                                                                                                                    (skolem
+                                                                                                                     -1
+                                                                                                                     "t_")
+                                                                                                                    (("1"
+                                                                                                                      (prop)
+                                                                                                                      (("1"
+                                                                                                                        (lemma
+                                                                                                                         "vars_subterm")
+                                                                                                                        (("1"
+                                                                                                                          (inst
+                                                                                                                           -1
+                                                                                                                           "Y"
+                                                                                                                           "t1"
+                                                                                                                           "t_")
+                                                                                                                          (("1"
+                                                                                                                            (prop)
+                                                                                                                            (("1"
+                                                                                                                              (hide
+                                                                                                                               -2)
+                                                                                                                              (("1"
+                                                                                                                                (lemma
+                                                                                                                                 "instantiate_step1_mem")
+                                                                                                                                (("1"
+                                                                                                                                  (inst
+                                                                                                                                   -1
+                                                                                                                                   "t_"
+                                                                                                                                   "unif_prb2")
+                                                                                                                                  (("1"
+                                                                                                                                    (assert)
+                                                                                                                                    (("1"
+                                                                                                                                      (reveal
+                                                                                                                                       -14)
+                                                                                                                                      (("1"
+                                                                                                                                        (replace
+                                                                                                                                         -1
+                                                                                                                                         :dir
+                                                                                                                                         rl)
+                                                                                                                                        (("1"
+                                                                                                                                          (assert)
+                                                                                                                                          (("1"
+                                                                                                                                            (skolem
+                                                                                                                                             -2
+                                                                                                                                             "t_1")
+                                                                                                                                            (("1"
+                                                                                                                                              (prop)
+                                                                                                                                              (("1"
+                                                                                                                                                (replace
+                                                                                                                                                 -9
+                                                                                                                                                 :dir
+                                                                                                                                                 rl)
+                                                                                                                                                (("1"
+                                                                                                                                                  (replace
+                                                                                                                                                   -3)
+                                                                                                                                                  (("1"
+                                                                                                                                                    (hide
+                                                                                                                                                     -1
+                                                                                                                                                     -2
+                                                                                                                                                     -3
+                                                                                                                                                     -5)
+                                                                                                                                                    (("1"
+                                                                                                                                                      (lemma
+                                                                                                                                                       "apply_sub_elim_var_t")
+                                                                                                                                                      (("1"
+                                                                                                                                                        (inst?
+                                                                                                                                                         -1)
+                                                                                                                                                        (("1"
+                                                                                                                                                          (assert)
+                                                                                                                                                          (("1"
+                                                                                                                                                            (lemma
+                                                                                                                                                             "instantiate_step_sub")
+                                                                                                                                                            (("1"
+                                                                                                                                                              (reveal
+                                                                                                                                                               -29)
+                                                                                                                                                              (("1"
+                                                                                                                                                                (inst?
+                                                                                                                                                                 -2)
+                                                                                                                                                                (("1"
+                                                                                                                                                                  (assert)
+                                                                                                                                                                  (("1"
+                                                                                                                                                                    (hide
+                                                                                                                                                                     -1)
+                                                                                                                                                                    (("1"
+                                                                                                                                                                      (lemma
+                                                                                                                                                                       "idempotent_disjoint_dom_img")
+                                                                                                                                                                      (("1"
+                                                                                                                                                                        (inst?
+                                                                                                                                                                         -1)
+                                                                                                                                                                        (("1"
+                                                                                                                                                                          (assert)
+                                                                                                                                                                          (("1"
+                                                                                                                                                                            (hide
+                                                                                                                                                                             -2
+                                                                                                                                                                             -4
+                                                                                                                                                                             -5
+                                                                                                                                                                             -6)
+                                                                                                                                                                            (("1"
+                                                                                                                                                                              (grind)
+                                                                                                                                                                              nil
+                                                                                                                                                                              nil))
+                                                                                                                                                                            nil))
+                                                                                                                                                                          nil))
+                                                                                                                                                                        nil))
+                                                                                                                                                                      nil))
+                                                                                                                                                                    nil))
+                                                                                                                                                                  nil))
+                                                                                                                                                                nil))
+                                                                                                                                                              nil))
+                                                                                                                                                            nil))
+                                                                                                                                                          nil))
+                                                                                                                                                        nil))
+                                                                                                                                                      nil))
+                                                                                                                                                    nil))
+                                                                                                                                                  nil))
+                                                                                                                                                nil))
+                                                                                                                                              nil))
+                                                                                                                                            nil))
+                                                                                                                                          nil))
+                                                                                                                                        nil))
+                                                                                                                                      nil))
+                                                                                                                                    nil))
+                                                                                                                                  nil))
+                                                                                                                                nil))
+                                                                                                                              nil)
+                                                                                                                             ("2"
+                                                                                                                              (rewrite
+                                                                                                                               "im_under_var")
+                                                                                                                              nil
+                                                                                                                              nil))
+                                                                                                                            nil))
+                                                                                                                          nil))
+                                                                                                                        nil))
+                                                                                                                      nil))
+                                                                                                                    nil))
+                                                                                                                  nil))
+                                                                                                                nil))
+                                                                                                              nil))
+                                                                                                            nil))
+                                                                                                          nil))
+                                                                                                        nil))
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil)
+                                                                                       ("2"
+                                                                                        (expand
+                                                                                         "vars_under2more"
+                                                                                         1)
+                                                                                        (("2"
+                                                                                          (inst
+                                                                                           1
+                                                                                           "t2"
+                                                                                           "s2")
+                                                                                          (("2"
+                                                                                            (prop)
+                                                                                            (("2"
+                                                                                              (hide
+                                                                                               -1
+                                                                                               -2
+                                                                                               -3
+                                                                                               -4
+                                                                                               -6
+                                                                                               -8
+                                                                                               -9
+                                                                                               -10)
+                                                                                              (("2"
+                                                                                                (reveal
+                                                                                                 -9)
+                                                                                                (("2"
+                                                                                                  (grind)
+                                                                                                  nil
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil)
+                                                                                 ("2"
+                                                                                  (hide
+                                                                                   -2
+                                                                                   -4
+                                                                                   -5
+                                                                                   -6
+                                                                                   -7
+                                                                                   -8
+                                                                                   -9)
+                                                                                  (("2"
+                                                                                    (hide
+                                                                                     2)
+                                                                                    (("2"
+                                                                                      (lemma
+                                                                                       "subterms_mem_unif_prb")
+                                                                                      (("2"
+                                                                                        (inst?
+                                                                                         -1)
+                                                                                        (("2"
+                                                                                          (assert)
+                                                                                          (("2"
+                                                                                            (skolem
+                                                                                             -1
+                                                                                             "t2_")
+                                                                                            (("2"
+                                                                                              (prop)
+                                                                                              (("2"
+                                                                                                (lemma
+                                                                                                 "vars_unif_prb")
+                                                                                                (("2"
+                                                                                                  (inst
+                                                                                                   -1
+                                                                                                   "Y"
+                                                                                                   "unif_prb")
+                                                                                                  (("2"
+                                                                                                    (assert)
+                                                                                                    (("2"
+                                                                                                      (inst
+                                                                                                       1
+                                                                                                       "t2_")
+                                                                                                      (("2"
+                                                                                                        (prop)
+                                                                                                        (("2"
+                                                                                                          (lemma
+                                                                                                           "vars_subterm")
+                                                                                                          (("2"
+                                                                                                            (inst
+                                                                                                             -1
+                                                                                                             "Y"
+                                                                                                             "t2"
+                                                                                                             "t2_")
+                                                                                                            (("2"
+                                                                                                              (prop)
+                                                                                                              (("2"
+                                                                                                                (rewrite
+                                                                                                                 "im_under_var")
+                                                                                                                nil
+                                                                                                                nil))
+                                                                                                              nil))
+                                                                                                            nil))
+                                                                                                          nil))
+                                                                                                        nil))
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil)
+                                                                       ("2"
+                                                                        (lemma
+                                                                         "not_vars_under2more_inst_step")
+                                                                        (("2"
+                                                                          (inst?
+                                                                           -1)
+                                                                          (("2"
+                                                                            (inst
+                                                                             -1
+                                                                             "Y")
+                                                                            (("2"
+                                                                              (assert)
+                                                                              (("2"
+                                                                                (prop)
+                                                                                (("1"
+                                                                                  (hide
+                                                                                   -1
+                                                                                   -2
+                                                                                   2
+                                                                                   3)
+                                                                                  (("1"
+                                                                                    (expand
+                                                                                     "member"
+                                                                                     1)
+                                                                                    (("1"
+                                                                                      (expand
+                                                                                       "vars_under2more")
+                                                                                      (("1"
+                                                                                        (inst
+                                                                                         1
+                                                                                         "t1"
+                                                                                         "s1")
+                                                                                        (("1"
+                                                                                          (replace
+                                                                                           -6
+                                                                                           :dir
+                                                                                           rl)
+                                                                                          (("1"
+                                                                                            (prop)
+                                                                                            nil
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil)
+                                                                                 ("2"
+                                                                                  (hide
+                                                                                   -1
+                                                                                   -4
+                                                                                   -5
+                                                                                   -6
+                                                                                   -7
+                                                                                   -8
+                                                                                   -9
+                                                                                   -10
+                                                                                   -11
+                                                                                   -12
+                                                                                   -13
+                                                                                   -14)
+                                                                                  (("2"
+                                                                                    (hide
+                                                                                     2
+                                                                                     3)
+                                                                                    (("2"
+                                                                                      (lemma
+                                                                                       "subterms_mem_unif_prb")
+                                                                                      (("2"
+                                                                                        (inst?
+                                                                                         -1)
+                                                                                        (("2"
+                                                                                          (assert)
+                                                                                          (("2"
+                                                                                            (skolem
+                                                                                             -1
+                                                                                             "t2_")
+                                                                                            (("2"
+                                                                                              (prop)
+                                                                                              (("2"
+                                                                                                (lemma
+                                                                                                 "vars_unif_prb")
+                                                                                                (("2"
+                                                                                                  (inst?
+                                                                                                   -1)
+                                                                                                  (("2"
+                                                                                                    (assert)
+                                                                                                    (("2"
+                                                                                                      (inst
+                                                                                                       1
+                                                                                                       "t2_")
+                                                                                                      (("2"
+                                                                                                        (prop)
+                                                                                                        (("2"
+                                                                                                          (lemma
+                                                                                                           "vars_subterm")
+                                                                                                          (("2"
+                                                                                                            (inst?
+                                                                                                             -1)
+                                                                                                            (("2"
+                                                                                                              (inst
+                                                                                                               -1
+                                                                                                               "t2")
+                                                                                                              (("2"
+                                                                                                                (prop)
+                                                                                                                (("2"
+                                                                                                                  (rewrite
+                                                                                                                   "im_under_var")
+                                                                                                                  nil
+                                                                                                                  nil))
+                                                                                                                nil))
+                                                                                                              nil))
+                                                                                                            nil))
+                                                                                                          nil))
+                                                                                                        nil))
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil)
+                                                                 ("2"
+                                                                  (hide
+                                                                   -10
+                                                                   -11
+                                                                   -12
+                                                                   -13
+                                                                   -14)
+                                                                  (("2"
+                                                                    (replace
+                                                                     -9
+                                                                     :dir
+                                                                     rl)
+                                                                    (("2"
+                                                                      (skolem
+                                                                       -1
+                                                                       "X")
+                                                                      (("2"
+                                                                        (prop)
+                                                                        (("2"
+                                                                          (case
+                                                                           "idempotent?(sigma)")
+                                                                          (("1"
+                                                                            (hide
+                                                                             -1
+                                                                             -10)
+                                                                            (("1"
+                                                                              (lemma
+                                                                               "instantiate_step_apply_ac_step_im_under")
+                                                                              (("1"
+                                                                                (inst
+                                                                                 -1
+                                                                                 "X"
+                                                                                 "Y"
+                                                                                 "unif_prb"
+                                                                                 "unif_prb2")
+                                                                                (("1"
+                                                                                  (assert)
+                                                                                  (("1"
+                                                                                    (replace
+                                                                                     -10
+                                                                                     :dir
+                                                                                     rl)
+                                                                                    (("1"
+                                                                                      (prop)
+                                                                                      (("1"
+                                                                                        (skolem
+                                                                                         -1
+                                                                                         "t3")
+                                                                                        (("1"
+                                                                                          (case
+                                                                                           "same_func?(t2, t3)")
+                                                                                          (("1"
+                                                                                            (prop)
+                                                                                            (("1"
+                                                                                              (lemma
+                                                                                               "instantiate_step_apply_ac_step_im_under2")
+                                                                                              (("1"
+                                                                                                (postpone)
+                                                                                                nil
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil)
+                                                                                           ("2"
+                                                                                            (postpone)
+                                                                                            nil
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil)
+                                                                                       ("2"
+                                                                                        (postpone)
+                                                                                        nil
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil)
+                                                                           ("2"
+                                                                            (postpone)
+                                                                            nil
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil)
+                                                                 ("3"
+                                                                  (postpone)
+                                                                  nil
+                                                                  nil)
+                                                                 ("4"
+                                                                  (postpone)
+                                                                  nil
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
                                         nil))
                                       nil))
                                     nil))

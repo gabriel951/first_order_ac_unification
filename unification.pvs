@@ -31,6 +31,8 @@ unif_prb: TYPE = list[unif_pair]
 unif_prb, unif_prb1, unif_prb2: VAR unif_prb
 lst_unif_prb: VAR list[unif_prb]
 
+    IMPORTING list_theory[unif_pair]
+
 % defines when a term is a member of a unification problem
 member(t, unif_prb): RECURSIVE bool =
    IF null?(unif_prb) THEN FALSE
@@ -59,6 +61,14 @@ vars(unif_prb): RECURSIVE finite_set[variable] =
     	     union(vars(unif_pair), vars(cdr(unif_prb)))
     ENDIF
 MEASURE unif_prb BY << 
+
+% variables of a list of unification problem
+vars(lst_unif_prb): RECURSIVE finite_set[variable] =
+    IF null?(lst_unif_prb) THEN emptyset
+    ELSE LET unif_prb = car(lst_unif_prb) IN
+    	     union(vars(unif_prb), vars(lst_unif_prb))
+    ENDIF
+MEASURE lst_unif_prb BY << 
 
 % subterms of a unification pair
 subterms(unif_pair): finite_set[term] =
@@ -139,12 +149,6 @@ all_ac_prb?(unif_prb): bool =
    member(unif_pair, unif_prb) IMPLIES ac_prb?(unif_pair)
 
 %%%%%%%%%%%%%%%%%% Theorems and Lemmas
-% vars
-vars_unif_prb: LEMMA
-   member(X, vars(unif_prb)) IFF
-   EXISTS t:
-      member(t, unif_prb) AND member(X, vars(t))
-
 % member
 member_unif_prb_equiv: LEMMA
    member(t, unif_prb) IFF
@@ -160,6 +164,18 @@ member_lst_unif_prb_equiv: LEMMA
    EXISTS unif_prb:
     member(t, unif_prb) AND member(unif_prb, lst_unif_prb)
 
+% vars
+vars_unif_prb: LEMMA
+   member(X, vars(unif_prb)) IFF
+   EXISTS t:
+      member(t, unif_prb) AND member(X, vars(t))
+
+vars_lst_vars_unif_prb: CONJECTURE
+   vars(unif_prb) = list2set(lst_vars(unif_prb))
+
+vars_lst_vars_flatten_lst_unif_prb: CONJECTURE
+   vars(lst_unif_prb) = list2set(lst_vars(flatten(lst_unif_prb)))
+
 % size
 size_app_unif_prb: LEMMA
     size(append(unif_prb1, unif_prb2)) = size(unif_prb1) + size(unif_prb2)
@@ -169,6 +185,11 @@ subterms_mem: LEMMA
     member(t, subterms(unif_prb)) IFF
     EXISTS unif_pair:
     	   member(t, subterms(unif_pair)) AND member(unif_pair, unif_prb) 
+
+subterms_mem_unif_prb: LEMMA
+    member(s, subterms(unif_prb)) IFF
+    EXISTS t:
+          member(s, subterms(t)) AND member(t, unif_prb)
 
 % unifies?
 unifies?_append: LEMMA

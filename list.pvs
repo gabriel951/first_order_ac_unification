@@ -41,7 +41,7 @@ pair: VAR [T, T]
 pair_lst: VAR [list[T], list[T]]
 lst_pair, lst_pair1, lst_pair2: VAR list[[T, T]]
 
-lst, lst1, lst2, new_lst1, new_lst2: VAR list[T]
+lst, lst1, lst2, lst3, new_lst1, new_lst2: VAR list[T]
 lst_of_lsts, lst_of_lsts1, lst_of_lsts2, matrix, matrix1, matrix2: VAR list[list[T]]
 fin_set, fin_set1, fin_set2: VAR finite_set[T]
 lst_of_fin_sets: VAR list[finite_set[T]]
@@ -61,8 +61,6 @@ lst_pos_nat: VAR list[posnat]
 equiv: TYPE = {R: PRED[[T, T]]| equivalence?(R)}
 equal?: VAR equiv
 
-% TODO: change the code, so that this functions are all ONLY in list_nat_theory
-% the lemmas of this theory are proved together with list_theory
 from_min2max(min, max): RECURSIVE list[nat] =
     IF min > max THEN null
     ELSIF min = max THEN cons(min, null) 
@@ -197,7 +195,6 @@ put_in_head(lst1, lst2): RECURSIVE list[list[T]] =
     	cons(cons(x, lst2), put_in_head(cdr(lst1), lst2))
    ENDIF
 MEASURE lst1 BY << 
-
 
 % returns a list [x, ..., x] of length n
 get_repeat_lst(x, n): RECURSIVE list[T] =
@@ -399,6 +396,9 @@ MEASURE lst1 BY <<
 same_count?(lst1, lst2, equal?): bool =
     FORALL x: count(x, lst1, equal?) = count(x, lst2, equal?)
 
+sublist?(lst1, lst2): bool =
+    EXISTS lst2, lst3: lst2 = append(lst2, append(lst1, lst3))
+
 
 %%%%%%%%%%%%%%%%%%%%% Theorems
 %% general properties
@@ -419,6 +419,9 @@ null_append_nat: LEMMA
 
 cdr_append: LEMMA
     NOT null?(lst1) IMPLIES cdr(append(lst1, lst2)) = append(cdr(lst1), lst2)
+
+lst2set_append_mem: LEMMA
+    member(x, list2set(append(lst1, lst2))) IFF (member(x, list2set(lst1)) OR member(x, list2set(lst2)))
 
 nth_append: LEMMA
     i < length(lst1) + length(lst2) IMPLIES
@@ -800,6 +803,9 @@ same_count?_get_lst_mul: LEMMA
 mem_lst2set: LEMMA
    member(x, lst) IMPLIES member(x, list2set[T](lst))
 
+mem_lst2set_2: LEMMA
+   member(x, list2set(lst)) IMPLIES member(x, lst) 
+
 is_fin_lst2set: LEMMA
    is_finite(list2set(lst_of_fin_sets))
 
@@ -826,7 +832,7 @@ BEGIN
     lst_pair, lst_pair1, lst_pair2: VAR list[[T1, T2]]
     pair: VAR [T1, T2]
     f: VAR [[T1, T2] -> T1]
-    x: VAR T1
+    x, x1: VAR T1
     y: VAR T2
     n: VAR nat
     
@@ -859,6 +865,11 @@ first_proj_nth_mem: LEMMA
 first_proj_is_map: LEMMA
    EXISTS f:
         FORALL lst_pair:  first_proj(lst_pair) = map(f)(lst_pair)
+
+first_proj_mem: CONJECTURE
+   member(x, first_proj(lst_pair)) IFF
+   EXISTS pair:
+      member(pair, lst_pair) AND x = pair`1
 
 END list_theory2
   
@@ -927,7 +938,6 @@ func_flatten_map: LEMMA
 func_flatten_map2: LEMMA
     (f_lst2(null) = null AND FORALL l1, l2: f_lst2(append(l1, l2)) = append(f_lst2(l1), f_lst2(l2))) IMPLIES
     f_lst2(flatten(lst_of_lsts)) = flatten(map(f_lst2)(lst_of_lsts))
-
 
 END map_theory
 

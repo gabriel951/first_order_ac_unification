@@ -97,10 +97,12 @@ func?(t): bool =
     ELSE FALSE
     ENDIF 
 
-% test if t1 and t2 are functions that are not headed by the same symbol 
+% test if t and s are functions that are not headed by the same symbol 
 dif_func?(t, s): bool = 
     func?(t) AND func?(s) AND sym(t) /= sym(s)
 
+same_func?(t, s): bool = 
+    func?(t) AND func?(s) AND sym(t) = sym(s) 
 
 % get the number of arguments of a term "t"
 % if it encounters an ac function whose root is "sym" it goes inside the function
@@ -551,6 +553,9 @@ vars_ac: LEMMA
    pair?(t) IMPLIES
    (member(X, vars(ac_app(f, t))) IFF member(X, vars(t)))
 
+vars_lst_vars: CONJECTURE 
+   vars(t) = list2set(lst_vars(t))
+
 % all_var
 all_var?_append: LEMMA
     all_var?(append(args1, args2)) = (all_var?(args1) AND all_var?(args2))
@@ -605,7 +610,7 @@ not_var_args_nth2: LEMMA
     nth(not_var_args(f)(t), i) = nth(get_args(f)(t), j) 
 
 
-% subterms
+% subterms and prop subterms
 subterm_fin_set: LEMMA
    member(s, subterms(fin_set_t)) IFF
    EXISTS t:
@@ -633,4 +638,16 @@ prop_subterm_size: LEMMA
 vars_prop_subterm: LEMMA
    (member(X, vars(s)) AND member(s, prop_subterms(t))) IMPLIES member(X, vars(t))
 
+var_flatten_pair_implies_var: LEMMA
+   member(variable(X), list2set(flatten_pair(t))) IMPLIES member(X, vars(t))
+
+im_under_var: LEMMA
+   im_under?(X, t) IMPLIES member(X, vars(t))
+
+im_under_not_pair: LEMMA
+   im_under?(X, t) IMPLIES NOT pair?(t)
+
+im_under_implies_func: LEMMA
+   im_under?(X, t) IMPLIES func?(t)
+    
 END term_properties

@@ -25,9 +25,11 @@ ac_sol: TYPE = [unif_prb, list[variable]]
 % we can simplify an ac-solution and instantiate variables. Therefore, we define
 ac_sol_simp: TYPE = [sub, unif_prb, list[variable]]
 
-	IMPORTING list_theory[ac_sol]
+	IMPORTING list_theory[ac_sol], map_theory[dio_matrix, ac_sol]
 
 sigma, sigma2, gamma: VAR sub
+
+X, Y: VAR variable
 
 unif_pair: VAR unif_pair
 unif_prb, unif_prb1, unif_prb2, seen_unif_prb, unseen_unif_prb: VAR unif_prb
@@ -201,7 +203,6 @@ solve_ac(t1, t2, vars2avoid, sym): list[ac_sol] =
 %    for every diophantine submatrix obtain the corresponding unification solution
      results = map(dio_matrix2ac_sol(args, vars2avoid, sym))(submatrix_sol_lst) 
      IN results
-
 
 % apply the ac-step to a list of unification problems
 % "unif_prb" - unification problems we still have to apply the ac-step
@@ -450,6 +451,7 @@ solve_ac_soundness: LEMMA
     are_ac?(t1, t2, f) AND unifies?(sigma, unif_prb)
     IMPLIES unifies?(sigma, (t1, t2))
 
+
 % choose not ac 
 choose_not_ac_seen: LEMMA
    member(unif_pair, seen_unif_prb) IMPLIES member(unif_pair, choose_not_ac(seen_unif_prb, unseen_unif_prb)`2)
@@ -505,6 +507,21 @@ apply_ac_step_mem: LEMMA
         member(t, unif_prb) AND member(s, unif_prb) AND 
         member(t1, first_proj(solve_ac(t, s, vars2avoid, f))))
      OR member(t1, ac_results_so_far)
+
+apply_ac_step_mem2: CONJECTURE
+    member(t1, apply_ac_step(unif_prb)(ac_results_so_far))
+    AND all_ac_prb?(unif_prb) IMPLIES
+    (EXISTS t, s, vars2avoid, f:
+        member(t, unif_prb) AND member(s, unif_prb) AND
+	are_ac?(t, s, f) AND member(t1, first_proj(solve_ac(t, s, vars2avoid, f)))
+	AND subset?(union(vars(unif_prb), vars(ac_results_so_far)), vars2avoid))
+     OR member(t1, ac_results_so_far)
+
+apply_ac_step_new_var: CONJECTURE
+    member(unif_prb2, apply_ac_step(unif_prb)(null))
+    AND im_under?(Y, t) AND member(t, subterms(unif_prb2))
+    IMPLIES
+    member(t, subterms(unif_prb)) OR (NOT member(Y, vars(unif_prb)))
 
 % instantiate step
 instantiate_step_skip: LEMMA
@@ -574,5 +591,37 @@ instantiate_step1_mem: LEMMA
     member(t, instantiate_step(unif_prb, null, null)`1) IMPLIES 
     EXISTS s:
        NOT var?(s) AND member(s, unif_prb) AND t = subs(delta)(s)
+
+instantiate_step_mem: CONJECTURE
+    member((unif_prb, sigma), instantiate_step(lst_unif_prb)) IMPLIES
+    EXISTS unif_prb1:
+	 member(unif_prb1, lst_unif_prb) AND 
+         unif_prb = instantiate_step(unif_prb1, null, null)`1 AND
+	 sigma = instantiate_step(unif_prb1, null, null)`2
+	 
+instantiate_step_im_under_subterm: CONJECTURE
+    LET delta = instantiate_step(unif_prb, null, null)`2 IN
+    member(t, subterms(instantiate_step(unif_prb, null, null)`1)) AND
+    im_under?(X, t) IMPLIES 
+    EXISTS s: 
+       member(s, subterms(unif_prb)) AND same_func?(s, t) AND
+       ((im_under?(X, s)) OR
+          (EXISTS Y: X /= Y AND subs(delta)(Y) = variable(X) AND im_under?(Y, s)))
+
+instantiate_step_apply_ac_step_im_under: CONJECTURE
+    LET delta = instantiate_step(unif_prb2, null, null)`2 IN
+    member(X, dom(delta)) AND subs(delta)(X) = variable(Y)
+    AND member(unif_prb2, apply_ac_step(unif_prb)(null)) IMPLIES 
+    EXISTS t:
+    	   member(t, unif_prb) AND im_under?(Y, t)
+
+instantiate_step_apply_ac_step_vars_under2more: CONJECTURE
+    LET delta = instantiate_step(unif_prb2, null, null)`2 IN
+    member(unif_prb2, apply_ac_step(unif_prb)(null)) AND 
+    member(X, dom(delta)) AND subs(delta)(X) = variable(Y) AND 
+    member(t, unif_prb) AND member(s, subterms(unif_prb2)) AND 
+    im_under?(Y, t) AND im_under?(X, s) AND dif_func?(t, s)
+    IMPLIES EXISTS t1:
+        member(t1, unif_prb) AND im_under?(X, t1) AND same_func?(t, t1)
 
 END aux_unification 

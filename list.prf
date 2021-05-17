@@ -282,6 +282,27 @@
      ("4" (grind) nil nil))
     nil)
    nil SHOSTAK))
+ (lst2set_append_mem 0
+  (lst2set_append_mem-1 nil 3830008330
+   ("" (induct "lst1")
+    (("1" (grind) nil nil)
+     ("2" (skolem 1 ("hd" "tail"))
+      (("2" (prop) (("2" (skeep) (("2" (grind) nil nil)) nil)) nil))
+      nil))
+    nil)
+   ((add const-decl "(nonempty?)" sets nil)
+    (emptyset const-decl "set" sets nil)
+    (list_induction formula-decl nil list_adt nil)
+    (T formal-type-decl nil list_theory nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (append def-decl "list[T]" list_props nil)
+    (list2set def-decl "set[T]" list2set nil)
+    (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
+    (IFF const-decl "[bool, bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (list type-decl nil list_adt nil))
+   shostak))
  (nth_append_TCC1 0
   (nth_append_TCC1-1 nil 3805617232
    ("" (skeep) (("" (rewrite "length_append") nil nil)) nil) nil
@@ -1968,7 +1989,7 @@
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (equiv type-eq-decl nil list_theory nil)
     (equivalence? const-decl "bool" relations nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (wf_nat formula-decl nil naturalnumbers nil)
     (< const-decl "bool" reals nil)
@@ -6728,6 +6749,22 @@
    ("" (induct "lst") (("1" (grind) nil nil) ("2" (grind) nil nil))
     nil)
    nil shostak))
+ (mem_lst2set_2 0
+  (mem_lst2set_2-1 nil 3830008764
+   ("" (induct "lst") (("1" (grind) nil nil) ("2" (grind) nil nil))
+    nil)
+   ((add const-decl "(nonempty?)" sets nil)
+    (emptyset const-decl "set" sets nil)
+    (list_induction formula-decl nil list_adt nil)
+    (T formal-type-decl nil list_theory nil)
+    (member def-decl "bool" list_props nil)
+    (list2set def-decl "set[T]" list2set nil)
+    (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (list type-decl nil list_adt nil))
+   shostak))
  (is_fin_lst2set 0
   (is_fin_lst2set-1 nil 3819398855
    ("" (induct "lst_of_fin_sets")
