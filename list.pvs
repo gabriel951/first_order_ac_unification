@@ -111,6 +111,14 @@ cartesian_product(lst1, lst2): RECURSIVE list[[T, T]] =
     ENDIF 
 MEASURE lst1 BY <<  
 
+
+finset2list(fin_set): RECURSIVE list[T] = 
+   IF empty?(fin_set) THEN null
+   ELSE cons(choose(fin_set), finset2list(rest(fin_set)))
+   ENDIF
+MEASURE card(fin_set)
+
+% receives a finite set and returns the 
 % receives a list of lists of elements of type T. Outputs a list containing all these elements of type T
 % For example, if it receives [[1], [2,3], [4]] it outputs [1, 2, 3, 4]
 flatten(lst_of_lsts): RECURSIVE list[T] =
@@ -423,6 +431,9 @@ cdr_append: LEMMA
 lst2set_append_mem: LEMMA
     member(x, list2set(append(lst1, lst2))) IFF (member(x, list2set(lst1)) OR member(x, list2set(lst2)))
 
+lst2set_is_finite: LEMMA
+    is_finite(list2set(lst1))
+    
 nth_append: LEMMA
     i < length(lst1) + length(lst2) IMPLIES
     nth(append(lst1, lst2), i) =
@@ -433,7 +444,6 @@ nth_append: LEMMA
 equal_lst_nth: LEMMA 
     length(lst1) = length(lst2) AND (FORALL (n: below[length(lst1)]): nth(lst1, n) = nth(lst2, n))
     IMPLIES lst1 = lst2
-
 
 % a property about nth and member
 member_nth: LEMMA
@@ -465,6 +475,10 @@ cart_prod_aux_mem2: LEMMA
 cart_prod_mem: LEMMA
     (member(x, lst1) AND member(y, lst2)) = member((x, y), cartesian_product(lst1, lst2))
     
+% finset2list
+finset2list_mem: LEMMA
+    member(x, finset2list(fin_set)) IFF member(x, fin_set)
+
 % flatten
 null_flatten_nth: LEMMA
     i < length(lst_of_lsts) AND null?(flatten(lst_of_lsts)) IMPLIES
@@ -512,6 +526,8 @@ nth_from_min2max2: LEMMA
     n < length(from_min2max(1, j)) IMPLIES
     nth(from_min2max(1, j), n) = n + 1
     
+from_min2max_mem: LEMMA
+   i <= j IMPLIES (member(n, from_min2max(i, j)) IFF (i <= n AND n <= j))
 
 % increment, pos?
 increment_len: LEMMA
@@ -611,6 +627,12 @@ get_repeat_lst_count: LEMMA
     ELSE count(x, get_repeat_lst(y, n), equal?) = 0
     ENDIF
 
+% select_greater 
+select_greater_lt: LEMMA
+    member(n, lst_nat) IMPLIES n <= select_greater(lst_nat)
+
+select_greater_plus_one_not_mem: LEMMA
+    NOT member(1 + select_greater(lst_nat), lst_nat)
 
 % matrix
 matrix_append: LEMMA
@@ -829,8 +851,12 @@ END list_theory
 % differs from list theory since takes two types
 list_theory2 [T1, T2: TYPE]: THEORY
 BEGIN
+    IMPORTING list_theory[T1]
+
     lst_pair, lst_pair1, lst_pair2: VAR list[[T1, T2]]
+    lst_pair_: VAR list[[list[T1], T2]]
     pair: VAR [T1, T2]
+    pair_: VAR [list[T1], T2]
     f: VAR [[T1, T2] -> T1]
     x, x1: VAR T1
     y: VAR T2
@@ -848,6 +874,11 @@ first_proj(lst_pair): RECURSIVE list[T1] =
     ENDIF
 MEASURE lst_pair BY << 
 
+first_proj(lst_pair_): RECURSIVE list[list[T1]] = 
+    IF null?(lst_pair_) THEN null
+    ELSE cons(car(lst_pair_)`1, first_proj(cdr(lst_pair_)))
+    ENDIF
+MEASURE lst_pair_ BY << 
 
 % receives a list of the form [[x1, y1], ..., [xn, yn]]
 % returns [y1, ..., yn]
@@ -866,10 +897,15 @@ first_proj_is_map: LEMMA
    EXISTS f:
         FORALL lst_pair:  first_proj(lst_pair) = map(f)(lst_pair)
 
-first_proj_mem: CONJECTURE
+first_proj_mem: LEMMA
    member(x, first_proj(lst_pair)) IFF
    EXISTS pair:
       member(pair, lst_pair) AND x = pair`1
+
+first_proj_mem_flatten: LEMMA
+   member(x, flatten(first_proj(lst_pair_))) IFF 
+   EXISTS pair_:
+   member(pair_, lst_pair_) AND member(x, pair_`1)
 
 END list_theory2
   
@@ -957,7 +993,6 @@ n: VAR nat
 % an equivalence definition
 equiv: TYPE = {R: PRED[[T, T]]| equivalence?(R)}
 equal?: VAR equiv
-
 
 get_repeat_lst_map_count: LEMMA
     map(count(x, equal?))(get_repeat_lst(null, n)) = get_repeat_lst(0, n)

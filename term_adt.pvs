@@ -11,34 +11,13 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
 
   const?, var?, unit?, pair?, app?, ac_app?: [term -> boolean]
 
-  plain(x: term):  boolean =
-           const?(x) OR var?(x) OR unit?(x) OR app?(x) OR ac_app?(x);
-
-  plain: TYPE =
-        {x: term |
-                const?(x) OR var?(x) OR unit?(x) OR app?(x) OR ac_app?(x)}
-
-  pair(x: term):  boolean = pair?(x);
-
-  pair: TYPE = (pair?)
-
-  JUDGEMENT (const?) SUBTYPE_OF plain
-
-  JUDGEMENT (var?) SUBTYPE_OF plain
-
-  JUDGEMENT (unit?) SUBTYPE_OF plain
-
-  JUDGEMENT (app?) SUBTYPE_OF plain
-
-  JUDGEMENT (ac_app?) SUBTYPE_OF plain
-
   a: [(const?) -> constant]
 
   V: [(var?) -> variable]
 
-  term1: [pair -> term]
+  term1: [(pair?) -> term]
 
-  term2: [pair -> term]
+  term2: [(pair?) -> term]
 
   f_sym: [(app?) -> f_symbol]
 
@@ -46,7 +25,7 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
 
   ac_sym: [(ac_app?) -> ac_symbol]
 
-  ac_arg: [(ac_app?) -> pair]
+  ac_arg: [(ac_app?) -> term]
 
   const: [constant -> (const?)]
 
@@ -58,7 +37,7 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
 
   app: [[f_symbol, term] -> (app?)]
 
-  ac_app: [[ac_symbol, pair] -> (ac_app?)]
+  ac_app: [[ac_symbol, term] -> (ac_app?)]
 
   term_ord: [term -> upto(5)]
 
@@ -70,7 +49,7 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
             term_ord(pair(term1, term2)) = 3)
      AND (FORALL (f_sym: f_symbol, arg: term):
             term_ord(app(f_sym, arg)) = 4)
-     AND FORALL (ac_sym: ac_symbol, ac_arg: pair):
+     AND FORALL (ac_sym: ac_symbol, ac_arg: term):
            term_ord(ac_app(ac_sym, ac_arg)) = 5;
 
   ord(x: term): upto(5) =
@@ -139,11 +118,11 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
 
   term_term1_pair: AXIOM
     FORALL (pair1_var: term, pair2_var: term):
-      term1(pair(pair1_var, pair2_var):: (pair?)) = pair1_var;
+      term1(pair(pair1_var, pair2_var)) = pair1_var;
 
   term_term2_pair: AXIOM
     FORALL (pair1_var: term, pair2_var: term):
-      term2(pair(pair1_var, pair2_var):: (pair?)) = pair2_var;
+      term2(pair(pair1_var, pair2_var)) = pair2_var;
 
   term_f_sym_app: AXIOM
     FORALL (app1_var: f_symbol, app2_var: term):
@@ -154,11 +133,11 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
       arg(app(app1_var, app2_var)) = app2_var;
 
   term_ac_sym_ac_app: AXIOM
-    FORALL (ac_app1_var: ac_symbol, ac_app2_var: pair):
+    FORALL (ac_app1_var: ac_symbol, ac_app2_var: term):
       ac_sym(ac_app(ac_app1_var, ac_app2_var)) = ac_app1_var;
 
   term_ac_arg_ac_app: AXIOM
-    FORALL (ac_app1_var: ac_symbol, ac_app2_var: pair):
+    FORALL (ac_app1_var: ac_symbol, ac_app2_var: term):
       ac_arg(ac_app(ac_app1_var, ac_app2_var)) = ac_app2_var;
 
   term_inclusive: AXIOM
@@ -176,7 +155,7 @@ term_adt[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
                 p(pair(pair1_var, pair2_var)))
         AND (FORALL (app1_var: f_symbol, app2_var: term):
                p(app2_var) IMPLIES p(app(app1_var, app2_var)))
-        AND FORALL (ac_app1_var: ac_symbol, ac_app2_var: pair):
+        AND FORALL (ac_app1_var: ac_symbol, ac_app2_var: term):
               p(ac_app2_var) IMPLIES p(ac_app(ac_app1_var, ac_app2_var)))
        IMPLIES FORALL (term_var: term): p(term_var);
 
@@ -382,8 +361,7 @@ term_adt_map[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
   map(f1: [constant -> constant1], f2: [variable -> variable1],
       f3: [f_symbol -> f_symbol1], f4: [ac_symbol -> ac_symbol1])
      (a1: term[constant, variable, f_symbol, ac_symbol]):
-        {x: term[constant1, variable1, f_symbol1, ac_symbol1] |
-           (pair?(a1) => pair?(x))} =
+        term[constant1, variable1, f_symbol1, ac_symbol1] =
       CASES a1
         OF const(const1_var): const(f1(const1_var)),
            variable(variable1_var): variable(f2(variable1_var)),
@@ -400,8 +378,7 @@ term_adt_map[constant: TYPE, variable: TYPE+, f_symbol: TYPE,
   map(f1: [constant -> constant1], f2: [variable -> variable1],
       f3: [f_symbol -> f_symbol1], f4: [ac_symbol -> ac_symbol1],
       a1: term[constant, variable, f_symbol, ac_symbol]):
-        {x: term[constant1, variable1, f_symbol1, ac_symbol1] |
-           (pair?(a1) => pair?(x))} =
+        term[constant1, variable1, f_symbol1, ac_symbol1] =
       CASES a1
         OF const(const1_var): const(f1(const1_var)),
            variable(variable1_var): variable(f2(variable1_var)),

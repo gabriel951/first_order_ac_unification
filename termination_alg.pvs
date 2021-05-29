@@ -32,6 +32,7 @@ fin_set_t: VAR finite_set[term]
 
 sigma, delta: VAR sub
 vars2avoid: VAR list[variable]
+set_vars2avoid: VAR finite_set[variable]
 
 X, Y: VAR variable
 
@@ -291,7 +292,6 @@ vars_not_ac_var_inst_step: LEMMA
 			vars_not_ac(first_proj(unif_prb1))), 
 	    	  vars_not_ac(unif_prb2)))
 
-
 inst_step_vars_not_ac_var_sub_unif_prb2: LEMMA
     LET sigma = instantiate_step(unif_prb, unif_prb1, null)`2 IN 
     member(Y, vars_not_ac_var(img(sigma))) IMPLIES 
@@ -320,36 +320,36 @@ inst_step_vars_not_ac_mem: LEMMA
     EXISTS t:
         member(t, lst_unif_prb) AND NOT var?(t) AND member(Y, vars_not_ac(subs(sigma)(t)))
 
-inst_step_vars_not_ac_var_mem: LEMMA
+inst_step_vars_not_ac_var_mem: CONJECTURE
     member(X, vars_not_ac_var(t)) AND all_ac_prb?(unif_prb) AND
-    member(t, apply_ac_step(unif_prb)(lst_unif_prb)) IMPLIES
+    member(t, apply_ac_step(unif_prb, vars2avoid)(lst_unif_prb)`1) IMPLIES
     member(X, vars_not_ac(unif_prb)) OR member(X, vars_not_ac_var(lst_unif_prb))
 
 not_vars_under2more_inst_step: CONJECTURE
-    member(unif_prb1, apply_ac_step(unif_prb)(null)) AND 
+    member(unif_prb1, apply_ac_step(unif_prb, vars2avoid)(null)`1) AND 
     member(X, vars(unif_prb1)) AND NOT member(X, vars(unif_prb))
     IMPLIES 
     NOT member(X, vars_under2more(instantiate_step(unif_prb1, null, null)`1))
 
 % 1/3
-inst_step_vars_not_ac: LEMMA
+inst_step_vars_not_ac: CONJECTURE
     all_ac_prb?(unif_prb) AND 
-    member((unif_prb1, sigma), instantiate_step(apply_ac_step(unif_prb)(null)))
+    member((unif_prb1, sigma), instantiate_step(apply_ac_step(unif_prb, set_vars2avoid)(null)`1))
     IMPLIES card(vars_not_ac(unif_prb1)) <= card(vars_not_ac(unif_prb))
 
 % TODO: current
 % 2/3
-apply_ac_step_vars_under2more: CONJECTURE 
-    all_ac_prb?(unif_prb) AND 
-    member((unif_prb1, sigma), instantiate_step(apply_ac_step(unif_prb)(null)))
-    IMPLIES card(vars_under2more(unif_prb1)) <= card(vars_under2more(unif_prb))
+%apply_ac_step_vars_under2more: CONJECTURE 
+%    all_ac_prb?(unif_prb) AND 
+%    member((unif_prb1, sigma), instantiate_step(apply_ac_step(unif_prb)(null)))
+%    IMPLIES card(vars_under2more(unif_prb1)) <= card(vars_under2more(unif_prb))
 
 % 3/3 - 
-apply_ac_step_adm_subterms: CONJECTURE
-    all_ac_prb?(unif_prb) AND NOT null?(unif_prb1) AND 
-    member(unif_prb1, first_proj(instantiate_step(apply_ac_step(unif_prb)(null))))
-    AND vars_under2more(unif_prb1) = vars_under2more(unif_prb)
-    IMPLIES
-    card(admissible_subterms(unif_prb1)) < card(admissible_subterms(unif_prb))
+%apply_ac_step_adm_subterms: CONJECTURE
+%    all_ac_prb?(unif_prb) AND NOT null?(unif_prb1) AND 
+%    member(unif_prb1, first_proj(instantiate_step(apply_ac_step(unif_prb)(null))))
+%    AND vars_under2more(unif_prb1) = vars_under2more(unif_prb)
+%    IMPLIES
+%    card(admissible_subterms(unif_prb1)) < card(admissible_subterms(unif_prb))
 
 END termination_alg

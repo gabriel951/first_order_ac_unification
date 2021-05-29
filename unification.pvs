@@ -66,7 +66,7 @@ MEASURE unif_prb BY <<
 vars(lst_unif_prb): RECURSIVE finite_set[variable] =
     IF null?(lst_unif_prb) THEN emptyset
     ELSE LET unif_prb = car(lst_unif_prb) IN
-    	     union(vars(unif_prb), vars(lst_unif_prb))
+    	     union(vars(unif_prb), vars(cdr(lst_unif_prb)))
     ENDIF
 MEASURE lst_unif_prb BY << 
 
@@ -170,10 +170,13 @@ vars_unif_prb: LEMMA
    EXISTS t:
       member(t, unif_prb) AND member(X, vars(t))
 
-vars_lst_vars_unif_prb: CONJECTURE
+lst_vars_append: LEMMA
+   lst_vars(append(unif_prb, unif_prb1)) = append(lst_vars(unif_prb), lst_vars(unif_prb1))
+
+vars_lst_vars_unif_prb: LEMMA
    vars(unif_prb) = list2set(lst_vars(unif_prb))
 
-vars_lst_vars_flatten_lst_unif_prb: CONJECTURE
+vars_lst_vars_flatten_lst_unif_prb: LEMMA
    vars(lst_unif_prb) = list2set(lst_vars(flatten(lst_unif_prb)))
 
 % size

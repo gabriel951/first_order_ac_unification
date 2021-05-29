@@ -17,12 +17,12 @@ BEGIN
 	IMPORTING aux_unification, list_theory[sub], termination_alg
 
 sigma, sigma1, delta: VAR sub
-%vars2avoid: VAR list[variable]
+vars2avoid: VAR finite_set[variable]
 unif_prb: VAR unif_prb
 id: VAR sub
 
 % the AC-unification algorithm 
-unify(unif_prb, sigma): RECURSIVE list[sub] =
+unify(unif_prb, sigma, vars2avoid): RECURSIVE list[sub] =
   IF null?(unif_prb) THEN cons(sigma, null)
   ELSE LET
      (unif_pair, unif_prb1) = choose_unif_pair(unif_prb), 
@@ -31,11 +31,11 @@ unify(unif_prb, sigma): RECURSIVE list[sub] =
      	sigma1 = cons((V(s), t), null), 
 	new_sigma = append(sigma1, sigma), 
 	new_unif_prb = apply_sub(sigma1, unif_prb1) IN
-	unify(new_unif_prb, new_sigma) 
+	unify(new_unif_prb, new_sigma, vars2avoid) 
 
      ELSE CASES t OF
         const(a):
-	  IF s = const(a) THEN unify(unif_prb1,  sigma)
+	  IF s = const(a) THEN unify(unif_prb1, sigma, vars2avoid)
 	  ELSE null
 	  ENDIF,
 
@@ -44,13 +44,13 @@ unify(unif_prb, sigma): RECURSIVE list[sub] =
 	    sigma1 = cons((X, s), null), 
 	    new_sigma = append(sigma1, sigma), 
 	    new_unif_prb = apply_sub(sigma1, unif_prb1) IN
-	    unify(new_unif_prb, new_sigma)
+	    unify(new_unif_prb, new_sigma, vars2avoid)
 	  ELSIF s = variable(X) THEN LET id = null IN cons(id, null) 
 	  ELSE null
 	  ENDIF,
 
 	unit:
-	  IF s = unit THEN unify(unif_prb1, sigma)  
+	  IF s = unit THEN unify(unif_prb1, sigma, vars2avoid)  
 	  ELSE null 
 	  ENDIF,
 
@@ -59,21 +59,22 @@ unify(unif_prb, sigma): RECURSIVE list[sub] =
 	  ELSE LET
 	       unif_pair1 = (t1, term1(s)), unif_pair2 = (t2, term2(s)), 
 	       new_unif_prb = cons(unif_pair, cons(unif_pair2, unif_prb1)) IN
-	       unify(new_unif_prb, sigma) 
+	       unify(new_unif_prb, sigma, vars2avoid) 
 	  ENDIF,
 
 	app(f, arg):
 	  IF NOT app?(s) OR f /= f_sym(s) THEN null 
 	  ELSE LET new_unif_pair = (arg, arg(s)),
 	       	   new_unif_prb = cons(new_unif_pair, unif_prb1) IN
-		   unify(new_unif_prb, sigma)
+		   unify(new_unif_prb, sigma, vars2avoid)
 	  ENDIF,
 
 	ac_app(f, ac_arg):
 	  IF NOT ac_app?(s) OR f /= ac_sym(s) THEN null
-	  ELSE LET lst_unif_prb = apply_ac_step(unif_prb)(null), 
+	  ELSE LET (lst_unif_prb, new_vars2avoid) = apply_ac_step(unif_prb, vars2avoid)(null), 
 	  lst_unif_prb_and_subs = instantiate_step(lst_unif_prb),
-	  lst_results = map(unify)(lst_unif_prb_and_subs) IN 
+	  lst_new_input = add_vars2avoid(lst_unif_prb_and_subs, new_vars2avoid),
+	  lst_results = map(unify)(lst_new_input) IN 
 	  flatten(lst_results) 
 	  ENDIF
         ENDCASES
@@ -83,63 +84,14 @@ MEASURE lex4(card(vars_not_ac(unif_prb)), card(vars_under2more(unif_prb)),
 	card(admissible_subterms(unif_prb)), size(unif_prb))
 
 % Theorem of Correctness
-unify_alg_correct: LEMMA
-    member(delta, unify(unif_prb, sigma)) IMPLIES 
-    unifies?(delta, unif_prb)
+%unify_alg_correct: CONJECTURE
+%    member(delta, unify(unif_prb, sigma, vars2avoid)) IMPLIES 
+%    unifies?(delta, unif_prb)
 
 % Theorem of Completeness
-unify_alg_complete: LEMMA
-    unifies?(delta, unif_prb) IMPLIES EXISTS sigma1:
-    member(sigma1, unify(unif_prb, sigma)) AND more_general?(sigma1, delta) 
-
-%unify(t, s): RECURSIVE list[sub] = 
-%    IF var?(s) AND (NOT member(V(s), t)) THEN LET
-%       sigma = cons((V(s), t), null)
-%       IN cons(sigma, null)
-%    ELSE CASES t OF
-%    	 const(a): IF s = const(a) THEN LET id = null IN cons(id, null) 
-%	 	   ELSE null 
-%		   ENDIF
-%
-%	 variable(X): IF NOT member(X, vars(s)) THEN LET
-%	 	         sigma = cons((X, s), null)
-%			 IN cons(sigma, null) 
-%		      ELSIF s = variable(X) THEN LET id = null IN cons(id, null) 
-%		      ELSE null
-%
-%	 unit: IF s = unit THEN LET id = null in cons(id, null)
-%	       ELSE null 
-%	       ENDIF
-%
-%	 pair(t1, t2): IF NOT pair?(s) THEN (::)
-%	 	       ELSE LET subs_lst = unify(t1, term1(s), vars2avoid), 
-%				input_lst = construct_input_lst_pair(subs_lst, t, s, vars2avoid), 
-%				lst_sol = map(unify, input_lst)
-%				IN flatten(lst_sol) 
-%		       ENDIF
-%		       
-%	 app(f, arg):  IF NOT app?(s) OR f /= f_sym(s) THEN null
-%	 	       ELSE unify(arg, args(s), vars2avoid) 
-%		       ENDIF 
-%
-%         ac_app(f, arg): IF NOT ac_app?(s) OR f /= ac_sym(s) THEN null
-%	 	   	 ELSE LET
-%			      % solve ac unification, obtaining a list of solutions
-%			      ac_sol_lst = solve_ac(t, s, vars2avoid, f) 
-%
-%			      % for every ac_solution, apply elimvar, instantiating the variables
-%			      % and simplifying the ac solutions
-%			      ac_sol_simp_lst = apply_elim_var(ac_sol_lst) 
-%
-%			      % then construct a list of the inputs to the algorithm
-%			      input_lst = construct_input_lst_ac(ac_sol_simp_lst, sigma)
-%
-%			      % call unify on every input
-%			      lst_sol = map(unify, input_lst) 
-%
-%			      IN flatten(lst_sol) 
-%    ENDIF
-
+%unify_alg_complete: CONJECTURE
+%    unifies?(delta, unif_prb) IMPLIES EXISTS sigma1:
+%    member(sigma1, unify(unif_prb, sigma, vars2avoid)) AND more_general?(sigma1, delta) 
 
 
 END unification_alg

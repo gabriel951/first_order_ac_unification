@@ -13,14 +13,14 @@
 
 % definition of a term
 % obs: the subtypes plain and pair are necessary to impose that AC-function symbols receive a pair as an argument
-term[constant:TYPE, variable:TYPE+, f_symbol:TYPE, ac_symbol:TYPE]: DATATYPE WITH SUBTYPES plain, pair
+term[constant:TYPE, variable:TYPE+, f_symbol:TYPE, ac_symbol:TYPE]: DATATYPE 
     BEGIN
-	const (a: constant): const?: plain
-	variable (V: variable): var?: plain
-	unit: unit?: plain
-	pair (term1: term, term2: term): pair?: pair
-	app (f_sym: f_symbol, arg: term): app?: plain
-	ac_app (ac_sym: ac_symbol, ac_arg: pair): ac_app?: plain
+	const (a: constant): const?
+	variable (V: variable): var?
+	unit: unit?
+	pair (term1: term, term2: term): pair?
+	app (f_sym: f_symbol, arg: term): app?
+	ac_app (ac_sym: ac_symbol, ac_arg: term): ac_app?
     END term
 
 
@@ -31,6 +31,7 @@ BEGIN
 % definition of variable, constant and syntactic and AC function symbols 
 variable: TYPE = nat
 constant: TYPE = nat
+
 f_symbol: TYPE = string
 ac_symbol: TYPE = string
 
@@ -42,7 +43,7 @@ sym, f: VAR string
 n, i, j: VAR nat
 lst_nat: VAR list[nat]
 
-t, s: VAR term
+t, s, t1: VAR term
 X: var variable
 
 fin_set_t: VAR finite_set[term]
@@ -50,6 +51,9 @@ fin_set_t: VAR finite_set[term]
 args: TYPE = list[term]
 args, args1, args2: VAR args
 lst_args: VAR list[args]
+
+lst_vars: VAR list[variable]
+lst_lst_vars: VAR list[list[variable]]
 
 % the size of a term 
 size(t): RECURSIVE nat =
@@ -143,7 +147,6 @@ delete(sym, t)(n): RECURSIVE term =
 	  ENDIF
        ENDIF
    ELSIF ac_app?(t) AND ac_sym(t) = sym THEN
-       % TODO: this can be simplified, if I want/can
        IF num_arg(sym, t) = 1 THEN unit
        ELSE ac_app(ac_sym(t), delete(sym, ac_arg(t))(n))
        ENDIF 
@@ -219,9 +222,9 @@ MEASURE lst_args BY <<
 %%%%%%%%%%%%%%%
 % options of a term:
 term_opt: LEMMA
-    t = const(a(t)) OR t = variable(V(t)) OR t = unit OR
-    t = pair(term1(t), term2(t)) OR t = app(f_sym(t), arg(t)) OR
-    t = ac_app(ac_sym(t), ac_arg(t)) 
+    (const?(t) AND t = const(a(t))) OR (var?(t) AND t = variable(V(t))) OR
+    t = unit OR (pair?(t) AND t = pair(term1(t), term2(t))) OR (app?(t) AND t = app(f_sym(t), arg(t)))
+    OR (ac_app?(t) AND t = ac_app(ac_sym(t), ac_arg(t)))
 
 % membership in a lst of arguments
 member_t_lst_args: LEMMA
@@ -266,7 +269,6 @@ ac_select_size: LEMMA
 % delete
 delete_size: LEMMA
     size(delete(f, t)(n)) <= size(t)
-
 
 num_arg_delete: LEMMA
     num_arg(f, delete(f, t)(n)) <= num_arg(f, t)
@@ -388,7 +390,7 @@ get_args_get_ac_from_args_all_var: LEMMA
     all_var?(args) AND NOT null?(args) IMPLIES
     get_args(f)(get_ac_from_args(f)(args)) = args
 
-remove_get_args_del: LEMMA 
+remove_get_args_del: LEMMA
     j < num_arg(f, t) AND num_arg(f, t) > 1 IMPLIES
     remove(get_args(f)(t), j) = get_args(f)(delete(f, t)(j+1))
     
@@ -403,7 +405,7 @@ map_get_args_get_ac_from_args: LEMMA
 
 
 %%% additional lemmas about variables of a term, subterms and proper subterms
-IMPORTING list_theory[variable], map_theory[term, variable]
+IMPORTING list_theory[variable], map_theory[term, variable], map_theory[term, term]
 
 % needed for some tccs
 subterms_aux_TCC: LEMMA every[number, number, f_symbol, ac_symbol]
@@ -424,7 +426,7 @@ vars(t): RECURSIVE finite_set[variable] =
 	app(sym, arg): vars(arg),
 	ac_app(sym, arg): Union(list2set(map(vars)(get_args(sym)(t))))
     ENDCASES
-MEASURE t BY << 
+MEASURE size(t)
        
 % variables of a finite set of terms
 vars(fin_set_t): RECURSIVE finite_set[variable] = 
@@ -433,12 +435,25 @@ vars(fin_set_t): RECURSIVE finite_set[variable] =
    ENDIF
 MEASURE card(fin_set_t)
 
-
 vars(args): RECURSIVE finite_set[variable] = 
    IF null?(args) THEN emptyset
    ELSE union(vars(car(args)), vars(cdr(args)))
    ENDIF
 MEASURE args BY << 
+
+vars(lst_args): RECURSIVE finite_set[variable] = 
+   IF null?(lst_args) THEN emptyset
+   ELSE union(vars(car(lst_args)), vars(cdr(lst_args)))
+   ENDIF
+MEASURE lst_args BY << 
+
+vars(lst_lst_vars): RECURSIVE finite_set[variable] = 
+   IF null?(lst_lst_vars) THEN emptyset
+   ELSE LET vars_car = list2set(car(lst_lst_vars)) IN
+   	    union(vars_car, vars(cdr(lst_lst_vars)))
+   ENDIF 
+MEASURE lst_lst_vars BY << 
+
 
 % list of variables of a term
 lst_vars(t): RECURSIVE list[variable] =
@@ -450,7 +465,7 @@ lst_vars(t): RECURSIVE list[variable] =
 	app(sym, arg): lst_vars(arg),
 	ac_app(sym, arg): flatten(map(lst_vars)(get_args(sym)(t)))
     ENDCASES
-MEASURE t BY << 
+MEASURE size(t)
 
 % select only the non-variable arguments 
 not_var_args(args): RECURSIVE args = 
@@ -543,17 +558,33 @@ vars_args: LEMMA
    EXISTS t:
       member(t, args) AND member(X, vars(t))
 
+vars_lst_args: LEMMA
+   member(X, vars(lst_args)) IFF
+   EXISTS args:
+      member(args, lst_args) AND member(X, vars(args))
+
+vars_lst_lst_vars: LEMMA
+   member(X, vars(lst_lst_vars)) IFF
+   EXISTS lst_vars:
+      member(X, lst_vars) AND member(lst_vars, lst_lst_vars)
+
 vars_map: LEMMA
    Union(list2set(map(vars)(args))) = vars(args)
 
 vars_get_args: LEMMA
    vars(get_args(f)(t)) = vars(t) 
 
+vars_get_ac_from_args: LEMMA
+   vars(get_ac_from_args(f)(args)) = vars(args)
+
 vars_ac: LEMMA
    pair?(t) IMPLIES
    (member(X, vars(ac_app(f, t))) IFF member(X, vars(t)))
 
-vars_lst_vars: CONJECTURE 
+vars_ac2: LEMMA
+   (member(X, vars(ac_app(f, t))) IFF member(X, vars(t)))
+
+vars_lst_vars: LEMMA
    vars(t) = list2set(lst_vars(t))
 
 % all_var
@@ -609,7 +640,6 @@ not_var_args_nth2: LEMMA
     j < length(get_args(f)(t)) AND
     nth(not_var_args(f)(t), i) = nth(get_args(f)(t), j) 
 
-
 % subterms and prop subterms
 subterm_fin_set: LEMMA
    member(s, subterms(fin_set_t)) IFF
@@ -631,7 +661,10 @@ vars_subterm: LEMMA
 subterm_size: LEMMA
    member(s, subterms(t)) IMPLIES size(s) <= size(t) 
 
-% TODO: reprove this, as I changed the def of prop_subterms
+subterm_transitive: LEMMA
+   member(s, subterms(t)) AND member(t, subterms(t1)) IMPLIES
+   member(s, subterms(t1))
+
 prop_subterm_size: LEMMA
     member(s, prop_subterms(t)) IMPLIES size(s) < size(t)
 

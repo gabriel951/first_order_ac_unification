@@ -398,9 +398,6 @@
      substitution nil)
     (vars_not_ac_apply_sub formula-decl nil termination_alg nil)
     (size def-decl "nat" unification nil)
-    (admissible_subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     termination_alg nil)
     (unif_prb type-eq-decl nil unification nil)
     (unif_pair type-eq-decl nil unification nil)
     (constant type-eq-decl nil term_properties nil)
@@ -410,7 +407,7 @@
     (variable type-eq-decl nil term_properties nil))
    nil
    (unify termination
-    "unification_alg.unify(unification_alg.new_unif_prb, unification_alg.new_sigma)"
+    "unification_alg.unify(unification_alg.new_unif_prb, unification_alg.new_sigma, unification_alg.vars2avoid)"
     "nil"))
   (unify_TCC1-2 "" 3822388628
    ("" (skeep)
@@ -808,9 +805,6 @@
      substitution nil)
     (vars_not_ac_apply_sub formula-decl nil termination_alg nil)
     (size def-decl "nat" unification nil)
-    (admissible_subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     termination_alg nil)
     (unif_prb type-eq-decl nil unification nil)
     (unif_pair type-eq-decl nil unification nil)
     (constant type-eq-decl nil term_properties nil)
@@ -820,11 +814,11 @@
     (variable type-eq-decl nil term_properties nil))
    shostak
    (unify termination
-    "unification_alg.unify(unification_alg.new_unif_prb, unification_alg.new_sigma)"
+    "unification_alg.unify(unification_alg.new_unif_prb, unification_alg.new_sigma, unification_alg.vars2avoid)"
     "nil"))
   (unify_TCC1-1 nil 3822387991 ("" (termination-tcc) nil nil) nil nil
    (unify termination
-    "unification_alg.unify(unification_alg.new_unif_prb, unification_alg.new_sigma)"
+    "unification_alg.unify(unification_alg.new_unif_prb, unification_alg.new_sigma, unification_alg.vars2avoid)"
     "nil")))
  (unify_TCC2 0
   (unify_TCC2-1 nil 3822387991
@@ -1835,20 +1829,13 @@
     (constant type-eq-decl nil term_properties nil)
     (unif_pair type-eq-decl nil unification nil)
     (unif_prb type-eq-decl nil unification nil)
-    (admissible_subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     termination_alg nil)
     (size def-decl "nat" unification nil)
     (subterms const-decl
      "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
      unification nil)
-    (subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     term_properties nil)
     (im_under def-decl
      "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
      term_properties nil)
-    (im_under? const-decl "bool" term_properties nil)
     (subterms_mem formula-decl nil unification nil)
     (admissible_subterms_mem formula-decl nil termination_alg nil)
     (choose_unif_size2 formula-decl nil aux_unification nil)
@@ -1859,27 +1846,27 @@
      nil))
    nil
    (unify termination
-    "unification_alg.unify(unification_alg.unif_prb1, unification_alg.sigma)"
+    "unification_alg.unify(unification_alg.unif_prb1, unification_alg.sigma, unification_alg.vars2avoid)"
     "nil")))
  (unify_TCC3 0
   (unify_TCC3-1 nil 3822387991 ("" (termination-tcc) nil nil) nil nil
    (unify termination
-    "unification_alg.unify(unification_alg.new_unif_prb, unification_alg.new_sigma)"
+    "unification_alg.unify(unification_alg.new_unif_prb, unification_alg.new_sigma, unification_alg.vars2avoid)"
     "nil")))
  (unify_TCC4 0
   (unify_TCC4-1 nil 3822387991 ("" (termination-tcc) nil nil) nil nil
    (unify termination
-    "unification_alg.unify(unification_alg.unif_prb1, unification_alg.sigma)"
+    "unification_alg.unify(unification_alg.unif_prb1, unification_alg.sigma, unification_alg.vars2avoid)"
     "nil")))
  (unify_TCC5 0
   (unify_TCC5-1 nil 3822387991 ("" (termination-tcc) nil nil) nil nil
    (unify termination
-    "unification_alg.unify(unification_alg.new_unif_prb, unification_alg.sigma)"
+    "unification_alg.unify(unification_alg.new_unif_prb, unification_alg.sigma, unification_alg.vars2avoid)"
     "nil")))
  (unify_TCC6 0
   (unify_TCC6-1 nil 3822387991 ("" (termination-tcc) nil nil) nil nil
    (unify termination
-    "unification_alg.unify(unification_alg.new_unif_prb, unification_alg.sigma)"
+    "unification_alg.unify(unification_alg.new_unif_prb, unification_alg.sigma, unification_alg.vars2avoid)"
     "nil")))
  (unify_TCC7 0
   (unify_TCC9-1 nil 3822387991
@@ -1889,228 +1876,152 @@
         (("" (skeep)
           (("" (skeep)
             (("" (hide 2)
-              ((""
-                (lemma "every_nth[[list[unif_pair], list[basic_sub]]]")
-                (("" (inst? -1)
-                  (("" (assert)
-                    (("" (hide 3)
-                      (("" (skeep)
-                        (("" (hide-all-but 1)
-                          ((""
-                            (name-replace "new_unif_prb"
-                             "nth(lst_unif_prb_and_subs, i)`1")
-                            (("" (lemma "lex4_lt")
+              (("" (skeep)
+                ((""
+                  (lemma
+                   "every_nth[[list[unif_pair], list[basic_sub], finite_set[variable]]]")
+                  (("" (inst? -1)
+                    (("" (assert)
+                      (("" (hide 3)
+                        (("" (skeep)
+                          (("" (hide-all-but 1)
+                            ((""
+                              (name-replace "new_unif_prb"
+                               "nth(lst_new_input, i)`1")
                               ((""
-                                (inst? -1)
+                                (lemma "lex4_lt")
                                 ((""
-                                  (assert)
+                                  (inst? -1)
                                   ((""
-                                    (hide 2)
+                                    (assert)
                                     ((""
-                                      (case
-                                       "card[variable](vars_not_ac(new_unif_prb)) <=
-         card[variable](vars_not_ac(unif_prb))")
-                                      (("1"
-                                        (assert)
+                                      (hide 2)
+                                      ((""
+                                        (case
+                                         "card[variable](vars_not_ac(new_unif_prb)) <= card[variable](vars_not_ac(unif_prb))")
                                         (("1"
-                                          (flatten)
+                                          (assert)
                                           (("1"
-                                            (assert)
+                                            (flatten)
                                             (("1"
-                                              (lemma "lex3_lt")
+                                              (assert)
                                               (("1"
-                                                (inst? -1)
-                                                (("1"
-                                                  (assert)
-                                                  (("1"
-                                                    (flatten)
-                                                    (("1"
-                                                      (hide 3 4)
-                                                      (("1"
-                                                        (assert)
+                                                (postpone)
+                                                nil
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (hide 2)
+                                          (("2"
+                                            (expand "new_unif_prb")
+                                            (("2"
+                                              (reveal -13)
+                                              (("2"
+                                                (typepred "i")
+                                                (("2"
+                                                  (reveal -12 -10)
+                                                  (("2"
+                                                    (lemma
+                                                     "add_vars2avoid_nth_1")
+                                                    (("2"
+                                                      (inst
+                                                       -1
+                                                       "i"
+                                                       "lst_unif_prb_and_subs"
+                                                       "new_vars2avoid")
+                                                      (("2"
+                                                        (prop)
                                                         (("1"
-                                                          (lemma
-                                                           "apply_ac_step_vars_under2more")
+                                                          (name-replace
+                                                           "unif_prb2"
+                                                           "nth(add_vars2avoid(lst_unif_prb_and_subs, new_vars2avoid), i)`1")
                                                           (("1"
-                                                            (inst
-                                                             -1
-                                                             "null"
-                                                             "unif_prb"
-                                                             "new_unif_prb")
+                                                            (name-replace
+                                                             "sigma"
+                                                             "nth(add_vars2avoid(lst_unif_prb_and_subs, new_vars2avoid), i)`2")
                                                             (("1"
-                                                              (case
-                                                               "all_ac_prb?(unif_prb)")
+                                                              (lemma
+                                                               "inst_step_vars_not_ac")
                                                               (("1"
-                                                                (assert)
+                                                                (inst?
+                                                                 -1)
                                                                 (("1"
-                                                                  (case
-                                                                   "member(new_unif_prb, first_proj(instantiate_step(apply_ac_step(unif_prb)(null))))")
+                                                                  (inst
+                                                                   -1
+                                                                   "vars2avoid"
+                                                                   "sigma")
                                                                   (("1"
-                                                                    (assert)
+                                                                    (prop)
                                                                     (("1"
-                                                                      (hide
-                                                                       -1
-                                                                       -2)
+                                                                      (lemma
+                                                                       "choose_unif_correct")
                                                                       (("1"
-                                                                        (lemma
-                                                                         "card_subset[variable]")
+                                                                        (inst?
+                                                                         -1)
                                                                         (("1"
-                                                                          (inst
-                                                                           -1
-                                                                           "vars_under2more(new_unif_prb)"
-                                                                           "_")
+                                                                          (assert)
                                                                           (("1"
-                                                                            (case
-                                                                             "card[variable](vars_under2more(new_unif_prb)) <=
-        card[variable](vars_under2more(unif_prb))")
+                                                                            (hide-all-but
+                                                                             1)
                                                                             (("1"
-                                                                              (assert)
+                                                                              (reveal
+                                                                               -11
+                                                                               -13
+                                                                               -14
+                                                                               -16
+                                                                               -17)
                                                                               (("1"
-                                                                                (hide
+                                                                                (replace
                                                                                  -1
-                                                                                 -2
-                                                                                 -3)
+                                                                                 :dir
+                                                                                 rl)
                                                                                 (("1"
-                                                                                  (lemma
-                                                                                   "lex2_lt")
+                                                                                  (expand
+                                                                                   "ac_prb?"
+                                                                                   1)
                                                                                   (("1"
-                                                                                    (inst?
-                                                                                     -1)
+                                                                                    (replace
+                                                                                     -2
+                                                                                     :dir
+                                                                                     rl)
                                                                                     (("1"
-                                                                                      (assert)
+                                                                                      (replace
+                                                                                       -3
+                                                                                       :dir
+                                                                                       rl)
                                                                                       (("1"
-                                                                                        (hide
-                                                                                         3)
+                                                                                        (reveal
+                                                                                         -15)
                                                                                         (("1"
-                                                                                          (hide
-                                                                                           2)
+                                                                                          (lemma
+                                                                                           "term_ac_app_eta")
                                                                                           (("1"
-                                                                                            (lemma
-                                                                                             "apply_ac_step_adm_subterms")
+                                                                                            (inst
+                                                                                             -1
+                                                                                             "t")
                                                                                             (("1"
-                                                                                              (inst
-                                                                                               -1
-                                                                                               "unif_prb"
-                                                                                               "new_unif_prb")
+                                                                                              (assert)
                                                                                               (("1"
-                                                                                                (assert)
+                                                                                                (case
+                                                                                                 "f = ac_sym(t)")
                                                                                                 (("1"
-                                                                                                  (flatten)
-                                                                                                  (("1"
-                                                                                                    (split
-                                                                                                     -1)
-                                                                                                    (("1"
-                                                                                                      (propax)
-                                                                                                      nil
-                                                                                                      nil)
-                                                                                                     ("2"
+                                                                                                  (assert)
+                                                                                                  nil
+                                                                                                  nil)
+                                                                                                 ("2"
+                                                                                                  (hide-all-but
+                                                                                                   (-2
+                                                                                                    -1
+                                                                                                    1))
+                                                                                                  (("2"
+                                                                                                    (replace
+                                                                                                     -2
+                                                                                                     1)
+                                                                                                    (("2"
                                                                                                       (assert)
-                                                                                                      (("2"
-                                                                                                        (case
-                                                                                                         "card(admissible_subterms(new_unif_prb)) <= card(admissible_subterms(unif_prb))")
-                                                                                                        (("1"
-                                                                                                          (assert)
-                                                                                                          (("1"
-                                                                                                            (expand
-                                                                                                             "size"
-                                                                                                             2
-                                                                                                             1)
-                                                                                                            (("1"
-                                                                                                              (reveal
-                                                                                                               6)
-                                                                                                              (("1"
-                                                                                                                (hide
-                                                                                                                 -1
-                                                                                                                 -2
-                                                                                                                 -3
-                                                                                                                 2)
-                                                                                                                (("1"
-                                                                                                                  (lemma
-                                                                                                                   "size_ge1")
-                                                                                                                  (("1"
-                                                                                                                    (grind)
-                                                                                                                    nil
-                                                                                                                    nil))
-                                                                                                                  nil))
-                                                                                                                nil))
-                                                                                                              nil))
-                                                                                                            nil))
-                                                                                                          nil)
-                                                                                                         ("2"
-                                                                                                          (case
-                                                                                                           "new_unif_prb = null")
-                                                                                                          (("1"
-                                                                                                            (replace
-                                                                                                             -1
-                                                                                                             1)
-                                                                                                            (("1"
-                                                                                                              (lemma
-                                                                                                               "admissible_subterms_null")
-                                                                                                              (("1"
-                                                                                                                (replace
-                                                                                                                 -1
-                                                                                                                 1)
-                                                                                                                (("1"
-                                                                                                                  (rewrite
-                                                                                                                   "card_emptyset")
-                                                                                                                  (("1"
-                                                                                                                    (grind)
-                                                                                                                    nil
-                                                                                                                    nil))
-                                                                                                                  nil))
-                                                                                                                nil))
-                                                                                                              nil))
-                                                                                                            nil)
-                                                                                                           ("2"
-                                                                                                            (assert)
-                                                                                                            nil
-                                                                                                            nil))
-                                                                                                          nil))
-                                                                                                        nil))
-                                                                                                      nil)
-                                                                                                     ("3"
-                                                                                                      (hide
-                                                                                                       2
-                                                                                                       3)
-                                                                                                      (("3"
-                                                                                                        (hide
-                                                                                                         -1)
-                                                                                                        (("3"
-                                                                                                          (reveal
-                                                                                                           -6
-                                                                                                           3)
-                                                                                                          (("3"
-                                                                                                            (rewrite
-                                                                                                             "vars_under2more_null")
-                                                                                                            (("3"
-                                                                                                              (rewrite
-                                                                                                               "union_empty")
-                                                                                                              (("3"
-                                                                                                                (case
-                                                                                                                 "strict_subset?(vars_under2more(new_unif_prb), vars_under2more(unif_prb))")
-                                                                                                                (("1"
-                                                                                                                  (hide
-                                                                                                                   -2)
-                                                                                                                  (("1"
-                                                                                                                    (rewrite
-                                                                                                                     "card_strict_subset")
-                                                                                                                    nil
-                                                                                                                    nil))
-                                                                                                                  nil)
-                                                                                                                 ("2"
-                                                                                                                  (expand
-                                                                                                                   "strict_subset?"
-                                                                                                                   1)
-                                                                                                                  (("2"
-                                                                                                                    (assert)
-                                                                                                                    nil
-                                                                                                                    nil))
-                                                                                                                  nil))
-                                                                                                                nil))
-                                                                                                              nil))
-                                                                                                            nil))
-                                                                                                          nil))
-                                                                                                        nil))
+                                                                                                      nil
                                                                                                       nil))
                                                                                                     nil))
                                                                                                   nil))
@@ -2123,224 +2034,34 @@
                                                                                     nil))
                                                                                   nil))
                                                                                 nil))
-                                                                              nil)
-                                                                             ("2"
-                                                                              (hide
-                                                                               2
-                                                                               3)
-                                                                              (("2"
-                                                                                (lemma
-                                                                                 "vars_under2more_null")
-                                                                                (("2"
-                                                                                  (replace
-                                                                                   -1
-                                                                                   -3)
-                                                                                  (("2"
-                                                                                    (rewrite
-                                                                                     "union_empty")
-                                                                                    (("2"
-                                                                                      (inst
-                                                                                       -2
-                                                                                       "vars_under2more(unif_prb)")
-                                                                                      (("2"
-                                                                                        (assert)
-                                                                                        nil
-                                                                                        nil))
-                                                                                      nil))
-                                                                                    nil))
-                                                                                  nil))
-                                                                                nil))
                                                                               nil))
                                                                             nil))
                                                                           nil))
                                                                         nil))
-                                                                      nil))
-                                                                    nil)
-                                                                   ("2"
-                                                                    (hide
-                                                                     2
-                                                                     3
-                                                                     -2)
-                                                                    (("2"
+                                                                      nil)
+                                                                     ("2"
                                                                       (expand
-                                                                       "new_unif_prb")
+                                                                       "unif_prb2")
                                                                       (("2"
-                                                                        (reveal
-                                                                         -14
-                                                                         -13)
+                                                                        (replace
+                                                                         -5
+                                                                         -1
+                                                                         :dir
+                                                                         rl)
                                                                         (("2"
                                                                           (replace
                                                                            -2
-                                                                           -4)
+                                                                           :dir
+                                                                           rl)
                                                                           (("2"
                                                                             (replace
-                                                                             -1
-                                                                             -4)
+                                                                             -3
+                                                                             :dir
+                                                                             rl)
                                                                             (("2"
-                                                                              (replace
-                                                                               -2
-                                                                               1)
-                                                                              (("2"
-                                                                                (replace
-                                                                                 -1
-                                                                                 1)
-                                                                                (("2"
-                                                                                  (hide
-                                                                                   -1
-                                                                                   -2)
-                                                                                  (("2"
-                                                                                    (lemma
-                                                                                     "first_proj_nth_mem[unif_prb, sub]")
-                                                                                    (("2"
-                                                                                      (inst?
-                                                                                       -1)
-                                                                                      (("2"
-                                                                                        (assert)
-                                                                                        nil
-                                                                                        nil))
-                                                                                      nil))
-                                                                                    nil))
-                                                                                  nil))
-                                                                                nil))
+                                                                              (propax)
+                                                                              nil
                                                                               nil))
-                                                                            nil))
-                                                                          nil))
-                                                                        nil))
-                                                                      nil))
-                                                                    nil))
-                                                                  nil))
-                                                                nil)
-                                                               ("2"
-                                                                (hide
-                                                                 -1
-                                                                 -2
-                                                                 2
-                                                                 3)
-                                                                (("2"
-                                                                  (lemma
-                                                                   "choose_unif_correct")
-                                                                  (("2"
-                                                                    (inst?
-                                                                     -1)
-                                                                    (("2"
-                                                                      (assert)
-                                                                      (("2"
-                                                                        (hide
-                                                                         2)
-                                                                        (("2"
-                                                                          (reveal
-                                                                           -10
-                                                                           -11
-                                                                           -12
-                                                                           -13
-                                                                           -14)
-                                                                          (("2"
-                                                                            (reveal
-                                                                             -8)
-                                                                            (("2"
-                                                                              (replace
-                                                                               -1
-                                                                               :dir
-                                                                               rl)
-                                                                              (("2"
-                                                                                (hide
-                                                                                 -1)
-                                                                                (("2"
-                                                                                  (lemma
-                                                                                   "term_ac_app_eta")
-                                                                                  (("2"
-                                                                                    (inst
-                                                                                     -1
-                                                                                     "t")
-                                                                                    (("2"
-                                                                                      (grind)
-                                                                                      nil
-                                                                                      nil))
-                                                                                    nil))
-                                                                                  nil))
-                                                                                nil))
-                                                                              nil))
-                                                                            nil))
-                                                                          nil))
-                                                                        nil))
-                                                                      nil))
-                                                                    nil))
-                                                                  nil))
-                                                                nil))
-                                                              nil))
-                                                            nil))
-                                                          nil))
-                                                        nil))
-                                                      nil))
-                                                    nil))
-                                                  nil))
-                                                nil))
-                                              nil))
-                                            nil))
-                                          nil))
-                                        nil)
-                                       ("2"
-                                        (hide 2)
-                                        (("2"
-                                          (expand "new_unif_prb")
-                                          (("2"
-                                            (reveal -10 -11)
-                                            (("2"
-                                              (replace -2)
-                                              (("2"
-                                                (replace -1)
-                                                (("2"
-                                                  (lemma
-                                                   "inst_step_vars_not_ac")
-                                                  (("2"
-                                                    (inst? -1)
-                                                    (("2"
-                                                      (inst
-                                                       -1
-                                                       "new_unif_prb")
-                                                      (("2"
-                                                        (prop)
-                                                        (("1"
-                                                          (reveal
-                                                           -4
-                                                           -12
-                                                           -13)
-                                                          (("1"
-                                                            (replace
-                                                             -2
-                                                             -3)
-                                                            (("1"
-                                                              (replace
-                                                               -3
-                                                               1
-                                                               :dir
-                                                               rl)
-                                                              (("1"
-                                                                (replace
-                                                                 -1
-                                                                 1)
-                                                                (("1"
-                                                                  (hide
-                                                                   -5
-                                                                   -6
-                                                                   -1)
-                                                                  (("1"
-                                                                    (expand
-                                                                     "vars_not_ac"
-                                                                     -3
-                                                                     3)
-                                                                    (("1"
-                                                                      (rewrite
-                                                                       "union_empty")
-                                                                      (("1"
-                                                                        (lemma
-                                                                         "card_subset[variable]")
-                                                                        (("1"
-                                                                          (inst?
-                                                                           -1)
-                                                                          (("1"
-                                                                            (assert)
-                                                                            nil
                                                                             nil))
                                                                           nil))
                                                                         nil))
@@ -2352,111 +2073,11 @@
                                                             nil))
                                                           nil)
                                                          ("2"
-                                                          (lemma
-                                                           "choose_unif_correct")
+                                                          (replace -4)
                                                           (("2"
-                                                            (inst? -1)
-                                                            (("2"
-                                                              (assert)
-                                                              (("2"
-                                                                (reveal
-                                                                 -10
-                                                                 -11)
-                                                                (("2"
-                                                                  (reveal
-                                                                   -6
-                                                                   -8
-                                                                   -9)
-                                                                  (("2"
-                                                                    (replace
-                                                                     -1
-                                                                     1
-                                                                     :dir
-                                                                     rl)
-                                                                    (("2"
-                                                                      (expand
-                                                                       "ac_prb?"
-                                                                       1)
-                                                                      (("2"
-                                                                        (reveal
-                                                                         -12)
-                                                                        (("2"
-                                                                          (hide
-                                                                           2
-                                                                           3)
-                                                                          (("2"
-                                                                            (replace
-                                                                             -3
-                                                                             :dir
-                                                                             rl)
-                                                                            (("2"
-                                                                              (replace
-                                                                               -4
-                                                                               :dir
-                                                                               rl)
-                                                                              (("2"
-                                                                                (assert)
-                                                                                (("2"
-                                                                                  (lemma
-                                                                                   "term_ac_app_eta")
-                                                                                  (("2"
-                                                                                    (inst
-                                                                                     -1
-                                                                                     "t")
-                                                                                    (("2"
-                                                                                      (assert)
-                                                                                      (("2"
-                                                                                        (hide
-                                                                                         -8
-                                                                                         -9)
-                                                                                        (("2"
-                                                                                          (grind)
-                                                                                          nil
-                                                                                          nil))
-                                                                                        nil))
-                                                                                      nil))
-                                                                                    nil))
-                                                                                  nil))
-                                                                                nil))
-                                                                              nil))
-                                                                            nil))
-                                                                          nil))
-                                                                        nil))
-                                                                      nil))
-                                                                    nil))
-                                                                  nil))
-                                                                nil))
-                                                              nil))
-                                                            nil))
-                                                          nil)
-                                                         ("3"
-                                                          (expand
-                                                           "new_unif_prb"
-                                                           1)
-                                                          (("3"
-                                                            (replace
-                                                             -2)
-                                                            (("3"
-                                                              (hide
-                                                               -1
-                                                               -2)
-                                                              (("3"
-                                                                (typepred
-                                                                 "i")
-                                                                (("3"
-                                                                  (lemma
-                                                                   "first_proj_nth_mem[unif_prb, sub]")
-                                                                  (("3"
-                                                                    (inst?
-                                                                     -1)
-                                                                    (("3"
-                                                                      (assert)
-                                                                      nil
-                                                                      nil))
-                                                                    nil))
-                                                                  nil))
-                                                                nil))
-                                                              nil))
+                                                            (rewrite
+                                                             "add_vars2avoid_len")
+                                                            nil
                                                             nil))
                                                           nil))
                                                         nil))
@@ -2503,7 +2124,6 @@
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (every adt-def-decl "boolean" term_adt nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -2522,7 +2142,6 @@
     (nth def-decl "T" list_props nil)
     (length def-decl "nat" list_props nil)
     (< const-decl "bool" reals nil)
-    (vars_not_ac def-decl "finite_set[variable]" termination_alg nil)
     (choose_unif_pair const-decl "[unif_pair, unif_prb]"
      aux_unification nil)
     (choose_not_ac def-decl "[unif_pair, unif_prb]" aux_unification
@@ -2538,9 +2157,7 @@
     (term_ac_app_eta formula-decl nil term_adt nil)
     (choose_unif_correct formula-decl nil aux_unification nil)
     (first_proj_nth_mem formula-decl nil list_theory2 nil)
-    (new_unif_prb skolem-const-decl "unif_prb" unification_alg nil)
     (card_subset formula-decl nil finite_sets nil)
-    (apply_ac_step_adm_subterms formula-decl nil termination_alg nil)
     (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
      integers nil)
     (size const-decl "nat" unification nil)
@@ -2550,9 +2167,6 @@
     (car adt-accessor-decl "[(cons?) -> T]" list_adt nil)
     (size_ge1 formula-decl nil term_properties nil)
     (vars_not_ac const-decl "finite_set[variable]" termination_alg nil)
-    (admissible_subterms const-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     termination_alg nil)
     (finite_emptyset name-judgement "finite_set" finite_sets nil)
     (card_emptyset formula-decl nil finite_sets nil)
     (admissible_subterms_null formula-decl nil termination_alg nil)
@@ -2564,26 +2178,19 @@
     (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
      sets_lemmas nil)
     (finite_union application-judgement "finite_set" finite_sets nil)
-    (apply_ac_step def-decl "list[unif_prb]" aux_unification nil)
+    (apply_ac_step def-decl "[list[unif_prb], finite_set[variable]]"
+     aux_unification nil)
     (instantiate_step def-decl "list[[unif_prb, sub]]" aux_unification
      nil)
     (first_proj def-decl "list[T1]" list_theory2 nil)
     (member def-decl "bool" list_props nil)
     (all_ac_prb? const-decl "bool" unification nil)
-    (apply_ac_step_vars_under2more formula-decl nil termination_alg
-     nil)
     (lex3_lt formula-decl nil lex3 nil)
     (<= const-decl "bool" reals nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (lex4_lt formula-decl nil lex4 nil)
     (size def-decl "nat" unification nil)
-    (admissible_subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     termination_alg nil)
-    (vars_under2more const-decl "finite_set[variable]" termination_alg
-     nil)
-    (vars_not_ac def-decl "finite_set[variable]" termination_alg nil)
     (card const-decl "{n: nat | n = Card(S)}" finite_sets nil)
     (Card const-decl "nat" finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
@@ -2598,6 +2205,6 @@
     (sub type-eq-decl nil substitution nil)
     (unif_prb type-eq-decl nil unification nil))
    nil
-   (unify termination-subtype "unification_alg.lst_unif_prb_and_subs"
-    "[{z: [unification.unif_prb, substitution.sub] | ordinals.<(lex4.lex4(finite_sets[variable].card(termination_alg.vars_not_ac(z`1)), finite_sets[variable].card(termination_alg.vars_under2more(z`1)), finite_sets[term[constant, variable, f_symbol, ac_symbol]].card(termination_alg.admissible_subterms(z`1)), unification.size(z`1)), lex4.lex4(finite_sets[variable].card(termination_alg.vars_not_ac(unification_alg.unif_prb)), finite_sets[variable].card(termination_alg.vars_under2more(unification_alg.unif_prb)), finite_sets[term[constant, variable, f_symbol, ac_symbol]].card(termination_alg.admissible_subterms(unification_alg.unif_prb)), unification.size(unification_alg.unif_prb)))} -> list_adt[substitution.sub].list]"))))
+   (unify termination-subtype "unification_alg.lst_new_input"
+    "[{z: [unification.unif_prb, substitution.sub, finite_set[variable]] | ordinals.<(lex4.lex4(finite_sets[variable].card(termination_alg.vars_not_ac(z`1)), finite_sets[variable].card(termination_alg.vars_under2more(z`1)), finite_sets[term[constant, variable, f_symbol, ac_symbol]].card(termination_alg.admissible_subterms(z`1)), unification.size(z`1)), lex4.lex4(finite_sets[variable].card(termination_alg.vars_not_ac(unification_alg.unif_prb)), finite_sets[variable].card(termination_alg.vars_under2more(unification_alg.unif_prb)), finite_sets[term[constant, variable, f_symbol, ac_symbol]].card(termination_alg.admissible_subterms(unification_alg.unif_prb)), unification.size(unification_alg.unif_prb)))} -> list_adt[substitution.sub].list]"))))
 

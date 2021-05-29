@@ -38,17 +38,10 @@ equal?(t, s): RECURSIVE bool =
 	ac_app(sym, arg):
 	   LET n = num_arg(sym, t) IN
 	   ac_app?(s) AND sym = ac_sym(s) AND
-	   IF n = 2 THEN
-	      (equal?(select(sym, t)(1), select(sym, s)(1)) AND
-	         equal?(select(sym, t)(2), select(sym, s)(2)))
-	      OR 
-	      (equal?(select(sym, t)(1), select(sym, s)(2)) AND
-	         equal?(select(sym, t)(2), select(sym, s)(1)))
-	   ELSE EXISTS i, j: 
+	   EXISTS i, j: 
 	   i > 0 AND i <= n AND j > 0 AND j <= n AND 
 	   equal?(select(sym, t)(i), select(sym, s)(j)) AND 
 	   equal?(delete(sym, t)(i), delete(sym, s)(j))
-	   ENDIF
     ENDCASES
 MEASURE size(t) 
 

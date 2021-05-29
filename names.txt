@@ -9,12 +9,14 @@
 
 # apply_ac_step
 (name-replace "unif_pair" "car(unif_prb)")
-(name-replace "t1" "unif_pair`1")
+(name-replace "t" "unif_pair`1")
 (name-replace "s" "unif_pair`2")
-(name-replace "vars1"  "lst_vars(unif_prb)")
-(name-replace "vars2" "lst_vars(flatten(lst_unif_prb))")
-(name-replace "vars2avoid" "append(vars1, vars2)") 
-(name-replace "ac_results" "first_proj(solve_ac(t1, s, vars2avoid, ac_sym(t1)))")
+(name-replace "cur_set_vars2avoid" "union(vars(ac_results_so_far), union(vars(unif_prb), set_vars2avoid))")
+(name-replace "vars2avoid" "finset2list[variable](cur_set_vars2avoid)")
+(name-replace "ac_results" "first_proj[unif_prb, list[variable]](solve_ac(t, s, vars2avoid, ac_sym(t)))")
+(name-replace "new_ac_results_so_far" "put_in_head[unif_prb](ac_results, ac_results_so_far)")
+(name-replace "new_set_vars2avoid" "union(cur_set_vars2avoid, vars(sec_proj[unif_prb, list[variable]](solve_ac(t, s, vars2avoid, ac_sym(t)))))")
+(name-replace "results_part1" "flatten(first_proj[unif_prb, finite_set[variable]](map(apply_ac_step(cdr(unif_prb), new_set_vars2avoid))(new_ac_results_so_far)))")
 
 # instantiate_step unif_prb
 (name-replace "t" "car(unif_prb)`1")
