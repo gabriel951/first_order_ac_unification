@@ -367,6 +367,9 @@ get_args_ac: LEMMA
 get_args_pair: LEMMA
     get_args(f)(pair(t, s)) = append(get_args(f)(t), get_args(f)(s))
 
+get_args_mem_not_pair: LEMMA
+    member(s, get_args(f)(t)) IMPLIES NOT pair?(s)
+
 get_args_not_pair_ac: LEMMA
     NOT pair?(t) AND NOT is_ac_sym?(t, f) IMPLIES get_args(f)(t) = cons(t, null)
 

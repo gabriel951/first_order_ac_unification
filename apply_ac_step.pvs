@@ -1,0 +1,130 @@
+%
+% Authors:
+%		Gabriel Ferreira Silva (*)
+% 		Mauricio Ayala-Rincón (*)
+% 		Daniele Nantes Sobrinho (*)
+% 		Maribel Fernandez (**)
+%		(*) - University of Brasília			(**) - King's College London
+%
+
+% File: apply_ac_step.pvs
+% Description: auxiliary functions called in the unification algorithm.
+
+%%%%%%%%%%%%%%%%%%%%%%%
+
+apply_ac_step: THEORY
+BEGIN
+	IMPORTING aux_unification
+
+% after we call "apply_ac_step" we obtain, together with the unification problem, a substitution computed
+% in the instantiation step and a set of variables to avoid. So, we define the type "ac_sol_simp"  
+ac_sol_simp: TYPE = [unif_prb, sub, finite_set[variable]]
+
+        IMPORTING list_theory[ac_sol_simp],
+	          map_theory[[unif_prb, unif_prb, sub, finite_set[variable]], ac_sol_simp],
+		  list_theory[basic_sub]
+		  
+
+i: VAR nat
+
+new_vars2avoid, vars2avoid, vars2avoid1: VAR finite_set[variable]
+
+lst_vars2avoid: VAR list[variable]
+
+sigma, delta: VAR sub
+
+unseen_unif_prb, seen_unif_prb, unif_prb, unif_prb1: VAR unif_prb
+
+ac_results_subs: VAR list[[unif_prb, sub]]
+ac_sol_simp_lst: VAR list[ac_sol_simp]
+
+ac_sol, ac_sol1, ac_sol2: VAR ac_sol_simp
+
+input, input2: VAR [unif_prb, unif_prb, sub, finite_set[variable]]
+
+% this function is called by "apply_ac_step"
+input_apply_ac_step(ac_results_subs, unseen_unif_prb, seen_unif_prb, sigma, vars2avoid):
+ RECURSIVE list[[unif_prb, unif_prb, sub, finite_set[variable]]] = 
+   IF null?(ac_results_subs) THEN null
+   ELSE LET
+        (unif_prb1, delta) = car(ac_results_subs),
+        new_unseen_unif_prb = apply_sub(delta, unseen_unif_prb),
+	new_seen_unif_prb = append(unif_prb1, apply_sub(delta, seen_unif_prb)),
+	new_sigma = append(delta, sigma),
+	input = (new_unseen_unif_prb, new_seen_unif_prb, new_sigma, vars2avoid) IN 
+	cons(input, input_apply_ac_step(cdr(ac_results_subs), unseen_unif_prb,
+		    			 seen_unif_prb, sigma, vars2avoid))
+   ENDIF
+MEASURE length(ac_results_subs)
+   
+% apply the ac_step
+apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid): RECURSIVE list[ac_sol_simp] = 
+   IF NOT all_ac_prb?(unseen_unif_prb) THEN null
+   ELSIF null?(unseen_unif_prb) THEN cons((seen_unif_prb, sigma, vars2avoid), null)
+   ELSE LET
+   	unif_pair = car(unseen_unif_prb),
+   	(t, s) = unif_pair,
+	cur_vars2avoid = union(vars(unseen_unif_prb), union(vars2avoid, vars(seen_unif_prb))),
+	lst_vars2avoid = finset2list[variable](cur_vars2avoid),
+	ac_results = first_proj(solve_ac(t, s, lst_vars2avoid, ac_sym(t))),
+	new_vars2avoid = vars(sec_proj(solve_ac(t, s, lst_vars2avoid, ac_sym(t)))),
+	ac_results_subs = instantiate_step(ac_results) IN 
+	IF null?(ac_results_subs) THEN null
+	ELSE LET
+	    input_lst = input_apply_ac_step(ac_results_subs, cdr(unseen_unif_prb), seen_unif_prb,
+	    	      					    sigma, new_vars2avoid) IN
+	    flatten(map(apply_ac_step)(input_lst))
+	ENDIF
+   ENDIF
+MEASURE length(unseen_unif_prb)
+
+% used after "apply_ac_step"
+% makes sure we don't forget about the substitution "sigma" that we have computed before calling
+% "apply_ac_step"
+add_subs(ac_sol_simp_lst, sigma): RECURSIVE list[ac_sol_simp] =
+    IF null?(ac_sol_simp_lst) THEN null
+    ELSE LET ac_sol = car(ac_sol_simp_lst),
+    	     new_sigma = append(ac_sol`2, sigma), 
+    	     new_ac_sol = (ac_sol`1, new_sigma, ac_sol`3) IN
+	     cons(new_ac_sol, add_subs(cdr(ac_sol_simp_lst), sigma))
+    ENDIF
+MEASURE ac_sol_simp_lst BY << 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Lemmas
+% add_subs
+add_subs_len: LEMMA
+    length(add_subs(ac_sol_simp_lst, sigma)) = length(ac_sol_simp_lst)
+
+add_subs_nth_mem: LEMMA
+    i < length(ac_sol_simp_lst) IMPLIES
+    nth(add_subs(ac_sol_simp_lst, sigma), i)`1 = nth(ac_sol_simp_lst, i)`1 
+
+% input_apply_ac_step
+input_apply_ac_step_mem: LEMMA
+    member(input, input_apply_ac_step(ac_results_subs, unseen_unif_prb,
+                                      seen_unif_prb, sigma, vars2avoid)) IMPLIES
+    EXISTS unif_prb1, delta:
+        member((unif_prb1, delta), ac_results_subs) AND
+	input`1 = apply_sub(delta, unseen_unif_prb) AND
+	input`2 = append(unif_prb1, apply_sub(delta, seen_unif_prb)) AND
+	input`3 = append(delta, sigma) AND 
+	input`4 = vars2avoid
+
+input_apply_ac_step_sigma_null: LEMMA
+    member(input, input_apply_ac_step(ac_results_subs, unseen_unif_prb,
+                                      seen_unif_prb, sigma, vars2avoid)) IFF
+    EXISTS input2:
+      member(input2, input_apply_ac_step(ac_results_subs, unseen_unif_prb,
+                                      seen_unif_prb, null, vars2avoid))
+      AND input`1 = input2`1 AND input`2 = input2`2 AND
+          input`3 = append(input2`3, sigma) AND input`4 = input2`4
+
+% apply_ac_step
+apply_ac_step_sigma_null: LEMMA
+   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
+   IFF EXISTS ac_sol1:
+      member(ac_sol1, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid)) AND
+      ac_sol`1 = ac_sol1`1 AND ac_sol`2 = append(ac_sol1`2, sigma) AND ac_sol`3 = ac_sol1`3 
+
+END apply_ac_step
+

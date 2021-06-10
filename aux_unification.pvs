@@ -1,5 +1,5 @@
 %
-% Authors:
+% uthors:
 %		Gabriel Ferreira Silva (*)
 % 		Mauricio Ayala-Rincón (*)
 % 		Daniele Nantes Sobrinho (*)
@@ -15,17 +15,20 @@
 aux_unification: THEORY
 BEGIN
 	IMPORTING unification, diophantine, list_theory[number], list_theory[args],
-		  list_theory[unif_pair], list_theory[dio_matrix], list_theory[bool],
-		  more_list_theory_props[term], list_theory[unif_prb], list_theory2[unif_prb, list[variable]],
-		  map_theory[list[unif_prb], unif_prb], map_theory[args, term],
-		  list_theory2[list[unif_prb], finite_set[variable]], list_theory2[unif_prb, finite_set[variable]],
-		  map_theory[list[unif_prb], [list[unif_prb], finite_set[variable]]]
+	list_theory[unif_pair], list_theory[dio_matrix], list_theory[bool],
+	more_list_theory_props[term], list_theory[unif_prb], list_theory2[unif_prb, list[variable]],
+	map_theory[list[unif_prb], unif_prb], map_theory[args, term],
+	map_theory[list[unif_prb], [list[unif_prb], finite_set[variable]]],
+	list_theory2[list[unif_prb], finite_set[variable]], list_theory2[unif_prb, finite_set[variable]]
+		  
 
-% an ac solution is a unification problem and a list of variables to stay away
+% this type is used in some parts of the code, but is deprecated. I am now using ac_sol2
 ac_sol: TYPE = [unif_prb, list[variable]]
 
+% an ac solution is a unification problem and a list of variables to stay away
+ac_sol2: TYPE = [unif_prb, finite_set[variable]]
+
 % we can simplify an ac-solution and instantiate variables. Therefore, we define
-ac_sol_simp: TYPE = [sub, unif_prb, list[variable]]
 
 	IMPORTING list_theory[ac_sol], map_theory[dio_matrix, ac_sol]
 
@@ -36,6 +39,8 @@ X, Y: VAR variable
 unif_pair: VAR unif_pair
 unif_prb, unif_prb1, unif_prb2, seen_unif_prb, unseen_unif_prb: VAR unif_prb
 ac_results_so_far, lst_unif_prb, lst_unif_prb1, lst_unif_prb2: VAR list[unif_prb]
+
+ac_results_subs: VAR list[[unif_prb, sub]]
 
 sym: VAR string
 
@@ -56,8 +61,6 @@ set_vars2avoid: VAR finite_set[variable]
 
 ac_sol: VAR ac_sol
 ac_sol_lst: VAR list[ac_sol]
-ac_sol_simp: VAR ac_sol_simp
-ac_sol_simp_lst: VAR list[ac_sol_simp]
 
 lst_unif_prb_and_subs: VAR list[[unif_prb, sub]]
 lst_new_input: VAR list[[unif_prb, sub, finite_set[variable]]]
@@ -210,30 +213,6 @@ solve_ac(t1, t2, vars2avoid, sym): list[ac_sol] =
      results = map(dio_matrix2ac_sol(args, vars2avoid, sym))(submatrix_sol_lst) 
      IN results
 
-% apply the ac-step to a list of unification problems
-% "unif_prb" - unification problems we still have to apply the ac-step
-% "ac_results_so_far" - list of unification problems after applying ac-step (considering all branches) 
-% set_vars2avoid - set of variables you must avoid
-apply_ac_step(unif_prb, set_vars2avoid)(ac_results_so_far): RECURSIVE [list[unif_prb], finite_set[variable]] =  
-   IF null?(unif_prb) THEN (ac_results_so_far, set_vars2avoid)
-   ELSE LET
-   	unif_pair = car(unif_prb),
-   	(t, s) = unif_pair,
-	cur_set_vars2avoid = union(vars(ac_results_so_far), union(vars(unif_prb), set_vars2avoid)),
-	vars2avoid = finset2list[variable](cur_set_vars2avoid) IN
-	IF NOT ac_app?(t) THEN (null, emptyset)
-	ELSE LET
-	    ac_results = first_proj[unif_prb, list[variable]](solve_ac(t, s, vars2avoid, ac_sym(t))),
-	    new_ac_results_so_far = put_in_head[unif_prb](ac_results, ac_results_so_far),
-	    new_set_vars2avoid = union(cur_set_vars2avoid,
-	    		       	 vars(sec_proj[unif_prb, list[variable]](solve_ac(t, s, vars2avoid, ac_sym(t))))),
-	    results_part1 = flatten(first_proj[unif_prb, finite_set[variable]]
-	    		    (map(apply_ac_step(cdr(unif_prb), new_set_vars2avoid))(new_ac_results_so_far))), 
-	    results_part2 = union(cur_set_vars2avoid, vars(results_part1)) IN
-	    (results_part1, results_part2)
-	ENDIF
-   ENDIF
-MEASURE unif_prb BY << 
 
 % try to unify two terms t and s by instantiating them (may skip) 
 % returns
@@ -293,6 +272,7 @@ instantiate_step(unseen_unif_prb, seen_unif_prb, sigma): RECURSIVE [unif_prb, su
 MEASURE length(unseen_unif_prb)
 
 % extends "instantiate_step" to a list of unification problems
+% if a unification problem fails when we try to instantiate it, it is removed from the list
 instantiate_step(lst_unif_prb): RECURSIVE list[[unif_prb, sub]] =
     IF null?(lst_unif_prb) THEN null
     ELSE LET
@@ -303,6 +283,7 @@ instantiate_step(lst_unif_prb): RECURSIVE list[[unif_prb, sub]] =
 	 ENDIF
     ENDIF
 MEASURE lst_unif_prb BY << 
+
 
 % choose the first non-ac unification problem it encounters
 choose_not_ac(seen_unif_prb, unseen_unif_prb): RECURSIVE [unif_pair, unif_prb] =
@@ -324,16 +305,6 @@ choose_unif_pair(unif_prb): [unif_pair, unif_prb] =
    ELSE choose_not_ac(null, unif_prb) 
    ENDIF
 
-
-% receives a list of pairs (unification_problem, substitution)
-% add to each pair a third component:
-%    (unification_problem, substitution, set_of_vars2avoid)
-add_vars2avoid(lst_unif_prb_and_subs, set_vars2avoid): RECURSIVE list[[unif_prb, sub, finite_set[variable]]] =
-   IF null?(lst_unif_prb_and_subs) THEN null
-   ELSE LET (unif_prb, sigma) = car(lst_unif_prb_and_subs) IN
-        cons((unif_prb, sigma, set_vars2avoid), add_vars2avoid(cdr(lst_unif_prb_and_subs), set_vars2avoid))
-   ENDIF
-MEASURE lst_unif_prb_and_subs BY << 
 
 %%%%%%%%%%%%%%%%%%%%%%% Theorems
 % get nice submatrices and get_all_sublists
@@ -489,6 +460,10 @@ solve_ac_soundness: LEMMA
     are_ac?(t1, t2, f) AND unifies?(sigma, unif_prb)
     IMPLIES unifies?(sigma, (t1, t2))
 
+solve_ac_no_pair: LEMMA
+    member(unif_prb2, first_proj(solve_ac(t, s, vars2avoid, f)))
+    IMPLIES no_pair?(unif_prb2)
+
 % choose not ac 
 choose_not_ac_seen: LEMMA
    member(unif_pair, seen_unif_prb) IMPLIES member(unif_pair, choose_not_ac(seen_unif_prb, unseen_unif_prb)`2)
@@ -536,31 +511,6 @@ choose_unif_size2: LEMMA
 choose_unif_correct: LEMMA
     ac_prb?(choose_unif_pair(unif_prb)`1) IMPLIES 
     all_ac_prb?(unif_prb)
-
-% apply_ac_step:
-apply_ac_step_mem: LEMMA
-    member(t1, apply_ac_step(unif_prb, set_vars2avoid)(ac_results_so_far)`1) IMPLIES
-    (EXISTS t, s, vars2avoid, f:
-        member(t, unif_prb) AND member(s, unif_prb) AND 
-        member(t1, first_proj(solve_ac(t, s, vars2avoid, f))))
-     OR member(t1, ac_results_so_far)
-
-apply_ac_step_mem2: LEMMA
-    member(t1, apply_ac_step(unif_prb, set_vars2avoid)(ac_results_so_far)`1)
-    AND all_ac_prb?(unif_prb)
-    IMPLIES
-    (EXISTS t, s, vars2avoid, f:
-        member(t, unif_prb) AND member(s, unif_prb) AND
-	are_ac?(t, s, f) AND member(t1, first_proj(solve_ac(t, s, vars2avoid, f)))
-	AND subset?(union(vars(unif_prb), union(vars(ac_results_so_far), set_vars2avoid)), vars2avoid))
-     OR member(t1, ac_results_so_far)
-
-apply_ac_step_new_var: LEMMA
-    member(unif_prb2, apply_ac_step(unif_prb, set_vars2avoid)(null)`1)
-    AND im_under?(Y, t) AND member(t, subterms(unif_prb2)) AND
-    all_ac_prb?(unif_prb)
-    IMPLIES
-    member(t, subterms(unif_prb)) OR (NOT member(Y, vars(unif_prb)))
 
 % instantiate step
 instantiate_step_skip: LEMMA
@@ -638,40 +588,17 @@ instantiate_step_mem: LEMMA
          unif_prb = instantiate_step(unif_prb1, null, null)`1 AND
 	 sigma = instantiate_step(unif_prb1, null, null)`2
 	 
-instantiate_step_im_under_subterm: CONJECTURE
-    LET delta = instantiate_step(unif_prb, null, null)`2 IN
-    member(t, subterms(instantiate_step(unif_prb, null, null)`1)) AND
-    im_under?(X, t) IMPLIES 
-    EXISTS s: 
-       member(s, subterms(unif_prb)) AND same_func?(s, t) AND
-       ((im_under?(X, s)) OR
-          (EXISTS Y: X /= Y AND subs(delta)(Y) = variable(X) AND im_under?(Y, s)))
+instantiate_step_no_var_pair: LEMMA
+    unif_prb1 = instantiate_step(unif_prb2, null, null)`1 AND no_pair?(unif_prb2)
+    IMPLIES no_var_pair?(unif_prb1) 
 
-instantiate_step_apply_ac_step_im_under: CONJECTURE
-    LET delta = instantiate_step(unif_prb2, null, null)`2 IN
-    member(X, dom(delta)) AND subs(delta)(X) = variable(Y)
-    AND member(unif_prb2, apply_ac_step(unif_prb, set_vars2avoid)(null)`1) IMPLIES 
-    EXISTS t:
-    	   member(t, unif_prb) AND im_under?(Y, t)
-
-instantiate_step_apply_ac_step_vars_under2more: CONJECTURE
-    LET delta = instantiate_step(unif_prb2, null, null)`2 IN
-    member(unif_prb2, apply_ac_step(unif_prb, set_vars2avoid)(null)`1) AND 
-    member(X, dom(delta)) AND subs(delta)(X) = variable(Y) AND 
-    member(t, unif_prb) AND member(s, subterms(unif_prb2)) AND 
-    im_under?(Y, t) AND im_under?(X, s) AND dif_func?(t, s)
-    IMPLIES EXISTS t1:
-        member(t1, unif_prb) AND im_under?(X, t1) AND same_func?(t, t1)
-
-% add_vars2avoid
-add_vars2avoid_len: LEMMA
-    length(add_vars2avoid(lst_unif_prb_and_subs, set_vars2avoid)) =
-    length(lst_unif_prb_and_subs) 
-
-add_vars2avoid_nth_1: LEMMA
-    i < length(lst_unif_prb_and_subs) IMPLIES
-    member((nth(add_vars2avoid(lst_unif_prb_and_subs, set_vars2avoid), i)`1,
-	    nth(add_vars2avoid(lst_unif_prb_and_subs, set_vars2avoid), i)`2), 
-	       lst_unif_prb_and_subs)
+%instantiate_step_im_under_subterm: CONJECTURE
+%    LET delta = instantiate_step(unif_prb, null, null)`2 IN
+%    member(t, subterms(instantiate_step(unif_prb, null, null)`1)) AND
+%    im_under?(X, t) IMPLIES 
+%    EXISTS s: 
+%       member(s, subterms(unif_prb)) AND same_func?(s, t) AND
+%       ((im_under?(X, s)) OR
+%          (EXISTS Y: X /= Y AND subs(delta)(Y) = variable(X) AND im_under?(Y, s)))
 
 END aux_unification 

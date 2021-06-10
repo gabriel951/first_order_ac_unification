@@ -150,8 +150,6 @@ no_null_entries?(lst_of_lsts): RECURSIVE bool =
     ENDIF
 MEASURE lst_of_lsts BY << 
 
-
-
 % returns a bool to indicate if x is in lst and a natural number, to indicate the position
 % we start counting the position at 0
 pos?(x, lst, equal?): RECURSIVE [bool, nat] =
@@ -427,6 +425,12 @@ null_append_nat: LEMMA
 
 cdr_append: LEMMA
     NOT null?(lst1) IMPLIES cdr(append(lst1, lst2)) = append(cdr(lst1), lst2)
+
+equal_append_implies_null: LEMMA
+    lst1 = append(lst2, lst1) IMPLIES null?(lst2)
+
+equal_append_implies_equal: LEMMA
+    append(lst1, lst2) = append(lst3, lst2) IMPLIES lst1 = lst3
 
 lst2set_append_mem: LEMMA
     member(x, list2set(append(lst1, lst2))) IFF (member(x, list2set(lst1)) OR member(x, list2set(lst2)))

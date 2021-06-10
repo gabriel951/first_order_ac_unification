@@ -50,6 +50,13 @@ member(t, lst_unif_prb): RECURSIVE bool =
    ENDIF
 MEASURE lst_unif_prb BY << 
 
+% no_var? no_var_pair? no_pair?
+no_var?(unif_prb): bool = FORALL t: member(t, unif_prb) IMPLIES NOT var?(t)
+
+no_var_pair?(unif_prb): bool = FORALL t: member(t, unif_prb) IMPLIES NOT var?(t) AND NOT pair?(t)
+
+no_pair?(unif_prb): bool = FORALL t: member(t, unif_prb) IMPLIES NOT pair?(t)
+
 % variables of a unification pair
 vars(unif_pair): finite_set[variable] =
     LET (t, s) = unif_pair IN union(vars(t), vars(s))
@@ -194,6 +201,10 @@ subterms_mem_unif_prb: LEMMA
     EXISTS t:
           member(s, subterms(t)) AND member(t, unif_prb)
 
+subterms_append: LEMMA
+    member(t, subterms(append(unif_prb1, unif_prb2))) IFF
+    (member(t, subterms(unif_prb1)) OR member(t, subterms(unif_prb2)))
+
 % unifies?
 unifies?_append: LEMMA
     unifies?(sigma, append(unif_prb1, unif_prb2)) =
@@ -231,5 +242,8 @@ apply_sub_elim_var_unif_pair: LEMMA
 apply_sub_elim_var: LEMMA
     member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
     IMPLIES NOT member(X, vars(apply_sub(sigma, unif_prb)))
+
+apply_sub_no_var_pair: LEMMA
+    no_var_pair?(unif_prb) IMPLIES no_var_pair?(apply_sub(sigma, unif_prb))
 
 END unification 

@@ -14,7 +14,7 @@
 
 unification_alg: THEORY
 BEGIN
-	IMPORTING aux_unification, list_theory[sub], termination_alg
+	IMPORTING apply_ac_step, list_theory[sub], termination_alg
 
 sigma, sigma1, delta: VAR sub
 vars2avoid: VAR finite_set[variable]
@@ -71,11 +71,11 @@ unify(unif_prb, sigma, vars2avoid): RECURSIVE list[sub] =
 
 	ac_app(f, ac_arg):
 	  IF NOT ac_app?(s) OR f /= ac_sym(s) THEN null
-	  ELSE LET (lst_unif_prb, new_vars2avoid) = apply_ac_step(unif_prb, vars2avoid)(null), 
-	  lst_unif_prb_and_subs = instantiate_step(lst_unif_prb),
-	  lst_new_input = add_vars2avoid(lst_unif_prb_and_subs, new_vars2avoid),
-	  lst_results = map(unify)(lst_new_input) IN 
-	  flatten(lst_results) 
+	  ELSE LET
+	     pre_new_input_lst = apply_ac_step(unif_prb, null, sigma, vars2avoid), 
+	     input_lst = add_subs(pre_new_input_lst, sigma),
+	     lst_results = map(unify)(input_lst) IN 
+	     flatten(lst_results) 
 	  ENDIF
         ENDCASES
     ENDIF
@@ -92,6 +92,5 @@ MEASURE lex4(card(vars_not_ac(unif_prb)), card(vars_under2more(unif_prb)),
 %unify_alg_complete: CONJECTURE
 %    unifies?(delta, unif_prb) IMPLIES EXISTS sigma1:
 %    member(sigma1, unify(unif_prb, sigma, vars2avoid)) AND more_general?(sigma1, delta) 
-
 
 END unification_alg

@@ -129,6 +129,9 @@ subs_ac: LEMMA
 subs_var: LEMMA
     var?(subs(sigma)(t)) IMPLIES var?(t) 
     
+subs_pair2: LEMMA
+    pair?(subs(sigma)(t)) IMPLIES (pair?(t) OR var?(t))
+
 % substitution in list of arguments
 subs_select: LEMMA
    (EXISTS i: 
@@ -202,6 +205,9 @@ perm?_get_args_subs: LEMMA
 vars_subs_t: LEMMA
     subset?(vars(subs(sigma)(t)), union(vars(img(sigma)), vars(t)))
 
+basic_sub_no_effect: LEMMA
+    NOT member(X, vars(t)) IMPLIES subs((X, s), t) = t
+     
 dom_basic_sub: LEMMA
     dom(cons((X, t), null)) = singleton(X) OR member(X, vars(t))
 
