@@ -366,11 +366,6 @@ inst_step_vars_not_ac_mem: LEMMA
     EXISTS t:
         member(t, lst_unif_prb) AND NOT var?(t) AND member(Y, vars_not_ac(subs(sigma)(t)))
 
-% 1/3 of termination
-%apply_ac_step_vars_not_ac: CONJECTURE 
-%    member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
-%    IMPLIES subset?(vars_not_ac(ac_sol`1), image(mimic_var(minus(ac_sol`2, sigma)), union(vars_not_ac(unseen_unif_prb),
-%							   vars_not_ac(seen_unif_prb))))
 
 % 1/3 of termination
 apply_ac_step_vars_not_ac2: LEMMA

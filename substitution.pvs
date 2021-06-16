@@ -18,7 +18,7 @@ BEGIN
 	
 a, i, n: VAR nat
 X, Y: VAR variable
-t, s, ti, arg: VAR term
+t, t1, s, ti, arg: VAR term
 args, args1, args2: VAR args
 fin_set_t: VAR finite_set[term]
 
@@ -132,6 +132,12 @@ subs_var: LEMMA
 subs_pair2: LEMMA
     pair?(subs(sigma)(t)) IMPLIES (pair?(t) OR var?(t))
 
+subs_ac2: LEMMA
+    ac_app?(subs(sigma)(t)) IMPLIES (same_func?(subs(sigma)(t), t) OR var?(t))
+
+subs_func: LEMMA
+    func?(subs(sigma)(t)) IMPLIES (same_func?(subs(sigma)(t), t) OR var?(t))
+
 % substitution in list of arguments
 subs_select: LEMMA
    (EXISTS i: 
@@ -244,7 +250,55 @@ idempotent_disjoint_dom_img: LEMMA
 idempotent_disjoint_dom_img2: LEMMA
     disjoint?(dom(sigma), vars(img(sigma))) IMPLIES idempotent?(sigma)
 
+apply_sub_elim_var_t2: LEMMA
+    member(X, dom(sigma)) AND idempotent?(sigma) IMPLIES NOT member(X, vars(subs(sigma)(t)))
+
 subs_singleton: LEMMA
     subs(sigma)(singleton(t)) = singleton(subs(sigma)(t))
 
+img_append_subset: LEMMA
+    subset?(img(append(sigma, delta)), union(image(subs(sigma))(img(delta)), img(sigma)))
+
+% subterms, same_func, im_under
+subterms_subs: LEMMA
+    subset?(subterms(subs(sigma)(t)),
+            union(image(subs(sigma))(subterms(t)), subterms(img(sigma))))
+    
+subterms_img_append: LEMMA
+    subset?(subterms(img(append(sigma, delta))),
+    	    union(image(subs(sigma))(subterms(img(delta))), subterms(img(sigma))))
+
+same_func_subs: LEMMA
+    func?(t) IMPLIES same_func?(t, subs(sigma)(t))
+
+func_subterms_subs: LEMMA
+    func?(s) AND member(s, subterms(subs(sigma)(t))) IMPLIES
+    ((EXISTS ti: 
+         same_func?(ti, s) AND subs(sigma)(ti) = s AND member(ti, subterms(t)))
+     OR
+     member(s, subterms(img(sigma))))
+
+flatten_pair_subs: LEMMA
+    member(s, flatten_pair(subs(sigma)(t))) AND no_pair?(img(sigma))
+    IMPLIES EXISTS ti:
+	member(ti, flatten_pair(t)) AND s = subs(sigma)(ti)
+
+im_under_subs: LEMMA
+    im_under?(Y, subs(sigma)(t)) AND func?(t) AND no_pair?(img(sigma))
+    IMPLIES
+      ((EXISTS X: im_under?(X, t) AND subs(sigma)(X) = variable(Y)) OR
+      im_under?(Y, img(sigma)))
+        
+im_under_subs2: LEMMA
+    im_under?(Y, subs(sigma)(t)) AND func?(t) AND no_pair?(img(sigma)) AND idempotent?(sigma) IMPLIES
+    (EXISTS X: subs(sigma)(X) = variable(Y) AND
+      	      (im_under?(X, t) OR
+	      EXISTS s: member(s, img(sigma)) AND im_under?(X, s) AND same_func?(t, s)))
+
+im_under_subs3: LEMMA
+    im_under?(Y, subs(sigma)(t)) AND no_pair?(img(sigma)) AND idempotent?(sigma) IMPLIES
+    (EXISTS X: subs(sigma)(X) = variable(Y) AND
+      	      (im_under?(X, t) OR
+	      EXISTS s: member(s, img(sigma)) AND im_under?(X, s) AND same_func?(subs(sigma)(t), s)))
+    
 END substitution

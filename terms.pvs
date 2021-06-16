@@ -103,10 +103,10 @@ func?(t): bool =
 
 % test if t and s are functions that are not headed by the same symbol 
 dif_func?(t, s): bool = 
-    func?(t) AND func?(s) AND sym(t) /= sym(s)
+    func?(t) AND func?(s) AND (ord(t) /= ord(s) OR sym(t) /= sym(s))
 
 same_func?(t, s): bool = 
-    func?(t) AND func?(s) AND sym(t) = sym(s) 
+    func?(t) AND ord(t) = ord(s) AND sym(t) = sym(s) 
 
 % get the number of arguments of a term "t"
 % if it encounters an ac function whose root is "sym" it goes inside the function
@@ -253,6 +253,9 @@ select_num_arg: LEMMA
 select_not_pair: LEMMA
     NOT pair?(select(f, t)(i))
 
+select_not_ac: LEMMA
+    NOT is_ac_sym?(select(f, t)(i), f)
+
 select_le1: LEMMA
     n <= 1 IMPLIES select(f, t)(n) = select(f, t)(1)
 
@@ -369,6 +372,9 @@ get_args_pair: LEMMA
 
 get_args_mem_not_pair: LEMMA
     member(s, get_args(f)(t)) IMPLIES NOT pair?(s)
+
+get_args_mem_not_ac: LEMMA
+    member(s, get_args(f)(t)) IMPLIES NOT is_ac_sym?(s, f)
 
 get_args_not_pair_ac: LEMMA
     NOT pair?(t) AND NOT is_ac_sym?(t, f) IMPLIES get_args(f)(t) = cons(t, null)
@@ -539,6 +545,8 @@ all_ac_or_var?(args): bool =
     EXISTS f: 
     all_ac_or_var?(f, args)
 
+no_pair?(fin_set_t): bool = FORALL t: member(t, fin_set_t) IMPLIES NOT pair?(t)
+
 % lemmas
 % vars 
 vars_append: LEMMA
@@ -615,6 +623,16 @@ all_var?_split_lst_args: LEMMA
 all_var?_split_lst_args2: LEMMA
     all_var?(lst_args) IMPLIES all_var?(split(lst_args, n)`2)
 
+all_var?_args: LEMMA
+    all_var?(args) IFF
+    FORALL t:
+       member(t, args) IMPLIES var?(t) 
+
+all_var?_lst_args: LEMMA
+    all_var?(lst_args) IFF
+    FORALL args:
+       member(args, lst_args) IMPLIES all_var?(args) 
+    
 % not_var_args
 not_var_args_append: LEMMA
     not_var_args(append(args1, args2)) = append(not_var_args(args1), not_var_args(args2))
@@ -647,10 +665,21 @@ not_var_args_nth2: LEMMA
 subterm_fin_set: LEMMA
    member(s, subterms(fin_set_t)) IFF
    EXISTS t:
-   member(t, fin_set_t) AND member(s, subterms(t))
+      member(t, fin_set_t) AND member(s, subterms(t))
    
+subterm_args: LEMMA
+   member(s, subterms(args)) IFF
+   EXISTS t:
+      member(t, args) AND member(s, subterms(t))
+   
+subterm_singleton: LEMMA
+   subterms(singleton(t)) = subterms(t)
+
 subterm_reflexive: LEMMA
    NOT pair?(t) IMPLIES member(t, subterms(t))
+
+subterm_reflexive_finset: LEMMA
+   no_pair?(fin_set_t) AND member(t, fin_set_t) IMPLIES member(t, subterms(fin_set_t))
 
 select_subterms: LEMMA
    member(select(f, t)(n), subterms(t))
@@ -668,6 +697,9 @@ subterm_transitive: LEMMA
    member(s, subterms(t)) AND member(t, subterms(t1)) IMPLIES
    member(s, subterms(t1))
 
+get_args_subterms: LEMMA
+   member(s, get_args(f)(t)) IMPLIES subset?(subterms(s), subterms(t))
+
 prop_subterm_size: LEMMA
     member(s, prop_subterms(t)) IMPLIES size(s) < size(t)
 
@@ -677,6 +709,7 @@ vars_prop_subterm: LEMMA
 var_flatten_pair_implies_var: LEMMA
    member(variable(X), list2set(flatten_pair(t))) IMPLIES member(X, vars(t))
 
+% im under and same_func
 im_under_var: LEMMA
    im_under?(X, t) IMPLIES member(X, vars(t))
 
@@ -686,4 +719,11 @@ im_under_not_pair: LEMMA
 im_under_implies_func: LEMMA
    im_under?(X, t) IMPLIES func?(t)
     
+same_func_sym: LEMMA
+    same_func?(t, s) = same_func?(s, t)
+
+same_func_trans: LEMMA
+    same_func?(t, s) AND same_func?(s, t1) IMPLIES same_func?(t, t1) 
+
 END term_properties
+

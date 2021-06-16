@@ -1,5 +1,5 @@
 %
-% uthors:
+% Authors:
 %		Gabriel Ferreira Silva (*)
 % 		Mauricio Ayala-Rincón (*)
 % 		Daniele Nantes Sobrinho (*)
@@ -422,7 +422,6 @@ get_pre_new_args_count: LEMMA
 elim_com_arg_mem: LEMMA
    member(t, elim_com_arg(t1, t2, f)`1) IMPLIES
    member(t, get_args(f)(t1)) OR member(t, get_args(f)(t2))
-   
 
 elim_com_arg_correct: LEMMA
    LET (args, mult_t1, mult_t2) = elim_com_arg(t1, t2, f),
@@ -463,6 +462,32 @@ solve_ac_soundness: LEMMA
 solve_ac_no_pair: LEMMA
     member(unif_prb2, first_proj(solve_ac(t, s, vars2avoid, f)))
     IMPLIES no_pair?(unif_prb2)
+
+solve_ac_vars_vars2avoid: LEMMA
+    member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND 
+    member(t1, subterms(unif_prb)) AND NOT member(t1, subterms((t, s))) AND
+    member(X, vars(t1)) IMPLIES NOT member(X, vars2avoid) 
+
+solve_ac_mem_lhs: CONJECTURE 
+    member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND
+    member(t1, lhs(unif_prb)) IMPLIES
+    (member(t1, get_args(f)(t)) OR member(t1, get_args(f)(s)))
+    
+solve_ac_disjoint_lhs_rhs: CONJECTURE
+    member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND
+    subset?(vars((t, s)), vars2avoid) IMPLIES
+    disjoint?(list2set(lhs(unif_prb)), list2set(rhs(unif_prb)))
+    
+solve_ac_func: LEMMA
+    member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND 
+    func?(t1) AND member(t1, subterms(unif_prb)) AND NOT member(t1, subterms((t, s)))
+    IMPLIES is_ac_sym?(t1, f)
+    
+solve_ac_same_func: LEMMA
+    member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND 
+    func?(t1) AND member(t1, subterms(unif_prb)) AND NOT member(t1, subterms((t, s))) AND
+    func?(t2) AND member(t2, subterms(unif_prb)) AND NOT member(t2, subterms((t, s))) 
+    IMPLIES same_func?(t1, t2)
 
 % choose not ac 
 choose_not_ac_seen: LEMMA
@@ -530,6 +555,9 @@ instantiate_step_fail: LEMMA
     LET sigma = instantiate_step(t, s)`1, fail = instantiate_step(t, s)`3 IN
     NOT fail IMPLIES idempotent?(sigma) 
  
+instantiate_step_idempotent2: LEMMA
+    idempotent?(instantiate_step(t, s)`1)
+
 instantiate_step_fail_null: LEMMA
     LET fail = instantiate_step(unif_prb, seen_unif_prb, sigma)`3
     IN fail AND NOT null?(unif_prb) IMPLIES instantiate_step(unif_prb, seen_unif_prb, sigma)`1 = null
@@ -592,13 +620,25 @@ instantiate_step_no_var_pair: LEMMA
     unif_prb1 = instantiate_step(unif_prb2, null, null)`1 AND no_pair?(unif_prb2)
     IMPLIES no_var_pair?(unif_prb1) 
 
-%instantiate_step_im_under_subterm: CONJECTURE
-%    LET delta = instantiate_step(unif_prb, null, null)`2 IN
-%    member(t, subterms(instantiate_step(unif_prb, null, null)`1)) AND
-%    im_under?(X, t) IMPLIES 
-%    EXISTS s: 
-%       member(s, subterms(unif_prb)) AND same_func?(s, t) AND
-%       ((im_under?(X, s)) OR
-%          (EXISTS Y: X /= Y AND subs(delta)(Y) = variable(X) AND im_under?(Y, s)))
+instantiate_step_no_pair_img: LEMMA
+     no_pair?(unif_prb) IMPLIES no_pair?(img(instantiate_step(unif_prb, null, null)`2))
+
+instantiate_step_sub_im_under: LEMMA
+    LET delta = instantiate_step(unif_prb, null, null)`2 IN
+    member(t, subterms(img(delta))) AND im_under?(X, t) AND no_pair?(unif_prb) IMPLIES
+    EXISTS Y, s:
+        member(s, subterms(unif_prb)) AND subs(delta)(Y) = variable(X)
+	AND im_under?(Y, s) AND same_func?(t, s)
+
+instantiate_step_var_member: CONJECTURE 
+     LET delta = instantiate_step(unif_prb, null, null)`2 IN 
+     X /= Y AND subs(delta)(X) = variable(Y) IMPLIES
+     member(variable(X), unif_prb) AND member(variable(Y), unif_prb)
+
+instantiate_step: CONJECTURE
+    LET delta = instantiate_step(unif_prb, null, null)`2 IN 
+    disjoint?(list2set(lhs(unif_prb)), list2set(rhs(unif_prb))) AND
+    member(variable(X), rhs(unif_prb))
+    IMPLIES subs(delta)(X) /= variable(X)
 
 END aux_unification 

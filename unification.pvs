@@ -50,6 +50,12 @@ member(t, lst_unif_prb): RECURSIVE bool =
    ENDIF
 MEASURE lst_unif_prb BY << 
 
+% left-hand side of a unification problem
+lhs(unif_prb): args = first_proj(unif_prb)
+rhs(unif_prb): args = sec_proj(unif_prb) 
+
+% right-hand side of a unification problem
+
 % no_var? no_var_pair? no_pair?
 no_var?(unif_prb): bool = FORALL t: member(t, unif_prb) IMPLIES NOT var?(t)
 
@@ -171,7 +177,10 @@ member_lst_unif_prb_equiv: LEMMA
    EXISTS unif_prb:
     member(t, unif_prb) AND member(unif_prb, lst_unif_prb)
 
-% vars
+member_lhs_rhs: LEMMA
+   member(t, unif_prb) IFF (member(t, lhs(unif_prb)) OR member(t, rhs(unif_prb)))
+
+% vars no_var_pair
 vars_unif_prb: LEMMA
    member(X, vars(unif_prb)) IFF
    EXISTS t:
@@ -185,6 +194,9 @@ vars_lst_vars_unif_prb: LEMMA
 
 vars_lst_vars_flatten_lst_unif_prb: LEMMA
    vars(lst_unif_prb) = list2set(lst_vars(flatten(lst_unif_prb)))
+
+no_var_pair_append: LEMMA
+    no_var_pair?(append(unif_prb, unif_prb1)) = (no_var_pair?(unif_prb) AND no_var_pair?(unif_prb1))
 
 % size
 size_app_unif_prb: LEMMA
@@ -205,6 +217,10 @@ subterms_append: LEMMA
     member(t, subterms(append(unif_prb1, unif_prb2))) IFF
     (member(t, subterms(unif_prb1)) OR member(t, subterms(unif_prb2)))
 
+subterms_pareate: LEMMA
+    member(t, subterms(pareate(args1, args2))) IMPLIES (member(t, subterms(args1)) OR member(t, subterms(args2)))
+
+
 % unifies?
 unifies?_append: LEMMA
     unifies?(sigma, append(unif_prb1, unif_prb2)) =
@@ -214,14 +230,24 @@ unifies?_pareate: LEMMA
     length(args1) = length(args2) AND unifies?(sigma, pareate(args1, args2))
     IMPLIES equal?(subs(sigma)(args1), subs(sigma)(args2))
     
+
 % apply_sub
 apply_sub_mem: LEMMA
     member(t, apply_sub(sigma, unif_prb)) IFF
     EXISTS s:
        member(s, unif_prb) AND t = subs(sigma)(s)
 
+apply_sub_subterms: LEMMA
+    member(t, subterms(apply_sub(sigma, unif_prb))) IMPLIES
+    ((EXISTS s: 
+       member(s, subterms(unif_prb)) AND t = subs(sigma)(s)) OR
+       member(t, subterms(img(sigma))))
+
 apply_sub_null: LEMMA
     apply_sub(null, unif_prb) = unif_prb
+
+apply_sub_append: LEMMA
+    apply_sub(sigma, append(unif_prb1, unif_prb2)) = append(apply_sub(sigma, unif_prb1), apply_sub(sigma, unif_prb2))
 
 apply_sub_sub_append: LEMMA
     apply_sub(sigma, apply_sub(sigma1, unif_prb)) = apply_sub(append(sigma, sigma1), unif_prb)
@@ -243,7 +269,11 @@ apply_sub_elim_var: LEMMA
     member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
     IMPLIES NOT member(X, vars(apply_sub(sigma, unif_prb)))
 
+apply_sub_no_pair: LEMMA
+    no_pair?(unif_prb) AND no_pair?(img(sigma)) IMPLIES no_pair?(apply_sub(sigma, unif_prb))
+
 apply_sub_no_var_pair: LEMMA
     no_var_pair?(unif_prb) IMPLIES no_var_pair?(apply_sub(sigma, unif_prb))
+
 
 END unification 
