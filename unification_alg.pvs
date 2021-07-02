@@ -72,8 +72,7 @@ unify(unif_prb, sigma, vars2avoid): RECURSIVE list[sub] =
 	ac_app(f, ac_arg):
 	  IF NOT ac_app?(s) OR f /= ac_sym(s) THEN null
 	  ELSE LET
-	     pre_new_input_lst = apply_ac_step(unif_prb, null, sigma, vars2avoid), 
-	     input_lst = add_subs(pre_new_input_lst, sigma),
+	     input_lst = apply_ac_step(unif_prb, null, sigma, vars2avoid), 
 	     lst_results = map(unify)(input_lst) IN 
 	     flatten(lst_results) 
 	  ENDIF

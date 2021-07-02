@@ -857,6 +857,7 @@ list_theory2 [T1, T2: TYPE]: THEORY
 BEGIN
     IMPORTING list_theory[T1]
 
+    lst, lst1: VAR list[T1]
     lst_pair, lst_pair1, lst_pair2: VAR list[[T1, T2]]
     lst_pair_: VAR list[[list[T1], T2]]
     pair: VAR [T1, T2]
@@ -906,10 +907,17 @@ first_proj_mem: LEMMA
    EXISTS pair:
       member(pair, lst_pair) AND x = pair`1
 
+sec_proj_mem: LEMMA
+   member(y, sec_proj(lst_pair)) IFF
+   EXISTS pair:
+      member(pair, lst_pair) AND y = pair`2
+
+
 first_proj_mem_flatten: LEMMA
    member(x, flatten(first_proj(lst_pair_))) IFF 
    EXISTS pair_:
    member(pair_, lst_pair_) AND member(x, pair_`1)
+
 
 END list_theory2
   

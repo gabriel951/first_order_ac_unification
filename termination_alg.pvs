@@ -18,11 +18,12 @@ BEGIN
 		  map_theory[[unif_prb, sub], unif_prb], map_theory[list[unif_prb], unif_prb],
 		  list_theory2[term, term], list_theory[basic_sub]
 
+a: VAR nat 
 under_ac, fail: VAR bool 
 sym, f: VAR string
 	  
 t, t1, t2,  s: VAR term
-args: VAR args
+args, args1: VAR args
 
 unif_pair: VAR unif_pair
 unseen_unif_prb, seen_unif_prb, unif_prb, unif_prb1, unif_prb2: VAR unif_prb
@@ -39,6 +40,8 @@ lst_vars2avoid: VAR list[variable]
 X, Y: VAR variable
 
 submatrix_sol_lst: VAR list[dio_matrix]
+
+input0, input1: VAR [unif_prb, unif_prb, sub, finite_set[variable]]
 
 % vars_under2more
 vars_under2more(unif_prb): finite_set[variable] =
@@ -149,11 +152,17 @@ MEASURE lst_unif_prb BY <<
 % admissible_subterm
 admissible_subterms(t): finite_set[term] = {s | member(s, prop_subterms(t)) AND NOT var?(s)}
 
+admissible_subterms(args): finite_set[term] =
+    {s | EXISTS t: member(t, args) AND member(s, admissible_subterms(t))}
+
+admissible_subterms(fin_set_t): finite_set[term] =
+    {s | EXISTS t: member(t, fin_set_t) AND member(s, admissible_subterms(t))}
+
 admissible_subterms(unif_pair): finite_set[term] = 
-    {s | EXISTS t: member(t, subterms(unif_pair)) AND member(s, admissible_subterms(t))}
+    {s | EXISTS t: (t = unif_pair`1 OR t = unif_pair`2) AND member(s, admissible_subterms(t))}
 
 admissible_subterms(unif_prb): finite_set[term] =
-    {s | EXISTS t: member(t, subterms(unif_prb)) AND member(s, admissible_subterms(t))}
+    {s | EXISTS t: member(t, unif_prb) AND member(s, admissible_subterms(t))}
 
 %%%%%%%%%%%%%%%%%%%%%
 % mimic_var
@@ -305,24 +314,59 @@ vars_not_ac_var_solve_ac: LEMMA
       member(unif_prb2, first_proj(solve_ac(t, s, lst_vars2avoid, f))) IMPLIES 
       member(X, vars_not_ac_var((t, s)))
 
-% TODO: 
-%solve_ac_mem
-%    member(unif_prb, first_proj(solve_ac(t1, t2, vars2avoid, f)))
-%    AND member(s, unif_prb) AND member(Y, vars_not_ac_var(s))
-%    IMPLIES member(s, subterms((t1, t2)))
 
 % vars_under2more
 vars_under2more_null: LEMMA
     vars_under2more(null[unif_prb]) = emptyset
 
 % admissible subterms
+adm_subterms_const: LEMMA
+    admissible_subterms(const(a)) = emptyset
+
+adm_subterms_var: LEMMA
+    admissible_subterms(variable(X)) = emptyset
+    
+adm_subterms_unit: LEMMA
+    admissible_subterms(unit) = emptyset
+
+adm_subterms_pair: LEMMA
+    admissible_subterms(pair(t1, t2)) = union(admissible_subterms(t1), admissible_subterms(t2))
+
 admissible_subterms_mem: LEMMA
     member(t, admissible_subterms(unif_prb)) IFF
     EXISTS unif_pair:
     	   member(t, admissible_subterms(unif_pair)) AND member(unif_pair, unif_prb)
 
-admissible_subterms_null: LEMMA
-    admissible_subterms(null) = emptyset
+adm_subterms_trans: LEMMA
+    member(t2, admissible_subterms(t1)) AND member(t1, subterms(t)) IMPLIES
+    member(t2, admissible_subterms(t))
+
+adm_subterms_append_args: LEMMA
+    member(s, admissible_subterms(append(args, args1))) IFF
+    (member(s, admissible_subterms(args)) OR member(s, admissible_subterms(args1)))
+
+adm_subterms_subterms: LEMMA
+    member(s, subterms(t)) AND NOT var?(s) AND NOT pair?(t) IMPLIES
+    s = t OR member(s, admissible_subterms(t)) 
+
+adm_subterms_app: LEMMA
+    app?(t) AND member(s, admissible_subterms(t)) IMPLIES 
+    ((member(s, flatten_pair(arg(t))) AND NOT var?(s)) OR
+      member(s, admissible_subterms(flatten_pair(arg(t)))))
+
+adm_subterms_ac_app: CONJECTURE
+    ac_app?(t) AND member(s, admissible_subterms(t)) IMPLIES
+    ((member(s, get_args(ac_sym(t))(t)) AND NOT var?(s)) OR
+      member(s, admissible_subterms(get_args(ac_sym(t))(t))))
+
+adm_subterms_subs: CONJECTURE
+    member(s, admissible_subterms(subs(sigma)(t))) AND func?(t)
+    AND no_pair?(img(sigma)) IMPLIES
+    (member(s, image(subs(sigma), admissible_subterms(t))) OR
+    member(s, admissible_subterms(img(sigma))) OR
+    EXISTS X, t1:
+    	   im_under?(X, t1) AND member(t1, subterms(t)) AND
+	   subs(sigma)(X) = s AND (ac_app?(s) IMPLIES dif_func?(t1, s)))
 
 % instantiate step / apply ac step
 vars_not_ac_var_inst_step: LEMMA
@@ -366,7 +410,6 @@ inst_step_vars_not_ac_mem: LEMMA
     EXISTS t:
         member(t, lst_unif_prb) AND NOT var?(t) AND member(Y, vars_not_ac(subs(sigma)(t)))
 
-
 % 1/3 of termination
 apply_ac_step_vars_not_ac2: LEMMA
     member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
@@ -380,14 +423,46 @@ apply_ac_step_vars_not_ac_cor: LEMMA
     
 
 % 2/3 of termination
-apply_ac_step_vars_under2more: CONJECTURE
+apply_ac_step_vars_under2more: LEMMA
     member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
     AND no_var_pair?(append(unseen_unif_prb, seen_unif_prb))
     IMPLIES subset?(vars_under2more(ac_sol`1), image(mimic_var(ac_sol`2),
     	    				       vars_under2more(append(unseen_unif_prb, seen_unif_prb))))
 
-apply_ac_step_vars_under2more_cor: CONJECTURE 
+apply_ac_step_vars_under2more_cor: LEMMA
     member(ac_sol, apply_ac_step(unif_prb, null, sigma, vars2avoid)) IMPLIES 
     card(vars_under2more(ac_sol`1)) <= card(vars_under2more(unif_prb))
+
+next_input_vars_under2more: LEMMA
+    LET unif_prb0 = append(input0`1, input0`2),
+	unif_prb1 = append(input1`1, input1`2),
+        sigma1 = input1`3 IN 
+    next_input?(input0, input1) AND no_var_pair?(unif_prb0) AND null?(input0`3) IMPLIES
+    subset?(vars_under2more(unif_prb1), image(mimic_var(sigma1),
+     		vars_under2more(unif_prb0))) 
+
+% 3/3 of termination
+apply_ac_step_adm_subterms_subset: CONJECTURE
+    member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
+    AND vars_under2more(ac_sol`1) =
+    	image(mimic_var(ac_sol`2), vars_under2more(append(unseen_unif_prb, seen_unif_prb)))
+    AND no_var_pair?(seen_unif_prb)
+    IMPLIES subset?(admissible_subterms(ac_sol`1),
+		image(subs(ac_sol`2), admissible_subterms(append(unseen_unif_prb, seen_unif_prb))))
+
+apply_ac_step_adm_subterms_leq: CONJECTURE 
+    member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
+    AND vars_under2more(ac_sol`1) =
+    	image(mimic_var(ac_sol`2), vars_under2more(append(unseen_unif_prb, seen_unif_prb))) 
+    IMPLIES card(admissible_subterms(ac_sol`1)) <=
+             card(admissible_subterms(append(unseen_unif_prb, seen_unif_prb)))
+
+apply_ac_step_adm_subterms: CONJECTURE 
+    member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
+    AND vars_under2more(ac_sol`1) =
+    	image(mimic_var(ac_sol`2), vars_under2more(append(unseen_unif_prb, seen_unif_prb)))
+    IMPLIES (card(admissible_subterms(ac_sol`1)) <
+             card(admissible_subterms(append(unseen_unif_prb, seen_unif_prb)))
+	     OR null?(ac_sol`1))
 
 END termination_alg

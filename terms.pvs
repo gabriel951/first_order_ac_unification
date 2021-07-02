@@ -517,8 +517,11 @@ subterms(fin_set_t): RECURSIVE finite_set[term] =
 MEASURE card(fin_set_t)
 
 % set of all proper subterms of t
-prop_subterms(t): finite_set[term] =
-   {s | member(s, subterms(t)) AND s /= t}
+prop_subterms(t): RECURSIVE finite_set[term] =
+   IF pair?(t) THEN union(prop_subterms(term1(t)), prop_subterms(term2(t)))
+   ELSE {s | member(s, subterms(t)) AND s /= t}
+   ENDIF
+MEASURE t BY << 
 
 % set of all terms immediately under t
 im_under(t): RECURSIVE finite_set[term] =
@@ -700,14 +703,27 @@ subterm_transitive: LEMMA
 get_args_subterms: LEMMA
    member(s, get_args(f)(t)) IMPLIES subset?(subterms(s), subterms(t))
 
-prop_subterm_size: LEMMA
-    member(s, prop_subterms(t)) IMPLIES size(s) < size(t)
+prop_subterm_subterm_size: LEMMA
+    member(s, prop_subterms(t)) IMPLIES member(s, subterms(t)) AND size(s) < size(t)
+
+prop_subterm_subterm: LEMMA
+    member(s, prop_subterms(t)) IMPLIES member(s, subterms(t)) AND s /= t
 
 vars_prop_subterm: LEMMA
    (member(X, vars(s)) AND member(s, prop_subterms(t))) IMPLIES member(X, vars(t))
 
+% flatten_pair
 var_flatten_pair_implies_var: LEMMA
    member(variable(X), list2set(flatten_pair(t))) IMPLIES member(X, vars(t))
+
+flatten_pair_not_pair: LEMMA
+   member(s, flatten_pair(t)) IMPLIES NOT pair?(s) 
+
+flatten_pair_subterms: LEMMA
+   member(s, flatten_pair(t)) IMPLIES member(s, subterms(t)) 
+
+flatten_pair_size: LEMMA
+   member(s, flatten_pair(t)) IMPLIES size(s) <= size(t)
 
 % im under and same_func
 im_under_var: LEMMA
@@ -724,6 +740,15 @@ same_func_sym: LEMMA
 
 same_func_trans: LEMMA
     same_func?(t, s) AND same_func?(s, t1) IMPLIES same_func?(t, t1) 
+
+same_func_dif_func: LEMMA
+    func?(t) AND func?(s) IMPLIES (same_func?(t, s) OR dif_func?(t, s))
+
+dif_func_sym: LEMMA
+    dif_func?(s, t) = dif_func?(t, s)
+
+cond_dif_func: LEMMA
+    dif_func?(s, t) AND same_func?(t, t1) IMPLIES dif_func?(s, t1)
 
 END term_properties
 

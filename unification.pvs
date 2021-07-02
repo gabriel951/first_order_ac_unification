@@ -24,7 +24,7 @@ t, s: VAR term
 
 % a unification pair (t, s) is composed of terms t and s that must be unified
 unif_pair: TYPE = [term, term]
-unif_pair: VAR unif_pair
+unif_pair, unif_pair1: VAR unif_pair
 
 % a unification problem is a list of unification pairs
 unif_prb: TYPE = list[unif_pair]
@@ -177,8 +177,15 @@ member_lst_unif_prb_equiv: LEMMA
    EXISTS unif_prb:
     member(t, unif_prb) AND member(unif_prb, lst_unif_prb)
 
+% lhs/rhs
 member_lhs_rhs: LEMMA
    member(t, unif_prb) IFF (member(t, lhs(unif_prb)) OR member(t, rhs(unif_prb)))
+
+member_lhs_pareate: LEMMA
+   member(t, lhs(pareate(args1, args2))) IMPLIES member(t, args1)
+
+member_rhs_pareate: LEMMA
+   member(t, rhs(pareate(args1, args2))) IMPLIES member(t, args2)
 
 % vars no_var_pair
 vars_unif_prb: LEMMA
@@ -197,6 +204,9 @@ vars_lst_vars_flatten_lst_unif_prb: LEMMA
 
 no_var_pair_append: LEMMA
     no_var_pair?(append(unif_prb, unif_prb1)) = (no_var_pair?(unif_prb) AND no_var_pair?(unif_prb1))
+
+all_ac_prb_no_var_pair: LEMMA
+    all_ac_prb?(unif_prb) IMPLIES no_var_pair?(unif_prb) 
 
 % size
 size_app_unif_prb: LEMMA
@@ -236,6 +246,11 @@ apply_sub_mem: LEMMA
     member(t, apply_sub(sigma, unif_prb)) IFF
     EXISTS s:
        member(s, unif_prb) AND t = subs(sigma)(s)
+
+apply_sub_unif_pair: LEMMA
+    member(unif_pair, apply_sub(sigma, unif_prb)) IFF
+    EXISTS unif_pair1:
+       member(unif_pair1, unif_prb) AND unif_pair = apply_sub(sigma, unif_pair1) 
 
 apply_sub_subterms: LEMMA
     member(t, subterms(apply_sub(sigma, unif_prb))) IMPLIES

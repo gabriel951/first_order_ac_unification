@@ -168,6 +168,7 @@ MEASURE row BY <<
 % return a variable that is not in vars2avoid
 get_new_var(vars2avoid): variable = select_greater[nat](vars2avoid) + 1
 
+
 % the initial call to this function should be with lst_args = [null, ..., null]
 % each row in dio_matrix gives rise to a new variable 
 % add the new_variable to lst_args[i] the amount of times indicated in row[i],
@@ -182,16 +183,26 @@ get_pre_new_args(lst_args, dio_matrix, vars2avoid): RECURSIVE [list[args], list[
      ENDIF
 MEASURE dio_matrix BY << 
 
+% this function is used in "dio_matrix2ac_sol"
+% this function receives args = [t1, ... ,tn] and construct an AC-function headed by "sym"
+% whoser arguments are [t1, ..., tn].
+% the only exception is if the args = [X] and X is a variable,
+% in this case the function returns X 
+get_ac_from_args_gt1(sym)(args): term =
+    IF null?(args) OR length(args) /= 1 THEN get_ac_from_args(sym)(args)
+    ELSE car(args) 
+    ENDIF
+
 % this corresponds to function trans in Fages paper
-% some simplification is done
+% some simplification is done in order to ease the formalization
 dio_matrix2ac_sol(args, vars2avoid, sym)(dio_matrix): ac_sol = 
      LET num_col = length(args), 
      % get list of list of args
      null_lst = get_repeat_lst[args](null, num_col), 
      (pre_new_args, new_vars2avoid) = get_pre_new_args(null_lst, dio_matrix, vars2avoid),
-     % for each "args" in pre_new_args, make an ac term whose args are "args"
-     %new_args = get_ac_from_args_gt1(sym)(pre_new_args), 
-     new_args = map(get_ac_from_args(sym))(pre_new_args),
+     % for each "args" in pre_new_args, make the corresponding ac term whose args are "args"
+     new_args = map(get_ac_from_args_gt1(sym))(pre_new_args), 
+     %new_args = map(get_ac_from_args(sym))(pre_new_args),
      % pareate
      new_unif_prb = pareate(args, new_args) IN
      (new_unif_prb, new_vars2avoid) 
@@ -418,6 +429,15 @@ get_pre_new_args_count: LEMMA
     ELSE dot_product(map(count(t, equal?))(lst_args), mult_t1)   
     ENDIF
 
+% get_ac_from_args_gt1
+get_ac_from_args_gt1_ac_var: LEMMA
+    member(args, get_pre_new_args(get_repeat_lst[args](null, n),
+                              dio_matrix, vars2avoid)`1) IMPLIES  
+    (is_ac_sym?(get_ac_from_args_gt1(f)(args), f) OR var?(get_ac_from_args_gt1(f)(args)))
+
+get_ac_from_args_gt1_vars: LEMMA
+    vars(get_ac_from_args_gt1(f)(args)) = vars(args) 
+
 % elim_com_arg
 elim_com_arg_mem: LEMMA
    member(t, elim_com_arg(t1, t2, f)`1) IMPLIES
@@ -442,7 +462,7 @@ elim_com_arg_solve_ac_null: LEMMA
 
 
 % TODO: add a comment explaining
-dio_matrix2ac_sol_correct: LEMMA
+dio_matrix2ac_sol_correct: CONJECTURE 
    LET (unif_prb, new_vars2avoid) = dio_matrix2ac_sol(args, vars2avoid, f)(dio_matrix), 
     	new_args = snd_proj(unif_prb),
 	(args1, args2) = split(new_args, length(mult_t1)),
@@ -454,7 +474,7 @@ dio_matrix2ac_sol_correct: LEMMA
     perm?(map(get_args(f))(args1_cor_mult), map(get_args(f))(args2_cor_mult))
 
 % solve_ac
-solve_ac_soundness: LEMMA
+solve_ac_soundness: CONJECTURE
     member((unif_prb, new_vars2avoid), solve_ac(t1, t2, vars2avoid, f)) AND   
     are_ac?(t1, t2, f) AND unifies?(sigma, unif_prb)
     IMPLIES unifies?(sigma, (t1, t2))
@@ -468,12 +488,22 @@ solve_ac_vars_vars2avoid: LEMMA
     member(t1, subterms(unif_prb)) AND NOT member(t1, subterms((t, s))) AND
     member(X, vars(t1)) IMPLIES NOT member(X, vars2avoid) 
 
-solve_ac_mem_lhs: CONJECTURE 
+solve_ac_vars_rhs: LEMMA
+    member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND 
+    member(variable(X), rhs(unif_prb)) IMPLIES NOT member(X, vars2avoid)
+
+solve_ac_mem_lhs: LEMMA
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND
     member(t1, lhs(unif_prb)) IMPLIES
     (member(t1, get_args(f)(t)) OR member(t1, get_args(f)(s)))
     
-solve_ac_disjoint_lhs_rhs: CONJECTURE
+solve_ac_lhs_im_under: LEMMA
+    member(unif_prb, first_proj(solve_ac(t1, t2, vars2avoid, f))) AND
+    is_ac_sym?(t1, f) AND is_ac_sym?(t2, f) AND member(variable(X), lhs(unif_prb))
+    IMPLIES EXISTS s:
+        im_under?(X, s) AND (s = t1 OR s = t2)
+
+solve_ac_disjoint_lhs_rhs: LEMMA 
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND
     subset?(vars((t, s)), vars2avoid) IMPLIES
     disjoint?(list2set(lhs(unif_prb)), list2set(rhs(unif_prb)))
@@ -546,6 +576,9 @@ instantiate_step_append: LEMMA
     instantiate_step(append(lst_unif_prb1, lst_unif_prb2)) =
     append(instantiate_step(lst_unif_prb1), instantiate_step(lst_unif_prb2))
 
+instantiate_step_dom: LEMMA
+    member(X, dom(instantiate_step(t, s)`1)) IMPLIES (variable(X) = t OR variable(X) = s)
+
 instantiate_step_img: LEMMA
     img(instantiate_step(t, s)`1) = emptyset OR
     img(instantiate_step(t, s)`1) = singleton(t) OR
@@ -609,12 +642,21 @@ instantiate_step1_mem: LEMMA
     EXISTS s:
        NOT var?(s) AND member(s, unif_prb) AND t = subs(delta)(s)
 
+% please prefer "instantiate_step_mem2"
 instantiate_step_mem: LEMMA
     member((unif_prb, sigma), instantiate_step(lst_unif_prb)) IMPLIES
     EXISTS unif_prb1:
 	 member(unif_prb1, lst_unif_prb) AND 
          unif_prb = instantiate_step(unif_prb1, null, null)`1 AND
 	 sigma = instantiate_step(unif_prb1, null, null)`2
+
+instantiate_step_mem2: LEMMA
+    member((unif_prb, sigma), instantiate_step(lst_unif_prb)) IMPLIES
+    EXISTS unif_prb1:
+	 member(unif_prb1, lst_unif_prb) AND 
+         unif_prb = instantiate_step(unif_prb1, null, null)`1 AND
+	 sigma = instantiate_step(unif_prb1, null, null)`2 AND
+	 NOT instantiate_step(unif_prb1, null, null)`3
 	 
 instantiate_step_no_var_pair: LEMMA
     unif_prb1 = instantiate_step(unif_prb2, null, null)`1 AND no_pair?(unif_prb2)
@@ -630,15 +672,15 @@ instantiate_step_sub_im_under: LEMMA
         member(s, subterms(unif_prb)) AND subs(delta)(Y) = variable(X)
 	AND im_under?(Y, s) AND same_func?(t, s)
 
-instantiate_step_var_member: CONJECTURE 
+instantiate_step_var_member: LEMMA
      LET delta = instantiate_step(unif_prb, null, null)`2 IN 
      X /= Y AND subs(delta)(X) = variable(Y) IMPLIES
      member(variable(X), unif_prb) AND member(variable(Y), unif_prb)
 
-instantiate_step: CONJECTURE
-    LET delta = instantiate_step(unif_prb, null, null)`2 IN 
-    disjoint?(list2set(lhs(unif_prb)), list2set(rhs(unif_prb))) AND
-    member(variable(X), rhs(unif_prb))
+instantiate_step_rhs_not_id: LEMMA
+    LET delta = instantiate_step(unif_prb, null, null)`2,
+        fail = instantiate_step(unif_prb, null, null)`3 IN 
+    NOT fail AND member(variable(X), rhs(unif_prb)) AND NOT member(variable(X), lhs(unif_prb))
     IMPLIES subs(delta)(X) /= variable(X)
 
 END aux_unification 
