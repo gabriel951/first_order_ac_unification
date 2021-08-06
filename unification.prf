@@ -155,6 +155,74 @@
    (vars termination
     "unification.vars(list_adt[unification.unif_prb].cdr(unification.lst_unif_prb))"
     "nil")))
+ (temp?_TCC1 0
+  (temp?_TCC1-1 nil 3836333125 ("" (subtype-tcc) nil nil) nil nil
+   (temp? subtype "="
+    "equiv[term[constant, variable, f_symbol, ac_symbol]]")))
+ (first_proj_unif_prb 0
+  (first_proj_unif_prb-1 nil 3836595772
+   ("" (induct "args1")
+    (("1" (grind) nil nil)
+     ("2" (skolem 1 ("hd" "tail"))
+      (("2" (prop)
+        (("2" (skeep)
+          (("2" (expand "pareate" 1)
+            (("2" (lift-if)
+              (("2" (prop)
+                (("1" (grind) nil nil)
+                 ("2" (expand "first_proj" 2 1)
+                  (("2" (inst -1 "cdr(args2)") (("2" (grind) nil nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (list_induction formula-decl nil list_adt nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (below type-eq-decl nil nat_types nil)
+    (character type-decl nil character_adt nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (char type-eq-decl nil strings nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (term type-decl nil term_adt nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (every adt-def-decl "boolean" term_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (>= const-decl "bool" reals nil)
+    (TRUE const-decl "bool" booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (constant type-eq-decl nil term_properties nil)
+    (variable type-eq-decl nil term_properties nil)
+    (pareate def-decl "list[[T, T]]" list_theory nil)
+    (first_proj def-decl "list[T1]" list_theory2 nil)
+    (length def-decl "nat" list_props nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (args type-eq-decl nil term_properties nil)
+    (every adt-def-decl "boolean" list_adt nil)
+    (list type-decl nil list_adt nil))
+   shostak))
  (member_unif_prb_equiv 0
   (member_unif_prb_equiv-1 nil 3827331147
    ("" (induct "unif_prb")
@@ -378,6 +446,119 @@
     (unif_prb type-eq-decl nil unification nil)
     (member def-decl "bool" list_props nil)
     (IFF const-decl "[bool, bool -> bool]" booleans nil))
+   shostak))
+ (is_finite_mem_unif_prb 0
+  (is_finite_mem_unif_prb-1 nil 3834828190
+   ("" (measure-induct "length(unif_prb)" "unif_prb")
+    (("" (skolem 1 "unif_prb1")
+      (("" (prop)
+        (("" (case "null?(unif_prb1)")
+          (("1" (hide -2)
+            (("1" (case "{t | member(t, unif_prb1)} = emptyset")
+              (("1" (replace -1)
+                (("1" (rewrite "finite_emptyset") nil nil)) nil)
+               ("2" (hide 2)
+                (("2" (rewrite "subset_antisymmetric")
+                  (("1" (grind) nil nil) ("2" (grind) nil nil)) nil))
+                nil))
+              nil))
+            nil)
+           ("2"
+            (case "{t | member(t, unif_prb1)} = add(car(unif_prb1)`1, add(car(unif_prb1)`2, {t | member(t, cdr(unif_prb1))}))")
+            (("1" (replace -1)
+              (("1" (hide -1 -2)
+                (("1" (lemma "finite_add[term]")
+                  (("1" (inst?)
+                    (("1" (hide 3)
+                      (("1" (lemma "finite_add[term]")
+                        (("1" (inst?)
+                          (("1" (hide 2)
+                            (("1" (reveal -3)
+                              (("1"
+                                (inst -1 "cdr(unif_prb1)")
+                                (("1" (grind) nil nil)
+                                 ("2" (assert) nil nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil)
+             ("2" (hide -1 3)
+              (("2" (decompose-equality 1) (("2" (grind) nil nil))
+                nil))
+              nil)
+             ("3" (assert) nil nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (emptyset const-decl "set" sets nil)
+    (finite_emptyset judgement-tcc nil finite_sets nil)
+    (subset_antisymmetric formula-decl nil sets_lemmas nil)
+    (finite_emptyset name-judgement "finite_set" finite_sets nil)
+    (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil)
+    (subset? const-decl "bool" sets nil)
+    (member const-decl "bool" sets nil)
+    (finite_add formula-decl nil finite_sets nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (injective? const-decl "bool" functions nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (car adt-accessor-decl "[(cons?) -> T]" list_adt nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (add const-decl "(nonempty?)" sets nil)
+    (nonempty? const-decl "bool" sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (set type-eq-decl nil sets nil)
+    (wf_nat formula-decl nil naturalnumbers nil)
+    (< const-decl "bool" reals nil)
+    (length def-decl "nat" list_props nil)
+    (unif_prb type-eq-decl nil unification nil)
+    (naturalnumber type-eq-decl nil naturalnumbers nil)
+    (list type-decl nil list_adt nil)
+    (unif_pair type-eq-decl nil unification nil)
+    (variable type-eq-decl nil term_properties nil)
+    (constant type-eq-decl nil term_properties nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (TRUE const-decl "bool" booleans nil)
+    (>= const-decl "bool" reals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (term type-decl nil term_adt nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (char type-eq-decl nil strings nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (character type-decl nil character_adt nil)
+    (below type-eq-decl nil nat_types nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (number nonempty-type-decl nil numbers nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (well_founded? const-decl "bool" orders nil)
+    (pred type-eq-decl nil defined_types nil))
    shostak))
  (member_lhs_rhs 0
   (member_lhs_rhs-1 nil 3832859176
@@ -1229,7 +1410,6 @@
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (every adt-def-decl "boolean" term_adt nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -2026,7 +2206,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -3044,5 +3224,627 @@
     (subs_pair2 formula-decl nil substitution nil)
     (subs_var formula-decl nil substitution nil)
     (apply_sub const-decl "unif_pair" unification nil))
+   shostak))
+ (apply_sub_var_not_dom_mem 0
+  (apply_sub_var_not_dom_mem-1 nil 3836333125
+   ("" (skolem 1 ("X" "sigma" "unif_pair1"))
+    (("" (prop)
+      (("" (expand "member" -1)
+        (("" (prop)
+          (("1" (expand "member" 2)
+            (("1" (prop)
+              (("1" (expand "apply_sub" 2) (("1" (grind) nil nil))
+                nil))
+              nil))
+            nil)
+           ("2" (grind) nil nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((member const-decl "bool" sets nil)
+    (dom const-decl "finite_set[variable]" substitution nil)
+    (subs const-decl "term" substitution nil)
+    (apply_sub const-decl "unif_pair" unification nil)
+    (member const-decl "bool" unification nil))
+   shostak))
+ (apply_sub_var_not_dom_lhs_TCC1 0
+  (apply_sub_var_not_dom_lhs_TCC1-1 nil 3836334613
+   ("" (subtype-tcc) nil nil) nil nil
+   (apply_sub_var_not_dom_lhs subtype "="
+    "equiv[term[constant, variable, f_symbol, ac_symbol]]")))
+ (apply_sub_var_not_dom_lhs 0
+  (apply_sub_var_not_dom_lhs-1 nil 3836334614
+   ("" (measure-induct "length(unif_prb)" "unif_prb")
+    (("1" (skolem 1 "unif_prb1")
+      (("1" (prop)
+        (("1" (skeep)
+          (("1" (expand "lhs" 3)
+            (("1" (expand "first_proj" 3 1)
+              (("1" (lift-if)
+                (("1" (split)
+                  (("1" (grind) nil nil)
+                   ("2" (flatten)
+                    (("2" (expand "count" 2 1)
+                      (("2" (lift-if)
+                        (("2" (split)
+                          (("1" (flatten)
+                            (("1" (expand "apply_sub" 1)
+                              (("1"
+                                (assert)
+                                (("1"
+                                  (expand "first_proj" 1 2)
+                                  (("1"
+                                    (expand "count" 1 2)
+                                    (("1"
+                                      (lift-if)
+                                      (("1"
+                                        (split 1)
+                                        (("1"
+                                          (flatten)
+                                          (("1"
+                                            (assert)
+                                            (("1"
+                                              (inst
+                                               -3
+                                               "cdr(unif_prb1)")
+                                              (("1" (grind) nil nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (flatten)
+                                          (("2"
+                                            (hide 2 -2)
+                                            (("2" (grind) nil nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("2" (flatten)
+                            (("2" (expand "apply_sub" 2)
+                              (("2"
+                                (assert)
+                                (("2"
+                                  (expand "first_proj" 2 2)
+                                  (("2"
+                                    (expand "count" 2 2)
+                                    (("2"
+                                      (lift-if)
+                                      (("2"
+                                        (split)
+                                        (("1"
+                                          (flatten)
+                                          (("1"
+                                            (hide -2 1)
+                                            (("1"
+                                              (expand "apply_sub" -1)
+                                              (("1"
+                                                (lemma "subs_var")
+                                                (("1"
+                                                  (inst?)
+                                                  (("1"
+                                                    (assert)
+                                                    (("1"
+                                                      (expand
+                                                       "member"
+                                                       4)
+                                                      (("1"
+                                                        (expand
+                                                         "img"
+                                                         4)
+                                                        (("1"
+                                                          (lemma
+                                                           "term_variable_eta")
+                                                          (("1"
+                                                            (inst?)
+                                                            (("1"
+                                                              (grind)
+                                                              nil
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (flatten)
+                                          (("2"
+                                            (inst -1 "cdr(unif_prb1)")
+                                            (("2"
+                                              (prop)
+                                              (("1"
+                                                (inst?)
+                                                (("1" (grind) nil nil))
+                                                nil)
+                                               ("2" (grind) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil)
+     ("2" (grind) nil nil))
+    nil)
+   ((reflexive? const-decl "bool" relations nil)
+    (symmetric? const-decl "bool" relations nil)
+    (transitive? const-decl "bool" relations nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (first_proj def-decl "list[T1]" list_theory2 nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (apply_sub const-decl "unif_pair" unification nil)
+    (subs const-decl "term" substitution nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (car adt-accessor-decl "[(cons?) -> T]" list_adt nil)
+    (term_variable_eta formula-decl nil term_adt nil)
+    (V adt-accessor-decl "[(var?) -> variable]" term_adt nil)
+    (subs_var formula-decl nil substitution nil)
+    (apply_sub def-decl "unif_prb" unification nil)
+    (lhs const-decl "args" unification nil)
+    (args type-eq-decl nil term_properties nil)
+    (equiv type-eq-decl nil list_theory nil)
+    (basic_sub type-eq-decl nil substitution nil)
+    (sub type-eq-decl nil substitution nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (set type-eq-decl nil sets nil) (member const-decl "bool" sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (dom const-decl "finite_set[variable]" substitution nil)
+    (var? adt-recognizer-decl "[term -> boolean]" term_adt nil)
+    (variable adt-constructor-decl "[variable -> (var?)]" term_adt nil)
+    (img const-decl
+     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
+     substitution nil)
+    (equivalence? const-decl "bool" relations nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (wf_nat formula-decl nil naturalnumbers nil)
+    (< const-decl "bool" reals nil)
+    (length def-decl "nat" list_props nil)
+    (unif_prb type-eq-decl nil unification nil)
+    (naturalnumber type-eq-decl nil naturalnumbers nil)
+    (list type-decl nil list_adt nil)
+    (unif_pair type-eq-decl nil unification nil)
+    (variable type-eq-decl nil term_properties nil)
+    (constant type-eq-decl nil term_properties nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (TRUE const-decl "bool" booleans nil)
+    (>= const-decl "bool" reals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (term type-decl nil term_adt nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (char type-eq-decl nil strings nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (character type-decl nil character_adt nil)
+    (below type-eq-decl nil nat_types nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (number nonempty-type-decl nil numbers nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (well_founded? const-decl "bool" orders nil)
+    (pred type-eq-decl nil defined_types nil))
+   shostak))
+ (apply_sub_var_not_dom_rhs 0
+  (apply_sub_var_not_dom_rhs-2 nil 3836336234
+   ("" (measure-induct "length(unif_prb)" "unif_prb")
+    (("1" (skolem 1 "unif_prb1")
+      (("1" (prop)
+        (("1" (skeep)
+          (("1" (expand "rhs" 3)
+            (("1" (expand "sec_proj" 3 1)
+              (("1" (lift-if)
+                (("1" (split)
+                  (("1" (grind) nil nil)
+                   ("2" (flatten)
+                    (("2" (expand "count" 2 1)
+                      (("2" (lift-if)
+                        (("2" (split)
+                          (("1" (flatten)
+                            (("1" (expand "apply_sub" 1)
+                              (("1"
+                                (assert)
+                                (("1"
+                                  (expand "sec_proj" 1 2)
+                                  (("1"
+                                    (expand "count" 1 2)
+                                    (("1"
+                                      (lift-if)
+                                      (("1"
+                                        (split 1)
+                                        (("1"
+                                          (flatten)
+                                          (("1"
+                                            (assert)
+                                            (("1"
+                                              (inst
+                                               -3
+                                               "cdr(unif_prb1)")
+                                              (("1" (grind) nil nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (flatten)
+                                          (("2"
+                                            (hide 2 -2)
+                                            (("2" (grind) nil nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("2" (flatten)
+                            (("2" (expand "apply_sub" 2)
+                              (("2"
+                                (assert)
+                                (("2"
+                                  (expand "sec_proj" 2 2)
+                                  (("2"
+                                    (expand "count" 2 2)
+                                    (("2"
+                                      (lift-if)
+                                      (("2"
+                                        (split)
+                                        (("1"
+                                          (flatten)
+                                          (("1"
+                                            (hide -2 1)
+                                            (("1"
+                                              (expand "apply_sub" -1)
+                                              (("1"
+                                                (lemma "subs_var")
+                                                (("1"
+                                                  (inst?)
+                                                  (("1"
+                                                    (assert)
+                                                    (("1"
+                                                      (expand
+                                                       "member"
+                                                       4)
+                                                      (("1"
+                                                        (expand
+                                                         "img"
+                                                         4)
+                                                        (("1"
+                                                          (lemma
+                                                           "term_variable_eta")
+                                                          (("1"
+                                                            (inst?)
+                                                            (("1"
+                                                              (grind)
+                                                              nil
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (flatten)
+                                          (("2"
+                                            (inst -1 "cdr(unif_prb1)")
+                                            (("2"
+                                              (prop)
+                                              (("1"
+                                                (inst?)
+                                                (("1" (grind) nil nil))
+                                                nil)
+                                               ("2" (grind) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil)
+     ("2" (grind) nil nil))
+    nil)
+   ((pred type-eq-decl nil defined_types nil)
+    (well_founded? const-decl "bool" orders nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (below type-eq-decl nil nat_types nil)
+    (character type-decl nil character_adt nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (char type-eq-decl nil strings nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (term type-decl nil term_adt nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (>= const-decl "bool" reals nil)
+    (TRUE const-decl "bool" booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (constant type-eq-decl nil term_properties nil)
+    (variable type-eq-decl nil term_properties nil)
+    (unif_pair type-eq-decl nil unification nil)
+    (list type-decl nil list_adt nil)
+    (naturalnumber type-eq-decl nil naturalnumbers nil)
+    (unif_prb type-eq-decl nil unification nil)
+    (length def-decl "nat" list_props nil)
+    (< const-decl "bool" reals nil)
+    (wf_nat formula-decl nil naturalnumbers nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (equivalence? const-decl "bool" relations nil)
+    (img const-decl
+     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
+     substitution nil)
+    (variable adt-constructor-decl "[variable -> (var?)]" term_adt nil)
+    (var? adt-recognizer-decl "[term -> boolean]" term_adt nil)
+    (dom const-decl "finite_set[variable]" substitution nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (sub type-eq-decl nil substitution nil)
+    (basic_sub type-eq-decl nil substitution nil)
+    (equiv type-eq-decl nil list_theory nil)
+    (args type-eq-decl nil term_properties nil)
+    (rhs const-decl "args" unification nil)
+    (apply_sub def-decl "unif_prb" unification nil)
+    (subs_var formula-decl nil substitution nil)
+    (V adt-accessor-decl "[(var?) -> variable]" term_adt nil)
+    (term_variable_eta formula-decl nil term_adt nil)
+    (car adt-accessor-decl "[(cons?) -> T]" list_adt nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (subs const-decl "term" substitution nil)
+    (apply_sub const-decl "unif_pair" unification nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (sec_proj def-decl "list[T2]" list_theory2 nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (transitive? const-decl "bool" relations nil)
+    (symmetric? const-decl "bool" relations nil)
+    (reflexive? const-decl "bool" relations nil))
+   nil)
+  (apply_sub_var_not_dom_rhs-1 nil 3836336188
+   ("" (measure-induct "length(unif_prb)" "unif_prb")
+    (("1" (skolem 1 "unif_prb1")
+      (("1" (prop)
+        (("1" (skeep)
+          (("1" (expand "lhs" 3)
+            (("1" (expand "first_proj" 3 1)
+              (("1" (lift-if)
+                (("1" (split)
+                  (("1" (grind) nil)
+                   ("2" (flatten)
+                    (("2" (expand "count" 2 1)
+                      (("2" (lift-if)
+                        (("2" (split)
+                          (("1" (flatten)
+                            (("1" (expand "apply_sub" 1)
+                              (("1"
+                                (assert)
+                                (("1"
+                                  (expand "first_proj" 1 2)
+                                  (("1"
+                                    (expand "count" 1 2)
+                                    (("1"
+                                      (lift-if)
+                                      (("1"
+                                        (split 1)
+                                        (("1"
+                                          (flatten)
+                                          (("1"
+                                            (assert)
+                                            (("1"
+                                              (inst
+                                               -3
+                                               "cdr(unif_prb1)")
+                                              (("1" (grind) nil)))))))
+                                         ("2"
+                                          (flatten)
+                                          (("2"
+                                            (hide 2 -2)
+                                            (("2"
+                                              (grind)
+                                              nil)))))))))))))))))))
+                           ("2" (flatten)
+                            (("2" (expand "apply_sub" 2)
+                              (("2"
+                                (assert)
+                                (("2"
+                                  (expand "first_proj" 2 2)
+                                  (("2"
+                                    (expand "count" 2 2)
+                                    (("2"
+                                      (lift-if)
+                                      (("2"
+                                        (split)
+                                        (("1"
+                                          (flatten)
+                                          (("1"
+                                            (hide -2 1)
+                                            (("1"
+                                              (expand "apply_sub" -1)
+                                              (("1"
+                                                (lemma "subs_var")
+                                                (("1"
+                                                  (inst?)
+                                                  (("1"
+                                                    (assert)
+                                                    (("1"
+                                                      (expand
+                                                       "member"
+                                                       4)
+                                                      (("1"
+                                                        (expand
+                                                         "img"
+                                                         4)
+                                                        (("1"
+                                                          (lemma
+                                                           "term_variable_eta")
+                                                          (("1"
+                                                            (inst?)
+                                                            (("1"
+                                                              (grind)
+                                                              nil)))))))))))))))))))))
+                                         ("2"
+                                          (flatten)
+                                          (("2"
+                                            (inst -1 "cdr(unif_prb1)")
+                                            (("2"
+                                              (prop)
+                                              (("1"
+                                                (inst?)
+                                                (("1" (grind) nil)))
+                                               ("2"
+                                                (grind)
+                                                nil)))))))))))))))))))))))))))))))))))))))))))
+     ("2" (grind) nil))
+    nil)
+   nil nil))
+ (apply_sub_var_not_dom_count 0
+  (apply_sub_var_not_dom_count-1 nil 3836333362
+   ("" (skeep)
+    (("" (rewrite "count_append")
+      (("" (rewrite "count_append")
+        (("" (use "apply_sub_var_not_dom_lhs")
+          (("" (assert)
+            (("" (replace -1)
+              (("" (assert)
+                (("" (hide -1)
+                  (("" (use "apply_sub_var_not_dom_rhs")
+                    (("" (assert) nil nil)) nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((count_append formula-decl nil list_theory nil)
+    (equivalence? const-decl "bool" relations nil)
+    (equiv type-eq-decl nil list_theory nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (list type-decl nil list_adt nil) nil
+    (unif_pair type-eq-decl nil unification nil)
+    (unif_prb type-eq-decl nil unification nil)
+    (args type-eq-decl nil term_properties nil)
+    (lhs const-decl "args" unification nil)
+    (rhs const-decl "args" unification nil)
+    (var? adt-recognizer-decl "[term -> boolean]" term_adt nil)
+    (variable adt-constructor-decl "[variable -> (var?)]" term_adt nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (below type-eq-decl nil nat_types nil)
+    (character type-decl nil character_adt nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (char type-eq-decl nil strings nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (term type-decl nil term_adt nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (PRED type-eq-decl nil defined_types nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (>= const-decl "bool" reals nil)
+    (TRUE const-decl "bool" booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (constant type-eq-decl nil term_properties nil)
+    (variable type-eq-decl nil term_properties nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (apply_sub_var_not_dom_lhs formula-decl nil unification nil)
+    (apply_sub_var_not_dom_rhs formula-decl nil unification nil)
+    (apply_sub def-decl "unif_prb" unification nil)
+    (sub type-eq-decl nil substitution nil)
+    (basic_sub type-eq-decl nil substitution nil))
    shostak)))
 

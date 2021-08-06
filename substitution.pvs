@@ -109,6 +109,14 @@ img(sigma): finite_set[term] = {t | EXISTS X: member(X, dom(sigma)) AND subs(sig
 idempotent?(sigma): bool = 
    FORALL X: subs(sigma)(subs(sigma)(X)) = subs(sigma)(X)
 
+nice?(sigma): RECURSIVE bool = 
+    IF null?(sigma) THEN TRUE 
+    ELSE LET (X, t) = car(sigma) IN
+         (NOT member(X, vars(t)) AND NOT member(X, supset_dom(cdr(sigma))) AND
+	  disjoint?(vars(t), supset_dom(cdr(sigma))) AND nice?(cdr(sigma)))
+    ENDIF
+MEASURE sigma BY << 
+
 %%%%%%%%%%%%%%%%%%% Theorems
 % substitution and their effects on the terms
 subs_const: LEMMA
@@ -137,6 +145,10 @@ subs_ac2: LEMMA
 
 subs_func: LEMMA
     func?(subs(sigma)(t)) IMPLIES (same_func?(subs(sigma)(t), t) OR var?(t))
+
+subs_ord: LEMMA
+    t = subs(sigma)(s) IMPLIES (ord(t) = ord(s) OR (var?(s) AND member(V(s), dom(sigma))))
+    
 
 % substitution in list of arguments
 subs_select: LEMMA
@@ -207,13 +219,19 @@ perm?_get_args_subs: LEMMA
     perm?(subs(sigma)(get_args(f)(t)), subs(sigma)(get_args(f)(s))) IMPLIES
     perm?(get_args(f)(subs(sigma)(t)), get_args(f)(subs(sigma)(s)))
 
-% domain and img of a substitution lemmas
+% domain and img of a substitution lemma
 vars_subs_t: LEMMA
     subset?(vars(subs(sigma)(t)), union(vars(img(sigma)), vars(t)))
 
 basic_sub_no_effect: LEMMA
     NOT member(X, vars(t)) IMPLIES subs((X, s), t) = t
      
+basic_sub_elim_var: LEMMA
+    NOT member(X, vars(s)) IMPLIES NOT member(X, vars(subs((X, s), t)))
+
+basic_sub_not_elim_var: LEMMA
+    X /= Y AND NOT member(Y, vars(s)) AND member(Y, vars(subs((X, s), t))) IMPLIES member(Y, vars(t))
+
 dom_basic_sub: LEMMA
     dom(cons((X, t), null)) = singleton(X) OR member(X, vars(t))
 
@@ -259,11 +277,25 @@ subs_singleton: LEMMA
 img_append_subset: LEMMA
     subset?(img(append(sigma, delta)), union(image(subs(sigma))(img(delta)), img(sigma)))
 
+idempotent_append: LEMMA
+    idempotent?(sigma) AND idempotent?(delta) AND
+    disjoint?(dom(delta), vars(img(sigma))) IMPLIES
+    idempotent?(append(sigma, delta)) 
+
+subs_divide_not_var: LEMMA
+    NOT var?(subs(sigma)(X)) IMPLIES
+    EXISTS delta, delta2, sigma_basic, Y: 
+        sigma = append(delta, cons(sigma_basic, delta2)) AND
+	subs(delta2)(X) = variable(Y) AND sigma_basic`1 = Y AND NOT var?(sigma_basic`2)
+
 % subterms, same_func, im_under
 subterms_subs: LEMMA
     subset?(subterms(subs(sigma)(t)),
             union(image(subs(sigma))(subterms(t)), subterms(img(sigma))))
     
+subs_no_effect_subterm: LEMMA
+    subs(sigma)(t) = t AND member(s, subterms(t)) IMPLIES subs(sigma)(s) = s
+
 subterms_img_append: LEMMA
     subset?(subterms(img(append(sigma, delta))),
     	    union(image(subs(sigma))(subterms(img(delta))), subterms(img(sigma))))
@@ -283,6 +315,22 @@ flatten_pair_subs: LEMMA
     IMPLIES EXISTS ti:
 	member(ti, flatten_pair(t)) AND s = subs(sigma)(ti)
 
+mem_get_args_subs2: LEMMA
+    member(s, get_args(f)(subs(sigma)(t))) IMPLIES
+    (EXISTS ti: 
+        member(ti, get_args(f)(t)) AND
+	LET ti_sigma = subs(sigma)(ti) IN 
+	(s = ti_sigma OR
+	(var?(ti) AND member(V(ti), dom(sigma)) AND member(s, get_args(f)(ti_sigma)))))
+
+mem_get_args_subs3: LEMMA
+    member(s, get_args(f)(subs(sigma)(t))) IMPLIES
+    (EXISTS ti: 
+        member(ti, get_args(f)(t)) AND
+	LET ti_sigma = subs(sigma)(ti) IN 
+	((s = ti_sigma AND ord(s) = ord(ti)) OR
+	(var?(ti) AND member(V(ti), dom(sigma)) AND member(s, get_args(f)(ti_sigma)))))
+
 im_under_subs: LEMMA
     im_under?(Y, subs(sigma)(t)) AND func?(t) AND no_pair?(img(sigma))
     IMPLIES
@@ -300,5 +348,37 @@ im_under_subs3: LEMMA
     (EXISTS X: subs(sigma)(X) = variable(Y) AND
       	      (im_under?(X, t) OR
 	      EXISTS s: member(s, img(sigma)) AND im_under?(X, s) AND same_func?(subs(sigma)(t), s)))
-    
+
+% nice, supset_dom
+supset_dom_equiv: LEMMA
+    member(X, supset_dom(delta)) IFF EXISTS t: member((X, t), delta)
+
+supset_dom_append: LEMMA
+    supset_dom(append(sigma, delta)) = union(supset_dom(sigma), supset_dom(delta))
+
+nice_disjoint_dom_img: LEMMA
+    nice?(sigma) IMPLIES disjoint?(dom(sigma), vars(img(sigma)))
+%
+nice_idempotent: LEMMA
+    nice?(sigma) IMPLIES idempotent?(sigma)
+
+nice_append: LEMMA
+    nice?(append(sigma, delta)) IMPLIES nice?(sigma) AND nice?(delta) 
+
+nice_append2: LEMMA
+    nice?(delta) AND nice?(sigma) AND
+    (FORALL X, t: member((X, t), sigma) IMPLIES
+    NOT member(X, supset_dom(delta)) AND
+        disjoint?(vars(t), supset_dom(delta)))
+    IMPLIES nice?(append(sigma, delta)) 
+
+nice_append_supset_dom: LEMMA
+   nice?(append(sigma, delta)) AND member(X, supset_dom(sigma)) IMPLIES
+   NOT member(X, supset_dom(delta))
+
+IMPORTING list_theory2[variable, term]
+
+vars_img_sec_proj: LEMMA
+   subset?(vars(img(sigma)), vars(sec_proj(sigma)))
+
 END substitution

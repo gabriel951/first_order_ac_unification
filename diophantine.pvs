@@ -242,4 +242,7 @@ dio_solver_n_cor: LEMMA
 dio_solver_cor: LEMMA
     dio_matrix_correct?(dio_solver(mult_t1, mult_t2, bound), mult_t1, mult_t2)  
 
+dio_solver_not_null: LEMMA
+    NOT null?(dio_solver(mult_t1, mult_t2, bound))
+
 END diophantine

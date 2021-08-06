@@ -27,6 +27,8 @@ ac_sol_simp: TYPE = [unif_prb, sub, finite_set[variable]]
 
 i: VAR nat
 
+X: VAR variable
+
 new_vars2avoid, vars2avoid, vars2avoid1: VAR finite_set[variable]
 
 lst_vars2avoid: VAR list[variable]
@@ -112,14 +114,6 @@ next_input?(input1, input2): bool =
 	   			sigma, new_vars2avoid))
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Lemmas
-% add_subs
-%add_subs_len: LEMMA
-%    length(add_subs(ac_sol_simp_lst, sigma)) = length(ac_sol_simp_lst)
-
-%add_subs_nth_mem: LEMMA
-%    i < length(ac_sol_simp_lst) IMPLIES
-%    nth(add_subs(ac_sol_simp_lst, sigma), i)`1 = nth(ac_sol_simp_lst, i)`1 
-
 
 % input_apply_ac_step
 input_apply_ac_step_mem: LEMMA
@@ -147,6 +141,25 @@ apply_ac_step_sigma_null: LEMMA
    IFF EXISTS ac_sol1:
       member(ac_sol1, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid)) AND
       ac_sol`1 = ac_sol1`1 AND ac_sol`2 = append(ac_sol1`2, sigma) AND ac_sol`3 = ac_sol1`3 
+
+apply_ac_step_sub: LEMMA
+   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
+   AND NOT member(X, vars(unseen_unif_prb)) AND member(X, vars2avoid) IMPLIES 
+   NOT member(variable(X), sec_proj(ac_sol`2))
+
+apply_ac_step_sub_vars_img: LEMMA
+   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
+   AND NOT member(X, vars(unseen_unif_prb)) AND member(X, vars2avoid)
+   IMPLIES NOT member(X, vars(img(ac_sol`2)))
+   
+apply_ac_step_sub_idempotent: LEMMA
+   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
+   IMPLIES idempotent?(ac_sol`2)
+
+apply_ac_step_sub_dom: LEMMA
+   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
+   AND NOT member(X, vars(unseen_unif_prb)) AND member(X, vars2avoid)
+   IMPLIES NOT member(X, dom(ac_sol`2))
 
 END apply_ac_step
 

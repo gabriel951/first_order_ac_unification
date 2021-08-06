@@ -33,6 +33,10 @@ lst_unif_prb: VAR list[unif_prb]
 
     IMPORTING list_theory[unif_pair]
 
+
+% defines when a term is a member of a unification pair
+member(t, unif_pair): bool = (t = unif_pair`1 OR t = unif_pair`2)
+
 % defines when a term is a member of a unification problem
 member(t, unif_prb): RECURSIVE bool =
    IF null?(unif_prb) THEN FALSE
@@ -50,11 +54,9 @@ member(t, lst_unif_prb): RECURSIVE bool =
    ENDIF
 MEASURE lst_unif_prb BY << 
 
-% left-hand side of a unification problem
+% left-hand side and right-hand side of a unification problem
 lhs(unif_prb): args = first_proj(unif_prb)
 rhs(unif_prb): args = sec_proj(unif_prb) 
-
-% right-hand side of a unification problem
 
 % no_var? no_var_pair? no_pair?
 no_var?(unif_prb): bool = FORALL t: member(t, unif_prb) IMPLIES NOT var?(t)
@@ -161,7 +163,19 @@ all_ac_prb?(unif_prb): bool =
    FORALL unif_pair: 
    member(unif_pair, unif_prb) IMPLIES ac_prb?(unif_pair)
 
+% temporary unification pair:
+temp?(unif_pair, unif_prb): bool =
+   member(unif_pair, unif_prb) AND
+   EXISTS X: 
+     member(variable(X), unif_pair) AND count(variable(X), append(lhs(unif_prb), rhs(unif_prb)), =) = 1
+   
+
 %%%%%%%%%%%%%%%%%% Theorems and Lemmas
+% first_proj
+first_proj_unif_prb: LEMMA
+   length(args1) = length(args2) IMPLIES 
+   first_proj(pareate(args1, args2)) = args1
+
 % member
 member_unif_prb_equiv: LEMMA
    member(t, unif_prb) IFF
@@ -176,6 +190,9 @@ member_lst_unif_prb_equiv: LEMMA
    member(t, lst_unif_prb) IFF
    EXISTS unif_prb:
     member(t, unif_prb) AND member(unif_prb, lst_unif_prb)
+
+is_finite_mem_unif_prb: LEMMA
+    is_finite({t | member(t, unif_prb)})
 
 % lhs/rhs
 member_lhs_rhs: LEMMA
@@ -230,7 +247,6 @@ subterms_append: LEMMA
 subterms_pareate: LEMMA
     member(t, subterms(pareate(args1, args2))) IMPLIES (member(t, subterms(args1)) OR member(t, subterms(args2)))
 
-
 % unifies?
 unifies?_append: LEMMA
     unifies?(sigma, append(unif_prb1, unif_prb2)) =
@@ -239,7 +255,6 @@ unifies?_append: LEMMA
 unifies?_pareate: LEMMA
     length(args1) = length(args2) AND unifies?(sigma, pareate(args1, args2))
     IMPLIES equal?(subs(sigma)(args1), subs(sigma)(args2))
-    
 
 % apply_sub
 apply_sub_mem: LEMMA
@@ -290,5 +305,23 @@ apply_sub_no_pair: LEMMA
 apply_sub_no_var_pair: LEMMA
     no_var_pair?(unif_prb) IMPLIES no_var_pair?(apply_sub(sigma, unif_prb))
 
+apply_sub_var_not_dom_mem: LEMMA
+    member(variable(X), unif_pair) AND NOT member(X, dom(sigma))
+    IMPLIES member(variable(X), apply_sub(sigma, unif_pair))
+
+apply_sub_var_not_dom_lhs: LEMMA
+   NOT member(X, dom(sigma)) AND NOT member(variable(X), img(sigma)) IMPLIES
+   count(variable(X), lhs(unif_prb), =) =
+   count(variable(X), lhs(apply_sub(sigma, unif_prb)), =)
+
+apply_sub_var_not_dom_rhs: LEMMA
+   NOT member(X, dom(sigma)) AND NOT member(variable(X), img(sigma)) IMPLIES
+   count(variable(X), rhs(unif_prb), =) =
+   count(variable(X), rhs(apply_sub(sigma, unif_prb)), =)
+
+apply_sub_var_not_dom_count: LEMMA
+   NOT member(X, dom(sigma)) AND NOT member(variable(X), img(sigma)) IMPLIES 
+   count(variable(X), append(lhs(unif_prb), rhs(unif_prb)), =) =
+   count(variable(X), append(lhs(apply_sub(sigma, unif_prb)), rhs(apply_sub(sigma, unif_prb))), =)
 
 END unification 

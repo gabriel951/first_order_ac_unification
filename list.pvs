@@ -16,7 +16,7 @@ n, i, j, min, max, inc: VAR nat
 
 lst_nat, lst_nat1, lst_nat2: VAR list[nat]
 
-% the lemmas of this theory are proved together with list_theory
+% some of the lemmas of this theory are proved together with list_theory
 dot_product(lst_nat1, lst_nat2): RECURSIVE nat =
     IF null?(lst_nat1) OR null?(lst_nat2) THEN 0
     ELSE car(lst_nat1) * car(lst_nat2) + dot_product(cdr(lst_nat1), cdr(lst_nat2))
@@ -28,6 +28,17 @@ sum_lsts(lst_nat1, lst_nat2): RECURSIVE list[nat] =
     ELSE cons(car(lst_nat1) + car(lst_nat2), sum_lsts(cdr(lst_nat1), cdr(lst_nat2)))
     ENDIF
 MEASURE lst_nat1 BY << 
+
+sum(lst_nat): RECURSIVE nat =
+   IF null?(lst_nat) THEN 0
+   ELSE car(lst_nat) + sum(cdr(lst_nat)) 
+   ENDIF 
+
+MEASURE lst_nat BY << 
+
+% lemma
+all_0_sum: LEMMA
+   (FORALL n: member(n, lst_nat) IMPLIES n = 0) IMPLIES sum(lst_nat) = 0
 
 END list_nat_theory
 
@@ -43,6 +54,7 @@ lst_pair, lst_pair1, lst_pair2: VAR list[[T, T]]
 
 lst, lst1, lst2, lst3, new_lst1, new_lst2: VAR list[T]
 lst_of_lsts, lst_of_lsts1, lst_of_lsts2, matrix, matrix1, matrix2: VAR list[list[T]]
+matrix_nat: VAR list[list[nat]]
 fin_set, fin_set1, fin_set2: VAR finite_set[T]
 lst_of_fin_sets: VAR list[finite_set[T]]
 
@@ -250,7 +262,7 @@ get_all_sublists(lst): RECURSIVE list[list[T]] =
 MEASURE lst BY <<
 
 % count how many times the element x appears on lst
-% TODO: I think this function is deprecated...
+% this function should not be used anymore, use the next instead
 count(x, lst): RECURSIVE nat =
     IF null?(lst) THEN 0
     ELSE LET y = car(lst) IN
@@ -437,6 +449,9 @@ lst2set_append_mem: LEMMA
 
 lst2set_is_finite: LEMMA
     is_finite(list2set(lst1))
+
+set_of_lst_is_finite: LEMMA
+    is_finite({x | member(x, lst)})
     
 nth_append: LEMMA
     i < length(lst1) + length(lst2) IMPLIES
@@ -559,6 +574,9 @@ pos?_equal: LEMMA
 pos?_equal2: LEMMA
    equal?(x, y) IMPLIES pos?(x, lst, equal?)`2 = pos?(y, lst, equal?)`2
 
+pos?_equal3: LEMMA
+   equal?(x, y) IMPLIES pos?(x, lst, equal?) = pos?(y, lst, equal?)
+
 pos?_remove: LEMMA
    pos?(x, remove(lst, n), equal?)`1 IMPLIES pos?(x, lst, equal?)`1
 
@@ -575,6 +593,9 @@ pos?_remove_ind_gt: LEMMA
     LET (bool, ind) = pos?(x, lst, equal?) IN
     bool and ind > n IMPLIES
     pos?(x, remove(lst, n), equal?)`2 = ind - 1
+
+pos?_mem: LEMMA
+    NOT pos?(x, lst, equal?)`1 IMPLIES NOT member(x, lst) 
 
 % count_elem
 count_elem_len: LEMMA
@@ -593,8 +614,12 @@ count_elem_gt0: LEMMA
     (FORALL i: member(i, coef) IMPLIES i > 0) AND member(n, count_elem(lst, coef, lst2, equal?)`2)
     IMPLIES n > 0 
 
+count_elem12_no_effect: LEMMA
+    count_elem(lst, coef, lst2, equal?)`1 = count_elem(lst, coef1, lst2, equal?)`1
+
 count_elem_mem: LEMMA
     member(x, count_elem(lst, coef, lst2, equal?)`1) IMPLIES member(x, lst) OR member(x, lst2) 
+
 
 % put in head
 put_in_head_matrix?: LEMMA
@@ -647,7 +672,33 @@ matrix_mem: LEMMA
    matrix?(lst_of_lsts, n) AND member(lst, lst_of_lsts) IMPLIES
    length(lst) = n
 
+matrix_row_len: LEMMA
+    matrix?(lst_of_lsts, n) AND member(lst, lst_of_lsts)
+    IMPLIES length(lst) = n
+
+matrix_get_col_i_exists_row: LEMMA
+    matrix?(lst_of_lsts, n) AND member(x, get_col_i(lst_of_lsts, i)) AND
+    i >= 1 AND i <= n
+    IMPLIES EXISTS lst:
+	member(lst, lst_of_lsts) AND nth(lst, i-1) = x
+
+get_col_i_cdr: LEMMA
+    NOT null?(lst_of_lsts) AND matrix?(lst_of_lsts, n) AND i < n 
+    IMPLIES get_col_i(lst_of_lsts, i+1) = cons(nth(car(lst_of_lsts), i), get_col_i(cdr(lst_of_lsts), i+1))
+
 % count
+count_equiv: LEMMA
+   count(x, lst) = count(x, lst, =)
+
+count_eq: LEMMA
+   equal?(x, y) IMPLIES count(x, lst, equal?) = count(y, lst, equal?) 
+
+count_mem: LEMMA
+   member(x, lst) IMPLIES count(x, lst, equal?) >= 1
+
+count_mem2: LEMMA
+   NOT member(x, lst) IMPLIES count(x, lst, =) = 0
+
 count_gt0: LEMMA
    count(x, lst, equal?) > 0 IMPLIES
    EXISTS (i: below[length(lst)]): equal?(x, nth(lst, i))
@@ -656,9 +707,24 @@ count_append: LEMMA
    count(x, append(lst1, lst2), equal?) = (count(x, lst1, equal?) + count(x, lst2, equal?))
    
 get_repeat_lst_count_flatten: LEMMA
-    count(x, flatten(map(g)(get_repeat_lst(y, n))), equal?) =
-    count(x, g(y), equal?) * n
+   count(x, flatten(map(g)(get_repeat_lst(y, n))), equal?) =
+   count(x, g(y), equal?) * n
 
+count_not_gt_len: LEMMA
+   count(x, lst, equal?) <= length(lst) 
+
+count_eq_len: LEMMA
+   count(x, lst, equal?) = length(lst) AND member(y, lst) IMPLIES equal?(x, y)
+
+count_elem_mem2: LEMMA
+    member(x, count_elem(lst, coef, lst2, equal?)`1) AND
+    (FORALL y: member(y, lst) IMPLIES count(y, lst, =) = 1) IMPLIES
+    count(x, count_elem(lst, coef, lst2, equal?)`1, =) = 1 
+
+count_pos?: LEMMA
+    NOT pos?(x, lst, equal?)`1 IMPLIES count(x, lst, equal?) = 0
+
+    
 % pareate
 pareate_append: LEMMA
     (length(lst1) = length(new_lst1) AND length(lst2) = length(new_lst2)) IMPLIES
@@ -668,6 +734,16 @@ pareate_append: LEMMA
 pareate_mem: LEMMA
     member(pair, pareate(lst1, lst2)) IMPLIES
     member(pair`1, lst1) AND member(pair`2, lst2)
+
+pareate_len: LEMMA
+    length(pareate(lst1, lst2)) <= length(lst1) AND length(pareate(lst1, lst2)) <= length(lst2) 
+
+pareate_len2: LEMMA
+    length(lst1) = length(lst2) IMPLIES length(pareate(lst1, lst2)) = length(lst1)
+
+pareate_nth: LEMMA
+    i < length(lst1) AND length(lst1) = length(lst2)
+    IMPLIES nth(pareate(lst1, lst2), i) = (nth(lst1, i), nth(lst2, i))
 
 % get_lst_until_n, get_lst_after_n
 len_get_lst_until_n: LEMMA
@@ -793,10 +869,22 @@ count_remove: LEMMA
     ELSE count(x, lst, equal?) = count(x, remove(lst, i), equal?)
     ENDIF
 
+count_remove_pos: LEMMA
+    pos?(x, lst, equal?)`1 IMPLIES 
+    count(x, remove(lst, pos?(x, lst, equal?)`2), equal?) = count(x, lst, equal?) - 1
+    
 % remove_common, get_common
 remove_common_mem: LEMMA
     member(x, remove_common(lst1, lst2, equal?)) IMPLIES member(x, lst1) 
 
+remove_common_mem_count: LEMMA
+    member(x, remove_common(lst1, lst2, equal?)) IMPLIES
+    count(x, lst1, equal?) > count(x, lst2, equal?)
+
+remove_common_mem_not_common: LEMMA
+    member(x, remove_common(lst1, lst2, equal?)) IMPLIES
+    NOT member(x, remove_common(lst2, lst1, equal?))
+ 
 get_common_null: LEMMA
     null?(lst2) IMPLIES
     null?(get_common(lst1, lst2, equal?))
@@ -832,6 +920,9 @@ mem_lst2set: LEMMA
 mem_lst2set_2: LEMMA
    member(x, list2set(lst)) IMPLIES member(x, lst) 
 
+mem_list2set: LEMMA
+   member(x, lst) IFF member(x, list2set(lst))
+
 is_fin_lst2set: LEMMA
    is_finite(list2set(lst_of_fin_sets))
 
@@ -858,6 +949,7 @@ BEGIN
     IMPORTING list_theory[T1]
 
     lst, lst1: VAR list[T1]
+    lst2: VAR list[T2]
     lst_pair, lst_pair1, lst_pair2: VAR list[[T1, T2]]
     lst_pair_: VAR list[[list[T1], T2]]
     pair: VAR [T1, T2]
@@ -912,16 +1004,17 @@ sec_proj_mem: LEMMA
    EXISTS pair:
       member(pair, lst_pair) AND y = pair`2
 
+sec_proj_append: LEMMA
+   member(y, sec_proj(append(lst_pair, lst_pair1))) IFF
+   (member(y, sec_proj(lst_pair)) OR member(y, sec_proj(lst_pair1)))
 
 first_proj_mem_flatten: LEMMA
    member(x, flatten(first_proj(lst_pair_))) IFF 
    EXISTS pair_:
    member(pair_, lst_pair_) AND member(x, pair_`1)
 
-
 END list_theory2
   
-
 % 
 map_theory [T1, T2: TYPE]: THEORY
  BEGIN

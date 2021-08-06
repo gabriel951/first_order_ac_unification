@@ -537,6 +537,12 @@ im_under?(X, t): bool = member(variable(X), im_under(t))
 im_under?(X, fin_set_t): bool =
     EXISTS t: member(t, fin_set_t) AND im_under?(X, t)
 
+% get_args - if t is an AC-function, call get_args(f)(t) with the correct symbol of t
+get_args(t): args =
+   IF ac_app?(t) THEN get_args(ac_sym(t))(t)
+   ELSE cons(t, null)
+   ENDIF
+
 % all_ac_or_var?
 % all terms in "args" are either a variable or an ac-function whose symbol is "f" with only variables as arguments
 all_ac_or_var?(f, args): bool =
@@ -681,6 +687,9 @@ subterm_singleton: LEMMA
 subterm_reflexive: LEMMA
    NOT pair?(t) IMPLIES member(t, subterms(t))
 
+subterm_not_pair: LEMMA
+   member(s, subterms(t)) IMPLIES NOT pair?(s)
+
 subterm_reflexive_finset: LEMMA
    no_pair?(fin_set_t) AND member(t, fin_set_t) IMPLIES member(t, subterms(fin_set_t))
 
@@ -703,11 +712,17 @@ subterm_transitive: LEMMA
 get_args_subterms: LEMMA
    member(s, get_args(f)(t)) IMPLIES subset?(subterms(s), subterms(t))
 
+get_args_subterms2: LEMMA
+   member(s, get_args(f)(t)) IMPLIES member(s, subterms(t))
+
 prop_subterm_subterm_size: LEMMA
     member(s, prop_subterms(t)) IMPLIES member(s, subterms(t)) AND size(s) < size(t)
 
 prop_subterm_subterm: LEMMA
     member(s, prop_subterms(t)) IMPLIES member(s, subterms(t)) AND s /= t
+
+get_args_prop_subterms: LEMMA
+    member(s, get_args(f)(t)) AND is_ac_sym?(t, f) IMPLIES member(s, prop_subterms(t))
 
 vars_prop_subterm: LEMMA
    (member(X, vars(s)) AND member(s, prop_subterms(t))) IMPLIES member(X, vars(t))
@@ -735,6 +750,9 @@ im_under_not_pair: LEMMA
 im_under_implies_func: LEMMA
    im_under?(X, t) IMPLIES func?(t)
     
+im_under_subterm: LEMMA
+   im_under?(X, t) IMPLIES member(variable(X), subterms(t))
+
 same_func_sym: LEMMA
     same_func?(t, s) = same_func?(s, t)
 
