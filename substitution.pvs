@@ -1,4 +1,3 @@
-%
 % Authors:
 %		Gabriel Ferreira Silva (*)
 % 		Mauricio Ayala-Rincón (*)
@@ -257,6 +256,7 @@ apply_sub_elim_var_t: LEMMA
 vars_img_append: LEMMA
     subset?(vars(img(append(delta, sigma))), union(vars(img(delta)), vars(img(sigma))))
 
+
 % idempotent and properties of substitutios
 var_dom_sub_dif_term: LEMMA
    member(X, vars(t)) AND member(X, dom(sigma)) IMPLIES
@@ -287,6 +287,11 @@ subs_divide_not_var: LEMMA
     EXISTS delta, delta2, sigma_basic, Y: 
         sigma = append(delta, cons(sigma_basic, delta2)) AND
 	subs(delta2)(X) = variable(Y) AND sigma_basic`1 = Y AND NOT var?(sigma_basic`2)
+
+basic_sub_info: LEMMA
+   LET sigma = cons((X, t), null) IN 
+   NOT member(X, vars(t)) IMPLIES dom(sigma) = singleton(X) AND img(sigma) = singleton(t)
+   AND idempotent?(sigma)
 
 % subterms, same_func, im_under
 subterms_subs: LEMMA

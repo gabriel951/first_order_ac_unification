@@ -310,19 +310,6 @@ choose_unif_pair(unif_prb): [unif_pair, unif_prb] =
    ELSE choose_not_ac(null, unif_prb) 
    ENDIF
 
-simplify(unif_prb): RECURSIVE unif_prb =
-   IF null?(unif_prb) THEN null
-   ELSE LET (t, s) = car(unif_prb) IN 
-        IF equal?(t, s) THEN simplify(unif_prb) 
-	ELSE cons((t, s), simplify(unif_prb))
-	ENDIF
-   ENDIF
-MEASURE unif_prb BY << 
-
-
-choose_simplify_unif_pair(unif_prb): [unif_pair, unif_prb] = 
-   choose_unif_pair(simplify(unif_prb))
-
 %%%%%%%%%%%%%%%%%%%%%%% Theorems
 % get nice submatrices and get_all_sublists
 get_nice_submatrices_mem: LEMMA
@@ -611,6 +598,12 @@ choose_not_ac2_size: LEMMA
    size(choose_not_ac(seen_unif_prb, unseen_unif_prb)`2) <
    size(seen_unif_prb) + size(unseen_unif_prb)
 
+choose_not_ac_size: LEMMA
+   NOT all_ac_prb?(unseen_unif_prb) IMPLIES 
+   size(choose_not_ac(seen_unif_prb, unseen_unif_prb)`2) + size(choose_not_ac(seen_unif_prb, unseen_unif_prb)`1) = 
+   size(seen_unif_prb) + size(unseen_unif_prb) 
+
+
 choose_not_ac_not_ac: LEMMA
    NOT ac_prb?(choose_not_ac(seen_unif_prb, unseen_unif_prb)`1)
 
@@ -620,13 +613,27 @@ choose_unif_pair_mem: LEMMA
     (unif_pair = choose_unif_pair(unif_prb)`1 OR
     member(unif_pair, choose_unif_pair(unif_prb)`2))
 
+choose_unif_pair_mem_alt: LEMMA
+    member(t, unif_prb) IMPLIES 
+    (member(t, choose_unif_pair(unif_prb)`1) OR
+    member(t, choose_unif_pair(unif_prb)`2))
+
 choose_unif_pair_mem1: LEMMA
     NOT null?(unif_prb) IMPLIES 
     member(choose_unif_pair(unif_prb)`1, unif_prb) 
 
+% alternative version of "choose_unif_pair_mem1"
+choose_unif_pair_mem1_alt: LEMMA
+    NOT null?(unif_prb) AND member(t, choose_unif_pair(unif_prb)`1) IMPLIES
+    member(t, unif_prb)
+    
 choose_unif_pair_mem2: LEMMA
     member(unif_pair, choose_unif_pair(unif_prb)`2) IMPLIES
     member(unif_pair, unif_prb)
+
+choose_unif_pair_mem2_alt: LEMMA
+    member(t, choose_unif_pair(unif_prb)`2) IMPLIES
+    member(t, unif_prb)
 
 choose_unif_size2: LEMMA
     NOT null?(unif_prb) IMPLIES 
@@ -635,6 +642,10 @@ choose_unif_size2: LEMMA
 choose_unif_correct: LEMMA
     ac_prb?(choose_unif_pair(unif_prb)`1) IMPLIES 
     all_ac_prb?(unif_prb)
+
+choose_unif_size: LEMMA
+    NOT null?(unif_prb) IMPLIES 
+    size(unif_prb) = size(choose_unif_pair(unif_prb)`1) + size(choose_unif_pair(unif_prb)`2)
 
 % instantiate step
 instantiate_step_skip: LEMMA

@@ -170,6 +170,27 @@ temp?(unif_pair, unif_prb): bool =
      member(variable(X), unif_pair) AND count(variable(X), append(lhs(unif_prb), rhs(unif_prb)), =) = 1
    
 
+
+% select greater
+select_greater(t, s): term =
+   IF size(t) >= size(s) THEN t
+   ELSE s
+   ENDIF
+
+select_greater(unif_prb): RECURSIVE term =
+   IF null?(unif_prb) THEN unit
+   ELSE LET (t, s) = car(unif_prb),
+            t1 = select_greater(t, s) IN
+        IF length(unif_prb) = 1 THEN t1
+	ELSE LET t2 = select_greater(cdr(unif_prb)) IN
+	     IF size(t1) >= size(t2) THEN t1
+	     ELSE t2
+	     ENDIF
+	ENDIF
+   ENDIF
+MEASURE unif_prb BY << 
+
+
 %%%%%%%%%%%%%%%%%% Theorems and Lemmas
 % first_proj
 first_proj_unif_prb: LEMMA
@@ -210,6 +231,11 @@ vars_unif_prb: LEMMA
    EXISTS t:
       member(t, unif_prb) AND member(X, vars(t))
 
+vars_lst_unif_prb: LEMMA
+   member(X, vars(lst_unif_prb)) IFF
+   EXISTS t:
+      member(t, lst_unif_prb) AND member(X, vars(t))
+
 lst_vars_append: LEMMA
    lst_vars(append(unif_prb, unif_prb1)) = append(lst_vars(unif_prb), lst_vars(unif_prb1))
 
@@ -225,6 +251,10 @@ no_var_pair_append: LEMMA
 all_ac_prb_no_var_pair: LEMMA
     all_ac_prb?(unif_prb) IMPLIES no_var_pair?(unif_prb) 
 
+all_ac_prb_is_ac: LEMMA
+    all_ac_prb?(unif_prb) AND member(t, unif_prb) IMPLIES
+    ac_app?(t) 
+
 % size
 size_app_unif_prb: LEMMA
     size(append(unif_prb1, unif_prb2)) = size(unif_prb1) + size(unif_prb2)
@@ -239,6 +269,11 @@ subterms_mem_unif_prb: LEMMA
     member(s, subterms(unif_prb)) IFF
     EXISTS t:
           member(s, subterms(t)) AND member(t, unif_prb)
+
+subterms_mem_lst_unif_prb: LEMMA
+    member(s, subterms(lst_unif_prb)) IFF
+    EXISTS t:
+          member(s, subterms(t)) AND member(t, lst_unif_prb)
 
 subterms_append: LEMMA
     member(t, subterms(append(unif_prb1, unif_prb2))) IFF
@@ -323,5 +358,10 @@ apply_sub_var_not_dom_count: LEMMA
    NOT member(X, dom(sigma)) AND NOT member(variable(X), img(sigma)) IMPLIES 
    count(variable(X), append(lhs(unif_prb), rhs(unif_prb)), =) =
    count(variable(X), append(lhs(apply_sub(sigma, unif_prb)), rhs(apply_sub(sigma, unif_prb))), =)
+
+% select_greater
+select_greater_cor: LEMMA
+   NOT null?(unif_prb) IMPLIES member(select_greater(unif_prb), unif_prb) AND 
+   FORALL t: member(t, unif_prb) IMPLIES size(t) <= size(select_greater(unif_prb))
 
 END unification 

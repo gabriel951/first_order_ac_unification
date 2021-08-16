@@ -16,6 +16,7 @@ apply_ac_step: THEORY
 BEGIN
 	IMPORTING aux_unification
 
+
 % after we call "apply_ac_step" we obtain, together with the unification problem, a substitution computed
 % in the instantiation step and a set of variables to avoid. So, we define the type "ac_sol_simp"  
 ac_sol_simp: TYPE = [unif_prb, sub, finite_set[variable]]
@@ -23,11 +24,12 @@ ac_sol_simp: TYPE = [unif_prb, sub, finite_set[variable]]
         IMPORTING list_theory[ac_sol_simp],
 	          map_theory[[unif_prb, unif_prb, sub, finite_set[variable]], ac_sol_simp],
 		  list_theory[basic_sub]
-		  
 
 i: VAR nat
 
 X: VAR variable
+
+t: VAR term 
 
 new_vars2avoid, vars2avoid, vars2avoid1: VAR finite_set[variable]
 
@@ -44,6 +46,16 @@ ac_sol, ac_sol1, ac_sol2: VAR ac_sol_simp
 
 input, input1, input2: VAR [unif_prb, unif_prb, sub, finite_set[variable]]
 
+% removes the unification pairs that are equivalent
+simplify(unif_prb): RECURSIVE unif_prb =
+   IF null?(unif_prb) THEN null
+   ELSE LET (t, s) = car(unif_prb) IN 
+        IF equal?(t, s) THEN simplify(cdr(unif_prb))
+	ELSE cons((t, s), simplify(cdr(unif_prb)))
+	ENDIF
+   ENDIF
+MEASURE unif_prb BY << 
+
 % this function is called by "apply_ac_step"
 % it returns a list of inputs and we will call "apply_ac_step" for each input
 input_apply_ac_step(ac_results_subs, unseen_unif_prb, seen_unif_prb, sigma, vars2avoid):
@@ -59,6 +71,11 @@ input_apply_ac_step(ac_results_subs, unseen_unif_prb, seen_unif_prb, sigma, vars
 		    			 seen_unif_prb, sigma, vars2avoid))
    ENDIF
 MEASURE length(ac_results_subs)
+
+% this is needed for a TCC of the next function
+input_apply_ac_step1_len: LEMMA
+    member(input, input_apply_ac_step(ac_results_subs, unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
+    IMPLIES length(input`1) = length(unseen_unif_prb)
 
 % initially, this function is called with (unif_prb, null, sigma, vars2avoid)
 % recursively apply "solve_ac" to every unification pair in "unseen_unif_prb",
@@ -83,19 +100,6 @@ apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid): RECURSIVE list
    ENDIF
 MEASURE length(unseen_unif_prb)
 
-% TODO: I think it is no longer needed
-% used after "apply_ac_step"
-% makes sure we don't forget about the substitution "sigma" that we have computed before calling
-% "apply_ac_step"
-add_subs(ac_sol_simp_lst, sigma): RECURSIVE list[ac_sol_simp] =
-    IF null?(ac_sol_simp_lst) THEN null
-    ELSE LET ac_sol = car(ac_sol_simp_lst),
-    	     new_sigma = append(ac_sol`2, sigma), 
-    	     new_ac_sol = (ac_sol`1, new_sigma, ac_sol`3) IN
-	     cons(new_ac_sol, add_subs(cdr(ac_sol_simp_lst), sigma))
-    ENDIF
-MEASURE ac_sol_simp_lst BY << 
-
 next_input?(input1, input2): bool = 
     LET unseen_unif_prb = input1`1,
         seen_unif_prb = input1`2,
@@ -114,6 +118,10 @@ next_input?(input1, input2): bool =
 	   			sigma, new_vars2avoid))
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Lemmas
+% simplify
+simplify_mem: LEMMA
+    member(t, simplify(unif_prb)) IMPLIES member(t, unif_prb)
+
 
 % input_apply_ac_step
 input_apply_ac_step_mem: LEMMA

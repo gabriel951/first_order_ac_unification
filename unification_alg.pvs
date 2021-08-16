@@ -58,7 +58,7 @@ unify(unif_prb, sigma, vars2avoid): RECURSIVE list[sub] =
 	  IF NOT pair?(s) THEN null
 	  ELSE LET
 	       unif_pair1 = (t1, term1(s)), unif_pair2 = (t2, term2(s)), 
-	       new_unif_prb = cons(unif_pair, cons(unif_pair2, unif_prb1)) IN
+	       new_unif_prb = cons(unif_pair1, cons(unif_pair2, unif_prb1)) IN
 	       unify(new_unif_prb, sigma, vars2avoid) 
 	  ENDIF,
 
@@ -72,7 +72,7 @@ unify(unif_prb, sigma, vars2avoid): RECURSIVE list[sub] =
 	ac_app(f, ac_arg):
 	  IF NOT ac_app?(s) OR f /= ac_sym(s) THEN null
 	  ELSE LET
-	     input_lst = apply_ac_step(unif_prb, null, sigma, vars2avoid), 
+	     input_lst = apply_ac_step(simplify(unif_prb), null, sigma, vars2avoid), 
 	     lst_results = map(unify)(input_lst) IN 
 	     flatten(lst_results) 
 	  ENDIF
