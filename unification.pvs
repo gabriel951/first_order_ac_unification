@@ -16,8 +16,9 @@ unification: THEORY
 BEGIN
 	IMPORTING substitution, list_theory2[term, term]
 
-sigma, sigma1: VAR sub
-vars2avoid: VAR set[variable]
+sigma, sigma1, delta: VAR sub
+lst_sub: VAR list[sub]
+vars2avoid, set_vars: VAR set[variable]
 args1, args2: VAR args
 X: VAR variable
 t, s: VAR term
@@ -169,8 +170,6 @@ temp?(unif_pair, unif_prb): bool =
    EXISTS X: 
      member(variable(X), unif_pair) AND count(variable(X), append(lhs(unif_prb), rhs(unif_prb)), =) = 1
    
-
-
 % select greater
 select_greater(t, s): term =
    IF size(t) >= size(s) THEN t
@@ -190,6 +189,23 @@ select_greater(unif_prb): RECURSIVE term =
    ENDIF
 MEASURE unif_prb BY << 
 
+well_formed?(unif_prb): bool =
+   FORALL t: member(t, subterms(unif_prb)) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1
+    
+subset?(unif_prb, unif_prb1): bool =
+   FORALL unif_pair:
+       member(unif_pair, unif_prb) IMPLIES member(unif_pair, unif_prb1)
+
+% complete set of unifiers
+%complete_set_unifiers?(lst_sub, unif_prb): bool = 
+%   FORALL sigma:
+%      (unifies?(sigma, unif_prb) IMPLIES
+%      EXISTS sigma1: member(sigma1, lst_sub) AND more_general?(sigma1, sigma, vars(unif_prb)))
+
+%complete_set_unifiers?(lst_sub, unif_prb, vars2avoid): bool = 
+%   FORALL sigma:
+%      (unifies?(sigma, unif_prb) IMPLIES
+%      EXISTS sigma1: member(sigma1, lst_sub) AND more_general?(sigma1, sigma, vars2avoid))
 
 %%%%%%%%%%%%%%%%%% Theorems and Lemmas
 % first_proj
@@ -287,9 +303,29 @@ unifies?_append: LEMMA
     unifies?(sigma, append(unif_prb1, unif_prb2)) =
     (unifies?(sigma, unif_prb1) AND unifies?(sigma, unif_prb2))
 
+    
 unifies?_pareate: LEMMA
     length(args1) = length(args2) AND unifies?(sigma, pareate(args1, args2))
     IMPLIES equal?(subs(sigma)(args1), subs(sigma)(args2))
+
+unifies?_equiv: LEMMA
+    unifies?(sigma, unif_prb) IFF
+    FORALL unif_pair: member(unif_pair, unif_prb) IMPLIES unifies?(sigma, unif_pair)
+
+unifies?_equal: LEMMA
+    equal?(sigma, sigma1) AND unifies?(sigma, unif_prb) IMPLIES
+    unifies?(sigma1, unif_prb)
+
+unifies?_subset: LEMMA
+   subset?(unif_prb, unif_prb1) AND unifies?(sigma, unif_prb1) IMPLIES unifies?(sigma, unif_prb) 
+
+unifies?_append_disjoint: LEMMA
+    unifies?(append(sigma1, sigma), unif_prb) AND disjoint?(dom(sigma), vars(unif_prb))
+    IMPLIES unifies?(sigma1, unif_prb)
+
+unifies?_append_disjoint2: LEMMA
+    unifies?(sigma1, unif_prb) AND disjoint?(dom(sigma), vars(unif_prb))
+    IMPLIES unifies?(append(sigma1, sigma), unif_prb)
 
 % apply_sub
 apply_sub_mem: LEMMA
@@ -363,5 +399,14 @@ apply_sub_var_not_dom_count: LEMMA
 select_greater_cor: LEMMA
    NOT null?(unif_prb) IMPLIES member(select_greater(unif_prb), unif_prb) AND 
    FORALL t: member(t, unif_prb) IMPLIES size(t) <= size(select_greater(unif_prb))
+
+% well_formed:
+well_formed_apply_sub: LEMMA
+   well_formed?(unif_prb) AND
+   (FORALL t: member(t, subterms(img(sigma))) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1)
+   IMPLIES well_formed?(apply_sub(sigma, unif_prb))
+
+well_formed_subset: LEMMA
+   subset?(unif_prb, unif_prb1) AND well_formed?(unif_prb1) IMPLIES well_formed?(unif_prb) 
 
 END unification 

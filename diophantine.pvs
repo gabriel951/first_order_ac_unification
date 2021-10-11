@@ -169,7 +169,6 @@ get_new_value_lst_nth: LEMMA
      nth(get_new_value_lst(k, a1, value_lst), n) = k - a1* nth(value_lst, n)
 
 % put in head
-% TODO: take these out
 put_in_head_matrix?: LEMMA
     matrix?(dio, n) IMPLIES matrix?(put_in_head(dio, X1), n+1)
 

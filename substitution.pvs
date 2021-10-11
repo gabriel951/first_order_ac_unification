@@ -19,6 +19,9 @@ a, i, n: VAR nat
 X, Y: VAR variable
 t, t1, s, ti, arg: VAR term
 args, args1, args2: VAR args
+lst_args: VAR list[args]
+
+set_vars: VAR finite_set[variable]
 fin_set_t: VAR finite_set[term]
 
 f: VAR ac_symbol
@@ -49,7 +52,7 @@ MEASURE t by <<
 % "(sigma o delta)" can be implemented as "append(sigma, delta)".
 sub: TYPE = list[basic_sub]
 
-sigma, delta, delta2: VAR sub
+sigma, delta, delta2, lambda1, gamma: VAR sub
 
 % action of a substitution sigma on a term t.
 % notice that in "(sigma o delta)(t) = sigma(delta(t))" we apply the substitution delta first,
@@ -78,12 +81,20 @@ subs(sigma)(fin_set_t): finite_set[term] =
 
 % define when two substitutions are equal
 equal?(sigma, delta): bool =
-    FORALL t: subs(sigma)(t) = subs(delta)(t)
+    FORALL X: equal?(subs(sigma)(X), subs(delta)(X))
 
-% define when sigma is more general than delta
-more_general?(sigma, delta): bool = 
+equal?(sigma, delta, set_vars): bool =
+    FORALL X:
+       member(X, set_vars) IMPLIES
+       equal?(subs(sigma)(X), subs(delta)(X))
+
+% define when delta is more general than sigma
+more_general?(delta, sigma): bool = 
     EXISTS delta2: equal?(sigma, append(delta2, delta))
     
+more_general?(delta, sigma, set_vars): bool = 
+    EXISTS delta2: equal?(sigma, append(delta2, delta), set_vars)
+
 % a superset of the domain of a substitution sigma
 supset_dom(sigma): RECURSIVE finite_set[variable] = 
     IF null?(sigma) THEN emptyset
@@ -148,6 +159,8 @@ subs_func: LEMMA
 subs_ord: LEMMA
     t = subs(sigma)(s) IMPLIES (ord(t) = ord(s) OR (var?(s) AND member(V(s), dom(sigma))))
     
+subs_num_arg_ge1: LEMMA
+    num_arg(f, t) > 1 IMPLIES num_arg(f, subs(sigma)(t)) > 1
 
 % substitution in list of arguments
 subs_select: LEMMA
@@ -208,15 +221,28 @@ subs_equal?: LEMMA
 subs_perm?: LEMMA
     perm?(args1, args2) => perm?(subs(sigma)(args1), subs(sigma)(args2))
 
+subs_same_count: LEMMA
+    same_count?(args1, args2, equal?) =>
+    same_count?(subs(sigma)(args1), subs(sigma)(args2), equal?)
+    
 subs_get_repeat_lst: LEMMA
     subs(sigma)(get_repeat_lst(t, i)) = get_repeat_lst(subs(sigma)(t), i)
+
+subs_get_repeat_lst_map: LEMMA
+    map(subs(sigma))(get_repeat_lst(args, i)) = get_repeat_lst(subs(sigma)(args), i)
 
 subs_get_lst_mult: LEMMA
     subs(sigma)(get_lst_mult(args, coef)) = get_lst_mult(subs(sigma)(args), coef)
 
+subs_get_lst_mult2: LEMMA
+    map(subs(sigma))(get_lst_mult(lst_args, coef)) = get_lst_mult(map(subs(sigma))(lst_args), coef)
+
 perm?_get_args_subs: LEMMA
     perm?(subs(sigma)(get_args(f)(t)), subs(sigma)(get_args(f)(s))) IMPLIES
     perm?(get_args(f)(subs(sigma)(t)), get_args(f)(subs(sigma)(s)))
+
+subs_flatten: LEMMA
+    subs(sigma)(flatten(lst_args)) = flatten(map(subs(sigma))(lst_args))
 
 % domain and img of a substitution lemma
 vars_subs_t: LEMMA
@@ -282,6 +308,9 @@ idempotent_append: LEMMA
     disjoint?(dom(delta), vars(img(sigma))) IMPLIES
     idempotent?(append(sigma, delta)) 
 
+idempotent_subs_subs_t: LEMMA
+    idempotent?(sigma) IMPLIES subs(sigma)(subs(sigma)(t)) = subs(sigma)(t) 
+    
 subs_divide_not_var: LEMMA
     NOT var?(subs(sigma)(X)) IMPLIES
     EXISTS delta, delta2, sigma_basic, Y: 
@@ -385,5 +414,36 @@ IMPORTING list_theory2[variable, term]
 
 vars_img_sec_proj: LEMMA
    subset?(vars(img(sigma)), vars(sec_proj(sigma)))
+
+% equality between substitutions
+equal_sub_equiv: LEMMA
+   equal?(delta, sigma) IMPLIES equal?(subs(delta)(t), subs(sigma)(t))
+
+equal_sub_change_eq_terms: LEMMA
+   equal?(delta, sigma) IMPLIES  
+   (equal?(subs(delta)(t), subs(delta)(s)) IFF equal?(subs(sigma)(t), subs(sigma)(s)))
+
+   
+% this lemmas appeared when proving correctness and completeness
+idempotent_append_cond: LEMMA
+   idempotent?(sigma) AND NOT member(X, vars(t)) AND NOT member(X, dom(sigma))
+   AND disjoint?(vars(t), dom(sigma))
+   IMPLIES idempotent?(append(cons((X, t), null), sigma))
+
+subs_size2_map_get_args: LEMMA
+   member(t, args) AND length(args) > 1 IMPLIES 
+   size2(subs(delta)(t)) < sum(map(size2)(flatten(map(get_args(f))(map(subs(delta))(args)))))
+
+subs_not_same_size2: LEMMA
+   member(X, vars(s)) AND NOT s = variable(X) AND
+   (FORALL t: member(t, subterms(s)) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1)
+   IMPLIES size2(subs(delta)(X)) < size2(subs(delta)(s))
+
+subs_equal_impossible: LEMMA
+   member(X, vars(s)) AND NOT s = variable(X) AND
+   (FORALL t: member(t, subterms(s)) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1)
+   IMPLIES
+   NOT equal?(subs(delta)(s), subs(delta)(variable(X)))
+
 
 END substitution

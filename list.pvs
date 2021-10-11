@@ -9,6 +9,7 @@
 % Description: Properties about lists and maps
 %%%%%%%%%%%%%%%%%%%%%%%
 
+
 list_nat_theory: THEORY
 BEGIN 
 
@@ -40,6 +41,9 @@ MEASURE lst_nat BY <<
 all_0_sum: LEMMA
    (FORALL n: member(n, lst_nat) IMPLIES n = 0) IMPLIES sum(lst_nat) = 0
 
+sum_append: LEMMA
+   sum(append(lst_nat1, lst_nat2)) = sum(lst_nat1) + sum(lst_nat2)
+
 END list_nat_theory
 
 list_theory[T: TYPE]: THEORY
@@ -57,7 +61,6 @@ lst_of_lsts, lst_of_lsts1, lst_of_lsts2, matrix, matrix1, matrix2: VAR list[list
 matrix_nat: VAR list[list[nat]]
 fin_set, fin_set1, fin_set2: VAR finite_set[T]
 lst_of_fin_sets: VAR list[finite_set[T]]
-
 
 fun: VAR [T -> T]
 f: VAR [[T, T] -> T]
@@ -285,6 +288,8 @@ MEASURE lst BY <<
 % curried version of function count
 count(x, equal?)(lst): nat = count(x, lst, equal?)
 
+count(x, lst_of_lsts, equal?): nat = count(x, flatten(lst_of_lsts), equal?) 
+
 % let lst_of_lsts = [l1, ..., ln].
 % get the ith element (we start counting at 1) in l1 "x1_i", ..., get the ith element in ln "xn_i"
 % returns [x1_i, ..., xn_i]
@@ -360,6 +365,8 @@ get_lst_mult(lst, coef): RECURSIVE list[T] =
     ENDIF
 MEASURE lst BY << 
 
+% curried version of get_lst_mult
+get_lst_mult(coef)(lst): list[T] = get_lst_mult(lst, coef)
 
 % remove the ith element from lst.
 % counting starts at 0
@@ -414,9 +421,17 @@ MEASURE lst1 BY <<
 same_count?(lst1, lst2, equal?): bool =
     FORALL x: count(x, lst1, equal?) = count(x, lst2, equal?)
 
+same_count?(lst_of_lsts1, lst_of_lsts2, equal?): bool =
+    same_count?(flatten(lst_of_lsts1), flatten(lst_of_lsts2), equal?)
+
 sublist?(lst1, lst2): bool =
     EXISTS lst2, lst3: lst2 = append(lst2, append(lst1, lst3))
 
+%sum_lengths(lst_of_lsts): RECURSIVE bool =
+%    IF null?(lst_of_lsts) THEN 0
+%    ELSE length(car(lst_of_lsts)) + sum_lengths(cdr(lst_of_lsts))
+%    ENDIF
+%MEASURE lst_of_lsts BY <<
 
 %%%%%%%%%%%%%%%%%%%%% Theorems
 %% general properties
@@ -522,10 +537,21 @@ flatten_mem: LEMMA
     EXISTS (n: below[length(lst_of_lsts)]):
         member(x, nth(lst_of_lsts, n))
 
+flatten_mem2: LEMMA
+    member(x, flatten(lst_of_lsts)) IFF EXISTS lst: member(lst, lst_of_lsts) AND member(x, lst)
+
 % no_null_entries?
 no_null_entries?_nth: LEMMA
     (FORALL n: n < length(lst_of_lsts) IMPLIES NOT null?(nth(lst_of_lsts, n)))
     IMPLIES no_null_entries?(lst_of_lsts)
+
+no_null_entries_mem: LEMMA
+    no_null_entries?(lst_of_lsts) AND member(lst, lst_of_lsts) IMPLIES
+    NOT null?(lst) 
+
+no_null_entries?_mem2: LEMMA
+    (FORALL lst: member(lst, lst_of_lsts) => NOT null?(lst)) IFF
+    no_null_entries?(lst_of_lsts)
 
 % from_min2max:
 from_min2max_len: LEMMA
@@ -724,6 +750,8 @@ count_elem_mem2: LEMMA
 count_pos?: LEMMA
     NOT pos?(x, lst, equal?)`1 IMPLIES count(x, lst, equal?) = 0
 
+count_flatten: LEMMA
+    count(x, flatten(lst_of_lsts), equal?) = sum(map(count(x, equal?))(lst_of_lsts))
     
 % pareate
 pareate_append: LEMMA
@@ -756,6 +784,9 @@ nth_get_lst_until_n: LEMMA
 get_lst_until_n_append: LEMMA
     get_lst_until_n(append(lst1, lst2), length(lst1)) = lst1
 
+get_lst_until_n_mem: LEMMA
+    member(x, get_lst_until_n(lst, n)) IMPLIES member(x, lst)  
+
 len_get_lst_after_n: LEMMA
     length(get_lst_after_n(lst, n)) = max(length(lst) - n, 0)
 
@@ -767,6 +798,9 @@ nth_get_lst_after_n: LEMMA
 
 get_lst_after_n_append: LEMMA
     get_lst_after_n(append(lst1, lst2), length(lst1)) = lst2
+
+get_lst_after_n_mem: LEMMA
+    member(x, get_lst_after_n(lst, n)) IMPLIES member(x, lst)  
 
 % split
 split_cor: LEMMA
@@ -809,6 +843,9 @@ snd_proj_pareate2: LEMMA
     snd_proj(pareate(lst1, lst2)) = lst2
 
 % sum, get_lst_mult
+get_lst_mult_mem: LEMMA
+    member(x, get_lst_mult(lst, coef)) IMPLIES member(x, lst)
+
 get_lst_mult_count_increment: LEMMA
     i < length(coef) AND i < length(lst) IMPLIES 
     IF equal?(x, nth(lst, i)) THEN 
@@ -835,6 +872,7 @@ get_lst_mult_count: LEMMA
     count(x, flatten(map(g)(get_lst_mult(lst, coef))), equal?) =
     dot_product(map(count(x, equal?))(map(g)(lst)), coef)
 
+    
 % remove
 remove_len: LEMMA
     i < length(lst) IMPLIES
@@ -863,6 +901,12 @@ flatten_remove: LEMMA
     remove(flatten(lst_of_lsts), ind_flatten(lst_of_lsts, i, j)) =
     flatten(remove(lst_of_lsts, i, j))
 
+flatten_remove_2: LEMMA
+    n < length(flatten(lst_of_lsts)) IMPLIES 
+    EXISTS i, j: 
+       i < length(lst_of_lsts) AND j < length(nth(lst_of_lsts, i)) AND 
+       remove(flatten(lst_of_lsts), n) = flatten(remove(lst_of_lsts, i, j))
+
 count_remove: LEMMA
     i < length(lst) IMPLIES
     IF equal?(x, nth(lst, i)) THEN count(x, lst, equal?) = count(x, remove(lst, i), equal?) + 1
@@ -873,6 +917,9 @@ count_remove_pos: LEMMA
     pos?(x, lst, equal?)`1 IMPLIES 
     count(x, remove(lst, pos?(x, lst, equal?)`2), equal?) = count(x, lst, equal?) - 1
     
+no_null_entries_remove: LEMMA
+    no_null_entries?(lst_of_lsts) IMPLIES no_null_entries?(remove(lst_of_lsts, i, j))
+
 % remove_common, get_common
 remove_common_mem: LEMMA
     member(x, remove_common(lst1, lst2, equal?)) IMPLIES member(x, lst1) 
@@ -912,6 +959,13 @@ same_count?_get_lst_mul: LEMMA
     LET (new_args, new_coef) = count_elem(lst1, coef, lst2, equal?) IN
     length(lst1) = length(coef) IMPLIES
     same_count?(append(lst2, get_lst_mult(lst1, coef)), get_lst_mult(new_args, new_coef), equal?)
+
+same_count?_mem_remove: LEMMA
+    i < length(lst1) AND
+    same_count?(lst1, lst2, equal?) IMPLIES
+    EXISTS j:
+       j < length(lst2) AND equal?(nth(lst1, i), nth(lst2, j))
+       AND same_count?(remove(lst1, i), remove(lst2, j), equal?)
     
 % list2set
 mem_lst2set: LEMMA
@@ -1089,15 +1143,30 @@ BEGIN
 
 x: VAR T
 h: VAR [list[T] -> T]
+f: VAR [T -> list[T]]
 
 lst: VAR list[T]
 lst_of_lsts: VAR list[list[T]]
+
+coef: VAR list[nat]
 
 n: VAR nat
 
 % an equivalence definition
 equiv: TYPE = {R: PRED[[T, T]]| equivalence?(R)}
 equal?: VAR equiv
+
+get_repeat_lst_map: LEMMA
+    map(h)(get_repeat_lst(lst, n)) = get_repeat_lst(h(lst), n)
+
+get_repeat_lst_map2: LEMMA
+    map(f)(get_repeat_lst(x, n)) = get_repeat_lst(f(x), n)
+
+get_lst_mult_map: LEMMA
+    map(h)(get_lst_mult(lst_of_lsts, coef)) = get_lst_mult(map(h)(lst_of_lsts), coef)
+    
+get_lst_mult_map2: LEMMA
+    map(f)(get_lst_mult(lst, coef)) = get_lst_mult(map(f)(lst), coef)
 
 get_repeat_lst_map_count: LEMMA
     map(count(x, equal?))(get_repeat_lst(null, n)) = get_repeat_lst(0, n)
@@ -1113,5 +1182,12 @@ split_no_null_entries?1: LEMMA
 
 split_no_null_entries?2: LEMMA
     no_null_entries?(lst_of_lsts) IMPLIES no_null_entries?(split(lst_of_lsts, n)`2)
+
+count_flatten_get_repeat_lst: LEMMA
+   count(x, flatten(get_repeat_lst(lst, n)), equal?) = count(x, lst, equal?) * n
+
+count_get_lst_mult_dot_product: LEMMA
+    count(x, flatten(get_lst_mult(lst_of_lsts, coef)), equal?) =
+    dot_product(map(count(x, equal?))(lst_of_lsts), coef)
 
 END more_list_theory_props

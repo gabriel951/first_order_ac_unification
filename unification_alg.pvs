@@ -14,12 +14,17 @@
 
 unification_alg: THEORY
 BEGIN
-	IMPORTING apply_ac_step, list_theory[sub], termination_alg
+	IMPORTING apply_ac_step, list_theory[sub], termination_alg,
+	          map_theory[[unif_prb, sub, finite_set[variable]], sub]
 
-sigma, sigma1, delta: VAR sub
+X: VAR variable
+t, s: VAR term
+sigma, sigma1, delta, gamma: VAR sub
 vars2avoid: VAR finite_set[variable]
-unif_prb: VAR unif_prb
+unif_prb, unif_prb1: VAR unif_prb
 id: VAR sub
+
+input: VAR [unif_prb, sub, finite_set[variable]]
 
 % the AC-unification algorithm 
 unify(unif_prb, sigma, vars2avoid): RECURSIVE list[sub] =
@@ -45,7 +50,7 @@ unify(unif_prb, sigma, vars2avoid): RECURSIVE list[sub] =
 	    new_sigma = append(sigma1, sigma), 
 	    new_unif_prb = apply_sub(sigma1, unif_prb1) IN
 	    unify(new_unif_prb, new_sigma, vars2avoid)
-	  ELSIF s = variable(X) THEN LET id = null IN cons(id, null) 
+	  ELSIF s = variable(X) THEN unify(unif_prb1, sigma, vars2avoid) 
 	  ELSE null
 	  ENDIF,
 
@@ -82,14 +87,50 @@ unify(unif_prb, sigma, vars2avoid): RECURSIVE list[sub] =
 MEASURE lex4(card(vars_not_ac(unif_prb)), card(vars_under2more(unif_prb)),
 	card(admissible_subterms(unif_prb)), size(unif_prb))
 
+% nice input 
+nice_input?(unif_prb, sigma, vars2avoid): bool =
+   idempotent?(sigma) AND disjoint?(vars(unif_prb), dom(sigma)) AND 
+   subset?(dom(sigma), vars2avoid) AND subset?(vars(unif_prb), vars2avoid)
+
+
+%%%%%%%%%%%% LEMMAS
+nice_input?_apply_sub: LEMMA
+   LET sigma1 = cons((X, s), null) IN 
+   nice_input?(unif_prb, sigma, vars2avoid) AND member(variable(X), unif_prb) AND member(s, unif_prb) AND
+   NOT member(X, vars(s)) AND (FORALL t: member(t, unif_prb1) IMPLIES member(t, unif_prb)) IMPLIES
+   nice_input?(apply_sub(sigma1, unif_prb1), append(sigma1, sigma), vars2avoid)
+
+nice_input?_apply_ac_step: LEMMA
+   member(input, apply_ac_step(simplify(unif_prb), null, sigma, vars2avoid))
+   AND nice_input?(unif_prb, sigma, vars2avoid) IMPLIES 
+   nice_input?(input`1, input`2, input`3)
+
+nice_input?_subterms: LEMMA
+   nice_input?(unif_prb, sigma, vars2avoid) AND
+   subset?(subterms(unif_prb1), subterms(unif_prb)) IMPLIES
+   nice_input?(unif_prb1, sigma, vars2avoid)
+
 % Theorem of Correctness
-%unify_alg_correct: CONJECTURE
-%    member(delta, unify(unif_prb, sigma, vars2avoid)) IMPLIES 
-%    unifies?(delta, unif_prb)
+unify_alg_subs: LEMMA
+   member(delta, unify(unif_prb, sigma, vars2avoid)) IMPLIES
+   EXISTS sigma1:
+      delta = append(sigma1, sigma)
+
+unify_alg_correct: LEMMA
+    member(delta, unify(unif_prb, sigma, vars2avoid)) AND nice_input?(unif_prb, sigma, vars2avoid)
+    IMPLIES unifies?(delta, unif_prb)
+
+unify_alg_correct_cor: LEMMA
+    member(delta, unify(cons((t, s), null), null, vars(t, s))) 
+    IMPLIES unifies?(delta, (t, s))
 
 % Theorem of Completeness
-%unify_alg_complete: CONJECTURE
-%    unifies?(delta, unif_prb) IMPLIES EXISTS sigma1:
-%    member(sigma1, unify(unif_prb, sigma, vars2avoid)) AND more_general?(sigma1, delta) 
+unify_alg_complete: CONJECTURE
+    nice_input?(unif_prb, sigma, vars2avoid) AND 
+    more_general?(sigma, delta) AND subset?(dom(delta), vars2avoid)
+    AND unifies?(delta, unif_prb) AND well_formed?(unif_prb) IMPLIES 
+    EXISTS gamma:
+       member(gamma, unify(unif_prb, sigma, vars2avoid)) AND 
+       more_general?(gamma, delta, vars2avoid)
 
 END unification_alg

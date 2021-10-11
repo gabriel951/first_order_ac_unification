@@ -29,13 +29,13 @@ i: VAR nat
 
 X: VAR variable
 
-t: VAR term 
+t, s: VAR term 
 
 new_vars2avoid, vars2avoid, vars2avoid1: VAR finite_set[variable]
 
 lst_vars2avoid: VAR list[variable]
 
-sigma, delta: VAR sub
+sigma, sigma1, delta: VAR sub
 
 unseen_unif_prb, seen_unif_prb, unif_prb, unif_prb1: VAR unif_prb
 
@@ -122,6 +122,8 @@ next_input?(input1, input2): bool =
 simplify_mem: LEMMA
     member(t, simplify(unif_prb)) IMPLIES member(t, unif_prb)
 
+simplify_correct: LEMMA
+    unifies?(sigma, simplify(unif_prb)) IFF unifies?(sigma, unif_prb)
 
 % input_apply_ac_step
 input_apply_ac_step_mem: LEMMA
@@ -155,6 +157,11 @@ apply_ac_step_sub: LEMMA
    AND NOT member(X, vars(unseen_unif_prb)) AND member(X, vars2avoid) IMPLIES 
    NOT member(variable(X), sec_proj(ac_sol`2))
 
+apply_ac_step_vars: LEMMA
+   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
+   AND NOT member(X, vars(append(unseen_unif_prb, seen_unif_prb))) AND member(X, vars2avoid)
+   IMPLIES NOT member(X, vars(ac_sol`1))
+
 apply_ac_step_sub_vars_img: LEMMA
    member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
    AND NOT member(X, vars(unseen_unif_prb)) AND member(X, vars2avoid)
@@ -168,6 +175,38 @@ apply_ac_step_sub_dom: LEMMA
    member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
    AND NOT member(X, vars(unseen_unif_prb)) AND member(X, vars2avoid)
    IMPLIES NOT member(X, dom(ac_sol`2))
+
+apply_ac_step_sub_decompose: LEMMA
+   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
+   IMPLIES EXISTS delta: 
+      ac_sol`2 = append(delta, sigma)
+
+apply_ac_step_vars2avoid: LEMMA
+   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
+   AND subset?(vars(append(unseen_unif_prb, seen_unif_prb)), vars2avoid) AND
+   subset?(dom(sigma), vars2avoid)  
+   IMPLIES subset?(vars2avoid, ac_sol`3) AND subset?(dom(ac_sol`2), ac_sol`3)
+   AND subset?(vars(ac_sol`1), ac_sol`3)
+
+apply_ac_step_disjoint_vars: LEMMA
+   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
+   AND disjoint?(vars(append(unseen_unif_prb, seen_unif_prb)), dom(sigma)) AND
+   subset?(dom(sigma), vars2avoid) IMPLIES disjoint?(vars(ac_sol`1), dom(ac_sol`2))
+
+apply_ac_step_unifies_seen: LEMMA
+   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
+   AND unifies?(delta, ac_sol`1) AND (EXISTS sigma1: delta = append(sigma1, ac_sol`2))
+   AND subset?(dom(sigma), vars2avoid) AND
+   disjoint?(dom(sigma), union(vars(seen_unif_prb), vars(unseen_unif_prb)))
+   IMPLIES unifies?(delta, seen_unif_prb) 
+   
+apply_ac_step_sound: LEMMA
+   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
+   AND unifies?(delta, ac_sol`1) AND (EXISTS sigma1: delta = append(sigma1, ac_sol`2))
+   AND subset?(dom(sigma), vars2avoid) AND 
+   disjoint?(dom(sigma), union(vars(seen_unif_prb), vars(unseen_unif_prb)))
+   IMPLIES unifies?(delta, unseen_unif_prb)
+
 
 END apply_ac_step
 

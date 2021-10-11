@@ -432,12 +432,6 @@ nvs_no_pair_adm_subterm: LEMMA
    no_pair?(fin_set_t) IMPLIES
    non_var_subterms(fin_set_t) = union({t | member(t, fin_set_t) AND NOT var?(t)}, admissible_subterms(fin_set_t))
 
-%inst_step_nice_cdr1: CONJECTURE
-%   LET sigma = instantiate_step(unif_prb, null, null)`2,
-%       sigma1 = instantiate_step(cdr(unif_prb), null, null)`2 IN 
-%       NOT null?(unif_prb) AND sigma = sigma1 AND inst_step_nice?(unif_prb, f)
-%       IMPLIES inst_step_nice?(cdr(unif_prb), f)
-
 inst_step_nice_cdr: LEMMA
        NOT null?(unif_prb) AND
        instantiate_step(unif_prb, null, null)`2 = instantiate_step(cdr(unif_prb), null, null)`2

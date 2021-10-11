@@ -69,6 +69,17 @@ MEASURE length(args1)
 perm?(lst_args1, lst_args2): bool =
     perm?(flatten(lst_args1), flatten(lst_args2)) 
 
+% returns true if args2 is simply a reordering of args1
+reorder?(args1, args2): RECURSIVE bool =
+    IF null?(args1) THEN null?(args2)
+    ELSE EXISTS (i: below[length(args1)]), (j: below[length(args2)]):
+    	 nth(args1, i) = nth(args2, j) AND
+	 reorder?(remove(args1, i), remove(args2, j))
+    ENDIF
+MEASURE length(args1) 
+    
+
+
 %%%%%%%%%%%%%%% Theorem
 equal?_len: LEMMA 
     equal?(args1, args2) IMPLIES length(args1) = length(args2) 
@@ -199,6 +210,39 @@ perm_get_ac_from_args: LEMMA
     perm?(args1, args2) IMPLIES 
     perm?(get_args(f)(get_ac_from_args(f)(args1)), get_args(f)(get_ac_from_args(f)(args2)))
 
+equal_map_count_get_args: LEMMA
+    equal?(args1, args2) IMPLIES
+    map(count(t, equal?))(map(get_args(f))(args1)) = map(count(t, equal?))(map(get_args(f))(args2))
 
+count_get_args_remove_aux: LEMMA
+   n < length(args1) IMPLIES
+   count(t, get_args(f)(nth(args1, n)), equal?) +
+   count(t, flatten(map(get_args(f))(remove(args1, n))), equal?) =
+   count(t, flatten(map(get_args(f))(args1)), equal?)
+
+count_get_args_remove: LEMMA
+   n < length(flatten(lst_args1)) IMPLIES 
+   count(t, flatten(map(get_args(f))(remove(flatten(lst_args1), n))), equal?) +
+   count(t, get_args(f)(nth(flatten(lst_args1), n)), equal?) =
+   count(t, flatten(map(get_args(f))(flatten(lst_args1))), equal?)
+
+% size2, reorder equality
+reorder_ref: LEMMA
+   reorder?(args1, args1)
+
+reorder_get_args_gt0: LEMMA
+   nice_ind?(i, num_arg(f, t)) AND num_arg(f, t) > 1 IMPLIES 
+   reorder?(get_args(f)(t), cons(select(f, t)(i), get_args(f)(delete(f, t)(i))))
+   
+size2_cons_remove: LEMMA
+   i < length(args1) IMPLIES
+   sum(map(size2)(args1)) = sum(map(size2)(cons(nth(args1, i), remove(args1, i))))
+   
+size2_reorder: LEMMA
+   reorder?(args1, args2) IMPLIES 
+   sum(map(size2)(args1)) = sum(map(size2)(args2))
+   
+equal_size2: LEMMA
+   equal?(t, s) IMPLIES size2(t) = size2(s) 
 
 END equality

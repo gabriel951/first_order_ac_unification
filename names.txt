@@ -1,3 +1,21 @@
+# unify
+(name-replace "unif_pair" "choose_unif_pair(unif_prb)`1")
+(name-replace "t" "unif_pair`1")
+(name-replace "s" "unif_pair`2")
+(name-replace "unif_prb1" "choose_unif_pair(unif_prb)`2") 
+
+(name-replace "sigma1" "cons((V(s), t), null)") 
+(name-replace "new_sigma" "append(sigma1, sigma)") 
+(name-replace "new_unif_prb" "apply_sub(sigma1, unif_prb1)") 
+
+(name-replace "sigma1" "cons((V(t), s), null)") 
+
+(name-replace "unif_pair1" "(term1(t), term1(s))") 
+(name-replace "unif_pair2" "(term2(t), term2(s))") 
+(name-replace "new_unif_prb" "cons(unif_pair1, cons(unif_pair2, unif_prb1))")
+
+(name-replace "new_unif_pair" "(arg(t), arg(s))") 
+
 # solve_ac
 (name-replace "args" "elim_com_arg(t1, t2, f)`1")
 (name-replace "mult_t1" "elim_com_arg(t1, t2, f)`2")

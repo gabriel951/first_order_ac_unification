@@ -543,5 +543,2138 @@
     ]
    }
   }
+ ],
+ "termination_alg.vars_under2more_TCC1": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_under2more_TCC1",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_under2more_TCC1",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[variable]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"vars(unif_prb)\" \"_\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide 2)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"member\" -1 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(rewrite \"subterms_mem_unif_prb\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skolem -4 \"tS\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(prop)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"im_under_var\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"vars_subterm\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"x\" \"t\" \"tS\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(rewrite \"vars_unif_prb\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst 1 \"tS\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_under2more_TCC2": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_under2more_TCC2",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_under2more_TCC2",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[variable]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"vars(lst_unif_prb)\" \"_\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide 2)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"member\" -1 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(rewrite \"vars_lst_unif_prb\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(rewrite \"subterms_mem_lst_unif_prb\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skolem -4 \"tS\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(prop)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst 1 \"tS\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"im_under_var\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"x\" \"t\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"vars_subterm\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"x\" \"t\" \"tS\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC1": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC1",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC1",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(termination-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC2": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC2",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC2",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(termination-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC3": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC3",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC3",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(termination-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC5": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC5",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC5",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(subtype-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC6": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC6",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC6",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"card_rest[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(grind)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC7": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC7",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC7",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(subtype-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC9": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC9",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC9",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(subtype-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC10": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC10",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC10",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(subtype-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC11": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC11",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC11",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(termination-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC12": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC12",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC12",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(subtype-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC13": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC13",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC13",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC14": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC14",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC14",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(termination-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_TCC15": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_TCC15",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_TCC15",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(subtype-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.mimic_var_TCC1": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "mimic_var_TCC1",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "mimic_var_TCC1",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(subtype-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.mimic_var_TCC2": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "mimic_var_TCC2",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "mimic_var_TCC2",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(termination-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.mimic_var_TCC3": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "mimic_var_TCC3",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "mimic_var_TCC3",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(subtype-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.mimic_var_TCC4": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "mimic_var_TCC4",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "mimic_var_TCC4",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(termination-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.mimic_var_TCC5": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "mimic_var_TCC5",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "mimic_var_TCC5",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(subtype-tcc)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.vars_not_ac_var_TCC1": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "vars_not_ac_var_TCC1",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "vars_not_ac_var_TCC1",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[variable]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"vars_not_ac(t)\" \"_\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide 2)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(grind)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.admissible_subterms_TCC1": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "admissible_subterms_TCC1",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "admissible_subterms_TCC1",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"prop_subterms(t)\" \"_\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst? -1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide 2)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(grind)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.admissible_subterms_TCC2": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "admissible_subterms_TCC2",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "admissible_subterms_TCC2",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"subterms(args)\" \"_\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide 2)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skolem 1 \"s\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(prop)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"member\" -1 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skolem -1 \"t\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(prop)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(rewrite \"subterm_args\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst 1 \"t\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"adm_subterms_subset2\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" -1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"s\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.admissible_subterms_TCC3": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "admissible_subterms_TCC3",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "admissible_subterms_TCC3",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"subterms(fin_set_t)\" \"_\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide 2)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skolem 1 \"s\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(prop)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"member\" -1 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(rewrite \"subterm_fin_set\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst 1 \"t\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"adm_subterms_subset2\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" -1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"s\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.admissible_subterms_TCC4": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "admissible_subterms_TCC4",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "admissible_subterms_TCC4",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"subterms(unif_pair)\" \"_\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide 2)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skolem 1 \"s\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(prop)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"member\" -1 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subterms\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"member\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"union\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(flatten)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"adm_subterms_subset2\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(prop)",
+      "type": "proof-command",
+      "rules": [
+       {
+        "branch": "1",
+        "name": "(1)",
+        "type": "proof-branch",
+        "rules": [
+         {
+          "branch": "1",
+          "name": "(inst -2 \"t\")",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "1",
+          "name": "(expand \"subset?\" -2)",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "1",
+          "name": "(inst -2 \"s\")",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "1",
+          "name": "(assert)",
+          "type": "proof-command",
+          "rules": []
+         }
+        ]
+       },
+       {
+        "branch": "2",
+        "name": "(2)",
+        "type": "proof-branch",
+        "rules": [
+         {
+          "branch": "2",
+          "name": "(inst -2 \"t\")",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "2",
+          "name": "(expand \"subset?\" -2)",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "2",
+          "name": "(inst -2 \"s\")",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "2",
+          "name": "(assert)",
+          "type": "proof-command",
+          "rules": []
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.admissible_subterms_TCC5": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "admissible_subterms_TCC5",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "admissible_subterms_TCC5",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"subterms(unif_prb)\" \"_\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide 2)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skolem 1 \"t\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(prop)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"member\" -1 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skolem -1 \"s\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(prop)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(rewrite \"subterms_mem_unif_prb\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst 1 \"s\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"adm_subterms_subset2\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"s\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" -1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"t\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.non_var_subterms_TCC1": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "non_var_subterms_TCC1",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "non_var_subterms_TCC1",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"subterms(t)\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide 2)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"member\" -1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(grind)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.non_var_subterms_TCC2": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "non_var_subterms_TCC2",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "non_var_subterms_TCC2",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"subterms(args)\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide 2)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"member\" -1 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skolem -1 \"t\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(prop)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(rewrite \"subterm_args\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst 1 \"t\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(grind)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.non_var_subterms_TCC3": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "non_var_subterms_TCC3",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "non_var_subterms_TCC3",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"subterms(fin_set_t)\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide 2)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"member\" -1 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(rewrite \"subterm_fin_set\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst 1 \"t\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(grind)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.adm_subterms_solve_ac_lhs_rhs_TCC1": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "adm_subterms_solve_ac_lhs_rhs_TCC1",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "adm_subterms_solve_ac_lhs_rhs_TCC1",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"is_finite_mem_unif_prb\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"{t | member(t, unif_prb)}\" \"unif_prbA\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide-all-but (-2 1))",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(grind)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.adm_subterms_solve_ac_lhs_rhs_TCC2": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "adm_subterms_solve_ac_lhs_rhs_TCC2",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "adm_subterms_solve_ac_lhs_rhs_TCC2",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"is_finite_mem_unif_prb\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"unif_prb\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"{t | member(t, unif_prb)}\" \"unif_prbB\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(replace -4)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(hide-all-but (-1 1))",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(grind)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.adm_subterms_inst_step2_TCC1": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "adm_subterms_inst_step2_TCC1",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "adm_subterms_inst_step2_TCC1",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -1 \"{t | member(t, unif_prb)}\" \"unif_prbA\")",
+      "type": "proof-command",
+      "rules": [
+       {
+        "branch": "1",
+        "name": "(1)",
+        "type": "proof-branch",
+        "rules": [
+         {
+          "branch": "1",
+          "name": "(assert)",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "1",
+          "name": "(expand \"subset?\" 1)",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "1",
+          "name": "(skeep)",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "1",
+          "name": "(replace -3)",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "1",
+          "name": "(expand \"member\" -1 1)",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "1",
+          "name": "(expand \"member\" 1 1)",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "1",
+          "name": "(prop)",
+          "type": "proof-command",
+          "rules": []
+         }
+        ]
+       },
+       {
+        "branch": "2",
+        "name": "(2)",
+        "type": "proof-branch",
+        "rules": [
+         {
+          "branch": "2",
+          "name": "(lemma \"is_finite_mem_unif_prb\")",
+          "type": "proof-command",
+          "rules": []
+         },
+         {
+          "branch": "2",
+          "name": "(inst?)",
+          "type": "proof-command",
+          "rules": []
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "termination_alg.adm_subterms_inst_step2_TCC2": [
+  {
+   "info": {
+    "theory": "termination_alg",
+    "formula": "adm_subterms_inst_step2_TCC2",
+    "status": "proved",
+    "prover": "PVS 7.1.0 (Allegro CL Enterprise Edition)",
+    "shasum": "c1e8ba78828f01844ddfe4eb6975a1ba1ec8e7033f49ab1526a8cb0d4d481a2f"
+   },
+   "origin": ".prf",
+   "proofTree": {
+    "branch": "",
+    "name": "adm_subterms_inst_step2_TCC2",
+    "type": "root",
+    "rules": [
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"finite_subset[term]\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(lemma \"is_finite_mem_unif_prb\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst?)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(inst -2 \"{t | member(t, unif_prb)}\")",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(assert)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(expand \"subset?\" 1)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(skeep)",
+      "type": "proof-command",
+      "rules": []
+     },
+     {
+      "branch": "",
+      "name": "(grind)",
+      "type": "proof-command",
+      "rules": []
+     }
+    ]
+   }
+  }
  ]
 }

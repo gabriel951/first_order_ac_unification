@@ -67,12 +67,20 @@ size(t): RECURSIVE nat =
     ENDCASES
 MEASURE t BY <<
 
+
 % size of a list of arguments
 size(args): RECURSIVE nat =
      IF null?(args) THEN 1
      ELSE LET t = car(args) IN size(t) + size(cdr(args)) 
      ENDIF 
 MEASURE length(args) 
+
+size(lst_args): RECURSIVE nat =
+     IF null?(lst_args) THEN 1
+     ELSE LET args = car(lst_args) IN size(args) + size(cdr(lst_args)) 
+     ENDIF 
+MEASURE length(lst_args) 
+
 
 % membership for a list of arguments
 member(t, lst_args): RECURSIVE bool =
@@ -219,6 +227,9 @@ all_var?(lst_args): RECURSIVE bool =
    ENDIF
 MEASURE lst_args BY << 
 
+no_pair_ac?(f, args): bool =
+   FORALL t: member(t, args) IMPLIES (NOT pair?(t) AND NOT is_ac_sym?(t, f))
+
 %%%%%%%%%%%%%%%
 % options of a term:
 term_opt: LEMMA
@@ -236,6 +247,9 @@ member_t_lst_args: LEMMA
 size_ge1: LEMMA
     size(t) >= 1
     
+size_args_ge1: LEMMA
+    size(args) >= 1
+
 % num_arg
 num_arg_ge1: LEMMA
     num_arg(f, t) > 0 
@@ -334,6 +348,14 @@ delete_not_null: LEMMA
     i < length(args) AND num_arg(f, nth(args, i)) > 1
     IMPLIES NOT null?(delete(args, f, i, j))
     
+% remove
+remove_size_args: LEMMA
+    i < length(args) IMPLIES size(remove(args, i)) < size(args)
+
+remove_size_lst_args: LEMMA
+    i < length(lst_args) AND j < length(nth(lst_args, i)) IMPLIES
+    size(remove(lst_args, i, j)) < size(lst_args) 
+
 % delete, select and nice_ind
 gt_select_delete: LEMMA 
     nice_ind?((: i, n :), num_arg(f, t)) AND i > n IMPLIES 
@@ -399,6 +421,10 @@ get_args_get_ac_from_args_all_var: LEMMA
     all_var?(args) AND NOT null?(args) IMPLIES
     get_args(f)(get_ac_from_args(f)(args)) = args
 
+get_args_get_ac_from_args2: LEMMA
+    NOT null?(args) AND no_pair_ac?(f, args) IMPLIES 
+    get_args(f)(get_ac_from_args(f)(args)) = args
+
 remove_get_args_del: LEMMA
     j < num_arg(f, t) AND num_arg(f, t) > 1 IMPLIES
     remove(get_args(f)(t), j) = get_args(f)(delete(f, t)(j+1))
@@ -406,6 +432,7 @@ remove_get_args_del: LEMMA
 get_args_remove_del: LEMMA 
     i < length(args) AND j < num_arg(f, nth(args, i)) IMPLIES
     remove(map(get_args(f))(args), i, j) = map(get_args(f))(delete(args, f, i, j))
+
 
 % get_ac_from_args
 map_get_args_get_ac_from_args: LEMMA
@@ -556,6 +583,18 @@ all_ac_or_var?(args): bool =
 
 no_pair?(fin_set_t): bool = FORALL t: member(t, fin_set_t) IMPLIES NOT pair?(t)
 
+% this alternative definition of size has the advantage that if t = s (modulo AC), then size2(t) = size2(s)
+size2(t): RECURSIVE nat =
+    CASES t OF
+        const(a): 1,
+	variable(X): 1, 
+	unit: 1, 
+	pair(t1, t2): size2(term1(t)) + size2(term2(t)),
+	app(sym, arg): 1  + size2(arg),
+	ac_app(sym, arg): sum(map(size2)(get_args(sym)(t)))
+    ENDCASES
+MEASURE size(t)
+
 % lemmas
 % vars 
 vars_append: LEMMA
@@ -702,6 +741,9 @@ subterm_fin_set_mem: LEMMA
 vars_subterm: LEMMA
    (member(X, vars(s)) AND member(s, subterms(t))) IMPLIES member(X, vars(t))
 
+vars_subterm2: LEMMA
+   member(X, vars(s)) IMPLIES EXISTS t: member(X, vars(t)) AND member(t, subterms(s))
+
 subterm_size: LEMMA
    member(s, subterms(t)) IMPLIES size(s) <= size(t) 
 
@@ -767,6 +809,13 @@ dif_func_sym: LEMMA
 
 cond_dif_func: LEMMA
     dif_func?(s, t) AND same_func?(t, t1) IMPLIES dif_func?(s, t1)
+
+% size2
+size2_ge0: LEMMA
+    size2(t) > 0 
+
+size2_get_args: LEMMA
+    size2(t) = sum(map(size2)(get_args(f)(t)))
 
 END term_properties
 
