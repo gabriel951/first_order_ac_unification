@@ -10,5 +10,5 @@ Authors:
 
 
 Current Status of the formalisation:    
-We have proved termination and soundness. There is only one case (the AC-case) for 
+We have proved termination and correctness. There is only one case (the AC-case) for 
 completeness that we did not prove. 
