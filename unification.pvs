@@ -21,7 +21,8 @@ lst_sub: VAR list[sub]
 vars2avoid, set_vars: VAR set[variable]
 args1, args2: VAR args
 X: VAR variable
-t, s: VAR term
+t, s, t1: VAR term
+f: VAR string
 
 % a unification pair (t, s) is composed of terms t and s that must be unified
 unif_pair: TYPE = [term, term]
@@ -408,5 +409,28 @@ well_formed_apply_sub: LEMMA
 
 well_formed_subset: LEMMA
    subset?(unif_prb, unif_prb1) AND well_formed?(unif_prb1) IMPLIES well_formed?(unif_prb) 
+
+unifies?_impossible: LEMMA
+   (FORALL t1:
+    count(t1, get_args(f)(s), equal?) >= count(t1, get_args(f)(t), equal?))
+   AND are_ac?(t, s, f)
+   AND NOT same_count?(get_args(f)(t), get_args(f)(s), equal?)
+   IMPLIES NOT unifies?(delta, (t, s))
+
+remove_common_not_null_count: LEMMA
+   (EXISTS t1:
+       count(t1, args1, equal?) > count(t1, args2, equal?))
+   IMPLIES NOT null?(remove_common(args1, args2, equal?))
+
+remove_common_args_cor: LEMMA
+   LET (t1, s1) = remove_common(t, s, f) IN
+   unifies?(delta, (t, s)) AND NOT equal?(t, s) AND are_ac?(t, s, f) IMPLIES  
+   remove_common(get_args(f)(t), get_args(f)(s), equal?) =
+   remove_common(get_args(f)(t1), get_args(f)(s1), equal?)
+
+get_args_remove_common: LEMMA
+   LET (t1, s1) = remove_common(t, s, f) IN
+   unifies?(delta, (t, s)) AND NOT equal?(t, s) AND are_ac?(t, s, f) IMPLIES  
+   get_args(f)(t1) = remove_common(get_args(f)(t), get_args(f)(s), equal?)
 
 END unification 

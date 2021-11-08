@@ -13,28 +13,38 @@
 list_nat_theory: THEORY
 BEGIN 
 
-n, i, j, min, max, inc: VAR nat
+n, i, j, min, max, inc, c: VAR nat
 
 lst_nat, lst_nat1, lst_nat2: VAR list[nat]
 
 % some of the lemmas of this theory are proved together with list_theory
+
+% computes the dot product between two lists
 dot_product(lst_nat1, lst_nat2): RECURSIVE nat =
     IF null?(lst_nat1) OR null?(lst_nat2) THEN 0
     ELSE car(lst_nat1) * car(lst_nat2) + dot_product(cdr(lst_nat1), cdr(lst_nat2))
     ENDIF
 MEASURE lst_nat1 BY << 
 
+% sum two lists, component by component
 sum_lsts(lst_nat1, lst_nat2): RECURSIVE list[nat] =
     IF null?(lst_nat1) OR null?(lst_nat2) THEN null
     ELSE cons(car(lst_nat1) + car(lst_nat2), sum_lsts(cdr(lst_nat1), cdr(lst_nat2)))
     ENDIF
 MEASURE lst_nat1 BY << 
 
+% sum every element in a list 
 sum(lst_nat): RECURSIVE nat =
    IF null?(lst_nat) THEN 0
    ELSE car(lst_nat) + sum(cdr(lst_nat)) 
    ENDIF 
+MEASURE lst_nat BY << 
 
+% given a natural number "c" and a list (a_1, ..., a_n) returns (c a_1, ..., c a_n)
+times(c, lst_nat): RECURSIVE list[nat] =
+    IF null?(lst_nat) THEN null 
+    ELSE cons(c * car(lst_nat), times(c, cdr(lst_nat)))
+    ENDIF
 MEASURE lst_nat BY << 
 
 % lemma
@@ -43,6 +53,9 @@ all_0_sum: LEMMA
 
 sum_append: LEMMA
    sum(append(lst_nat1, lst_nat2)) = sum(lst_nat1) + sum(lst_nat2)
+
+sum_lsts_len: LEMMA 
+   length(lst_nat1) = length(lst_nat2) IMPLIES length(sum_lsts(lst_nat1, lst_nat2)) = length(lst_nat1) 
 
 END list_nat_theory
 
@@ -125,7 +138,6 @@ cartesian_product(lst1, lst2): RECURSIVE list[[T, T]] =
     	 IN  append(cartesian_product_aux(x, lst2), cartesian_product(cdr(lst1), lst2))
     ENDIF 
 MEASURE lst1 BY <<  
-
 
 finset2list(fin_set): RECURSIVE list[T] = 
    IF empty?(fin_set) THEN null
@@ -499,7 +511,7 @@ dot_product_zero_lst: LEMMA
     (FORALL n: member(n, lst_nat1) IMPLIES n = 0)
     IMPLIES dot_product(lst_nat1, lst_nat2) = 0
 
-% cartesian product
+% cartesian product, append_pair
 cart_prod_aux_mem: LEMMA
     member(y, lst) = member((x, y), cartesian_product_aux(x, lst))
 
@@ -655,6 +667,10 @@ put_in_head_mem: LEMMA
     member(lst, put_in_head(matrix, x)) IMPLIES
     (NOT null?(lst)) AND x = car(lst) AND member(cdr(lst), matrix)
 
+put_in_head_mem_iff: LEMMA 
+    member(lst, put_in_head(matrix, x)) IFF 
+    NOT null?(lst) AND x = car(lst) AND member(cdr(lst), matrix) 
+
 put_in_head_mem2: LEMMA
     member(lst, put_in_head(lst1, lst2)) IMPLIES
     null?(lst) OR (member(car(lst), lst1) AND cdr(lst) = lst2)
@@ -682,6 +698,7 @@ get_repeat_lst_count: LEMMA
     ELSE count(x, get_repeat_lst(y, n), equal?) = 0
     ENDIF
 
+
 % select_greater 
 select_greater_lt: LEMMA
     member(n, lst_nat) IMPLIES n <= select_greater(lst_nat)
@@ -694,6 +711,10 @@ matrix_append: LEMMA
     matrix?(append(lst_of_lsts1, lst_of_lsts2), n) =
     (matrix?(lst_of_lsts1, n) AND matrix?(lst_of_lsts2, n))
 
+matrix_equiv: LEMMA 
+    matrix?(lst_of_lsts, n) IFF
+    (FORALL lst: member(lst, lst_of_lsts) IMPLIES length(lst) = n)
+      
 matrix_mem: LEMMA
    matrix?(lst_of_lsts, n) AND member(lst, lst_of_lsts) IMPLIES
    length(lst) = n
@@ -749,6 +770,9 @@ count_elem_mem2: LEMMA
 
 count_pos?: LEMMA
     NOT pos?(x, lst, equal?)`1 IMPLIES count(x, lst, equal?) = 0
+
+count_pos?2: LEMMA
+    NOT pos?(x, lst, equal?)`1 IFF count(x, lst, equal?) = 0
 
 count_flatten: LEMMA
     count(x, flatten(lst_of_lsts), equal?) = sum(map(count(x, equal?))(lst_of_lsts))
@@ -809,7 +833,7 @@ split_cor: LEMMA
 
 split_append: LEMMA
     split(append(lst1, lst2), length(lst1)) = (lst1, lst2)
-
+    
 split_append_pair: LEMMA
     n = length(pair_lst`1) IMPLIES
     split(append_pair(pair_lst), n)`1 = pair_lst`1 AND
@@ -927,6 +951,14 @@ remove_common_mem: LEMMA
 remove_common_mem_count: LEMMA
     member(x, remove_common(lst1, lst2, equal?)) IMPLIES
     count(x, lst1, equal?) > count(x, lst2, equal?)
+
+remove_common_count_gt: LEMMA
+    count(x, remove_common(lst1, lst2, equal?), equal?) > 0 IMPLIES 
+    count(x, lst1, equal?) > count(x, lst2, equal?) 
+
+remove_common_no_effect: LEMMA
+    (FORALL x: member(x, lst1) IMPLIES count(x, lst2, equal?) = 0) IMPLIES 
+    remove_common(lst1, lst2, equal?) = lst1
 
 remove_common_mem_not_common: LEMMA
     member(x, remove_common(lst1, lst2, equal?)) IMPLIES

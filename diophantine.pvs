@@ -13,7 +13,8 @@
 diophantine: THEORY
 BEGIN
 	IMPORTING list_theory[nat], list_theory[posnat], list_theory[list[nat]], min_nat[posnat],
-		  list_theory[[list[nat], list[nat]]]
+		  list_theory[[list[nat], list[nat]]], map_theory[[list[nat], list[nat]], list[nat]],
+		  map_theory[[posnat, posnat], posnat]
 
 % a diophantine matrix is a list of list of naturals
 dio_matrix: TYPE = list[list[nat]]
@@ -26,12 +27,21 @@ lst_dio_matrix: VAR list[dio_matrix]
 % t = f(x1, ..., xn)
 mult_t, mult_t1, mult_t2: VAR list[posnat]
 
-value_lst, row: VAR list[nat]
+value_lst, row, coef, coef1, coef2, sol, sol1, sol2, sol3, sol4, vect: VAR list[nat]
 
-a1, a2: VAR posnat
 
-X1, j, n, n1, n2, k, new_k, bound, value: VAR nat
+a1, a2, a3: VAR posnat
 
+X1, j, i, n, n1, n2, k, new_k, bound, value: VAR nat
+
+
+% vector of length n with the i-th entrie (count start at 0) being j and all the others being 0 
+vec_ith(i, j, n): RECURSIVE list[nat] = 
+    IF n = 0 THEN null
+    ELSIF i = 0 THEN cons(j, get_repeat_lst(0, n-1))  
+    ELSE cons(0, vec_ith(i - 1, j, n-1))
+    ENDIF 
+MEASURE n 
 
 % defines least common multiple
 lcm(a1, a2): posnat = min({k: posnat | divides(a1, k) AND divides(a2, k)})
@@ -153,12 +163,122 @@ dio_matrix_correct?(dio_matrix, mult_t1, mult_t2): RECURSIVE bool =
     ENDIF 
 MEASURE dio_matrix BY << 
 
+% if (r_1, ..., r_n) are the rows of "dio_matrix" and "coef" = (c_1, ..., c_n), this function computes
+% the vector given by c_1 r_1 + c_2 r_2 + ... + c_n r_n 
+% "n" - number of entries in each vector
+get_linear_comb(dio_matrix, coef, n): RECURSIVE list[nat] =
+   IF null?(dio_matrix) OR null?(coef) THEN get_repeat_lst(0, n)
+   ELSE LET c1 = car(coef), r1 = car(dio_matrix) IN 
+            sum_lsts(times(c1, r1), get_linear_comb(cdr(dio_matrix), cdr(coef), n)) 
+   ENDIF
+MEASURE dio_matrix BY << 
+
+% consider each row in dio_matrix a vector
+% returns True if the vector "vect" can be written as a linear combinations of the rows in dio_matrix 
+linear_comb?(vect, dio_matrix): bool = 
+   EXISTS coef:
+      vect = get_linear_comb(dio_matrix, coef, length(vect)) AND length(coef) = length(dio_matrix) 
+
+% consider every row in "dio_matrix" a vector
+% given the linear diophantine equation a_1 X_1 + ... + a_m X_m = b_1 Y_1 + ... + b_n Y_n
+% we have "mult_t1" = (a1, ..., a_m) and "mult_t2 = (b_1, ..., b_n)" 
+% this function is True if the rows of "dio_matrix" are a generating set for all the solutions
+% of this linear diophantine equation and False otherwise. 
+gen_set?(dio_matrix, mult_t1, mult_t2): bool =
+   FORALL sol: 
+      LET (part1, part2) = split[nat](sol, length(mult_t1)) IN 
+      length(sol) = length(mult_t1) + length(mult_t2) AND 
+      dot_product(part1, mult_t1) = dot_product(part2, mult_t2) IMPLIES 
+      linear_comb?(sol, dio_matrix) 
+
+   
 %%%%%%%%%%%%%%%%%%%%%%
+% lcm
+lcm_integer_pred: LEMMA
+   integer_pred(lcm(a1, a2)/a1) 
+
+lcm_sym: LEMMA 
+   lcm(a1, a2) = lcm(a2, a1) 
+
+max_lcm_cor: LEMMA 
+   member(a1, mult_t1) AND member(a2, mult_t2) IMPLIES
+   lcm(a1, a2) <= max_lcm(mult_t1, mult_t2) 
+
+% prod and dot_product
 prod_get_repeat_lst0: LEMMA
     prod(mult_t)(get_repeat_lst(0, n)) = 0
 
 prod_equiv_dot_product: LEMMA
     prod(mult_t)(value_lst) = dot_product(mult_t, value_lst)
+
+dot_product_zero: LEMMA
+    length(value_lst) = length(mult_t) AND dot_product(value_lst, mult_t) = 0 IMPLIES 
+    value_lst = get_repeat_lst(0, length(value_lst)) 
+
+dot_product_get_repeat_lst0: LEMMA
+    dot_product(get_repeat_lst(0, n), mult_t) = 0
+   
+dot_product_split: LEMMA
+    dot_product(sol, mult_t1) = dot_product(split[nat](sol, length(mult_t1))`1, mult_t1)
+
+dot_product_gt: LEMMA 
+    dot_product(value_lst, mult_t) > bound AND length(value_lst) = length(mult_t) IMPLIES   
+    (EXISTS i:
+       i < length(mult_t) AND nth(value_lst, i) * nth(mult_t, i) >= bound/length(mult_t)) 
+
+% vec_ith
+vec_ith_len: LEMMA
+    length(vec_ith(i, j, n)) = n
+
+vec_ith_cor: LEMMA
+  n1 < length(vec_ith(i, j, n)) IMPLIES 
+  IF n1 = i THEN nth(vec_ith(i, j, n), n1) = j
+  ELSE nth(vec_ith(i, j, n), n1) = 0
+  ENDIF
+
+vec_ith_dot_product: LEMMA
+  i < length(vec_ith(i, j, n)) AND length(vec_ith(i, j, n)) = length(mult_t) IMPLIES 
+  dot_product(vec_ith(i, j, n), mult_t) = j * nth(mult_t, i) 
+
+% times, sum_lst
+times0: LEMMA 
+    times(0, value_lst) = get_repeat_lst(0, length(value_lst)) 
+
+times1: LEMMA
+   times(1, value_lst) = value_lst
+
+times_len: LEMMA 
+   length(times(n, value_lst)) = length(value_lst) 
+
+sum_lsts_sym: LEMMA 
+   sum_lsts(value_lst, coef) = sum_lsts(coef, value_lst)
+   
+sum_lsts0: LEMMA 
+   sum_lsts(get_repeat_lst(0, length(value_lst)), value_lst) = value_lst
+     
+sum_lsts_times: LEMMA
+   sum_lsts(times(i, value_lst), times(j, value_lst)) = times(i + j, value_lst)
+
+sum_lsts_assoc: LEMMA
+   sum_lsts(sum_lsts(sol1, sol2), sol3) = sum_lsts(sol1, sum_lsts(sol2, sol3))
+
+sum_lsts4: LEMMA
+   sum_lsts(sum_lsts(sol1, sol2), sum_lsts(sol3, sol4)) =
+   sum_lsts(sum_lsts(sol1, sol3), sum_lsts(sol2, sol4))
+
+sum_lsts_suf: LEMMA
+   length(sol) = length(sol1) AND
+   (FORALL i: i < length(sol) IMPLIES nth(sol1, i) <= nth(sol, i)) IMPLIES
+   EXISTS sol2: length(sol2) = length(sol) AND sol = sum_lsts(sol1, sol2) 
+
+sum_lsts_split: LEMMA
+   sol = sum_lsts(sol1, sol2) IMPLIES
+   split[nat](sol, n)`1 = sum_lsts(split[nat](sol1, n)`1, split[nat](sol2, n)`1) AND 
+   split[nat](sol, n)`2 = sum_lsts(split[nat](sol1, n)`2, split[nat](sol2, n)`2) 
+
+sum_lsts_dot_product: LEMMA
+   length(sol1) = length(sol2) IMPLIES 
+   dot_product(sum_lsts(sol1, sol2), mult_t) = dot_product(sol1, mult_t) + dot_product(sol2, mult_t) 
 
 % get_new_value_lst
 get_new_value_lst_len: LEMMA
@@ -191,6 +311,13 @@ get_lst_dio_matrix_mem_nth: LEMMA
     (NOT null?(row)) AND car(row) = nth(value_lst, n) AND
     member(cdr(row), nth(lst_dio_matrix, n))
     
+get_lst_dio_matrix_mem_nth2: LEMMA
+    NOT null?(row) AND (EXISTS n: 
+	n < length(value_lst) AND  n < length(lst_dio_matrix) AND
+	car(row) = nth(value_lst, n) AND member(cdr(row), nth(lst_dio_matrix, n)))
+    IMPLIES member(row, flatten(get_lst_dio_matrix(value_lst, lst_dio_matrix)))
+
+
 %% find vectors
 find_vectors_matrix: LEMMA
     matrix?(find_vectors(mult_t)(n), length(mult_t))
@@ -202,6 +329,10 @@ find_vectors_len: LEMMA
 find_vectors_cor: LEMMA
     member(value_lst, find_vectors(mult_t)(n)) IMPLIES
     prod(mult_t)(value_lst) = n
+
+find_vectors_comp: LEMMA
+    dot_product(value_lst, mult_t) = n AND length(value_lst) = length(mult_t) AND NOT null?(value_lst)
+    IMPLIES member(value_lst, find_vectors(mult_t)(n)) 
     
 % dio_solver, dio_matrix_correct?..
 dio_solver_n_member_find_vector: LEMMA
@@ -241,7 +372,58 @@ dio_solver_n_cor: LEMMA
 dio_solver_cor: LEMMA
     dio_matrix_correct?(dio_solver(mult_t1, mult_t2, bound), mult_t1, mult_t2)  
 
+dio_solver_matrix: LEMMA 
+    matrix?(dio_solver(mult_t1, mult_t2, bound), length(mult_t1) + length(mult_t2)) 
+
 dio_solver_not_null: LEMMA
     NOT null?(dio_solver(mult_t1, mult_t2, bound))
+
+dio_solver_n_mem_comp: LEMMA
+    LET (left_part, right_part) = split[nat](sol, length(mult_t1)),
+         value = dot_product(left_part, mult_t1) IN 
+    length(sol) = length(mult_t1) + length(mult_t2) AND
+    dot_product(left_part, mult_t1) = dot_product(right_part, mult_t2)
+    AND value > 0 
+    IMPLIES member(sol, dio_solver_n(mult_t1, mult_t2, value)) 
+    
+dio_solver_mem_comp: LEMMA 
+    LET (left_part, right_part) = split[nat](sol, length(mult_t1)) IN 
+    length(sol) = length(mult_t1) + length(mult_t2) AND
+    dot_product(left_part, mult_t1) = dot_product(right_part, mult_t2) AND 
+    dot_product(left_part, mult_t1) <= bound IMPLIES
+    member(sol, dio_solver(mult_t1, mult_t2, bound)) 
+
+% linear combination, get_linear comb
+get_linear_comb_len: LEMMA 
+    matrix?(dio, n) IMPLIES 
+    length(get_linear_comb(dio, coef, n)) = n
+
+get_linear_comb0: LEMMA 
+    matrix?(dio, n) IMPLIES 
+    get_linear_comb(dio, get_repeat_lst(0, j), n) = get_repeat_lst(0, n)
+
+get_linear_comb_sum_lsts: LEMMA
+    length(coef1) = length(dio) AND length(coef2) = length(dio)
+    AND matrix?(dio, n) IMPLIES 
+    sum_lsts(get_linear_comb(dio, coef1, n), get_linear_comb(dio, coef2, n)) =
+    get_linear_comb(dio, sum_lsts(coef1, coef2), n)
+
+linear_comb_mem: LEMMA
+    member(sol, dio) AND matrix?(dio, length(sol))
+    IMPLIES linear_comb?(sol, dio)
+
+linear_comb_sum_lsts: LEMMA
+    linear_comb?(sol1, dio) AND linear_comb?(sol2, dio) AND 
+    length(sol1) = length(sol2) AND matrix?(dio, length(sol1)) IMPLIES 
+    linear_comb?(sum_lsts(sol1, sol2), dio) 
+
+% completeness of solving diophantine equations 
+dio_solver_generating_set: LEMMA
+    LET bound = calculate_upper_bound(mult_t1, mult_t2), 
+        dio = dio_solver(mult_t1, mult_t2, bound), 
+        (part1, part2) = split[nat](sol, length(mult_t1)) IN 
+    dot_product(part1, mult_t1) = dot_product(part2, mult_t2) AND
+    length(sol) = length(mult_t1) + length(mult_t2) IMPLIES  
+    linear_comb?(sol, dio) 
 
 END diophantine

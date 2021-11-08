@@ -17,7 +17,7 @@ BEGIN
 	
 a, i, n: VAR nat
 X, Y: VAR variable
-t, t1, s, ti, arg: VAR term
+t, t1, t2, s, ti, arg: VAR term
 args, args1, args2: VAR args
 lst_args: VAR list[args]
 
@@ -220,6 +220,10 @@ subs_equal?: LEMMA
 
 subs_perm?: LEMMA
     perm?(args1, args2) => perm?(subs(sigma)(args1), subs(sigma)(args2))
+
+subs_perm?_get_args: LEMMA 
+    perm?(args1, args2) IMPLIES
+    perm?(flatten(map(get_args(f))(map(subs(delta))(args1))), flatten(map(get_args(f))(map(subs(delta))(args2))))
 
 subs_same_count: LEMMA
     same_count?(args1, args2, equal?) =>
@@ -445,5 +449,11 @@ subs_equal_impossible: LEMMA
    IMPLIES
    NOT equal?(subs(delta)(s), subs(delta)(variable(X)))
 
+% count
+subs_count_ge: LEMMA
+   (FORALL t1: count(t1, get_args(f)(s), equal?) >= count(t1, get_args(f)(t), equal?))
+   IMPLIES 
+   (FORALL t2: count(t2, get_args(f)(subs(sigma)(s)), equal?) >= count(t2, get_args(f)(subs(sigma)(t)), equal?))
+    
 
 END substitution

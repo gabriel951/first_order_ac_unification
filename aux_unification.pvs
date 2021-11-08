@@ -34,7 +34,7 @@ ac_sol2: TYPE = [unif_prb, finite_set[variable]]
 
 	IMPORTING list_theory[ac_sol], map_theory[dio_matrix, ac_sol]
 
-sigma, sigma2, gamma, gamma1: VAR sub
+sigma, delta, sigma2, gamma, gamma1: VAR sub
 
 X, Y: VAR variable
 
@@ -310,6 +310,7 @@ choose_unif_pair(unif_prb): [unif_pair, unif_prb] =
    ELSIF all_ac_prb?(unif_prb) THEN (car(unif_prb), cdr(unif_prb))
    ELSE choose_not_ac(null, unif_prb) 
    ENDIF
+
 
 %%%%%%%%%%%%%%%%%%%%%%% Theorems
 % get nice submatrices and get_all_sublists
@@ -681,6 +682,28 @@ solve_ac_unify_sound: LEMMA
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f)))
     AND unifies?(sigma, unif_prb) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f)
     IMPLIES unifies?(sigma, (t, s))
+
+solve_ac_remove_common: LEMMA 
+    LET (t1, s1) = remove_common(t, s, f) IN 
+    solve_ac(t, s, vars2avoid, f) = solve_ac(t1, s1, vars2avoid, f)
+
+solve_ac_unify_complete_no_common: CONJECTURE 
+    unifies?(delta, (t, s)) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f) AND
+    no_common_args?(get_args(f)(t), get_args(f)(s)) AND 
+    subset?(dom(delta), vars2avoid) AND subset?(vars(img(delta)), vars2avoid)
+    IMPLIES EXISTS unif_prb, gamma, new_vars2avoid: 
+       member((unif_prb, new_vars2avoid), solve_ac(t, s, vars2avoid, f)) AND 
+       unifies?(append(gamma, delta), unif_prb) AND 
+       subset?(dom(gamma), difference(list2set(new_vars2avoid), list2set(new_vars2avoid)))
+        
+solve_ac_unify_complete: LEMMA 
+    unifies?(delta, (t, s)) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f) AND
+    NOT equal?(t, s) AND 
+    subset?(dom(delta), vars2avoid) AND subset?(vars(img(delta)), vars2avoid)
+    IMPLIES EXISTS unif_prb, gamma, new_vars2avoid: 
+       member((unif_prb, new_vars2avoid), solve_ac(t, s, vars2avoid, f)) AND 
+       unifies?(append(gamma, delta), unif_prb) AND 
+       subset?(dom(gamma), difference(list2set(new_vars2avoid), list2set(new_vars2avoid)))
 
 % choose not ac 
 choose_not_ac_seen: LEMMA

@@ -14,7 +14,7 @@ equality: THEORY
 BEGIN
 	IMPORTING term_properties, list_theory[args], list_theory[term]
 
-t, t1, t2, t3, s: VAR term
+t, t1, t2, t3, s, s1: VAR term
 args1, args2, args3, args4: VAR args
 lst_args1, lst_args2: VAR list[args]
 sym, f: VAR string
@@ -78,7 +78,21 @@ reorder?(args1, args2): RECURSIVE bool =
     ENDIF
 MEASURE length(args1) 
     
+% indicates whether args1 and args2 have the same arguments
+no_common_args?(args1, args2): bool =
+    FORALL t:
+       (count(t, args1, equal?) >= 1 IMPLIES count(t, args2, equal?) = 0) AND
+       (count(t, args2, equal?) >= 1 IMPLIES count(t, args1, equal?) = 0) 
 
+% receives AC functions "t" and "s", headed by a function symbol "f"
+% returns terms t* and s* where we remove the common elements
+remove_common(t, s, f): [term, term] =
+    LET
+    args1 = get_args(f)(t), args2 = get_args(f)(s),
+    no_common_args1 = remove_common(args1, args2, equal?),
+    no_common_args2 = remove_common(args2, args1, equal?) IN
+    (get_ac_from_args(f)(no_common_args1), get_ac_from_args(f)(no_common_args2))
+   
 
 %%%%%%%%%%%%%%% Theorem
 equal?_len: LEMMA 
@@ -142,6 +156,10 @@ perm?_ref: LEMMA
 perm?_sym: LEMMA
     perm?(args1, args2) IMPLIES perm?(args2, args1) 
 
+% essentially the same as perm?_sym, just to allow us to use the command "rewrite" 
+perm?_sym2: LEMMA
+    perm?(args1, args2) = perm?(args2, args1) 
+
 perm?_trans_aux: LEMMA
      perm?(args1, args2) IMPLIES
      FORALL i:
@@ -181,6 +199,10 @@ perm?_get_lst_mult_count_elem: LEMMA
     LET (new_args, new_coef) = count_elem(args1, coef, args2, equal?) IN
     length(args1) = length(coef) IMPLIES
     perm?(append(args2, get_lst_mult(args1, coef)), get_lst_mult(new_args, new_coef))
+
+perm?_get_lst_mult_count_elem_cor: LEMMA
+    LET (new_args, new_coef) = count_elem(null, null, args1, equal?) IN
+    perm?(args1, get_lst_mult(new_args, new_coef))
 
 ac_perm_args: LEMMA
     are_ac?(t, s, sym) AND equal?(t, s) IMPLIES perm?(get_args(sym)(t), get_args(sym)(s))
@@ -226,6 +248,7 @@ count_get_args_remove: LEMMA
    count(t, get_args(f)(nth(flatten(lst_args1), n)), equal?) =
    count(t, flatten(map(get_args(f))(flatten(lst_args1))), equal?)
 
+
 % size2, reorder equality
 reorder_ref: LEMMA
    reorder?(args1, args1)
@@ -245,4 +268,11 @@ size2_reorder: LEMMA
 equal_size2: LEMMA
    equal?(t, s) IMPLIES size2(t) = size2(s) 
 
+perm?_size2: LEMMA
+   perm?(args1, args2) IMPLIES sum(map(size2)(args1)) = sum(map(size2)(args2))
+
+count_size2_ge: LEMMA
+   (FORALL t1: count(t1, args1, equal?) >= count(t1, args2, equal?))
+   IMPLIES sum(map(size2)(args1)) >= sum(map(size2)(args2))
+   
 END equality
