@@ -230,6 +230,7 @@ MEASURE lst_args BY <<
 no_pair_ac?(f, args): bool =
    FORALL t: member(t, args) IMPLIES (NOT pair?(t) AND NOT is_ac_sym?(t, f))
 
+
 %%%%%%%%%%%%%%%
 % options of a term:
 term_opt: LEMMA
@@ -397,6 +398,9 @@ get_args_mem_not_pair: LEMMA
 
 get_args_mem_not_ac: LEMMA
     member(s, get_args(f)(t)) IMPLIES NOT is_ac_sym?(s, f)
+
+get_args_mem_select1: LEMMA 
+    member(select(f, t)(1), get_args(f)(t))
 
 get_args_not_pair_ac: LEMMA
     NOT pair?(t) AND NOT is_ac_sym?(t, f) IMPLIES get_args(f)(t) = cons(t, null)

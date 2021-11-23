@@ -94,6 +94,18 @@ remove_common(t, s, f): [term, term] =
     (get_ac_from_args(f)(no_common_args1), get_ac_from_args(f)(no_common_args2))
    
 
+% True if a term equal to s (mod AC) is a member of args
+member_ac(s, args1): bool = EXISTS t: equal?(s, t) AND member(t, args1)
+
+% syntactic sugar 
+count(t, s, f): nat = count(t, get_args(f)(s), equal?)
+
+count_vec(args1, f)(s): RECURSIVE list[nat] =
+   IF null?(args1) THEN null
+   ELSE LET t1 = car(args1) IN cons(count(s, t1, f), count_vec(cdr(args1), f)(s))
+   ENDIF
+MEASURE args1 BY << 
+
 %%%%%%%%%%%%%%% Theorem
 equal?_len: LEMMA 
     equal?(args1, args2) IMPLIES length(args1) = length(args2) 
@@ -213,6 +225,13 @@ ac_perm_args2: LEMMA
 perm_args_ac: LEMMA
     perm?(get_args(sym)(t), get_args(sym)(s)) AND are_ac?(t, s, sym) IMPLIES equal?(t, s) 
 
+perm_args_ac_not_pair: LEMMA
+    perm?(get_args(f)(t), get_args(f)(s)) AND
+    (NOT pair?(t) AND NOT pair?(s)) AND
+    (is_ac_sym?(t, f) IMPLIES num_arg(f, t) > 1) AND 
+    (is_ac_sym?(s, f) IMPLIES num_arg(f, s) > 1)
+    IMPLIES equal?(t, s) 
+
 perm_args_ac2: LEMMA
     are_ac?(t, s, f) AND equal?(t, s) IMPLIES perm?(get_args(f)(t), get_args(f)(s)) 
 
@@ -248,7 +267,6 @@ count_get_args_remove: LEMMA
    count(t, get_args(f)(nth(flatten(lst_args1), n)), equal?) =
    count(t, flatten(map(get_args(f))(flatten(lst_args1))), equal?)
 
-
 % size2, reorder equality
 reorder_ref: LEMMA
    reorder?(args1, args1)
@@ -271,8 +289,26 @@ equal_size2: LEMMA
 perm?_size2: LEMMA
    perm?(args1, args2) IMPLIES sum(map(size2)(args1)) = sum(map(size2)(args2))
 
+% count
 count_size2_ge: LEMMA
    (FORALL t1: count(t1, args1, equal?) >= count(t1, args2, equal?))
    IMPLIES sum(map(size2)(args1)) >= sum(map(size2)(args2))
    
+count_vec_len: LEMMA
+    length(count_vec(args1, f)(s)) = length(args1) 
+ 
+count_vec_append: LEMMA
+    count_vec(append(args1, args2), f)(s) = append(count_vec(args1, f)(s), count_vec(args2, f)(s))
+
+count_vec_equiv: LEMMA
+    map(count(t, equal?))(map(get_args(f))(args1)) = count_vec(args1, f)(t)
+
+count_vec_nth: LEMMA
+    i < length(args1) IMPLIES 
+    nth(count_vec(args1, f)(t), i) = count(t, nth(args1, i), f)
+
+% member_ac
+member_ac_perm: LEMMA 
+    perm?(args1, args2) IMPLIES member_ac(s, args1) = member_ac(s, args2)
+
 END equality

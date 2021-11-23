@@ -47,6 +47,8 @@ times(c, lst_nat): RECURSIVE list[nat] =
     ENDIF
 MEASURE lst_nat BY << 
 
+all_zero?(lst_nat): bool = (FORALL i: member(i, lst_nat) IMPLIES i = 0)
+
 % lemma
 all_0_sum: LEMMA
    (FORALL n: member(n, lst_nat) IMPLIES n = 0) IMPLIES sum(lst_nat) = 0
@@ -69,7 +71,7 @@ pair: VAR [T, T]
 pair_lst: VAR [list[T], list[T]]
 lst_pair, lst_pair1, lst_pair2: VAR list[[T, T]]
 
-lst, lst1, lst2, lst3, new_lst1, new_lst2: VAR list[T]
+lst, lst1, lst2, lst3, lst4, new_lst1, new_lst2, col: VAR list[T]
 lst_of_lsts, lst_of_lsts1, lst_of_lsts2, matrix, matrix1, matrix2: VAR list[list[T]]
 matrix_nat: VAR list[list[nat]]
 fin_set, fin_set1, fin_set2: VAR finite_set[T]
@@ -229,6 +231,13 @@ put_in_head(lst1, lst2): RECURSIVE list[list[T]] =
    ENDIF
 MEASURE lst1 BY << 
 
+% receives a column "col" and a matrix "lst_of_lsts". Returns a matrix where the first column is "col"
+put_col(col, matrix): RECURSIVE list[list[T]] =
+   IF null?(col) OR null?(matrix) THEN null
+   ELSE LET x = car(col) IN cons(cons(x, car(matrix)), put_col(cdr(col), cdr(matrix))) 
+   ENDIF 
+MEASURE col BY << 
+
 % returns a list [x, ..., x] of length n
 get_repeat_lst(x, n): RECURSIVE list[T] =
     IF n = 0 THEN null
@@ -316,6 +325,17 @@ get_col_i(lst_of_lsts, i): RECURSIVE list[T] =
     ENDIF
 MEASURE lst_of_lsts BY << 
 
+% let lst_of_lsts = [l1, ..., ln].
+% remove the first element in every "l_i". 
+elim_col1(lst_of_lsts): RECURSIVE list[list[T]] = 
+    IF null?(lst_of_lsts) THEN null
+    ELSE LET lst = car(lst_of_lsts) IN
+       IF null?(lst) THEN cons(null, elim_col1(cdr(lst_of_lsts)))
+       ELSE cons(cdr(lst), elim_col1(cdr(lst_of_lsts)))
+       ENDIF
+    ENDIF
+MEASURE lst_of_lsts BY << 
+
 % let lst1 = [x1, ..., xn] and lst2 = [y1, ..., yn]
 % pareate returns [(x1, y1), ..., (xn, yn)]
 pareate(lst1, lst2): RECURSIVE list[[T, T]] =
@@ -331,7 +351,7 @@ get_lst_until_n(lst, n): RECURSIVE list[T] =
     ELSE LET x = car(lst) IN
     	     cons(x, get_lst_until_n(cdr(lst), n-1))
     ENDIF
-MEASURE n 
+MEASURE n
 
 % receives lst = [x1, ..., xn, xn+1, ..., xj] and an index n
 % returns lst2 = [xn+1, ..., xj]
@@ -356,8 +376,6 @@ split_matrix(matrix, n): RECURSIVE [list[list[T]], list[list[T]]] =
     ENDIF
 MEASURE matrix BY << 
     
-
-
 
 % receives a list of the form [[x1, y1], ..., [xn, yn]]
 % returns [y1, ..., yn]
@@ -471,6 +489,10 @@ equal_append_implies_null: LEMMA
 equal_append_implies_equal: LEMMA
     append(lst1, lst2) = append(lst3, lst2) IMPLIES lst1 = lst3
 
+equal_append_implies_equal2: LEMMA
+    append(lst1, lst2) = append(lst3, lst4) AND length(lst1) = length(lst3) IMPLIES
+    lst1 = lst3 AND lst2 = lst4
+
 lst2set_append_mem: LEMMA
     member(x, list2set(append(lst1, lst2))) IFF (member(x, list2set(lst1)) OR member(x, list2set(lst2)))
 
@@ -512,15 +534,22 @@ dot_product_zero_lst: LEMMA
     IMPLIES dot_product(lst_nat1, lst_nat2) = 0
 
 % cartesian product, append_pair
+cart_prod_aux_len: LEMMA
+    length(cartesian_product_aux(x, lst)) = length(lst) 
+
 cart_prod_aux_mem: LEMMA
     member(y, lst) = member((x, y), cartesian_product_aux(x, lst))
 
 cart_prod_aux_mem2: LEMMA
     member((x, y), cartesian_product_aux(z, lst)) => x = z
     
+cart_prod_aux_nth: LEMMA
+    i < length(lst) IMPLIES nth(cartesian_product_aux(x, lst), i) = (x, nth(lst, i)) 
+
 cart_prod_mem: LEMMA
     (member(x, lst1) AND member(y, lst2)) = member((x, y), cartesian_product(lst1, lst2))
-    
+
+
 % finset2list
 finset2list_mem: LEMMA
     member(x, finset2list(fin_set)) IFF member(x, fin_set)
@@ -641,6 +670,9 @@ count_elem_len: LEMMA
     length(lst) = length(coef) IMPLIES
     length(new_lst) = length(new_coef)
 
+count_elem_len2: LEMMA
+    length(count_elem(null, null, lst, equal?)`1) = length(count_elem(null, null, lst, equal?)`2)
+    
 count_elem_null1: LEMMA
     null?(count_elem(lst, coef, lst2, equal?)`1) IMPLIES null?(lst2)
 
@@ -652,12 +684,18 @@ count_elem_gt0: LEMMA
     (FORALL i: member(i, coef) IMPLIES i > 0) AND member(n, count_elem(lst, coef, lst2, equal?)`2)
     IMPLIES n > 0 
 
+count_elem_tcc_solver: LEMMA 
+    every[number](LAMBDA (x: number): number_field_pred(x) AND real_pred(x) AND rational_pred(x)
+    AND integer_pred(x) AND (x >= 0) AND (x > 0))(count_elem(null, null, lst2, equal?)`2)
+    
 count_elem12_no_effect: LEMMA
     count_elem(lst, coef, lst2, equal?)`1 = count_elem(lst, coef1, lst2, equal?)`1
 
 count_elem_mem: LEMMA
     member(x, count_elem(lst, coef, lst2, equal?)`1) IMPLIES member(x, lst) OR member(x, lst2) 
-
+    
+count_elem_mem_cor: LEMMA
+    member(x, count_elem(null, null, lst, equal?)`1) IMPLIES member(x, lst)  
 
 % put in head
 put_in_head_matrix?: LEMMA
@@ -678,6 +716,25 @@ put_in_head_mem2: LEMMA
 put_in_head_mem3: LEMMA
     member(x, lst) AND member(lst, put_in_head(lst1, lst2)) IMPLIES
     member(x, lst1) OR member(x, lst2)
+
+put_in_head_len: LEMMA
+    length(put_in_head(matrix, x)) = length(matrix) 
+
+put_in_head_nth: LEMMA
+    i < length(matrix) IMPLIES
+    nth(put_in_head(matrix, x), i) = cons(x, nth(matrix, i))
+
+put_col_len: LEMMA
+    length(col) = length(matrix) IMPLIES
+    length(put_col(col, matrix)) = length(matrix) 
+
+put_col_nth: LEMMA
+    i < length(col) AND length(col) = length(matrix) IMPLIES 
+    nth(put_col(col, matrix), i) = cons(nth(col, i), nth(matrix, i))
+
+put_col_matrix: LEMMA
+    length(col) = length(matrix) IMPLIES
+    (matrix?(matrix, n) IFF matrix?(put_col(col, matrix), n+1))
 
 % get_repeat_lst
 get_repeat_lst_len: LEMMA
@@ -714,11 +771,15 @@ matrix_append: LEMMA
 matrix_equiv: LEMMA 
     matrix?(lst_of_lsts, n) IFF
     (FORALL lst: member(lst, lst_of_lsts) IMPLIES length(lst) = n)
-      
+
 matrix_mem: LEMMA
    matrix?(lst_of_lsts, n) AND member(lst, lst_of_lsts) IMPLIES
    length(lst) = n
 
+matrix_nth: LEMMA
+   matrix?(lst_of_lsts, n) AND j < length(lst_of_lsts) IMPLIES
+   length(nth(lst_of_lsts, j)) = n
+   
 matrix_row_len: LEMMA
     matrix?(lst_of_lsts, n) AND member(lst, lst_of_lsts)
     IMPLIES length(lst) = n
@@ -732,6 +793,29 @@ matrix_get_col_i_exists_row: LEMMA
 get_col_i_cdr: LEMMA
     NOT null?(lst_of_lsts) AND matrix?(lst_of_lsts, n) AND i < n 
     IMPLIES get_col_i(lst_of_lsts, i+1) = cons(nth(car(lst_of_lsts), i), get_col_i(cdr(lst_of_lsts), i+1))
+
+get_col_i_len: LEMMA
+    matrix?(lst_of_lsts, n) AND i <= n AND i > 0 IMPLIES 
+    length(get_col_i(lst_of_lsts, i)) = length(lst_of_lsts) 
+
+get_col_i_nth: LEMMA 
+    matrix?(lst_of_lsts, n) AND i < n AND j < length(lst_of_lsts) IMPLIES 
+    nth(get_col_i(lst_of_lsts, i+1), j) = nth(nth(lst_of_lsts, j), i)
+
+elim_col1_len: LEMMA 
+    length(elim_col1(lst_of_lsts)) = length(lst_of_lsts) 
+
+elim_col1_matrix: LEMMA
+    matrix?(lst_of_lsts, n) AND n > 0 IMPLIES
+    matrix?(elim_col1(lst_of_lsts), n-1)
+
+elim_col1_get_col_i: LEMMA
+    matrix?(lst_of_lsts, n) AND n > 0 AND i > 0 AND i < n IMPLIES
+    get_col_i(lst_of_lsts, i + 1) = get_col_i(elim_col1(lst_of_lsts), i) 
+
+elim_col1_cdr_nth: LEMMA 
+    i < length(lst_of_lsts) AND matrix?(lst_of_lsts, n) AND n > 0 IMPLIES 
+    cdr(nth(lst_of_lsts, i)) = nth(elim_col1(lst_of_lsts), i)
 
 % count
 count_equiv: LEMMA
@@ -749,6 +833,10 @@ count_mem2: LEMMA
 count_gt0: LEMMA
    count(x, lst, equal?) > 0 IMPLIES
    EXISTS (i: below[length(lst)]): equal?(x, nth(lst, i))
+
+count_gt0_2: LEMMA
+   count(x, lst, equal?) > 0 IMPLIES
+   EXISTS y: equal?(x, y) AND member(y, lst) 
 
 count_append: LEMMA
    count(x, append(lst1, lst2), equal?) = (count(x, lst1, equal?) + count(x, lst2, equal?))
@@ -856,6 +944,9 @@ split_matrix_preserves_matrix: LEMMA
 
 split_matrix_preserves_matrix2: LEMMA
     i <= n AND matrix?(matrix, n) IMPLIES matrix?(split_matrix(matrix, i)`2, n-i)
+
+split_matrix_mem: LEMMA
+    member(lst, matrix) IMPLIES member(split(lst, i)`1, split_matrix(matrix, i)`1)
 
 % snd_proj:
 snd_proj_pareate: LEMMA
@@ -1171,18 +1262,19 @@ END map_theory
 % this theory depends on importing "list_theory" with a specific type T
 more_list_theory_props [T: TYPE]: THEORY 
 BEGIN
-    IMPORTING list_theory[T], list_theory[list[T]], list_theory[nat]
+    IMPORTING list_theory[T], list_theory[list[T]], list_theory[nat], list_theory[[T, T]] 
+
+i, j, n: VAR nat
 
 x: VAR T
 h: VAR [list[T] -> T]
 f: VAR [T -> list[T]]
 
-lst: VAR list[T]
+lst, lst1, lst2: VAR list[T]
 lst_of_lsts: VAR list[list[T]]
 
 coef: VAR list[nat]
 
-n: VAR nat
 
 % an equivalence definition
 equiv: TYPE = {R: PRED[[T, T]]| equivalence?(R)}
@@ -1221,5 +1313,11 @@ count_flatten_get_repeat_lst: LEMMA
 count_get_lst_mult_dot_product: LEMMA
     count(x, flatten(get_lst_mult(lst_of_lsts, coef)), equal?) =
     dot_product(map(count(x, equal?))(lst_of_lsts), coef)
+
+cart_prod_nth: LEMMA
+    i < length(cartesian_product(lst1, lst2)) IMPLIES
+    EXISTS j, n: 
+    j < length(lst1) AND n < length(lst2) AND
+    nth(cartesian_product(lst1, lst2), i) = (nth(lst1, j), nth(lst2, n))
 
 END more_list_theory_props

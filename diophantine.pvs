@@ -14,11 +14,13 @@ diophantine: THEORY
 BEGIN
 	IMPORTING list_theory[nat], list_theory[posnat], list_theory[list[nat]], min_nat[posnat],
 		  list_theory[[list[nat], list[nat]]], map_theory[[list[nat], list[nat]], list[nat]],
-		  map_theory[[posnat, posnat], posnat]
+		  map_theory[[posnat, posnat], posnat], more_list_theory_props[list[nat]],
+		  map_theory[nat, list[list[nat]]]
 
 % a diophantine matrix is a list of list of naturals
 dio_matrix: TYPE = list[list[nat]]
-dio, small_dio, dio_matrix, dio_matrix1, dio_matrix2: VAR dio_matrix
+lst_sol: VAR dio_matrix 
+dio, dio1, dio2, small_dio, dio_matrix, dio_matrix1, dio_matrix2, coef_matrix : VAR dio_matrix
 lst_dio_matrix: VAR list[dio_matrix]
 
      	IMPORTING list_theory[dio_matrix]
@@ -163,8 +165,8 @@ dio_matrix_correct?(dio_matrix, mult_t1, mult_t2): RECURSIVE bool =
     ENDIF 
 MEASURE dio_matrix BY << 
 
-% if (r_1, ..., r_n) are the rows of "dio_matrix" and "coef" = (c_1, ..., c_n), this function computes
-% the vector given by c_1 r_1 + c_2 r_2 + ... + c_n r_n 
+% if (r_1, ..., r_m) are the rows of "dio_matrix" and "coef" = (c_1, ..., c_m), this function computes
+% the vector given by c_1 r_1 + c_2 r_2 + ... + c_m r_m 
 % "n" - number of entries in each vector
 get_linear_comb(dio_matrix, coef, n): RECURSIVE list[nat] =
    IF null?(dio_matrix) OR null?(coef) THEN get_repeat_lst(0, n)
@@ -191,7 +193,46 @@ gen_set?(dio_matrix, mult_t1, mult_t2): bool =
       dot_product(part1, mult_t1) = dot_product(part2, mult_t2) IMPLIES 
       linear_comb?(sol, dio_matrix) 
 
+% let mult_t1 = (a1, ..., am) and mult_t2 = (b1, ..., bn) 
+% returns True if sol is of the form (x1, ..., xm, y1, ..., yn) and
+% a1 X1 + ... + am Xm = b1 y1 + ... + bn Yn
+is_solution?(sol, mult_t1, mult_t2): bool =
+    LET (part1, part2) = split[nat](sol, length(mult_t1)) IN 
+    length(sol) = length(mult_t1) + length(mult_t2) AND 
+    dot_product(part1, mult_t1) = dot_product(part2, mult_t2) 
+
+% given a diophantine matrix "dio" and a coefficient matrix. The number of rows in
+% "dio" must be the same as the number of the columns in coefficient matrix. 
+% this function returns a pair: 
+% 1 - the first element of the pair is a diophantine submatrix such that row n of dio is included if and only if
+% the nth-column of coef_matrix is not the zero column
+% 2 - the second element of the pair is the coeffienc matrix without the zero columns
+construct_submatrix(dio, coef_matrix): RECURSIVE [dio_matrix, dio_matrix] = 
+    IF null?(dio) THEN (dio, coef_matrix)
+    ELSIF NOT all_zero?(get_col_i(coef_matrix, 1))
+          THEN (cons(car(dio), construct_submatrix(cdr(dio), elim_col1(coef_matrix))`1),
+	        put_col(get_col_i(coef_matrix, 1), construct_submatrix(cdr(dio), elim_col1(coef_matrix))`2))
+    ELSE construct_submatrix(cdr(dio), elim_col1(coef_matrix))
+    ENDIF
+MEASURE dio BY << 
    
+% True if all value in value_lst are different from each other, false otherwise
+all_dif_values?(value_lst): bool =
+   FORALL i, j:
+      i < length(value_lst) AND j < length(value_lst) AND nth(value_lst, i) = nth(value_lst, j) IMPLIES i = j
+   
+% True if all the rows of dio are different, False otherwise
+all_dif_rows?(dio): bool =
+   FORALL i, j:
+      i < length(dio) AND j < length(dio) AND nth(dio, i) = nth(dio, j) IMPLIES i = j
+
+% extends all_dif_rows to a list of diophatine matrices
+all_dif_rows?(lst_dio_matrix): bool = 
+   FORALL i, j:
+      i < length(flatten(lst_dio_matrix)) AND j < length(flatten(lst_dio_matrix)) AND
+      nth(flatten(lst_dio_matrix), i) = nth(flatten(lst_dio_matrix), j)
+      IMPLIES i = j
+
 %%%%%%%%%%%%%%%%%%%%%%
 % lcm
 lcm_integer_pred: LEMMA
@@ -218,6 +259,9 @@ dot_product_zero: LEMMA
 dot_product_get_repeat_lst0: LEMMA
     dot_product(get_repeat_lst(0, n), mult_t) = 0
    
+dot_product_get_repeat_lst02: LEMMA
+    dot_product(get_repeat_lst(0, n), value_lst) = 0
+
 dot_product_split: LEMMA
     dot_product(sol, mult_t1) = dot_product(split[nat](sol, length(mult_t1))`1, mult_t1)
 
@@ -250,6 +294,10 @@ times1: LEMMA
 times_len: LEMMA 
    length(times(n, value_lst)) = length(value_lst) 
 
+times_nth: LEMMA 
+   i < length(value_lst) IMPLIES 
+   nth(times(n, value_lst), i) = n * nth(value_lst, i)
+
 sum_lsts_sym: LEMMA 
    sum_lsts(value_lst, coef) = sum_lsts(coef, value_lst)
    
@@ -258,6 +306,10 @@ sum_lsts0: LEMMA
      
 sum_lsts_times: LEMMA
    sum_lsts(times(i, value_lst), times(j, value_lst)) = times(i + j, value_lst)
+
+sum_lsts_nth: LEMMA 
+   length(coef) = length(value_lst) AND i < length(value_lst) IMPLIES 
+   nth(sum_lsts(value_lst, coef), i) = nth(value_lst, i) + nth(coef, i)
 
 sum_lsts_assoc: LEMMA
    sum_lsts(sum_lsts(sol1, sol2), sol3) = sum_lsts(sol1, sum_lsts(sol2, sol3))
@@ -317,6 +369,16 @@ get_lst_dio_matrix_mem_nth2: LEMMA
 	car(row) = nth(value_lst, n) AND member(cdr(row), nth(lst_dio_matrix, n)))
     IMPLIES member(row, flatten(get_lst_dio_matrix(value_lst, lst_dio_matrix)))
 
+get_lst_dio_matrix_mem: LEMMA
+    member(row, flatten(get_lst_dio_matrix(value_lst, lst_dio_matrix))) IMPLIES 
+    EXISTS j:
+        j < length(lst_dio_matrix) AND j < length(value_lst) AND 
+        member(row, put_in_head(nth(lst_dio_matrix, j), nth(value_lst, j)))
+
+get_lst_dio_matrix_all_dif_rows: LEMMA
+    (FORALL dio: member(dio, lst_dio_matrix) IMPLIES all_dif_rows?(dio))
+    AND all_dif_values?(value_lst) IMPLIES 
+    all_dif_rows?(get_lst_dio_matrix(value_lst, lst_dio_matrix))  
 
 %% find vectors
 find_vectors_matrix: LEMMA
@@ -349,6 +411,10 @@ dio_solver_n_member_cor: LEMMA
 	split_matrix[nat](dio_matrix, length(mult_t1)) IN
     (member(row, dio_matrix1) IMPLIES prod(mult_t1)(row) = n) AND
     (member(row, dio_matrix2) IMPLIES prod(mult_t2)(row) = n)
+
+dio_solver_n_value: LEMMA
+    member(sol, dio_solver_n(mult_t1, mult_t2, n)) IMPLIES 
+    dot_product(split[nat](sol, length(mult_t1))`1, mult_t1) = n
 
 dio_solver_n_split_matrix: LEMMA
     LET dio_matrix = dio_solver_n(mult_t1, mult_t2, n),
@@ -386,12 +452,31 @@ dio_solver_n_mem_comp: LEMMA
     AND value > 0 
     IMPLIES member(sol, dio_solver_n(mult_t1, mult_t2, value)) 
     
+
 dio_solver_mem_comp: LEMMA 
     LET (left_part, right_part) = split[nat](sol, length(mult_t1)) IN 
     length(sol) = length(mult_t1) + length(mult_t2) AND
     dot_product(left_part, mult_t1) = dot_product(right_part, mult_t2) AND 
     dot_product(left_part, mult_t1) <= bound IMPLIES
     member(sol, dio_solver(mult_t1, mult_t2, bound)) 
+
+dio_solver_value_lt_bound: LEMMA
+    member(sol, dio_solver(mult_t1, mult_t2, bound)) IMPLIES
+    dot_product(split[nat](sol, length(mult_t1))`1, mult_t1) <= bound
+
+% all_dif_rows
+all_dif_rows_find_vector: LEMMA
+    all_dif_rows?(find_vectors(mult_t1)(bound)) 
+
+all_dif_rows_cart_prod: LEMMA
+    all_dif_rows?(dio1) AND all_dif_rows?(dio2) AND matrix?(dio1) AND matrix?(dio2) IMPLIES
+    all_dif_rows?(map[[list[nat], list[nat]], list[nat]](append_pair)(cartesian_product[list[nat]](dio1, dio2))) 
+
+dio_solver_n_all_dif_rows: LEMMA
+    all_dif_rows?(dio_solver_n(mult_t1, mult_t2, bound)) 
+
+dio_solver_all_dif_rows: LEMMA
+    all_dif_rows?(dio_solver(mult_t1, mult_t2, bound)) 
 
 % linear combination, get_linear comb
 get_linear_comb_len: LEMMA 
@@ -407,6 +492,10 @@ get_linear_comb_sum_lsts: LEMMA
     AND matrix?(dio, n) IMPLIES 
     sum_lsts(get_linear_comb(dio, coef1, n), get_linear_comb(dio, coef2, n)) =
     get_linear_comb(dio, sum_lsts(coef1, coef2), n)
+
+get_linear_comb_nth: LEMMA 
+    matrix?(dio, n) AND length(coef) = length(dio) AND i < n IMPLIES 
+    nth(get_linear_comb(dio, coef, n), i) = dot_product(get_col_i(dio, i+1), coef)
 
 linear_comb_mem: LEMMA
     member(sol, dio) AND matrix?(dio, length(sol))
@@ -425,5 +514,42 @@ dio_solver_generating_set: LEMMA
     dot_product(part1, mult_t1) = dot_product(part2, mult_t2) AND
     length(sol) = length(mult_t1) + length(mult_t2) IMPLIES  
     linear_comb?(sol, dio) 
+
+%
+dio_solver_coef_matrix: LEMMA
+    LET bound = calculate_upper_bound(mult_t1, mult_t2),
+    	dio = dio_solver(mult_t1, mult_t2, bound) IN
+    (FORALL sol: member(sol, lst_sol) IMPLIES is_solution?(sol, mult_t1, mult_t2)) IMPLIES
+    (EXISTS coef_matrix:
+	matrix?(coef_matrix, length(dio)) AND length(coef_matrix) = length(lst_sol) AND 
+	(FORALL i: i < length(lst_sol) IMPLIES
+	nth(lst_sol, i) = get_linear_comb(dio, nth(coef_matrix, i), length(mult_t1) + length(mult_t2))))
+
+construct_submatrix_coef_len: LEMMA
+    LET coef_matrix1 = construct_submatrix(dio, coef_matrix)`2 IN
+    matrix?(coef_matrix, length(dio)) IMPLIES length(coef_matrix1) = length(coef_matrix) 
+    
+construct_submatrix_matrix: LEMMA 
+    LET (dio1, coef_matrix1) = construct_submatrix(dio, coef_matrix) IN
+    matrix?(coef_matrix, length(dio)) IMPLIES matrix?(coef_matrix1, length(dio1))
+
+construct_submatrix_matrix2: LEMMA 
+    LET (dio1, coef_matrix1) = construct_submatrix(dio, coef_matrix) IN
+    matrix?(dio, n) IMPLIES matrix?(dio1, n)
+
+construct_submatrix_linear_comb: LEMMA  
+    LET (dio1, coef_matrix1) = construct_submatrix(dio, coef_matrix) IN 
+    matrix?(dio, n) AND matrix?(coef_matrix, length(dio)) AND i < length(coef_matrix) IMPLIES
+    get_linear_comb(dio, nth(coef_matrix, i), n) = get_linear_comb(dio1, nth(coef_matrix1, i), n)
+
+%construct_submatrix_mem1: CONJECTURE 
+%    member(row1, construct_submatrix(dio, coef_matrix)`1) IMPLIES member(row1, dio)
+
+%construct_submatrix_correct1: LEMMA
+%    LET (dio1, coef_matrix1) = construct_submatrix(dio, coef_matrix) IN
+%    matrix?(coef_matrix, length(dio)) AND all_dif_rows?(dio) IMPLIES 
+%    FORALL j:
+%       j < length(dio) IMPLIES
+%       (member(nth(dio, j), dio1) IFF (NOT all_zero?(get_col_i(coef_matrix, j + 1))))
 
 END diophantine

@@ -19,7 +19,7 @@ BEGIN
 	more_list_theory_props[term], list_theory[unif_prb], list_theory2[unif_prb, list[variable]],
 	map_theory[list[unif_prb], unif_prb], map_theory[args, term], map_theory[nat, bool], 
 	map_theory[list[unif_prb], [list[unif_prb], finite_set[variable]]],
-	map_theory[args, nat], map_theory[args, args],
+	map_theory[args, nat], map_theory[args, args], map_theory[term, list[nat]],
 	list_theory2[list[unif_prb], finite_set[variable]], list_theory2[unif_prb, finite_set[variable]],
 	list_theory2[variable, term]
 		  
@@ -51,10 +51,10 @@ args, args1: VAR args
 lst_args, lst_args1, lst_args2: VAR list[args]
 
 mult_t1, mult_t2: VAR list[posnat]
-row, col, coef: VAR list[nat]
+row, col, coef, coef_matrix_col: VAR list[nat]
 bound, i, n, num_col: VAR nat
 
-dio_sol_matrix, dio_matrix, dio_matrix1: VAR dio_matrix
+dio_sol_matrix, dio_matrix, dio_matrix1, coef_matrix, dio: VAR dio_matrix
 submatrix_sol_lst, dio_matrix_lst: VAR list[dio_matrix]
 
 vars2avoid, new_vars2avoid: VAR list[variable]
@@ -220,6 +220,24 @@ solve_ac(t1, t2, vars2avoid, sym): list[ac_sol] =
      results = map(dio_matrix2ac_sol(args, vars2avoid, sym))(submatrix_sol_lst) 
      IN results
 
+% auxiliar function used in "construct_sub" 
+construct_sub_aux(args, coef_matrix_col): RECURSIVE args = 
+   IF null?(args) OR null?(coef_matrix_col) THEN null
+   ELSE LET A1 = car(args), c1 = car(coef_matrix_col) IN
+        append(get_repeat_lst(A1, c1), construct_sub_aux(cdr(args), cdr(coef_matrix_col)))
+   ENDIF
+MEASURE args BY << 
+
+% constructs the substitution needed for the proof of the "solve_ac_unify_complete_no_common" lemma
+construct_sub(dio, coef_matrix, args, vars2avoid, f): RECURSIVE sub =
+   IF null?(dio) THEN null 
+   ELSE LET new_var = get_new_var(vars2avoid),
+   	new_vars2avoid = cons(new_var, vars2avoid),  	
+	args_t = construct_sub_aux(args, get_col_i(coef_matrix, 1)), 
+	t = get_ac_from_args_gt1(f)(args_t) IN 
+   	cons((new_var, t), construct_sub(cdr(dio), elim_col1(coef_matrix), args, new_vars2avoid, f))
+   ENDIF
+MEASURE dio BY << 
 
 % try to unify two terms t and s by instantiating them (may skip) 
 % returns
@@ -342,6 +360,10 @@ if_non_var_const2_cor: LEMMA
 const1_implies_non_empty_row_n: LEMMA
    matrix?(dio_matrix, n) AND const1?(dio_matrix, n) AND i < n IMPLIES
    EXISTS row: member(row, dio_matrix) AND nth(row, i) > 0 
+
+empty_col_get_repeat_lst: LEMMA 
+   matrix?(dio_matrix, n) AND empty_col?(dio_matrix)(i) AND i > 0 AND i <= n
+   IMPLIES get_col_i[nat](dio_matrix, i) = get_repeat_lst(0, length(dio_matrix))
 
 % add new arg
 add_new_arg_mem: LEMMA
@@ -604,6 +626,19 @@ elim_com_arg_null_args_mult: LEMMA
 elim_com_arg_count: LEMMA
    count(t, elim_com_arg(t1, t2, f)`1, =) <= 1
 
+% dio_matrix2ac_sol, construct_sub
+dio_matrix2ac_mem_var: CONJECTURE 
+   LET (unif_prb1, new_vars2avoid) = dio_matrix2ac_sol(args, vars2avoid, f)(dio_matrix) IN 
+   member(t, rhs(unif_prb1)) AND member(s, get_args(f)(t))
+   IMPLIES var?(s) AND member(V(s), from_min2max[nat](select_greater[nat](vars2avoid) + 1,
+   	   	       		    		 select_greater[nat](vars2avoid) + length(dio_matrix))) 
+
+construct_sub_mem_get_args: CONJECTURE
+   LET delta = construct_sub(dio_matrix, coef_matrix, args, vars2avoid, f) IN 
+       member(X, from_min2max[nat](select_greater[nat](vars2avoid) + 1,
+   	   	       	      select_greater[nat](vars2avoid) + length(dio_matrix)))
+       IMPLIES member(t, get_args(f)(subs(delta)(X))) IMPLIES member(t, args)  
+
 % solve_ac
 solve_ac_args_not_null: LEMMA
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) IMPLIES
@@ -695,6 +730,7 @@ solve_ac_unify_complete_no_common: CONJECTURE
        member((unif_prb, new_vars2avoid), solve_ac(t, s, vars2avoid, f)) AND 
        unifies?(append(gamma, delta), unif_prb) AND 
        subset?(dom(gamma), difference(list2set(new_vars2avoid), list2set(new_vars2avoid)))
+       AND subset?(vars(img(gamma)), new_vars2avoid) 
         
 solve_ac_unify_complete: LEMMA 
     unifies?(delta, (t, s)) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f) AND

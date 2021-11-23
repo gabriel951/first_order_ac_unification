@@ -204,6 +204,7 @@ mem_get_args_subs: LEMMA
         member(ti, get_args(f)(t)) AND s = subs(sigma)(ti))
     OR member(s, subterms(img(sigma))) 
 
+
 subs_get_args1: LEMMA 
     num_arg(f, t) = 1 IMPLIES
     get_args(f)(subs(sigma)(t)) = get_args(f)(subs(sigma)(select(f, t)(i)))
@@ -213,6 +214,10 @@ subs_perm_get_args_ge1: LEMMA
     perm?(get_args(f)(subs(sigma)(t)),
           append(get_args(f)(subs(sigma)(select(f, t)(i))),
 	  	 get_args(f)(subs(sigma)(delete(f, t)(i)))))
+
+mem_get_args_subs4: LEMMA 
+    member(ti, get_args(f)(t)) AND member(s, get_args(f)(subs(sigma)(ti)))
+    IMPLIES member(s, get_args(f)(subs(sigma)(t)))
 
 subs_equal?: LEMMA
     equal?(t, s) IMPLIES
