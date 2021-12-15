@@ -56,3 +56,8 @@
 (name-replace "new_lst_args" "add_new_arg(lst_args, row, variable(new_var))")
 (name-replace "new_vars2avoid" "cons(new_var, vars2avoid)")
 
+# construct sub
+(name-replace "new_var"  "get_new_var(vars2avoid)")
+(name-replace "new_vars2avoid"  "cons(new_var, vars2avoid)")   	
+(name-replace "args_t"  "construct_sub_aux(args, get_col_i(coef_matrix, 1))")
+(name-replace "t1" "get_ac_from_args_gt1(f)(args_t)")

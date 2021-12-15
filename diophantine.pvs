@@ -233,6 +233,13 @@ all_dif_rows?(lst_dio_matrix): bool =
       nth(flatten(lst_dio_matrix), i) = nth(flatten(lst_dio_matrix), j)
       IMPLIES i = j
 
+no_zero_col?(coef_matrix, n): bool =
+   matrix?(coef_matrix, n) AND 
+   (FORALL i:
+     i > 0 AND i <= n IMPLIES
+     NOT all_zero?(get_col_i(coef_matrix, i)))
+     
+
 %%%%%%%%%%%%%%%%%%%%%%
 % lcm
 lcm_integer_pred: LEMMA
@@ -515,6 +522,11 @@ dio_solver_generating_set: LEMMA
     length(sol) = length(mult_t1) + length(mult_t2) IMPLIES  
     linear_comb?(sol, dio) 
 
+% no_zero_col
+no_zero_col_elim_col1: LEMMA 
+    no_zero_col?(coef_matrix, length(dio)) AND NOT null?(dio)
+    IMPLIES no_zero_col?(elim_col1(coef_matrix), length(cdr(dio)))
+
 %
 dio_solver_coef_matrix: LEMMA
     LET bound = calculate_upper_bound(mult_t1, mult_t2),
@@ -537,12 +549,16 @@ construct_submatrix_matrix2: LEMMA
     LET (dio1, coef_matrix1) = construct_submatrix(dio, coef_matrix) IN
     matrix?(dio, n) IMPLIES matrix?(dio1, n)
 
+construct_submatrix_no_zero_col: LEMMA 
+    LET (dio1, coef_matrix1) = construct_submatrix(dio, coef_matrix) IN
+    matrix?(coef_matrix, length(dio)) IMPLIES no_zero_col?(coef_matrix1, length(dio1))
+    
 construct_submatrix_linear_comb: LEMMA  
     LET (dio1, coef_matrix1) = construct_submatrix(dio, coef_matrix) IN 
     matrix?(dio, n) AND matrix?(coef_matrix, length(dio)) AND i < length(coef_matrix) IMPLIES
     get_linear_comb(dio, nth(coef_matrix, i), n) = get_linear_comb(dio1, nth(coef_matrix1, i), n)
 
-%construct_submatrix_mem1: CONJECTURE 
+%construct_submatrix_mem1: LEMMA 
 %    member(row1, construct_submatrix(dio, coef_matrix)`1) IMPLIES member(row1, dio)
 
 %construct_submatrix_correct1: LEMMA

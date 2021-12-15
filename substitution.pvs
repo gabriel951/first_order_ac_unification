@@ -13,7 +13,7 @@
 
 substitution: THEORY
 BEGIN
-	IMPORTING equality, map_theory[term, term], map_theory[term, args]
+	IMPORTING equality, map_theory[term, term], map_theory[term, args], more_list_theory_props[term]
 	
 a, i, n: VAR nat
 X, Y: VAR variable
@@ -126,6 +126,10 @@ nice?(sigma): RECURSIVE bool =
 	  disjoint?(vars(t), supset_dom(cdr(sigma))) AND nice?(cdr(sigma)))
     ENDIF
 MEASURE sigma BY << 
+
+well_formed?(delta): bool =
+    (FORALL X: NOT pair?(subs(delta)(X)) AND 
+      FORALL t: member(t, subterms(subs(delta)(X))) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1)
 
 %%%%%%%%%%%%%%%%%%% Theorems
 % substitution and their effects on the terms
@@ -392,7 +396,7 @@ im_under_subs3: LEMMA
       	      (im_under?(X, t) OR
 	      EXISTS s: member(s, img(sigma)) AND im_under?(X, s) AND same_func?(subs(sigma)(t), s)))
 
-% nice, supset_dom
+% nice, supset_dom, well_formed
 supset_dom_equiv: LEMMA
     member(X, supset_dom(delta)) IFF EXISTS t: member((X, t), delta)
 
@@ -401,7 +405,6 @@ supset_dom_append: LEMMA
 
 nice_disjoint_dom_img: LEMMA
     nice?(sigma) IMPLIES disjoint?(dom(sigma), vars(img(sigma)))
-%
 nice_idempotent: LEMMA
     nice?(sigma) IMPLIES idempotent?(sigma)
 
@@ -424,6 +427,12 @@ IMPORTING list_theory2[variable, term]
 vars_img_sec_proj: LEMMA
    subset?(vars(img(sigma)), vars(sec_proj(sigma)))
 
+well_formed_append: LEMMA 
+   well_formed?(sigma) AND well_formed?(delta) IMPLIES well_formed?(append(sigma, delta))
+
+well_formed_subs: LEMMA 
+   well_formed?(sigma) AND well_formed?(t) IMPLIES well_formed?(subs(sigma)(t))
+
 % equality between substitutions
 equal_sub_equiv: LEMMA
    equal?(delta, sigma) IMPLIES equal?(subs(delta)(t), subs(sigma)(t))
@@ -432,7 +441,6 @@ equal_sub_change_eq_terms: LEMMA
    equal?(delta, sigma) IMPLIES  
    (equal?(subs(delta)(t), subs(delta)(s)) IFF equal?(subs(sigma)(t), subs(sigma)(s)))
 
-   
 % this lemmas appeared when proving correctness and completeness
 idempotent_append_cond: LEMMA
    idempotent?(sigma) AND NOT member(X, vars(t)) AND NOT member(X, dom(sigma))
@@ -460,5 +468,23 @@ subs_count_ge: LEMMA
    IMPLIES 
    (FORALL t2: count(t2, get_args(f)(subs(sigma)(s)), equal?) >= count(t2, get_args(f)(subs(sigma)(t)), equal?))
     
+count_subs_get_args: LEMMA 
+    count(s, subs(sigma)(t), f) = sum(count_vec(subs(sigma)(get_args(f)(t)), f)(s))
+
+count_subs_count_elem: LEMMA 
+    LET (no_rep_args, coef) = count_elem(null, null, get_args(f)(t), equal?) IN 
+    count(s, subs(sigma)(t), f) = dot_product(count_vec(subs(sigma)(no_rep_args), f)(s) , coef)
+
+count_subs_subset_aux: LEMMA 
+   LET (no_rep_args, coef) = count_elem(null, null, args1, equal?), 
+       (no_rep_args1, coef1) = count_coef(fin_set_t, args1, equal?) IN 
+   subset?(list2set(args1), fin_set_t) AND dif_elem?(fin_set_t, equal?) IMPLIES 
+   dot_product(count_vec(subs(sigma)(no_rep_args), f)(s), coef) =
+   dot_product(count_vec(subs(sigma)(no_rep_args1), f)(s), coef1)
+
+count_subs_subset: LEMMA 
+    LET (no_rep_args, coef) = count_coef(fin_set_t, get_args(f)(t), equal?) IN 
+    subset?(list2set(get_args(f)(t)), fin_set_t) AND dif_elem?(fin_set_t, equal?) IMPLIES
+    count(s, subs(sigma)(t), f) = dot_product(count_vec(subs(sigma)(no_rep_args), f)(s), coef)
 
 END substitution

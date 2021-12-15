@@ -100,6 +100,10 @@ member_ac(s, args1): bool = EXISTS t: equal?(s, t) AND member(t, args1)
 % syntactic sugar 
 count(t, s, f): nat = count(t, get_args(f)(s), equal?)
 
+% necessary to express count_vec as a curried version
+count(s, f)(t): nat = count(s, t, f)
+
+% applies count to every argument of args1
 count_vec(args1, f)(s): RECURSIVE list[nat] =
    IF null?(args1) THEN null
    ELSE LET t1 = car(args1) IN cons(count(s, t1, f), count_vec(cdr(args1), f)(s))
@@ -229,7 +233,7 @@ perm_args_ac_not_pair: LEMMA
     perm?(get_args(f)(t), get_args(f)(s)) AND
     (NOT pair?(t) AND NOT pair?(s)) AND
     (is_ac_sym?(t, f) IMPLIES num_arg(f, t) > 1) AND 
-    (is_ac_sym?(s, f) IMPLIES num_arg(f, s) > 1)
+    (is_ac_sym?(s, f) IMPLIES num_arg(f, s) > 1) 
     IMPLIES equal?(t, s) 
 
 perm_args_ac2: LEMMA
@@ -294,6 +298,9 @@ count_size2_ge: LEMMA
    (FORALL t1: count(t1, args1, equal?) >= count(t1, args2, equal?))
    IMPLIES sum(map(size2)(args1)) >= sum(map(size2)(args2))
    
+count_eq2: LEMMA 
+   equal?(t, t1) IMPLIES count(s, t, f) = count(s, t1, f)
+
 count_vec_len: LEMMA
     length(count_vec(args1, f)(s)) = length(args1) 
  
@@ -307,8 +314,25 @@ count_vec_nth: LEMMA
     i < length(args1) IMPLIES 
     nth(count_vec(args1, f)(t), i) = count(t, nth(args1, i), f)
 
+count_vec_perm_aux: LEMMA  
+    j < length(args1) IMPLIES 
+    sum(count_vec(args1, f)(t)) = count(t, nth(args1, j), f) + sum(count_vec(remove(args1, j), f)(t))
+
+count_vec_perm: LEMMA 
+    perm?(args1, args2) IMPLIES sum(count_vec(args1, f)(t)) = sum(count_vec(args2, f)(t))
+
+count_vec_get_repeat_lst: LEMMA 
+       sum(count_vec(get_repeat_lst(s, n), f)(t)) = count(t, s, f) * n
+
+count_vec_get_lst_mult: LEMMA 
+    sum(count_vec(get_lst_mult(args1, coef), f)(t)) = dot_product(count_vec(args1, f)(t), coef)
+
+count_vec_map: LEMMA 
+    count_vec(args1, f)(t) = map(count(t, f))(args1)
+
 % member_ac
 member_ac_perm: LEMMA 
     perm?(args1, args2) IMPLIES member_ac(s, args1) = member_ac(s, args2)
+
 
 END equality

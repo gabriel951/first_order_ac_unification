@@ -191,7 +191,9 @@ select_greater(unif_prb): RECURSIVE term =
 MEASURE unif_prb BY << 
 
 well_formed?(unif_prb): bool =
-   FORALL t: member(t, subterms(unif_prb)) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1
+   FORALL t:
+     (member(t, subterms(unif_prb)) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1) AND
+     (member(t, unif_prb) IMPLIES NOT pair?(t))
     
 subset?(unif_prb, unif_prb1): bool =
    FORALL unif_pair:
@@ -237,7 +239,7 @@ member_lhs_rhs: LEMMA
    member(t, unif_prb) IFF (member(t, lhs(unif_prb)) OR member(t, rhs(unif_prb)))
 
 member_lhs_pareate: LEMMA
-   member(t, lhs(pareate(args1, args2))) IMPLIES member(t, args1)
+   member(t, lhs(pareate(args1, args2))) IMPLIES member(t, args1) 
 
 member_rhs_pareate: LEMMA
    member(t, rhs(pareate(args1, args2))) IMPLIES member(t, args2)
@@ -409,6 +411,9 @@ well_formed_apply_sub: LEMMA
 
 well_formed_subset: LEMMA
    subset?(unif_prb, unif_prb1) AND well_formed?(unif_prb1) IMPLIES well_formed?(unif_prb) 
+
+well_formed_unif_prb: LEMMA 
+   well_formed?(unif_prb) IFF (FORALL t: member(t, unif_prb) IMPLIES well_formed?(t))
 
 unifies?_impossible: LEMMA
    (FORALL t1:

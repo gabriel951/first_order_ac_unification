@@ -423,7 +423,7 @@
     (get_repeat_lst def-decl "list[T]" list_theory nil)
     (dot_product def-decl "nat" list_nat_theory nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (list type-decl nil list_adt nil)
     (pred type-eq-decl nil defined_types nil)
@@ -10809,6 +10809,71 @@ member((lstnat`1, lstnat`2), cartesian_product(find_vectors(mult_t1)(1 + j), fin
       nil))
     nil)
    nil shostak))
+ (no_zero_col_elim_col1_TCC1 0
+  (no_zero_col_elim_col1_TCC1-1 nil 3847378134
+   ("" (subtype-tcc) nil nil) nil nil
+   (no_zero_col_elim_col1 subtype "diophantine.dio"
+    "(list_adt[list[nat]].cons?)")))
+ (no_zero_col_elim_col1 0
+  (no_zero_col_elim_col1-1 nil 3847378135
+   ("" (skeep)
+    (("" (expand "no_zero_col?")
+      (("" (prop)
+        (("1" (use "elim_col1_matrix[nat]")
+          (("1" (assert) (("1" (grind) nil nil)) nil)) nil)
+         ("2" (skeep)
+          (("2" (inst -5 "i+1")
+            (("2" (assert)
+              (("2" (prop)
+                (("1" (use "elim_col1_get_col_i[nat]")
+                  (("1" (assert) (("1" (grind) nil nil)) nil)) nil)
+                 ("2" (grind) nil nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (list type-decl nil list_adt nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (every adt-def-decl "boolean" list_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (dio_matrix type-eq-decl nil diophantine nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (length def-decl "nat" list_props nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (elim_col1_matrix formula-decl nil list_theory nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (elim_col1_get_col_i formula-decl nil list_theory nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (no_zero_col? const-decl "bool" diophantine nil))
+   shostak))
  (dio_solver_coef_matrix_TCC1 0
   (dio_solver_coef_matrix_TCC1-1 nil 3845570162
    ("" (subtype-tcc) nil nil)
@@ -11577,7 +11642,6 @@ member((lstnat`1, lstnat`2), cartesian_product(find_vectors(mult_t1)(1 + j), fin
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (every adt-def-decl "boolean" list_adt nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (boolean nonempty-type-decl nil booleans nil)
@@ -11586,6 +11650,318 @@ member((lstnat`1, lstnat`2), cartesian_product(find_vectors(mult_t1)(1 + j), fin
     (measure_induction formula-decl nil measure_induction nil)
     (well_founded? const-decl "bool" orders nil)
     (pred type-eq-decl nil defined_types nil))
+   shostak))
+ (construct_submatrix_no_zero_col 0
+  (construct_submatrix_no_zero_col-1 nil 3846851133
+   ("" (measure-induct "length(dio)" "dio")
+    (("" (skolem 1 "dio")
+      (("" (prop)
+        (("" (skeep)
+          (("" (expand "construct_submatrix" 1 1)
+            (("" (lift-if)
+              (("" (split 1)
+                (("1" (flatten)
+                  (("1" (expand "construct_submatrix" 1)
+                    (("1" (lift-if)
+                      (("1" (assert) (("1" (grind) nil nil)) nil))
+                      nil))
+                    nil))
+                  nil)
+                 ("2" (flatten)
+                  (("2" (split)
+                    (("1" (flatten)
+                      (("1" (inst -1 "cdr(dio)")
+                        (("1" (prop)
+                          (("1" (inst -1 "elim_col1(coef_matrix)")
+                            (("1"
+                              (case "matrix?(elim_col1(coef_matrix), length(cdr(dio)))")
+                              (("1"
+                                (assert)
+                                (("1"
+                                  (expand "no_zero_col?" 2)
+                                  (("1"
+                                    (prop)
+                                    (("1"
+                                      (lemma
+                                       "construct_submatrix_matrix")
+                                      (("1"
+                                        (inst -1 "coef_matrix" "dio")
+                                        (("1"
+                                          (assert)
+                                          (("1"
+                                            (expand
+                                             "construct_submatrix"
+                                             -1)
+                                            (("1"
+                                              (expand
+                                               "construct_submatrix"
+                                               1
+                                               2)
+                                              (("1" (propax) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil)
+                                     ("2"
+                                      (skeep)
+                                      (("2"
+                                        (name-replace
+                                         "cdr_dio1"
+                                         "construct_submatrix(cdr(dio), elim_col1(coef_matrix))`1")
+                                        (("2"
+                                          (name-replace
+                                           "col1"
+                                           "get_col_i(coef_matrix, 1)")
+                                          (("2"
+                                            (name-replace
+                                             "tail_coef"
+                                             "construct_submatrix(cdr(dio), elim_col1 (coef_matrix))`2")
+                                            (("2"
+                                              (lemma
+                                               "get_col_i_put_col_i[nat]")
+                                              (("2"
+                                                (inst?)
+                                                (("2"
+                                                  (inst
+                                                   -1
+                                                   "length(cdr_dio1)")
+                                                  (("2"
+                                                    (prop)
+                                                    (("1"
+                                                      (grind)
+                                                      nil
+                                                      nil)
+                                                     ("2"
+                                                      (replace -1)
+                                                      (("2"
+                                                        (expand
+                                                         "no_zero_col?"
+                                                         -6)
+                                                        (("2"
+                                                          (flatten)
+                                                          (("2"
+                                                            (inst
+                                                             -7
+                                                             "i-1")
+                                                            (("1"
+                                                              (assert)
+                                                              (("1"
+                                                                (expand
+                                                                 "cdr_dio1"
+                                                                 2)
+                                                                (("1"
+                                                                  (expand
+                                                                   "construct_submatrix"
+                                                                   -3)
+                                                                  (("1"
+                                                                    (expand
+                                                                     "length"
+                                                                     -3)
+                                                                    (("1"
+                                                                      (assert)
+                                                                      nil
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil)
+                                                             ("2"
+                                                              (assert)
+                                                              nil
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil)
+                                                     ("3"
+                                                      (grind)
+                                                      nil
+                                                      nil)
+                                                     ("4"
+                                                      (expand "col1" 1)
+                                                      (("4"
+                                                        (use
+                                                         "get_col_i_len[nat]")
+                                                        (("4"
+                                                          (assert)
+                                                          (("4"
+                                                            (expand
+                                                             "tail_coef"
+                                                             1)
+                                                            (("4"
+                                                              (prop)
+                                                              (("1"
+                                                                (replace
+                                                                 -1)
+                                                                (("1"
+                                                                  (lemma
+                                                                   "construct_submatrix_coef_len")
+                                                                  (("1"
+                                                                    (inst?)
+                                                                    (("1"
+                                                                      (assert)
+                                                                      (("1"
+                                                                        (replace
+                                                                         -1)
+                                                                        (("1"
+                                                                          (lemma
+                                                                           "elim_col1_len[nat]")
+                                                                          (("1"
+                                                                            (inst?)
+                                                                            (("1"
+                                                                              (assert)
+                                                                              nil
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil)
+                                                               ("2"
+                                                                (grind)
+                                                                nil
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil)
+                                                     ("5"
+                                                      (expand
+                                                       "cdr_dio1"
+                                                       1)
+                                                      (("5"
+                                                        (expand
+                                                         "construct_submatrix"
+                                                         -2)
+                                                        (("5"
+                                                          (grind)
+                                                          nil
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil)
+                               ("2"
+                                (use "elim_col1_matrix[nat]")
+                                (("2"
+                                  (assert)
+                                  (("2" (grind) nil nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("2" (grind) nil nil))
+                          nil))
+                        nil))
+                      nil)
+                     ("2" (flatten)
+                      (("2" (expand "construct_submatrix" 1 2)
+                        (("2" (lift-if)
+                          (("2" (assert)
+                            (("2" (inst -2 "cdr(dio)")
+                              (("2"
+                                (prop)
+                                (("1"
+                                  (inst?)
+                                  (("1"
+                                    (prop)
+                                    (("1"
+                                      (use "elim_col1_matrix[nat]")
+                                      (("1"
+                                        (assert)
+                                        (("1" (grind) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil)
+                                 ("2" (grind) nil nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((pred type-eq-decl nil defined_types nil)
+    (well_founded? const-decl "bool" orders nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (number nonempty-type-decl nil numbers nil)
+    (list type-decl nil list_adt nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (>= const-decl "bool" reals nil)
+    (dio_matrix type-eq-decl nil diophantine nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (naturalnumber type-eq-decl nil naturalnumbers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (length def-decl "nat" list_props nil)
+    (< const-decl "bool" reals nil)
+    (wf_nat formula-decl nil naturalnumbers nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (matrix? def-decl "bool" list_theory nil)
+    (no_zero_col? const-decl "bool" diophantine nil)
+    (construct_submatrix def-decl "[dio_matrix, dio_matrix]"
+     diophantine nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (all_zero? const-decl "bool" list_nat_theory nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (elim_col1 def-decl "list[list[T]]" list_theory nil)
+    (elim_col1_matrix formula-decl nil list_theory nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (construct_submatrix_matrix formula-decl nil diophantine nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (get_col_i_len formula-decl nil list_theory nil)
+    (elim_col1_len formula-decl nil list_theory nil)
+    (construct_submatrix_coef_len formula-decl nil diophantine nil)
+    (get_col_i_put_col_i formula-decl nil list_theory nil)
+    (get_col_i def-decl "list[T]" list_theory nil))
    shostak))
  (construct_submatrix_linear_comb_TCC1 0
   (construct_submatrix_linear_comb_TCC1-1 nil 3846349266

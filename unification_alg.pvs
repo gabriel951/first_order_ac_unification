@@ -10,6 +10,8 @@
 % File: unification_alg.pvs
 % Description: Definition of the first order unification algorithm 
 
+% g(t1, ..., tn) = g(s1, ..., sn) => <t1, ..., tn> = <s1, ..., sn>
+% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 unification_alg: THEORY
@@ -133,4 +135,4 @@ unify_alg_complete: CONJECTURE
        member(gamma, unify(unif_prb, sigma, vars2avoid)) AND 
        more_general?(gamma, delta, vars2avoid)
 
-END unification_alg
+END unification_alg 

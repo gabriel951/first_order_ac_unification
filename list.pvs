@@ -190,7 +190,20 @@ pos?(x, lst, equal?): RECURSIVE [bool, nat] =
     ENDIF
 MEASURE lst BY << 
 
-% the first call to this function should be count_elem(null, null, lst2)
+% True if all the elements of "lst" are different, False otherwise:
+dif_elem?(lst, equal?): bool =
+   FORALL i, j:
+   i < length(lst) AND j < length(lst) AND equal?(nth(lst, i), nth(lst, j)) IMPLIES
+   i = j
+
+% True if all the elements of "fin_set" are different, False otherwise:
+dif_elem?(fin_set, equal?): bool = 
+   FORALL x, y:
+   member(x, fin_set) AND member(y, fin_set) AND equal?(x, y) IMPLIES 
+   x = y 
+ 
+
+% the first call to this function should be count_elem(null, null, lst2, equal?)
 % lst2, is a list of elements [l1, ..., ln] possibly with repetitions
 % lst1, when the function finish, contains all elements initially in lst2, without repetitions
 % coef contain the number of repetitions of the elements in lst2
@@ -209,6 +222,7 @@ count_elem(lst1, coef, lst2, equal?): RECURSIVE [list[T], list[nat]] =
 	    ENDIF
     ENDIF
 MEASURE lst2 BY << 
+
 
 % receives a lst_of_lsts = [l1, ..., ln] and an element x
 % put element x as the first element of each lst li.
@@ -398,12 +412,44 @@ MEASURE lst BY <<
 % curried version of get_lst_mult
 get_lst_mult(coef)(lst): list[T] = get_lst_mult(lst, coef)
 
+% let finset = {x1, ..., xn} 
+% returns a pair whose first element is a list [x1, ..., xn] corresponding to finset and 
+% the second element is a list [c1, ..., cn] with the corresponding number of occurrences of each xi
+% in lst
+count_coef(fin_set, lst, equal?): RECURSIVE [list[T], list[nat]] = 
+   IF empty?(fin_set) THEN (null, null[nat])
+   ELSE LET x1 = choose(fin_set), n1 = count(x1, lst, equal?) IN
+            (cons(x1, count_coef(rest(fin_set), lst, equal?)`1),
+	     cons(n1, count_coef(rest(fin_set), lst, equal?)`2))
+   ENDIF
+MEASURE card(fin_set)
+
 % remove the ith element from lst.
 % counting starts at 0
 remove(lst, i): RECURSIVE list[T] =
     IF null?(lst) THEN null 
     ELSIF i = 0 THEN cdr(lst) 
     ELSE LET x = car(lst) IN cons(x, remove(cdr(lst), i-1))
+    ENDIF
+MEASURE lst BY << 
+
+% remove every element of "lst" that is equal to "x"
+remove(lst, x, equal?): RECURSIVE list[T] =
+    IF null?(lst) THEN null 
+    ELSIF equal?(x, car(lst)) THEN remove(cdr(lst), x, equal?) 
+    ELSE cons(car(lst), remove(cdr(lst), x, equal?))
+    ENDIF
+MEASURE lst BY << 
+
+% lemma needed to prove a TCC
+remove_elem_len: LEMMA 
+    length(remove(lst, x, equal?)) <= length(lst) 
+
+% remove every element of lst1 from lst. 
+remove(lst, lst1, equal?): RECURSIVE list[T] =
+    IF null?(lst) THEN null 
+    ELSIF EXISTS x: member(x, lst1) AND equal?(x, car(lst)) THEN remove(cdr(lst), lst1, equal?)
+    ELSE cons(car(lst), remove(cdr(lst), lst1, equal?))
     ENDIF
 MEASURE lst BY << 
 
@@ -457,11 +503,22 @@ same_count?(lst_of_lsts1, lst_of_lsts2, equal?): bool =
 sublist?(lst1, lst2): bool =
     EXISTS lst2, lst3: lst2 = append(lst2, append(lst1, lst3))
 
-%sum_lengths(lst_of_lsts): RECURSIVE bool =
-%    IF null?(lst_of_lsts) THEN 0
-%    ELSE length(car(lst_of_lsts)) + sum_lengths(cdr(lst_of_lsts))
-%    ENDIF
-%MEASURE lst_of_lsts BY <<
+% number of different elements in lst
+num_dif(lst, equal?): RECURSIVE nat =
+    IF null?(lst) THEN 0
+    ELSE 1 + num_dif(remove(lst, car(lst), equal?), equal?)
+    ENDIF
+MEASURE length(lst) 
+
+% a simpler version of count_elem
+count_elem2(lst, equal?): RECURSIVE [list[T], list[nat]] = 
+    IF null?(lst) THEN (null, null[nat])
+    ELSE LET x = car(lst) IN
+         (cons(x, count_elem2(remove(lst, x, equal?), equal?)`1),
+	  cons(count(x, lst, equal?), count_elem2(remove(lst, x, equal?), equal?)`2))
+    ENDIF
+MEASURE length(lst)  
+
 
 %%%%%%%%%%%%%%%%%%%%% Theorems
 %% general properties
@@ -533,6 +590,7 @@ dot_product_zero_lst: LEMMA
     (FORALL n: member(n, lst_nat1) IMPLIES n = 0)
     IMPLIES dot_product(lst_nat1, lst_nat2) = 0
 
+
 % cartesian product, append_pair
 cart_prod_aux_len: LEMMA
     length(cartesian_product_aux(x, lst)) = length(lst) 
@@ -548,7 +606,6 @@ cart_prod_aux_nth: LEMMA
 
 cart_prod_mem: LEMMA
     (member(x, lst1) AND member(y, lst2)) = member((x, y), cartesian_product(lst1, lst2))
-
 
 % finset2list
 finset2list_mem: LEMMA
@@ -615,6 +672,9 @@ nth_from_min2max2: LEMMA
 from_min2max_mem: LEMMA
    i <= j IMPLIES (member(n, from_min2max(i, j)) IFF (i <= n AND n <= j))
 
+from_min2max_mem2: LEMMA 
+   member(n, from_min2max(i, j)) IMPLIES i <= n
+
 % increment, pos?
 increment_len: LEMMA
     length(increment(lst_nat, n, inc)) = length(lst_nat)
@@ -622,6 +682,12 @@ increment_len: LEMMA
 increment_mantains_gt0: LEMMA
     (FORALL i: member(i, coef) IMPLIES i > 0) IMPLIES
     (FORALL i: member(i, increment(coef, n, 1)) IMPLIES i > 0)
+
+increment_nth: LEMMA 
+   n < length(coef) IMPLIES 
+   IF i = n THEN nth(increment(coef, i, j), n) = nth(coef, n) + j
+   ELSE nth(increment(coef, i, j), n) = nth(coef, n)
+   ENDIF
 
 pos?_len: LEMMA
    pos?(x, lst, equal?)`1 IMPLIES
@@ -664,6 +730,9 @@ pos?_remove_ind_gt: LEMMA
 pos?_mem: LEMMA
     NOT pos?(x, lst, equal?)`1 IMPLIES NOT member(x, lst) 
 
+pos?_mem2: LEMMA 
+   pos?(x, lst, equal?)`1 IFF (EXISTS y: member(y, lst) AND equal?(x, y))
+
 % count_elem
 count_elem_len: LEMMA
     LET (new_lst, new_coef) = count_elem(lst, coef, lst2, equal?) IN
@@ -672,7 +741,18 @@ count_elem_len: LEMMA
 
 count_elem_len2: LEMMA
     length(count_elem(null, null, lst, equal?)`1) = length(count_elem(null, null, lst, equal?)`2)
+
+count_elem_len_gt0: LEMMA 
+    LET (new_lst, new_coef) = count_elem(lst, coef, lst2, equal?) IN
+    length(lst2) > 0 IMPLIES length(new_lst) > 0 
     
+count_elem_len_ge: LEMMA 
+    LET (new_lst, new_coef) = count_elem(lst, coef, lst2, equal?) IN
+    length(new_lst) >= length(lst) 
+
+count_elem_len_coef_not_matter: LEMMA 
+    length(count_elem(lst, coef, lst2, equal?)`1) = length(count_elem(lst, coef1, lst2, equal?)`1)
+
 count_elem_null1: LEMMA
     null?(count_elem(lst, coef, lst2, equal?)`1) IMPLIES null?(lst2)
 
@@ -696,6 +776,7 @@ count_elem_mem: LEMMA
     
 count_elem_mem_cor: LEMMA
     member(x, count_elem(null, null, lst, equal?)`1) IMPLIES member(x, lst)  
+
 
 % put in head
 put_in_head_matrix?: LEMMA
@@ -755,7 +836,6 @@ get_repeat_lst_count: LEMMA
     ELSE count(x, get_repeat_lst(y, n), equal?) = 0
     ENDIF
 
-
 % select_greater 
 select_greater_lt: LEMMA
     member(n, lst_nat) IMPLIES n <= select_greater(lst_nat)
@@ -801,6 +881,13 @@ get_col_i_len: LEMMA
 get_col_i_nth: LEMMA 
     matrix?(lst_of_lsts, n) AND i < n AND j < length(lst_of_lsts) IMPLIES 
     nth(get_col_i(lst_of_lsts, i+1), j) = nth(nth(lst_of_lsts, j), i)
+
+get_col_i_put_col_i: LEMMA 
+    matrix?(lst_of_lsts, n) AND length(col) = length(lst_of_lsts) AND
+    i <= n+1 AND i > 0 IMPLIES  
+    IF i = 1 THEN get_col_i(put_col(col, lst_of_lsts), i) = col 
+    ELSE get_col_i(put_col(col, lst_of_lsts), i) = get_col_i(lst_of_lsts, i-1)
+    ENDIF
 
 elim_col1_len: LEMMA 
     length(elim_col1(lst_of_lsts)) = length(lst_of_lsts) 
@@ -861,6 +948,9 @@ count_pos?: LEMMA
 
 count_pos?2: LEMMA
     NOT pos?(x, lst, equal?)`1 IFF count(x, lst, equal?) = 0
+
+count0_eq: LEMMA 
+    (NOT EXISTS y: member(y, lst) AND equal?(x, y)) IFF count(x, lst, equal?) = 0
 
 count_flatten: LEMMA
     count(x, flatten(lst_of_lsts), equal?) = sum(map(count(x, equal?))(lst_of_lsts))
@@ -986,7 +1076,6 @@ get_lst_mult_count_append: LEMMA
 get_lst_mult_count: LEMMA
     count(x, flatten(map(g)(get_lst_mult(lst, coef))), equal?) =
     dot_product(map(count(x, equal?))(map(g)(lst)), coef)
-
     
 % remove
 remove_len: LEMMA
@@ -1034,6 +1123,64 @@ count_remove_pos: LEMMA
     
 no_null_entries_remove: LEMMA
     no_null_entries?(lst_of_lsts) IMPLIES no_null_entries?(remove(lst_of_lsts, i, j))
+
+count_remove2: LEMMA 
+   IF equal?(x, y) THEN count(y, remove(lst, x, equal?), equal?) = 0
+   ELSE count(y, remove(lst, x, equal?), equal?) = count(y, lst, equal?)
+   ENDIF
+
+remove_no_effect: LEMMA 
+    count(y, lst, equal?) = 0 IMPLIES remove(lst, y, equal?) = lst
+    
+remove_elem_no_effect: LEMMA 
+    NOT equal?(x, y) IMPLIES 
+    count(y, remove(lst, x, equal?), equal?) = count(y, lst, equal?)
+
+remove_append2: LEMMA 
+    remove(append(lst, lst1), y, equal?) = append(remove(lst, y, equal?), remove(lst1, y, equal?))
+
+remove_elem_mem: LEMMA 
+    NOT equal?(x, y) AND member(x, lst) IMPLIES member(x, remove(lst, y, equal?))
+
+remove_elem_mem2: LEMMA
+    member(x, remove(lst, y, equal?)) IMPLIES member(x, lst) 
+    
+remove_elem_mem3: LEMMA 
+    member(x, remove(lst, y, equal?)) IFF member(x, lst) AND NOT equal?(x, y)
+
+    
+remove_elem_cor: LEMMA 
+     count(x, remove(lst, x, equal?), equal?) = 0
+
+remove_elem_com: LEMMA 
+    remove(remove(lst, x, equal?), y, equal?) = remove(remove(lst, y, equal?), x, equal?) 
+
+remove_lst_elem_len: LEMMA 
+    length(remove(lst, lst1, equal?)) <= length(lst) 
+
+remove_lst_elem_mem: LEMMA 
+    member(x, remove(lst, lst1, equal?)) IMPLIES member(x, lst)
+
+remove_lst_elem_cons_null: LEMMA 
+   IF null?(lst1) THEN remove(lst, lst1, equal?) = lst
+   ELSE remove(lst, lst1, equal?) = remove(remove(lst, car(lst1), equal?), cdr(lst1),equal?)
+   ENDIF
+
+remove_lst_elem_no_effect: LEMMA
+    (FORALL x, y: member(x, lst) AND member(y, lst1) IMPLIES NOT equal?(x, y))
+    IMPLIES remove(lst, lst1, equal?) = lst
+
+remove_lst_elem_append: LEMMA  
+    remove(lst, append(lst1, lst2), equal?) = remove(remove(lst, lst1, equal?), lst2, equal?)
+
+remove_lst_elem_no_effect2: LEMMA 
+    NOT pos?(x, lst, equal?)`1 IMPLIES
+    remove(lst, remove(lst1, x, equal?), equal?) = remove(lst, lst1, equal?)
+
+remove_lst_elem_count: LEMMA 
+     NOT pos?(x, lst1, equal?)`1 IMPLIES 
+     count(x, remove(lst, lst1, equal?), equal?) =
+     count(x, lst, equal?)
 
 % remove_common, get_common
 remove_common_mem: LEMMA
@@ -1107,6 +1254,28 @@ mem_union_lst2set: LEMMA % check also mem_union_map, it's more specific
    member(x, Union(list2set(lst_of_fin_sets))) IFF
    EXISTS fin_set:
    	  member(x, fin_set) AND member(fin_set, lst_of_fin_sets)
+
+% dif_elem, num_dif
+
+dif_elem_num_dif: LEMMA 
+   dif_elem?(lst, equal?) IMPLIES num_dif(lst, equal?) = length(lst) 
+
+dif_elem_cons_append: LEMMA 
+   dif_elem?(lst, equal?) AND NOT pos?(x, lst, equal?)`1
+   IMPLIES dif_elem?(append(lst, cons(x, null)), equal?)
+
+num_dif_append_cons: LEMMA 
+   member(y, lst) AND equal?(x, y) IMPLIES 
+   num_dif(append(lst, cons(x, lst2)), equal?) = num_dif(append(lst, lst2), equal?)
+
+remove_lst_elem_num_dif: LEMMA 
+    num_dif(lst, equal?) + num_dif(remove(lst1, lst, equal?), equal?) = num_dif(append(lst, lst1), equal?)
+
+% count_coef
+count_coef_remove_no_effect: LEMMA 
+    (FORALL x: member(x, fin_set) IMPLIES NOT equal?(x, y)) IMPLIES 
+    count_coef(fin_set, remove(lst, y, equal?), equal?) = count_coef(fin_set, lst, equal?)
+    
 
 % cardinality
 card_surj_aux: LEMMA
@@ -1202,6 +1371,8 @@ map_theory [T1, T2: TYPE]: THEORY
   f_lst: VAR [T1 -> list[T1]]
   f_lst2: VAR [list[T1] -> list[T2]]
   f_lst3: VAR [T1 -> list[T2]]
+
+  i, n: VAR nat
   
   x: VAR T2 
   y, y1: VAR T1
@@ -1257,24 +1428,29 @@ func_flatten_map2: LEMMA
     (f_lst2(null) = null AND FORALL l1, l2: f_lst2(append(l1, l2)) = append(f_lst2(l1), f_lst2(l2))) IMPLIES
     f_lst2(flatten(lst_of_lsts)) = flatten(map(f_lst2)(lst_of_lsts))
 
+remove_map: LEMMA 
+    remove(map(f)(l1), n) = map(f)(remove(l1, n))
+
 END map_theory
 
 % this theory depends on importing "list_theory" with a specific type T
 more_list_theory_props [T: TYPE]: THEORY 
 BEGIN
-    IMPORTING list_theory[T], list_theory[list[T]], list_theory[nat], list_theory[[T, T]] 
+    IMPORTING list_theory[T], list_theory[list[T]], list_theory[nat], list_theory[[T, T]],
+              list_theory[number]
 
 i, j, n: VAR nat
 
-x: VAR T
+lst_nat1, lst_nat2: VAR list[nat]
+
+x, y: VAR T
 h: VAR [list[T] -> T]
 f: VAR [T -> list[T]]
 
 lst, lst1, lst2: VAR list[T]
 lst_of_lsts: VAR list[list[T]]
 
-coef: VAR list[nat]
-
+coef, coef1: VAR list[nat]
 
 % an equivalence definition
 equiv: TYPE = {R: PRED[[T, T]]| equivalence?(R)}
@@ -1320,4 +1496,73 @@ cart_prod_nth: LEMMA
     j < length(lst1) AND n < length(lst2) AND
     nth(cartesian_product(lst1, lst2), i) = (nth(lst1, j), nth(lst2, n))
 
+% count_elem
+count_elem_nth_lt: LEMMA  
+    LET (new_lst, new_coef) = count_elem(lst, coef, lst2, equal?) IN
+    length(lst) = length(coef) AND n < length(lst) AND dif_elem?(lst, equal?) IMPLIES 
+    LET x = nth(new_lst, n) IN
+	x = nth(lst, n) AND
+	nth(new_coef, n) = nth(coef, n) + count(x, lst2, equal?)
+
+count_elem_len_remove: LEMMA 
+    LET (new_lst, new_coef) = count_elem(lst, coef, lst2, equal?), 
+        (new_lst1, new_coef1) = count_elem(lst, coef1, remove(lst2, x, equal?), equal?) IN
+	member(x, lst) IMPLIES length(new_lst1) = length(new_lst)  
+
+count_elem_nth_gt_remove: LEMMA 
+    LET (new_lst, new_coef) = count_elem(lst, coef, lst2, equal?), 
+        (new_lst1, new_coef1) = count_elem(lst, coef1, remove(lst2, x, equal?), equal?) IN
+    member(x, lst) AND n >= length(lst) AND n < length(new_lst) AND length(lst) = length(coef) AND
+    length(coef1) = length(lst) AND dif_elem?(lst, equal?) IMPLIES 
+    nth(new_lst, n) = nth(new_lst1, n) AND nth(new_coef, n) = nth(new_coef1, n)   
+ 
+count_elem_num_dif: LEMMA 
+    dif_elem?(lst, equal?) IMPLIES 
+    length(count_elem(lst, coef, lst2, equal?)`1) = num_dif(append(lst, lst2), equal?)
+
+count_elem_nth_gt: LEMMA 
+    LET (new_lst, new_coef) = count_elem(lst, coef, lst2, equal?), 
+        (new_lst1, new_coef1) = count_elem(null, null, remove(lst2, lst, equal?), equal?) IN
+    n < length(new_lst) AND n >= length(lst) AND dif_elem?(lst, equal?) AND
+    length(lst) = length(coef) IMPLIES
+    nth(new_lst, n) = nth(new_lst1, n - length(lst))
+    
+count_elem_nth_gt2: LEMMA  
+    LET (new_lst, new_coef) = count_elem(lst, coef, lst2, equal?), 
+        (new_lst1, new_coef1) = count_elem(null, null, remove(lst2, lst, equal?), equal?) IN
+    n < length(new_lst) AND n >= length(lst) AND dif_elem?(lst, equal?) AND
+    length(lst) = length(coef) IMPLIES
+    nth(new_coef, n) = nth(new_coef1, n - length(lst))
+
+count_elem2_len: LEMMA 
+    length(count_elem2(lst, equal?)`1) = num_dif(lst, equal?)
+
+count_elem2_mem: LEMMA 
+    member(x, count_elem2(lst, equal?)`1) IMPLIES member(x, lst)
+
+count_elem2_same_len: LEMMA 
+    length(count_elem2(lst, equal?)`1) = length(count_elem2(lst, equal?)`2)
+
+count_elem2_cor: LEMMA 
+    count_elem2(lst, equal?) = count_elem(null, null, lst, equal?)
+
+count_elem_remove: LEMMA 
+    LET (new_lst, new_coef) = count_elem(null, null, lst, equal?) IN
+    i < length(new_lst) IMPLIES 
+    LET x = nth(new_lst, i) IN
+    (remove(new_lst, i), remove(new_coef, i)) = count_elem(null, null, remove(lst, x, equal?), equal?)
+
+count_elem_mem_nth: LEMMA  
+    LET (new_lst, new_coef) = count_elem(null, null, lst, equal?) IN
+    member(x, lst) IMPLIES
+    EXISTS i:
+       i < length(new_lst) AND equal?(x, nth(new_lst, i)) AND
+       nth(new_coef, i) = count(x, lst, equal?)  
+
+dot_product_nth: LEMMA 
+    i < length(lst_nat1) AND i < length(lst_nat2) IMPLIES
+    dot_product(lst_nat1, lst_nat2) =
+    nth(lst_nat1, i) * nth(lst_nat2, i) + dot_product(remove(lst_nat1, i), remove(lst_nat2, i))
+
 END more_list_theory_props
+

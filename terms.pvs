@@ -9,6 +9,7 @@
 % File: terms.pvs
 % Description: Definition of a first order term and properties related to them
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % definition of a term
@@ -230,6 +231,9 @@ MEASURE lst_args BY <<
 no_pair_ac?(f, args): bool =
    FORALL t: member(t, args) IMPLIES (NOT pair?(t) AND NOT is_ac_sym?(t, f))
 
+no_pair?(args): bool =
+   FORALL t: member(t, args) IMPLIES NOT pair?(t) 
+
 
 %%%%%%%%%%%%%%%
 % options of a term:
@@ -417,6 +421,9 @@ get_args_get_term_from_args: LEMMA
     NOT null?(args) IMPLIES
     get_args(f)(get_term_from_args(args)) = flatten(map(get_args(f))(args))
 
+get_args_get_term_from_args_len: LEMMA 
+    length(get_args(f)(get_term_from_args(args))) >= length(args)
+
 get_args_get_ac_from_args: LEMMA
     NOT null?(args) IMPLIES
     get_args(f)(get_ac_from_args(f)(args)) = flatten(map(get_args(f))(args))
@@ -436,7 +443,6 @@ remove_get_args_del: LEMMA
 get_args_remove_del: LEMMA 
     i < length(args) AND j < num_arg(f, nth(args, i)) IMPLIES
     remove(map(get_args(f))(args), i, j) = map(get_args(f))(delete(args, f, i, j))
-
 
 % get_ac_from_args
 map_get_args_get_ac_from_args: LEMMA
@@ -598,6 +604,17 @@ size2(t): RECURSIVE nat =
 	ac_app(sym, arg): sum(map(size2)(get_args(sym)(t)))
     ENDCASES
 MEASURE size(t)
+
+% well_formed
+well_formed?(s): bool =
+    NOT pair?(s) AND
+    FORALL t:
+      member(t, subterms(s)) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1
+   
+well_formed?(args): bool = 
+   FORALL t:
+     (member(t, subterms(args)) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1) AND
+     (member(t, args) IMPLIES NOT pair?(t))
 
 % lemmas
 % vars 
@@ -761,6 +778,10 @@ get_args_subterms: LEMMA
 get_args_subterms2: LEMMA
    member(s, get_args(f)(t)) IMPLIES member(s, subterms(t))
 
+subterm_get_ac_from_args: LEMMA 
+   member(s, subterms(get_ac_from_args(f)(args))) AND NOT null?(args) IMPLIES 
+   (s = get_ac_from_args(f)(args) OR member(s, subterms(args)))
+   
 prop_subterm_subterm_size: LEMMA
     member(s, prop_subterms(t)) IMPLIES member(s, subterms(t)) AND size(s) < size(t)
 
@@ -820,6 +841,15 @@ size2_ge0: LEMMA
 
 size2_get_args: LEMMA
     size2(t) = sum(map(size2)(get_args(f)(t)))
+
+% well_formed:
+well_formed_args: LEMMA 
+    well_formed?(args) IFF
+    FORALL t:
+    	member(t, args) IMPLIES well_formed?(t)
+
+well_formed_get_args: LEMMA 
+    well_formed?(t) IMPLIES well_formed?(get_args(f)(t))
 
 END term_properties
 
