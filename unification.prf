@@ -4050,7 +4050,7 @@
     (no_pair? const-decl "bool" unification nil)
     (set type-eq-decl nil sets nil)
     (is_finite const-decl "bool" finite_sets nil)
-    (finite_set type-eq-decl nil finite_sets nil) nil
+    (finite_set type-eq-decl nil finite_sets nil)
     (img const-decl
      "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
      substitution nil)
@@ -5362,8 +5362,7 @@
         nil))
       nil))
     nil)
-   ((well_formed? const-decl "bool" term_properties nil)
-    (unif_prb type-eq-decl nil unification nil)
+   (nil (unif_prb type-eq-decl nil unification nil)
     (list type-decl nil list_adt nil)
     (unif_pair type-eq-decl nil unification nil)
     (subterms_mem_unif_prb formula-decl nil unification nil)
@@ -5383,8 +5382,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (every adt-def-decl "boolean" term_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -5397,16 +5395,14 @@
     (character type-decl nil character_adt nil)
     (below type-eq-decl nil nat_types nil)
     (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (number nonempty-type-decl nil numbers nil)
-    (subterms def-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     term_properties nil)
+    (number nonempty-type-decl nil numbers nil) nil
     (member const-decl "bool" sets nil)
     (union const-decl "set" sets nil))
    shostak))
  (unifies?_impossible_TCC1 0
-  (unifies?_impossible_TCC1-1 nil 3844435724 ("" (subtype-tcc) nil nil)
-   nil nil
+  (unifies?_impossible_TCC1-1 nil 3844435724
+   ("" (use "equal?_equiv") nil nil)
+   ((equal?_equiv formula-decl nil equality nil)) nil
    (unifies?_impossible subtype "equality.equal?"
     "equiv[term[constant, variable, f_symbol, ac_symbol]]")))
  (unifies?_impossible 0
@@ -8468,8 +8464,7 @@
     (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
     (nnint_plus_posint_is_posint application-judgement "posint"
      integers nil)
-    (remove def-decl "list[T]" list_theory nil)
-    (count_remove formula-decl nil list_theory nil)
+    nil (count_remove formula-decl nil list_theory nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (pos?_len formula-decl nil list_theory nil)
@@ -9099,7 +9094,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -9115,7 +9110,7 @@
     (string type-eq-decl nil strings nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil
+    (variable type-eq-decl nil term_properties nil)
     (sub type-eq-decl nil substitution nil)
     (basic_sub type-eq-decl nil substitution nil)
     (real_ge_is_total_order name-judgement "(total_order?[real])"
@@ -9129,7 +9124,7 @@
     (no_pair_ac? const-decl "bool" term_properties nil)
     (get_args_mem_not_pair formula-decl nil term_properties nil)
     (get_args_mem_not_ac formula-decl nil term_properties nil)
-    (remove_common_mem formula-decl nil list_theory nil) nil
+    (remove_common_mem formula-decl nil list_theory nil)
     (remove_common def-decl "list[T]" list_theory nil)
     (equiv type-eq-decl nil list_theory nil)
     (equivalence? const-decl "bool" relations nil)

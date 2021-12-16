@@ -404,12 +404,12 @@ select_greater_cor: LEMMA
    FORALL t: member(t, unif_prb) IMPLIES size(t) <= size(select_greater(unif_prb))
 
 % well_formed:
-well_formed_apply_sub: LEMMA
+well_formed_apply_sub: CONJECTURE 
    well_formed?(unif_prb) AND
    (FORALL t: member(t, subterms(img(sigma))) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1)
    IMPLIES well_formed?(apply_sub(sigma, unif_prb))
 
-well_formed_subset: LEMMA
+well_formed_subset: CONJECTURE 
    subset?(unif_prb, unif_prb1) AND well_formed?(unif_prb1) IMPLIES well_formed?(unif_prb) 
 
 well_formed_unif_prb: LEMMA 

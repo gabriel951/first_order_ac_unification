@@ -78,38 +78,6 @@ reorder?(args1, args2): RECURSIVE bool =
     ENDIF
 MEASURE length(args1) 
     
-% indicates whether args1 and args2 have the same arguments
-no_common_args?(args1, args2): bool =
-    FORALL t:
-       (count(t, args1, equal?) >= 1 IMPLIES count(t, args2, equal?) = 0) AND
-       (count(t, args2, equal?) >= 1 IMPLIES count(t, args1, equal?) = 0) 
-
-% receives AC functions "t" and "s", headed by a function symbol "f"
-% returns terms t* and s* where we remove the common elements
-remove_common(t, s, f): [term, term] =
-    LET
-    args1 = get_args(f)(t), args2 = get_args(f)(s),
-    no_common_args1 = remove_common(args1, args2, equal?),
-    no_common_args2 = remove_common(args2, args1, equal?) IN
-    (get_ac_from_args(f)(no_common_args1), get_ac_from_args(f)(no_common_args2))
-   
-
-% True if a term equal to s (mod AC) is a member of args
-member_ac(s, args1): bool = EXISTS t: equal?(s, t) AND member(t, args1)
-
-% syntactic sugar 
-count(t, s, f): nat = count(t, get_args(f)(s), equal?)
-
-% necessary to express count_vec as a curried version
-count(s, f)(t): nat = count(s, t, f)
-
-% applies count to every argument of args1
-count_vec(args1, f)(s): RECURSIVE list[nat] =
-   IF null?(args1) THEN null
-   ELSE LET t1 = car(args1) IN cons(count(s, t1, f), count_vec(cdr(args1), f)(s))
-   ENDIF
-MEASURE args1 BY << 
-
 %%%%%%%%%%%%%%% Theorem
 equal?_len: LEMMA 
     equal?(args1, args2) IMPLIES length(args1) = length(args2) 
@@ -293,6 +261,40 @@ equal_size2: LEMMA
 perm?_size2: LEMMA
    perm?(args1, args2) IMPLIES sum(map(size2)(args1)) = sum(map(size2)(args2))
 
+% this functions rely on the fact that equal? is an equivalence relation, and therefore are put after those lemmas
+% indicates whether args1 and args2 have the same arguments
+no_common_args?(args1, args2): bool =
+    FORALL t:
+       (count(t, args1, equal?) >= 1 IMPLIES count(t, args2, equal?) = 0) AND
+       (count(t, args2, equal?) >= 1 IMPLIES count(t, args1, equal?) = 0) 
+
+% receives AC functions "t" and "s", headed by a function symbol "f"
+% returns terms t* and s* where we remove the common elements
+remove_common(t, s, f): [term, term] =
+    LET
+    args1 = get_args(f)(t), args2 = get_args(f)(s),
+    no_common_args1 = remove_common(args1, args2, equal?),
+    no_common_args2 = remove_common(args2, args1, equal?) IN
+    (get_ac_from_args(f)(no_common_args1), get_ac_from_args(f)(no_common_args2))
+   
+
+% True if a term equal to s (mod AC) is a member of args
+member_ac(s, args1): bool = EXISTS t: equal?(s, t) AND member(t, args1)
+
+% syntactic sugar 
+count(t, s, f): nat = count(t, get_args(f)(s), equal?)
+
+% necessary to express count_vec as a curried version
+count(s, f)(t): nat = count(s, t, f)
+
+% applies count to every argument of args1
+count_vec(args1, f)(s): RECURSIVE list[nat] =
+   IF null?(args1) THEN null
+   ELSE LET t1 = car(args1) IN cons(count(s, t1, f), count_vec(cdr(args1), f)(s))
+   ENDIF
+MEASURE args1 BY << 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% lemmas 
 % count
 count_size2_ge: LEMMA
    (FORALL t1: count(t1, args1, equal?) >= count(t1, args2, equal?))

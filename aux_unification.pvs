@@ -527,7 +527,7 @@ get_pre_new_args_dot_product: LEMMA
     dot_product(map(count(t, equal?))(new_lst_args1), mult_t1) =
     dot_product(map(count(t, equal?))(new_lst_args2), mult_t2)
     
-get_pre_new_args_same_count: LEMMA
+get_pre_new_args_same_count: LEMMA 
     LET new_lst_args = get_pre_new_args(lst_args, dio_matrix, vars2avoid)`1, 
         (lst_args1, lst_args2) = split(lst_args, length(mult_t1)), 
         (new_lst_args1, new_lst_args2) = split(new_lst_args, length(mult_t1)) IN 
@@ -691,10 +691,9 @@ construct_sub_mem_get_args: LEMMA
    AND length(coef_matrix) = length(args) AND no_zero_col?(coef_matrix, length(dio_matrix))
    AND no_pair_ac?(f, args) IMPLIES member(s, args)  
 
-construct_sub_dio_matrix2ac_count: LEMMA  
-   LET delta = construct_sub(dio_matrix, coef_matrix, args, vars2avoid, f) IN
-   j < length(args) AND
-   count(nth(args, j), subs(delta)(t), f)
+%construct_sub_dio_matrix2ac_count: LEMMA  
+%   LET delta = construct_sub(dio_matrix, coef_matrix, args, vars2avoid, f) IN
+%   j < length(args) AND count(nth(args, j), subs(delta)(t), f)
 
 % solve_ac
 solve_ac_args_not_null: LEMMA
@@ -770,14 +769,14 @@ solve_ac_vars: LEMMA
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND 
     member(X, vars(unif_prb)) IMPLIES member(X, vars(t, s)) OR NOT member(X, vars2avoid)
 
-solve_ac_unify_sound: LEMMA
+solve_ac_unify_sound: CONJECTURE 
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f)))
     AND unifies?(sigma, unif_prb) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f)
     IMPLIES unifies?(sigma, (t, s))
 
-solve_ac_remove_common: LEMMA 
-    LET (t1, s1) = remove_common(t, s, f) IN 
-    solve_ac(t, s, vars2avoid, f) = solve_ac(t1, s1, vars2avoid, f)
+%solve_ac_remove_common: CONJECTURE  
+%    LET (t1, s1) = remove_common(t, s, f) IN 
+%    solve_ac(t, s, vars2avoid, f) = solve_ac(t1, s1, vars2avoid, f)
 
 solve_ac_unify_complete_no_common: CONJECTURE 
     unifies?(delta, (t, s)) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f) AND
@@ -791,7 +790,7 @@ solve_ac_unify_complete_no_common: CONJECTURE
        AND subset?(vars(img(gamma)), new_vars2avoid) 
        AND well_formed?(append(gamma, delta))
         
-solve_ac_unify_complete: LEMMA 
+solve_ac_unify_complete: CONJECTURE 
     unifies?(delta, (t, s)) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f) AND
     NOT equal?(t, s) AND 
     subset?(dom(delta), vars2avoid) AND subset?(vars(img(delta)), vars2avoid)
