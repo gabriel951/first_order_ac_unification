@@ -633,10 +633,18 @@ elim_com_arg_count: LEMMA
    count(t, elim_com_arg(t1, t2, f)`1, =) <= 1
 
 % dio_matrix2ac_sol, construct_sub
+dio_matrix2ac_len: LEMMA 
+   LET (unif_prb1, new_vars2avoid) = dio_matrix2ac_sol(args, vars2avoid, f)(dio_matrix) IN 
+       length(unif_prb1) = length(args)
+
 dio_matrix2ac_mem_lhs: LEMMA  
    LET (unif_prb1, new_vars2avoid) = dio_matrix2ac_sol(args, vars2avoid, f)(dio_matrix) IN 
        member(t, lhs(unif_prb1)) IMPLIES member(t, args)
 
+dio_matrix2ac_mem_lhs_nth: LEMMA 
+   LET (unif_prb1, new_vars2avoid) = dio_matrix2ac_sol(args, vars2avoid, f)(dio_matrix) IN 
+       i < length(args) IMPLIES nth(unif_prb1, i)`1 = nth(args, i)
+  
 dio_matrix2ac_mem_var_rhs: LEMMA 
    LET (unif_prb1, new_vars2avoid) = dio_matrix2ac_sol(args, vars2avoid, f)(dio_matrix),
        V1 = select_greater[nat](vars2avoid) IN 
@@ -673,6 +681,11 @@ construct_sub_mem_dom: LEMMA
    LET delta = construct_sub(dio_matrix, coef_matrix, args, vars2avoid, f),
        V1 = select_greater[nat](vars2avoid) IN 
    supset_dom(delta) = list2set(from_min2max[nat](V1 + 1, V1 + length(dio_matrix)))
+
+construct_sub_mem_dom_cor: LEMMA 
+   LET delta = construct_sub(dio_matrix, coef_matrix, args, vars2avoid, f),
+       V1 = select_greater[nat](vars2avoid) IN 
+   member(X, dom(delta)) IMPLIES NOT member(X, vars2avoid)
    
 construct_sub_well_formed: LEMMA  
    LET delta = construct_sub(dio_matrix, coef_matrix, args, vars2avoid, f) IN
@@ -691,9 +704,22 @@ construct_sub_mem_get_args: LEMMA
    AND length(coef_matrix) = length(args) AND no_zero_col?(coef_matrix, length(dio_matrix))
    AND no_pair_ac?(f, args) IMPLIES member(s, args)  
 
-%construct_sub_dio_matrix2ac_count: LEMMA  
-%   LET delta = construct_sub(dio_matrix, coef_matrix, args, vars2avoid, f) IN
-%   j < length(args) AND count(nth(args, j), subs(delta)(t), f)
+construct_sub_mem_get_args_dio_matrix2ac_sol: LEMMA 
+   LET (unif_prb1, new_vars2avoid) = dio_matrix2ac_sol(args, vars2avoid, f)(dio_matrix), 
+       delta = construct_sub(dio_matrix, coef_matrix, args1, vars2avoid, f) IN
+   const1?(dio_matrix, length(args)) AND length(args) > 0 AND matrix?(dio_matrix, length(args)) AND
+   subset?(vars(args1), list2set(vars2avoid)) AND length(coef_matrix) = length(args1)
+   AND no_zero_col?(coef_matrix, length(dio_matrix)) AND no_pair_ac?(f, args1) 
+   AND member(t, rhs(unif_prb1)) AND member(s, get_args(f)(subs(delta)(t)))
+   IMPLIES member(s, args1)
+
+construct_sub_count_nth: CONJECTURE 
+   LET delta = construct_sub(dio_matrix, coef_matrix, args, vars2avoid, f), 
+       V1 = select_greater[nat](vars2avoid),  
+       new_var_lst = var_lst(from_min2max[nat](V1 + 1, V1 + length(dio_matrix))) IN
+    i < length(args) AND length(coef_matrix) = length(args) IMPLIES 
+    count_vec(subs(delta)(new_var_lst), f)(nth(args, i)) = nth(coef_matrix, i)
+    					
 
 % solve_ac
 solve_ac_args_not_null: LEMMA
@@ -769,7 +795,7 @@ solve_ac_vars: LEMMA
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND 
     member(X, vars(unif_prb)) IMPLIES member(X, vars(t, s)) OR NOT member(X, vars2avoid)
 
-solve_ac_unify_sound: CONJECTURE 
+solve_ac_unify_sound: LEMMA 
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f)))
     AND unifies?(sigma, unif_prb) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f)
     IMPLIES unifies?(sigma, (t, s))
@@ -826,7 +852,6 @@ choose_not_ac_size: LEMMA
    NOT all_ac_prb?(unseen_unif_prb) IMPLIES 
    size(choose_not_ac(seen_unif_prb, unseen_unif_prb)`2) + size(choose_not_ac(seen_unif_prb, unseen_unif_prb)`1) = 
    size(seen_unif_prb) + size(unseen_unif_prb) 
-
 
 choose_not_ac_not_ac: LEMMA
    NOT ac_prb?(choose_not_ac(seen_unif_prb, unseen_unif_prb)`1)

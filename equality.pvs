@@ -12,7 +12,7 @@
 
 equality: THEORY
 BEGIN
-	IMPORTING term_properties, list_theory[args], list_theory[term]
+	IMPORTING term_properties, list_theory[args], list_theory[term], more_list_theory_props[term]
 
 t, t1, t2, t3, s, s1: VAR term
 args1, args2, args3, args4: VAR args
@@ -123,6 +123,9 @@ equal?_select_delete: LEMMA
     equal?(select(f, t)(i+1), select(f, s)(j+1)) AND
     equal?(delete(f, t)(i+1), delete(f, s)(j+1))
 
+equal?_vars: LEMMA  
+    equal?(t, s) IMPLIES vars(t) = vars(s)
+
 perm?_len: LEMMA
     perm?(args1, args2) IMPLIES length(args1) = length(args2) 
     
@@ -197,12 +200,9 @@ ac_perm_args2: LEMMA
 perm_args_ac: LEMMA
     perm?(get_args(sym)(t), get_args(sym)(s)) AND are_ac?(t, s, sym) IMPLIES equal?(t, s) 
 
-perm_args_ac_not_pair: LEMMA
-    perm?(get_args(f)(t), get_args(f)(s)) AND
-    (NOT pair?(t) AND NOT pair?(s)) AND
-    (is_ac_sym?(t, f) IMPLIES num_arg(f, t) > 1) AND 
-    (is_ac_sym?(s, f) IMPLIES num_arg(f, s) > 1) 
-    IMPLIES equal?(t, s) 
+perm_args_ac_well_formed: LEMMA 
+   perm?(get_args(f)(t), get_args(f)(s)) AND well_formed?(t) AND well_formed?(s)
+   IMPLIES equal?(t, s)
 
 perm_args_ac2: LEMMA
     are_ac?(t, s, f) AND equal?(t, s) IMPLIES perm?(get_args(f)(t), get_args(f)(s)) 
@@ -303,6 +303,9 @@ count_size2_ge: LEMMA
 count_eq2: LEMMA 
    equal?(t, t1) IMPLIES count(s, t, f) = count(s, t1, f)
 
+count_eq3: LEMMA  
+   equal?(s, s1) IMPLIES count(s, t, f) = count(s1, t, f)
+
 count_vec_len: LEMMA
     length(count_vec(args1, f)(s)) = length(args1) 
  
@@ -324,7 +327,7 @@ count_vec_perm: LEMMA
     perm?(args1, args2) IMPLIES sum(count_vec(args1, f)(t)) = sum(count_vec(args2, f)(t))
 
 count_vec_get_repeat_lst: LEMMA 
-       sum(count_vec(get_repeat_lst(s, n), f)(t)) = count(t, s, f) * n
+    sum(count_vec(get_repeat_lst(s, n), f)(t)) = count(t, s, f) * n
 
 count_vec_get_lst_mult: LEMMA 
     sum(count_vec(get_lst_mult(args1, coef), f)(t)) = dot_product(count_vec(args1, f)(t), coef)
@@ -332,9 +335,18 @@ count_vec_get_lst_mult: LEMMA
 count_vec_map: LEMMA 
     count_vec(args1, f)(t) = map(count(t, f))(args1)
 
-% member_ac
+% member_ac, count_elem2
 member_ac_perm: LEMMA 
     perm?(args1, args2) IMPLIES member_ac(s, args1) = member_ac(s, args2)
 
+member_ac_count_elem2: LEMMA 
+    perm?(args1, args2) AND (EXISTS s: member(s, args2) AND equal?(t, s))  IMPLIES
+    member_ac(t, count_elem2(args1, equal?)`1)
+
+vars_count_elem2: LEMMA 
+    vars(count_elem2(args1, equal?)`1) = vars(args1)
+
+no_pair_ac_count_elem2: LEMMA 
+    no_pair_ac?(f, count_elem2(args1, equal?)`1) = no_pair_ac?(f, args1)
 
 END equality

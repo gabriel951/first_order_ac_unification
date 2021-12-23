@@ -475,16 +475,17 @@ count_subs_count_elem: LEMMA
     LET (no_rep_args, coef) = count_elem(null, null, get_args(f)(t), equal?) IN 
     count(s, subs(sigma)(t), f) = dot_product(count_vec(subs(sigma)(no_rep_args), f)(s) , coef)
 
-count_subs_subset_aux: LEMMA 
+count_subs_subset_aux: LEMMA   
    LET (no_rep_args, coef) = count_elem(null, null, args1, equal?), 
-       (no_rep_args1, coef1) = count_coef(fin_set_t, args1, equal?) IN 
-   subset?(list2set(args1), fin_set_t) AND dif_elem?(fin_set_t, equal?) IMPLIES 
+       (no_rep_args1, coef1) = count_coef(args2, args1, equal?) IN 
+   subset_lst?(args1, args2) AND dif_elem?(args2, equal?) IMPLIES 
    dot_product(count_vec(subs(sigma)(no_rep_args), f)(s), coef) =
    dot_product(count_vec(subs(sigma)(no_rep_args1), f)(s), coef1)
 
-count_subs_subset: LEMMA 
-    LET (no_rep_args, coef) = count_coef(fin_set_t, get_args(f)(t), equal?) IN 
-    subset?(list2set(get_args(f)(t)), fin_set_t) AND dif_elem?(fin_set_t, equal?) IMPLIES
+count_subs_subset: LEMMA   
+    LET (no_rep_args, coef) = count_coef(args1, get_args(f)(t), equal?) IN 
+    subset_lst?(get_args(f)(t), args1) AND dif_elem?(args1, equal?) IMPLIES
     count(s, subs(sigma)(t), f) = dot_product(count_vec(subs(sigma)(no_rep_args), f)(s), coef)
+
 
 END substitution

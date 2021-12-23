@@ -403,6 +403,9 @@ get_args_mem_not_pair: LEMMA
 get_args_mem_not_ac: LEMMA
     member(s, get_args(f)(t)) IMPLIES NOT is_ac_sym?(s, f)
 
+get_args_no_pair_ac: LEMMA 
+    no_pair_ac?(f, get_args(f)(t))
+
 get_args_mem_select1: LEMMA 
     member(select(f, t)(1), get_args(f)(t))
 
@@ -615,6 +618,14 @@ well_formed?(args): bool =
    FORALL t:
      (member(t, subterms(args)) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1) AND
      (member(t, args) IMPLIES NOT pair?(t))
+
+% receives a list of naturals [1, ..., n]
+% returns a list of variables, with the corresponding indices: [X1, ..., Xn]
+var_lst(lst_nat): RECURSIVE list[term] = 
+   IF null?(lst_nat) THEN null
+   ELSE LET i = car(lst_nat) IN cons(variable(i), var_lst(cdr(lst_nat)))
+   ENDIF
+MEASURE lst_nat BY << 
 
 % lemmas
 % vars 

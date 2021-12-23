@@ -412,17 +412,17 @@ MEASURE lst BY <<
 % curried version of get_lst_mult
 get_lst_mult(coef)(lst): list[T] = get_lst_mult(lst, coef)
 
-% let finset = {x1, ..., xn} 
+% let lst1 = [x1, ..., xn]
 % returns a pair whose first element is a list [x1, ..., xn] corresponding to finset and 
 % the second element is a list [c1, ..., cn] with the corresponding number of occurrences of each xi
-% in lst
-count_coef(fin_set, lst, equal?): RECURSIVE [list[T], list[nat]] = 
-   IF empty?(fin_set) THEN (null, null[nat])
-   ELSE LET x1 = choose(fin_set), n1 = count(x1, lst, equal?) IN
-            (cons(x1, count_coef(rest(fin_set), lst, equal?)`1),
-	     cons(n1, count_coef(rest(fin_set), lst, equal?)`2))
+% in lst2
+count_coef(lst1, lst2, equal?): RECURSIVE [list[T], list[nat]] = 
+   IF null?(lst1) THEN (null, null[nat])
+   ELSE LET x1 = car(lst1), n1 = count(x1, lst2, equal?) IN
+            (cons(x1, count_coef(cdr(lst1), lst2, equal?)`1),
+	     cons(n1, count_coef(cdr(lst1), lst2, equal?)`2))
    ENDIF
-MEASURE card(fin_set)
+MEASURE lst1 BY << 
 
 % remove the ith element from lst.
 % counting starts at 0
@@ -519,6 +519,9 @@ count_elem2(lst, equal?): RECURSIVE [list[T], list[nat]] =
     ENDIF
 MEASURE length(lst)  
 
+% notion of subset for lists
+subset_lst?(lst1, lst2): bool = (FORALL x: member(x, lst1) => member(x, lst2))
+   
 
 %%%%%%%%%%%%%%%%%%%%% Theorems
 %% general properties
@@ -1147,8 +1150,10 @@ remove_elem_mem2: LEMMA
     
 remove_elem_mem3: LEMMA 
     member(x, remove(lst, y, equal?)) IFF member(x, lst) AND NOT equal?(x, y)
-
     
+remove_elem_eq: LEMMA 
+    equal?(x, y) IMPLIES remove(lst, x, equal?) = remove(lst, y, equal?)
+
 remove_elem_cor: LEMMA 
      count(x, remove(lst, x, equal?), equal?) = 0
 
@@ -1273,9 +1278,11 @@ remove_lst_elem_num_dif: LEMMA
 
 % count_coef
 count_coef_remove_no_effect: LEMMA 
-    (FORALL x: member(x, fin_set) IMPLIES NOT equal?(x, y)) IMPLIES 
-    count_coef(fin_set, remove(lst, y, equal?), equal?) = count_coef(fin_set, lst, equal?)
-    
+    (FORALL x: member(x, lst1) IMPLIES NOT equal?(x, y)) IMPLIES 
+    count_coef(lst1, remove(lst2, y, equal?), equal?) = count_coef(lst1, lst2, equal?)
+
+count_coef1: LEMMA 
+    count_coef(lst1, lst2, equal?)`1 = lst1
 
 % cardinality
 card_surj_aux: LEMMA
@@ -1539,6 +1546,10 @@ count_elem2_len: LEMMA
 
 count_elem2_mem: LEMMA 
     member(x, count_elem2(lst, equal?)`1) IMPLIES member(x, lst)
+
+count_elem2_mem2: LEMMA 
+    member(x, lst) IMPLIES
+    EXISTS y: equal?(x, y) AND member(y, count_elem2(lst, equal?)`1)
 
 count_elem2_same_len: LEMMA 
     length(count_elem2(lst, equal?)`1) = length(count_elem2(lst, equal?)`2)
