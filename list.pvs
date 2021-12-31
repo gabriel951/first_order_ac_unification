@@ -288,8 +288,7 @@ nonmatrix?(lst_of_lsts): bool = NOT matrix?(lst_of_lsts)
 % receives a list lst = [x1, ..., xn]
 % returns a list [lst_1, ..., lst_m] such that every lst_i is a sublist of lst
 get_all_sublists(lst): RECURSIVE list[list[T]] =
-    IF null?(lst) THEN null
-    ELSIF length(lst) = 1 THEN cons(lst, null)
+    IF null?(lst) THEN cons(lst, null)
     ELSE LET x = car(lst),
 	     % get all lists without the element x
 	     lst_of_lsts1 = get_all_sublists(cdr(lst)), 
@@ -678,6 +677,7 @@ from_min2max_mem: LEMMA
 from_min2max_mem2: LEMMA 
    member(n, from_min2max(i, j)) IMPLIES i <= n
 
+
 % increment, pos?
 increment_len: LEMMA
     length(increment(lst_nat, n, inc)) = length(lst_nat)
@@ -1051,6 +1051,10 @@ snd_proj_pareate2: LEMMA
     snd_proj(pareate(lst1, lst2)) = lst2
 
 % sum, get_lst_mult
+get_lst_mult_len: LEMMA 
+    length(lst) = length(coef) IMPLIES
+    length(get_lst_mult(lst, coef)) = sum(coef)
+
 get_lst_mult_mem: LEMMA
     member(x, get_lst_mult(lst, coef)) IMPLIES member(x, lst)
 
@@ -1076,10 +1080,19 @@ get_lst_mult_count_append: LEMMA
     count(x, get_lst_mult(append(lst1, lst2), append(coef1, coef2)), equal?) =
     count(x, get_lst_mult(lst1, coef1), equal?) + count(x, get_lst_mult(lst2, coef2), equal?)
 
+get_lst_mult_count_not_eq: LEMMA  
+    (FORALL x: member(x, lst) IMPLIES NOT equal?(x, y)) IMPLIES 
+    count(y, get_lst_mult(lst, coef), equal?) = 0
+
+get_lst_mult_nth: LEMMA 
+   dif_elem?(lst1, equal?) AND j < length(lst1) AND length(lst1) = length(coef1) IMPLIES 
+   count(nth(lst1, j), get_lst_mult(lst1, coef1), equal?) = nth(coef1, j)
+
 get_lst_mult_count: LEMMA
     count(x, flatten(map(g)(get_lst_mult(lst, coef))), equal?) =
     dot_product(map(count(x, equal?))(map(g)(lst)), coef)
     
+
 % remove
 remove_len: LEMMA
     i < length(lst) IMPLIES
@@ -1206,7 +1219,7 @@ remove_common_no_effect: LEMMA
 remove_common_mem_not_common: LEMMA
     member(x, remove_common(lst1, lst2, equal?)) IMPLIES
     NOT member(x, remove_common(lst2, lst1, equal?))
- 
+
 get_common_null: LEMMA
     null?(lst2) IMPLIES
     null?(get_common(lst1, lst2, equal?))
@@ -1283,6 +1296,13 @@ count_coef_remove_no_effect: LEMMA
 
 count_coef1: LEMMA 
     count_coef(lst1, lst2, equal?)`1 = lst1
+
+count_coef2_len: LEMMA 
+    length(count_coef(lst1, lst2, equal?)`2) = length(lst1)
+
+count_coef2_nth: LEMMA  
+    i < length(lst1) IMPLIES
+    nth(count_coef(lst1, lst2, equal?)`2, i) = count(nth(lst1, i), lst2, equal?)
 
 % cardinality
 card_surj_aux: LEMMA
@@ -1463,6 +1483,9 @@ coef, coef1: VAR list[nat]
 equiv: TYPE = {R: PRED[[T, T]]| equivalence?(R)}
 equal?: VAR equiv
 
+dif_elem_from_min2max: LEMMA 
+   dif_elem?[nat](from_min2max[nat](i, j), =) 
+
 get_repeat_lst_map: LEMMA
     map(h)(get_repeat_lst(lst, n)) = get_repeat_lst(h(lst), n)
 
@@ -1569,6 +1592,9 @@ count_elem_mem_nth: LEMMA
     EXISTS i:
        i < length(new_lst) AND equal?(x, nth(new_lst, i)) AND
        nth(new_coef, i) = count(x, lst, equal?)  
+
+count_elem2_dif_elem: LEMMA 
+    dif_elem?(count_elem2(lst, equal?)`1, equal?)
 
 dot_product_nth: LEMMA 
     i < length(lst_nat1) AND i < length(lst_nat2) IMPLIES

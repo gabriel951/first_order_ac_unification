@@ -5696,6 +5696,68 @@
       nil))
     nil)
    nil SHOSTAK))
+ (get_lst_mult_len 0
+  (get_lst_mult_len-1 nil 3849784417
+   ("" (induct "coef")
+    (("1" (grind) nil nil)
+     ("2" (skolem 1 ("hd" "tail"))
+      (("2" (prop)
+        (("2" (skeep)
+          (("2" (expand "get_lst_mult" 1)
+            (("2" (lift-if)
+              (("2" (prop)
+                (("1" (grind) nil nil)
+                 ("2" (rewrite "length_append")
+                  (("2" (rewrite "get_repeat_lst_len")
+                    (("2" (expand "sum" 2)
+                      (("2" (inst -1 "cdr(lst)")
+                        (("2" (grind) nil nil)) nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((list type-decl nil list_adt nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (every adt-def-decl "boolean" list_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (T formal-type-decl nil list_theory nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (length def-decl "nat" list_props nil)
+    (get_lst_mult def-decl "list[T]" list_theory nil)
+    (sum def-decl "nat" list_nat_theory nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (list_induction formula-decl nil list_adt nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (get_repeat_lst_len formula-decl nil list_theory nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (car adt-accessor-decl "[(cons?) -> T]" list_adt nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (get_repeat_lst def-decl "list[T]" list_theory nil)
+    (length_append formula-decl nil list_props nil))
+   shostak))
  (get_lst_mult_mem 0
   (get_lst_mult_mem-1 nil 3839012736
    ("" (induct "lst")
@@ -6116,6 +6178,515 @@
       nil))
     nil)
    nil SHOSTAK))
+ (get_lst_mult_count_not_eq 0
+  (get_lst_mult_count_not_eq-1 nil 3849437076
+   ("" (measure-induct "length(lst)" "lst")
+    (("" (skolem 1 "lst")
+      (("" (prop)
+        (("" (skeep)
+          (("" (expand "get_lst_mult" 1 1)
+            (("" (lift-if)
+              (("" (split)
+                (("1" (grind) nil nil)
+                 ("2" (flatten)
+                  (("2" (rewrite "count_append")
+                    (("2" (use "get_repeat_lst_count")
+                      (("2" (assert)
+                        (("2" (prop)
+                          (("1" (inst -4 "car(lst)")
+                            (("1" (expand "member" -4)
+                              (("1"
+                                (typepred "equal?")
+                                (("1"
+                                  (expand "equivalence?" -1)
+                                  (("1"
+                                    (flatten)
+                                    (("1"
+                                      (expand "symmetric?" -2)
+                                      (("1"
+                                        (inst -2 "y" "car(lst)")
+                                        (("1" (assert) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("2" (replace -1)
+                            (("2" (assert)
+                              (("2"
+                                (inst -2 "cdr(lst)")
+                                (("2"
+                                  (prop)
+                                  (("1"
+                                    (inst -1 "cdr(coef)" "equal?" "y")
+                                    (("1"
+                                      (assert)
+                                      (("1"
+                                        (skeep)
+                                        (("1"
+                                          (inst -4 "x")
+                                          (("1"
+                                            (assert)
+                                            (("1" (grind) nil nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil)
+                                   ("2" (grind) nil nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((get_repeat_lst_count formula-decl nil list_theory nil)
+    (symmetric? const-decl "bool" relations nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (count_append formula-decl nil list_theory nil)
+    (get_repeat_lst def-decl "list[T]" list_theory nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (car adt-accessor-decl "[(cons?) -> T]" list_adt nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (get_lst_mult def-decl "list[T]" list_theory nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (member def-decl "bool" list_props nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (equiv type-eq-decl nil list_theory nil)
+    (equivalence? const-decl "bool" relations nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (wf_nat formula-decl nil naturalnumbers nil)
+    (< const-decl "bool" reals nil)
+    (length def-decl "nat" list_props nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (naturalnumber type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (list type-decl nil list_adt nil)
+    (T formal-type-decl nil list_theory nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (well_founded? const-decl "bool" orders nil)
+    (pred type-eq-decl nil defined_types nil))
+   shostak))
+ (get_lst_mult_nth_TCC1 0
+  (get_lst_mult_nth_TCC1-1 nil 3849432559 ("" (subtype-tcc) nil nil)
+   nil nil
+   (get_lst_mult_nth subtype "list_theory.j"
+    "below[length[nat](coef1)]")))
+ (get_lst_mult_nth 0
+  (get_lst_mult_nth-1 nil 3849433159
+   ("" (measure-induct "length(lst1)" "lst1")
+    (("1" (skolem 1 "lst1")
+      (("1" (prop)
+        (("1" (skeep)
+          (("1" (expand "get_lst_mult" 1)
+            (("1" (lift-if)
+              (("1" (split)
+                (("1" (grind) nil nil)
+                 ("2" (flatten)
+                  (("2" (hide 1 2)
+                    (("2" (rewrite "count_append")
+                      (("2" (expand "nth" 1 2)
+                        (("2" (lift-if)
+                          (("2" (prop)
+                            (("1" (use "get_repeat_lst_count")
+                              (("1"
+                                (prop)
+                                (("1"
+                                  (replace -2)
+                                  (("1"
+                                    (expand "nth" 1 2)
+                                    (("1"
+                                      (assert)
+                                      (("1"
+                                        (expand "nth" 1 1)
+                                        (("1"
+                                          (use
+                                           "get_lst_mult_count_not_eq")
+                                          (("1"
+                                            (assert)
+                                            (("1"
+                                              (skeep)
+                                              (("1"
+                                                (expand "dif_elem?" -7)
+                                                (("1"
+                                                  (hide -6)
+                                                  (("1"
+                                                    (rewrite
+                                                     "member_nth2")
+                                                    (("1"
+                                                      (skolem -1 "n")
+                                                      (("1"
+                                                        (inst
+                                                         -6
+                                                         "0"
+                                                         "n+1")
+                                                        (("1"
+                                                          (assert)
+                                                          (("1"
+                                                            (typepred
+                                                             "n")
+                                                            (("1"
+                                                              (reveal
+                                                               1)
+                                                              (("1"
+                                                                (expand
+                                                                 "length"
+                                                                 3)
+                                                                (("1"
+                                                                  (assert)
+                                                                  (("1"
+                                                                    (expand
+                                                                     "nth"
+                                                                     3)
+                                                                    (("1"
+                                                                      (replace
+                                                                       -2)
+                                                                      (("1"
+                                                                        (replace
+                                                                         -2
+                                                                         :dir
+                                                                         rl)
+                                                                        (("1"
+                                                                          (typepred
+                                                                           "equal?")
+                                                                          (("1"
+                                                                            (expand
+                                                                             "equivalence?"
+                                                                             -1)
+                                                                            (("1"
+                                                                              (flatten)
+                                                                              (("1"
+                                                                                (expand
+                                                                                 "symmetric?"
+                                                                                 -2)
+                                                                                (("1"
+                                                                                  (inst
+                                                                                   -2
+                                                                                   "x"
+                                                                                   "car(lst1)")
+                                                                                  (("1"
+                                                                                    (assert)
+                                                                                    nil
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil)
+                                 ("2"
+                                  (hide-all-but 1)
+                                  (("2"
+                                    (typepred "equal?")
+                                    (("2"
+                                      (expand "equivalence?" -1)
+                                      (("2"
+                                        (flatten)
+                                        (("2"
+                                          (expand "reflexive?" -1)
+                                          (("2"
+                                            (inst -1 "car(lst1)")
+                                            nil
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil)
+                             ("2" (expand "nth" 2 1)
+                              (("2"
+                                (assert)
+                                (("2"
+                                  (use "get_repeat_lst_count")
+                                  (("2"
+                                    (prop)
+                                    (("1"
+                                      (hide -2 -3 2)
+                                      (("1"
+                                        (expand "dif_elem?" -2)
+                                        (("1"
+                                          (inst -2 "j" "0")
+                                          (("1"
+                                            (assert)
+                                            (("1"
+                                              (expand "nth" 2)
+                                              (("1" (propax) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil)
+                                     ("2"
+                                      (replace -1)
+                                      (("2"
+                                        (assert)
+                                        (("2"
+                                          (hide 1 -1)
+                                          (("2"
+                                            (expand "nth" 2 2)
+                                            (("2"
+                                              (inst -1 "cdr(lst1)")
+                                              (("2"
+                                                (prop)
+                                                (("1"
+                                                  (inst
+                                                   -1
+                                                   "cdr(coef1)"
+                                                   "equal?"
+                                                   "j-1")
+                                                  (("1"
+                                                    (assert)
+                                                    (("1"
+                                                      (hide 3)
+                                                      (("1"
+                                                        (expand
+                                                         "length"
+                                                         -2)
+                                                        (("1"
+                                                          (lift-if)
+                                                          (("1"
+                                                            (assert)
+                                                            (("1"
+                                                              (split
+                                                               -2)
+                                                              (("1"
+                                                                (propax)
+                                                                nil
+                                                                nil)
+                                                               ("2"
+                                                                (flatten)
+                                                                (("2"
+                                                                  (assert)
+                                                                  (("2"
+                                                                    (expand
+                                                                     "length"
+                                                                     -3
+                                                                     1)
+                                                                    (("2"
+                                                                      (expand
+                                                                       "length"
+                                                                       -3
+                                                                       2)
+                                                                      (("2"
+                                                                        (lift-if)
+                                                                        (("2"
+                                                                          (assert)
+                                                                          (("2"
+                                                                            (split
+                                                                             -3)
+                                                                            (("1"
+                                                                              (propax)
+                                                                              nil
+                                                                              nil)
+                                                                             ("2"
+                                                                              (flatten)
+                                                                              (("2"
+                                                                                (assert)
+                                                                                (("2"
+                                                                                  (expand
+                                                                                   "dif_elem?"
+                                                                                   3)
+                                                                                  (("2"
+                                                                                    (skolem
+                                                                                     3
+                                                                                     ("n1"
+                                                                                      "n2"))
+                                                                                    (("2"
+                                                                                      (expand
+                                                                                       "dif_elem?"
+                                                                                       -3)
+                                                                                      (("2"
+                                                                                        (inst
+                                                                                         -3
+                                                                                         "n1+1"
+                                                                                         "n2+1")
+                                                                                        (("2"
+                                                                                          (assert)
+                                                                                          (("2"
+                                                                                            (flatten)
+                                                                                            (("2"
+                                                                                              (assert)
+                                                                                              (("2"
+                                                                                                (expand
+                                                                                                 "length"
+                                                                                                 5)
+                                                                                                (("2"
+                                                                                                  (expand
+                                                                                                   "nth"
+                                                                                                   5)
+                                                                                                  (("2"
+                                                                                                    (propax)
+                                                                                                    nil
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil)
+                                                 ("2"
+                                                  (hide -3 3)
+                                                  (("2"
+                                                    (reveal 3)
+                                                    (("2"
+                                                      (grind)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil)
+     ("2" (hide 2) (("2" (grind) nil nil)) nil))
+    nil)
+   ((pred type-eq-decl nil defined_types nil)
+    (well_founded? const-decl "bool" orders nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (T formal-type-decl nil list_theory nil)
+    (list type-decl nil list_adt nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (naturalnumber type-eq-decl nil naturalnumbers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (length def-decl "nat" list_props nil)
+    (< const-decl "bool" reals nil)
+    (wf_nat formula-decl nil naturalnumbers nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (equiv type-eq-decl nil list_theory nil)
+    (equivalence? const-decl "bool" relations nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (below type-eq-decl nil nat_types nil)
+    (nth def-decl "T" list_props nil)
+    (get_lst_mult def-decl "list[T]" list_theory nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (member_nth2 formula-decl nil list_theory nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (symmetric? const-decl "bool" relations nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (get_lst_mult_count_not_eq formula-decl nil list_theory nil)
+    (reflexive? const-decl "bool" relations nil)
+    (get_repeat_lst_count formula-decl nil list_theory nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (count_append formula-decl nil list_theory nil)
+    (get_repeat_lst def-decl "list[T]" list_theory nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (car adt-accessor-decl "[(cons?) -> T]" list_adt nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil))
+   shostak))
  (get_lst_mult_count 0
   (get_lst_mult_count-1 nil 3809081885
    ("" (induct "lst" 1)
@@ -7691,7 +8262,7 @@
     (equivalence? const-decl "bool" relations nil)
     (equiv type-eq-decl nil list_theory nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
-    (= const-decl "[T, T -> boolean]" equalities nil) nil
+    (= const-decl "[T, T -> boolean]" equalities nil)
     (wf_nat formula-decl nil naturalnumbers nil)
     (< const-decl "bool" reals nil)
     (length def-decl "nat" list_props nil)
@@ -12364,7 +12935,6 @@
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (every adt-def-decl "boolean" list_adt nil)
     (number nonempty-type-decl nil numbers nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (equiv type-eq-decl nil list_theory nil)
@@ -12373,6 +12943,172 @@
     (bool nonempty-type-eq-decl nil booleans nil)
     (boolean nonempty-type-decl nil booleans nil)
     (list type-decl nil list_adt nil))
+   shostak))
+ (count_coef2_len 0
+  (count_coef2_len-1 nil 3849360633
+   ("" (measure-induct "length(lst1)" "lst1")
+    (("" (skolem 1 "lst1")
+      (("" (prop)
+        (("" (skeep)
+          (("" (expand "count_coef" 1)
+            (("" (lift-if)
+              (("" (prop)
+                (("1" (grind) nil nil)
+                 ("2" (expand "length" 2 1)
+                  (("2" (expand "length" 2 2)
+                    (("2" (lift-if)
+                      (("2" (assert)
+                        (("2" (inst -1 "cdr(lst1)")
+                          (("2" (prop)
+                            (("1" (inst?) nil nil)
+                             ("2" (grind) nil nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (count_coef def-decl "[list[T], list[nat]]" list_theory nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (equiv type-eq-decl nil list_theory nil)
+    (equivalence? const-decl "bool" relations nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (wf_nat formula-decl nil naturalnumbers nil)
+    (< const-decl "bool" reals nil)
+    (length def-decl "nat" list_props nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (naturalnumber type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (list type-decl nil list_adt nil)
+    (T formal-type-decl nil list_theory nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (well_founded? const-decl "bool" orders nil)
+    (pred type-eq-decl nil defined_types nil))
+   shostak))
+ (count_coef2_nth_TCC1 0
+  (count_coef2_nth_TCC1-1 nil 3849360632 ("" (subtype-tcc) nil nil) nil
+   nil
+   (count_coef2_nth subtype "list_theory.i"
+    "below[length[nat](count_coef(lst1, lst2, equal?)`2)]")))
+ (count_coef2_nth 0
+  (count_coef2_nth-1 nil 3849361151
+   ("" (measure-induct "length(lst1)" "lst1")
+    (("1" (skolem 1 "lst1")
+      (("1" (prop)
+        (("1" (skeep)
+          (("1" (expand "count_coef" 1 1)
+            (("1" (lift-if)
+              (("1" (prop)
+                (("1" (grind) nil nil)
+                 ("2" (expand "nth" 2 1)
+                  (("2" (lift-if)
+                    (("2" (prop)
+                      (("1" (expand "nth" 1) (("1" (assert) nil nil))
+                        nil)
+                       ("2" (expand "nth" 2 2)
+                        (("2" (lift-if)
+                          (("2" (assert)
+                            (("2" (inst -1 "cdr(lst1)")
+                              (("2"
+                                (prop)
+                                (("1"
+                                  (inst?)
+                                  (("1"
+                                    (prop)
+                                    (("1" (grind) nil nil))
+                                    nil))
+                                  nil)
+                                 ("2" (grind) nil nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil)
+     ("2" (hide 2)
+      (("2" (skeep) (("2" (rewrite "count_coef2_len") nil nil)) nil))
+      nil))
+    nil)
+   ((count_coef2_len formula-decl nil list_theory nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (nth def-decl "T" list_props nil)
+    (below type-eq-decl nil nat_types nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (equivalence? const-decl "bool" relations nil)
+    (equiv type-eq-decl nil list_theory nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (count_coef def-decl "[list[T], list[nat]]" list_theory nil)
+    (wf_nat formula-decl nil naturalnumbers nil)
+    (< const-decl "bool" reals nil)
+    (length def-decl "nat" list_props nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (naturalnumber type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (list type-decl nil list_adt nil)
+    (T formal-type-decl nil list_theory nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (well_founded? const-decl "bool" orders nil)
+    (pred type-eq-decl nil defined_types nil))
    shostak))
  (card_surj_aux 0
   (card_surj_aux-1 nil 3826485264
@@ -13194,6 +13930,48 @@
    ("" (induct "l1") (("1" (grind) nil nil) ("2" (grind) nil nil)) nil)
    nil shostak)))
 (more_list_theory_props
+ (dif_elem_from_min2max_TCC1 0
+  (dif_elem_from_min2max_TCC1-1 nil 3849439419
+   ("" (subtype-tcc) nil nil) nil nil
+   (dif_elem_from_min2max subtype "=" "equiv[nat]")))
+ (dif_elem_from_min2max 0
+  (dif_elem_from_min2max-1 nil 3849439420
+   ("" (skeep)
+    (("" (expand "dif_elem?" 1)
+      (("" (skolem 1 ("n1" "n2"))
+        (("" (prop)
+          (("" (use "nth_from_min2max[nat]")
+            (("" (assert)
+              (("" (lemma "nth_from_min2max[nat]")
+                (("" (inst -1 "i" "j" "n2") (("" (assert) nil nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nth_from_min2max formula-decl nil list_theory nil))
+   shostak))
  (get_repeat_lst_map 0
   (get_repeat_lst_map-1 nil 3839446800
    ("" (induct "n") (("1" (grind) nil nil) ("2" (grind) nil nil)) nil)
@@ -20974,6 +21752,344 @@
     (count_elem2 def-decl "[list[T], list[nat]]" list_theory nil)
     (equiv type-eq-decl nil list_theory nil)
     (count_elem def-decl "[list[T], list[nat]]" list_theory nil))
+   shostak))
+ (count_elem2_dif_elem 0
+  (count_elem2_dif_elem-1 nil 3849689599
+   ("" (measure-induct "length(lst)" "lst")
+    (("" (skolem 1 "lst")
+      (("" (prop)
+        (("" (skeep)
+          (("" (expand "dif_elem?" 1)
+            (("" (skeep)
+              (("" (expand "count_elem2" -4 1)
+                (("" (lift-if)
+                  (("" (prop)
+                    (("1" (grind) nil nil)
+                     ("2" (expand "nth" -1 1)
+                      (("2" (lift-if)
+                        (("2" (prop)
+                          (("1" (expand "count_elem2" -2)
+                            (("1" (lift-if)
+                              (("1"
+                                (prop)
+                                (("1"
+                                  (expand "nth" -1 1)
+                                  (("1"
+                                    (lift-if)
+                                    (("1"
+                                      (prop)
+                                      (("1" (assert) nil nil)
+                                       ("2"
+                                        (name-replace
+                                         "x"
+                                         "nth(count_elem2(remove(lst, car(lst), equal?), equal?)`1,
+                 j - 1)")
+                                        (("1"
+                                          (reveal -1)
+                                          (("1"
+                                            (lemma "count_elem2_mem")
+                                            (("1"
+                                              (inst
+                                               -1
+                                               "equal?"
+                                               "remove(lst, car(lst), equal?)"
+                                               "x")
+                                              (("1"
+                                                (prop)
+                                                (("1"
+                                                  (rewrite
+                                                   "remove_elem_mem3")
+                                                  (("1"
+                                                    (prop)
+                                                    (("1"
+                                                      (typepred
+                                                       "equal?")
+                                                      (("1"
+                                                        (expand
+                                                         "equivalence?"
+                                                         -1)
+                                                        (("1"
+                                                          (flatten)
+                                                          (("1"
+                                                            (expand
+                                                             "symmetric?"
+                                                             -2)
+                                                            (("1"
+                                                              (inst
+                                                               -2
+                                                               "car(lst)"
+                                                               "x")
+                                                              (("1"
+                                                                (assert)
+                                                                nil
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil)
+                                                 ("2"
+                                                  (rewrite
+                                                   "member_nth2")
+                                                  (("2"
+                                                    (inst 1 "j-1")
+                                                    (("1"
+                                                      (assert)
+                                                      nil
+                                                      nil)
+                                                     ("2"
+                                                      (assert)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2" (assert) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("2" (expand "nth" -1 2)
+                            (("2" (lift-if)
+                              (("2"
+                                (prop)
+                                (("1"
+                                  (expand "count_elem2" -2 2)
+                                  (("1"
+                                    (lift-if)
+                                    (("1"
+                                      (prop)
+                                      (("1"
+                                        (name-replace
+                                         "x"
+                                         "nth(count_elem2(remove(lst, car(lst), equal?), equal?)`1,
+                 i - 1)")
+                                        (("1"
+                                          (reveal -1)
+                                          (("1"
+                                            (lemma "count_elem2_mem")
+                                            (("1"
+                                              (inst
+                                               -1
+                                               "equal?"
+                                               "remove(lst, car(lst), equal?)"
+                                               "x")
+                                              (("1"
+                                                (assert)
+                                                (("1"
+                                                  (prop)
+                                                  (("1"
+                                                    (rewrite
+                                                     "remove_elem_mem3")
+                                                    nil
+                                                    nil)
+                                                   ("2"
+                                                    (rewrite
+                                                     "member_nth2")
+                                                    (("2"
+                                                      (inst 1 "i-1")
+                                                      (("2"
+                                                        (assert)
+                                                        nil
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2" (assert) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil)
+                                 ("2"
+                                  (expand "count_elem2" -1 2)
+                                  (("2"
+                                    (lift-if)
+                                    (("2"
+                                      (prop)
+                                      (("2"
+                                        (inst
+                                         -2
+                                         "remove(lst, car(lst), equal?)")
+                                        (("2"
+                                          (prop)
+                                          (("1"
+                                            (inst -1 "equal?")
+                                            (("1"
+                                              (expand "dif_elem?" -1)
+                                              (("1"
+                                                (inst -1 "i-1" "j-1")
+                                                (("1"
+                                                  (assert)
+                                                  (("1"
+                                                    (hide -1)
+                                                    (("1"
+                                                      (expand
+                                                       "count_elem2"
+                                                       -1)
+                                                      (("1"
+                                                        (expand
+                                                         "length"
+                                                         -1
+                                                         1)
+                                                        (("1"
+                                                          (expand
+                                                           "count_elem2"
+                                                           -2)
+                                                          (("1"
+                                                            (expand
+                                                             "length"
+                                                             -2
+                                                             1)
+                                                            (("1"
+                                                              (assert)
+                                                              nil
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil)
+                                                 ("2" (assert) nil nil)
+                                                 ("3"
+                                                  (assert)
+                                                  nil
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil)
+                                           ("2"
+                                            (expand "remove" 1)
+                                            (("2"
+                                              (lift-if)
+                                              (("2"
+                                                (prop)
+                                                (("1"
+                                                  (use
+                                                   "remove_elem_len[T]")
+                                                  (("1"
+                                                    (assert)
+                                                    (("1"
+                                                      (grind)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil)
+                                                 ("2"
+                                                  (hide 2 3 -1)
+                                                  (("2"
+                                                    (typepred "equal?")
+                                                    (("2"
+                                                      (expand
+                                                       "equivalence?"
+                                                       -1)
+                                                      (("2"
+                                                        (flatten)
+                                                        (("2"
+                                                          (expand
+                                                           "reflexive?"
+                                                           -1)
+                                                          (("2"
+                                                            (inst
+                                                             -1
+                                                             "car(lst)")
+                                                            nil
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((nth def-decl "T" list_props nil)
+    (member_nth2 formula-decl nil list_theory nil)
+    (remove_elem_mem3 formula-decl nil list_theory nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (symmetric? const-decl "bool" relations nil)
+    (count_elem2_mem formula-decl nil more_list_theory_props nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (car adt-accessor-decl "[(cons?) -> T]" list_adt nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (below type-eq-decl nil nat_types nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (reflexive? const-decl "bool" relations nil)
+    (remove_elem_len formula-decl nil list_theory nil)
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (count_elem2 def-decl "[list[T], list[nat]]" list_theory nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (equiv type-eq-decl nil list_theory nil)
+    (equiv type-eq-decl nil more_list_theory_props nil)
+    (equivalence? const-decl "bool" relations nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (wf_nat formula-decl nil naturalnumbers nil)
+    (< const-decl "bool" reals nil)
+    (length def-decl "nat" list_props nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (naturalnumber type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (list type-decl nil list_adt nil)
+    (T formal-type-decl nil more_list_theory_props nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (well_founded? const-decl "bool" orders nil)
+    (pred type-eq-decl nil defined_types nil))
    shostak))
  (dot_product_nth 0
   (dot_product_nth-1 nil 3848060654

@@ -291,7 +291,7 @@ vec_ith_dot_product: LEMMA
   i < length(vec_ith(i, j, n)) AND length(vec_ith(i, j, n)) = length(mult_t) IMPLIES 
   dot_product(vec_ith(i, j, n), mult_t) = j * nth(mult_t, i) 
 
-% times, sum_lst
+% times, sum_lst, sum
 times0: LEMMA 
     times(0, value_lst) = get_repeat_lst(0, length(value_lst)) 
 
@@ -305,9 +305,12 @@ times_nth: LEMMA
    i < length(value_lst) IMPLIES 
    nth(times(n, value_lst), i) = n * nth(value_lst, i)
 
+sum0_get_repeat_lst: LEMMA 
+   sum(value_lst) = 0 IFF value_lst = get_repeat_lst(0, length(value_lst))
+
 sum_lsts_sym: LEMMA 
    sum_lsts(value_lst, coef) = sum_lsts(coef, value_lst)
-   
+
 sum_lsts0: LEMMA 
    sum_lsts(get_repeat_lst(0, length(value_lst)), value_lst) = value_lst
      
@@ -558,14 +561,7 @@ construct_submatrix_linear_comb: LEMMA
     matrix?(dio, n) AND matrix?(coef_matrix, length(dio)) AND i < length(coef_matrix) IMPLIES
     get_linear_comb(dio, nth(coef_matrix, i), n) = get_linear_comb(dio1, nth(coef_matrix1, i), n)
 
-%construct_submatrix_mem1: LEMMA 
-%    member(row1, construct_submatrix(dio, coef_matrix)`1) IMPLIES member(row1, dio)
-
-%construct_submatrix_correct1: LEMMA
-%    LET (dio1, coef_matrix1) = construct_submatrix(dio, coef_matrix) IN
-%    matrix?(coef_matrix, length(dio)) AND all_dif_rows?(dio) IMPLIES 
-%    FORALL j:
-%       j < length(dio) IMPLIES
-%       (member(nth(dio, j), dio1) IFF (NOT all_zero?(get_col_i(coef_matrix, j + 1))))
+construct_submatrix_get_sublists: LEMMA 
+    member(construct_submatrix(dio, coef_matrix)`1, get_all_sublists(dio))
 
 END diophantine

@@ -412,6 +412,9 @@ get_args_mem_select1: LEMMA
 get_args_not_pair_ac: LEMMA
     NOT pair?(t) AND NOT is_ac_sym?(t, f) IMPLIES get_args(f)(t) = cons(t, null)
 
+get_args_not_pair_ac2: LEMMA  
+    no_pair_ac?(f, args) IMPLIES flatten(map(get_args(f))(args)) = args
+
 get_args_nth: LEMMA
     nice_ind?(i, num_arg(f, t)) IMPLIES
     nth(get_args(f)(t), i-1) = select(f, t)(i) 
@@ -619,6 +622,17 @@ well_formed?(args): bool =
      (member(t, subterms(args)) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1) AND
      (member(t, args) IMPLIES NOT pair?(t))
 
+% the concept of almost_well_formed?(t) was motivated by the idea that if
+% t and s are well_formed terms that are not equal and you eliminate the commmon arguments,
+% the terms t1 and s1 obtained would be almost_well_formed. 
+alm_well_formed?(s): bool = 
+    NOT pair?(s) AND
+    FORALL t:
+      member(t, subterms(s)) AND ac_app?(t) AND NOT s = t IMPLIES num_arg(ac_sym(t), t) > 1
+
+alm_well_formed?(args): bool =
+   FORALL t: member(t, args) IMPLIES well_formed?(t)
+
 % receives a list of naturals [1, ..., n]
 % returns a list of variables, with the corresponding indices: [X1, ..., Xn]
 var_lst(lst_nat): RECURSIVE list[term] = 
@@ -677,6 +691,16 @@ vars_ac2: LEMMA
 
 vars_lst_vars: LEMMA
    vars(t) = list2set(lst_vars(t))
+
+var_lst_len: LEMMA 
+   length(var_lst(lst_nat)) = length(lst_nat)
+
+var_lst_nth: LEMMA 
+   i < length(lst_nat) IMPLIES 
+   nth(var_lst(lst_nat), i) = variable(nth(lst_nat, i))
+
+var_lst_mem: LEMMA 
+   member(t, var_lst(lst_nat)) IFF (var?(t) AND member(V(t), lst_nat))
 
 % all_var
 all_var?_append: LEMMA
@@ -861,6 +885,10 @@ well_formed_args: LEMMA
 
 well_formed_get_args: LEMMA 
     well_formed?(t) IMPLIES well_formed?(get_args(f)(t))
+
+alm_well_formed_get_args: LEMMA 
+    alm_well_formed?(t) AND is_ac_sym?(t, f) IMPLIES well_formed?(get_args(f)(t))
+
 
 END term_properties
 

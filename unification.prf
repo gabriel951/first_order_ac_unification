@@ -5061,256 +5061,6 @@
     (well_founded? const-decl "bool" orders nil)
     (pred type-eq-decl nil defined_types nil))
    shostak))
- (well_formed_apply_sub 0
-  (well_formed_apply_sub-1 nil 3842186910
-   ("" (skolem 1 ("sigma" "unif_prb1"))
-    (("" (prop)
-      (("" (expand "well_formed?")
-        (("" (skeep)
-          (("" (rewrite "subterms_mem_unif_prb")
-            (("" (skolem -3 "tS")
-              (("" (prop)
-                (("" (rewrite "apply_sub_mem")
-                  (("" (skolem -4 "tSp")
-                    (("" (prop)
-                      (("" (lemma "func_subterms_subs")
-                        (("" (inst -1 "t" "sigma" "tSp")
-                          (("" (expand "func?" -1)
-                            (("" (assert)
-                              ((""
-                                (prop)
-                                (("1"
-                                  (skolem -1 "t1")
-                                  (("1"
-                                    (prop)
-                                    (("1"
-                                      (name-replace "f" "ac_sym(t)")
-                                      (("1"
-                                        (replace -2 1 :dir rl)
-                                        (("1"
-                                          (lemma "subs_num_arg_ge1")
-                                          (("1"
-                                            (inst?)
-                                            (("1"
-                                              (assert)
-                                              (("1"
-                                                (expand
-                                                 "same_func?"
-                                                 -1)
-                                                (("1"
-                                                  (inst -4 "t1")
-                                                  (("1"
-                                                    (prop)
-                                                    (("1"
-                                                      (expand "f" 1)
-                                                      (("1"
-                                                        (expand
-                                                         "sym"
-                                                         -4)
-                                                        (("1"
-                                                          (assert)
-                                                          (("1"
-                                                            (grind)
-                                                            nil
-                                                            nil))
-                                                          nil))
-                                                        nil))
-                                                      nil)
-                                                     ("2"
-                                                      (rewrite
-                                                       "subterms_mem_unif_prb")
-                                                      (("2"
-                                                        (inst 1 "tSp")
-                                                        (("2"
-                                                          (assert)
-                                                          nil
-                                                          nil))
-                                                        nil))
-                                                      nil)
-                                                     ("3"
-                                                      (grind)
-                                                      nil
-                                                      nil))
-                                                    nil))
-                                                  nil))
-                                                nil))
-                                              nil))
-                                            nil))
-                                          nil))
-                                        nil))
-                                      nil))
-                                    nil))
-                                  nil)
-                                 ("2"
-                                  (inst -3 "t")
-                                  (("2" (assert) nil nil))
-                                  nil))
-                                nil))
-                              nil))
-                            nil))
-                          nil))
-                        nil))
-                      nil))
-                    nil))
-                  nil))
-                nil))
-              nil))
-            nil))
-          nil))
-        nil))
-      nil))
-    nil)
-   ((apply_sub_mem formula-decl nil unification nil)
-    (real_gt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
-    (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
-    (= const-decl "[T, T -> boolean]" equalities nil)
-    (subs_num_arg_ge1 formula-decl nil substitution nil)
-    (list2finseq const-decl "finseq[T]" list2finseq nil)
-    (length def-decl "nat" list_props nil)
-    (empty? const-decl "bool" sets nil)
-    (img const-decl
-     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
-     substitution nil)
-    (dom const-decl "finite_set[variable]" substitution nil)
-    (subs const-decl "term" substitution nil)
-    (num_arg def-decl "nat" term_properties nil)
-    (member const-decl "bool" sets nil)
-    (ord const-decl "upto(5)" term_adt nil)
-    (sym const-decl "string" term_properties nil)
-    (same_func? const-decl "bool" term_properties nil)
-    (func? const-decl "bool" term_properties nil)
-    (func_subterms_subs formula-decl nil substitution nil)
-    (apply_sub def-decl "unif_prb" unification nil)
-    (sub type-eq-decl nil substitution nil)
-    (basic_sub type-eq-decl nil substitution nil)
-    (unif_prb type-eq-decl nil unification nil)
-    (list type-decl nil list_adt nil)
-    (unif_pair type-eq-decl nil unification nil)
-    (variable type-eq-decl nil term_properties nil)
-    (constant type-eq-decl nil term_properties nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (TRUE const-decl "bool" booleans nil)
-    (>= const-decl "bool" reals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (PRED type-eq-decl nil defined_types nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (term type-decl nil term_adt nil)
-    (ac_symbol type-eq-decl nil term_properties nil)
-    (f_symbol type-eq-decl nil term_properties nil)
-    (char type-eq-decl nil strings nil)
-    (char? adt-recognizer-decl "[character -> boolean]" character_adt
-     nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (character type-decl nil character_adt nil)
-    (below type-eq-decl nil nat_types nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (number nonempty-type-decl nil numbers nil)
-    (subterms_mem_unif_prb formula-decl nil unification nil)
-    (well_formed? const-decl "bool" unification nil))
-   shostak))
- (well_formed_subset 0
-  (well_formed_subset-1 nil 3842362851
-   ("" (skolem 1 ("unif_prb1" "unif_prb2"))
-    (("" (prop)
-      (("" (expand "well_formed?" 1)
-        (("" (skeep)
-          (("" (rewrite "subterms_mem_unif_prb")
-            (("" (skolem -3 "tS")
-              (("" (prop)
-                (("" (rewrite "member_unif_prb_equiv")
-                  (("" (skolem -4 "unif_pair1")
-                    (("" (flatten)
-                      (("" (expand "subset?" -1)
-                        (("" (inst -1 "unif_pair1")
-                          (("" (assert)
-                            (("" (expand "well_formed?" -2)
-                              ((""
-                                (inst -2 "t")
-                                ((""
-                                  (assert)
-                                  ((""
-                                    (hide 2)
-                                    ((""
-                                      (rewrite "subterms_mem_unif_prb")
-                                      ((""
-                                        (inst 1 "tS")
-                                        ((""
-                                          (assert)
-                                          ((""
-                                            (rewrite
-                                             "member_unif_prb_equiv")
-                                            ((""
-                                              (inst 1 "unif_pair1")
-                                              (("" (assert) nil nil))
-                                              nil))
-                                            nil))
-                                          nil))
-                                        nil))
-                                      nil))
-                                    nil))
-                                  nil))
-                                nil))
-                              nil))
-                            nil))
-                          nil))
-                        nil))
-                      nil))
-                    nil))
-                  nil))
-                nil))
-              nil))
-            nil))
-          nil))
-        nil))
-      nil))
-    nil)
-   ((member_unif_prb_equiv formula-decl nil unification nil)
-    (real_gt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (subset? const-decl "bool" unification nil)
-    (unif_prb type-eq-decl nil unification nil)
-    (list type-decl nil list_adt nil)
-    (unif_pair type-eq-decl nil unification nil)
-    (variable type-eq-decl nil term_properties nil)
-    (constant type-eq-decl nil term_properties nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (TRUE const-decl "bool" booleans nil)
-    (>= const-decl "bool" reals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (PRED type-eq-decl nil defined_types nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (term type-decl nil term_adt nil)
-    (ac_symbol type-eq-decl nil term_properties nil)
-    (f_symbol type-eq-decl nil term_properties nil)
-    (char type-eq-decl nil strings nil)
-    (char? adt-recognizer-decl "[character -> boolean]" character_adt
-     nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (character type-decl nil character_adt nil)
-    (below type-eq-decl nil nat_types nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (number nonempty-type-decl nil numbers nil)
-    (subterms_mem_unif_prb formula-decl nil unification nil)
-    (well_formed? const-decl "bool" unification nil))
-   shostak))
  (well_formed_unif_prb 0
   (well_formed_unif_prb-1 nil 3846963079
    ("" (skolem 1 "unif_prb1")
@@ -5362,13 +5112,156 @@
         nil))
       nil))
     nil)
-   (nil (unif_prb type-eq-decl nil unification nil)
-    (list type-decl nil list_adt nil)
-    (unif_pair type-eq-decl nil unification nil)
-    (subterms_mem_unif_prb formula-decl nil unification nil)
-    (well_formed? const-decl "bool" unification nil)
+   ((union const-decl "set" sets nil)
+    (member const-decl "bool" sets nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (below type-eq-decl nil nat_types nil)
+    (character type-decl nil character_adt nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (char type-eq-decl nil strings nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (term type-decl nil term_adt nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (>= const-decl "bool" reals nil)
+    (TRUE const-decl "bool" booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (constant type-eq-decl nil term_properties nil)
+    (variable type-eq-decl nil term_properties nil)
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
+    (well_formed? const-decl "bool" unification nil)
+    (subterms_mem_unif_prb formula-decl nil unification nil)
+    (unif_pair type-eq-decl nil unification nil)
+    (list type-decl nil list_adt nil)
+    (unif_prb type-eq-decl nil unification nil))
+   shostak))
+ (well_formed_apply_sub 0
+  (well_formed_apply_sub-1 nil 3842186910
+   ("" (skolem 1 ("sigma" "unif_prb1"))
+    (("" (prop)
+      (("" (expand "well_formed?" 1)
+        (("" (skeep)
+          (("" (prop)
+            (("1" (rewrite "subterms_mem_unif_prb")
+              (("1" (skolem -1 "tS")
+                (("1" (prop)
+                  (("1" (rewrite "apply_sub_mem")
+                    (("1" (skolem -2 "tS_p")
+                      (("1" (prop)
+                        (("1" (lemma "well_formed_subs")
+                          (("1" (inst -1 "sigma" "tS_p")
+                            (("1" (assert)
+                              (("1"
+                                (prop)
+                                (("1"
+                                  (expand "well_formed?" -1)
+                                  (("1"
+                                    (flatten)
+                                    (("1"
+                                      (inst -1 "t")
+                                      (("1" (assert) nil nil))
+                                      nil))
+                                    nil))
+                                  nil)
+                                 ("2"
+                                  (use "well_formed_unif_prb")
+                                  (("2"
+                                    (assert)
+                                    (("2"
+                                      (inst -1 "tS_p")
+                                      (("2" (assert) nil nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil)
+             ("2" (rewrite "apply_sub_mem")
+              (("2" (skolem -1 "s")
+                (("2" (flatten)
+                  (("2" (lemma "subs_pair2")
+                    (("2" (inst?)
+                      (("2" (assert)
+                        (("2" (prop)
+                          (("1" (rewrite "well_formed_unif_prb")
+                            (("1" (inst -5 "s")
+                              (("1"
+                                (assert)
+                                (("1"
+                                  (expand "well_formed?" -5)
+                                  (("1" (propax) nil nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("2" (expand "well_formed?" -6)
+                            (("2" (inst -6 "V(s)")
+                              (("2"
+                                (assert)
+                                (("2"
+                                  (prop)
+                                  (("2"
+                                    (expand "subs" 1)
+                                    (("2"
+                                      (assert)
+                                      (("2"
+                                        (use "term_variable_eta")
+                                        (("2"
+                                          (replace -1)
+                                          (("2" (assert) nil nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((well_formed? const-decl "bool" unification nil)
+    (apply_sub_mem formula-decl nil unification nil)
+    (well_formed_unif_prb formula-decl nil unification nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (well_formed_subs formula-decl nil substitution nil)
+    (apply_sub def-decl "unif_prb" unification nil)
+    (sub type-eq-decl nil substitution nil)
+    (basic_sub type-eq-decl nil substitution nil)
+    (unif_prb type-eq-decl nil unification nil)
+    (list type-decl nil list_adt nil)
+    (unif_pair type-eq-decl nil unification nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
     (int nonempty-type-eq-decl nil integers nil)
@@ -5382,7 +5275,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -5395,9 +5288,82 @@
     (character type-decl nil character_adt nil)
     (below type-eq-decl nil nat_types nil)
     (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (number nonempty-type-decl nil numbers nil) nil
-    (member const-decl "bool" sets nil)
-    (union const-decl "set" sets nil))
+    (number nonempty-type-decl nil numbers nil)
+    (subterms_mem_unif_prb formula-decl nil unification nil)
+    (subs_pair2 formula-decl nil substitution nil)
+    (well_formed? const-decl "bool" substitution nil)
+    (subs const-decl "term" substitution nil)
+    (term_variable_eta formula-decl nil term_adt nil)
+    (V adt-accessor-decl "[(var?) -> variable]" term_adt nil)
+    (var? adt-recognizer-decl "[term -> boolean]" term_adt nil))
+   shostak))
+ (well_formed_subset 0
+  (well_formed_subset-1 nil 3842362851
+   ("" (skolem 1 ("unif_prb1" "unif_prb2"))
+    (("" (prop)
+      (("" (expand "subset?" -1)
+        (("" (rewrite "well_formed_unif_prb")
+          (("" (rewrite "well_formed_unif_prb")
+            (("" (skeep)
+              (("" (inst -2 "t")
+                (("" (assert)
+                  (("" (rewrite "member_unif_prb_equiv")
+                    (("" (rewrite "member_unif_prb_equiv")
+                      (("" (skolem -2 "unif_pair1")
+                        (("" (flatten)
+                          (("" (inst 1 "unif_pair1")
+                            (("" (assert)
+                              ((""
+                                (inst -1 "unif_pair1")
+                                (("" (grind) nil nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((well_formed_unif_prb formula-decl nil unification nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (below type-eq-decl nil nat_types nil)
+    (character type-decl nil character_adt nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (char type-eq-decl nil strings nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (term type-decl nil term_adt nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (>= const-decl "bool" reals nil)
+    (TRUE const-decl "bool" booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (constant type-eq-decl nil term_properties nil)
+    (variable type-eq-decl nil term_properties nil)
+    (unif_pair type-eq-decl nil unification nil)
+    (list type-decl nil list_adt nil)
+    (unif_prb type-eq-decl nil unification nil)
+    (member_unif_prb_equiv formula-decl nil unification nil)
+    (subset? const-decl "bool" unification nil))
    shostak))
  (unifies?_impossible_TCC1 0
   (unifies?_impossible_TCC1-1 nil 3844435724
@@ -8464,7 +8430,7 @@
     (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
     (nnint_plus_posint_is_posint application-judgement "posint"
      integers nil)
-    nil (count_remove formula-decl nil list_theory nil)
+    (count_remove formula-decl nil list_theory nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (pos?_len formula-decl nil list_theory nil)
@@ -8515,6 +8481,105 @@
     (measure_induction formula-decl nil measure_induction nil)
     (well_founded? const-decl "bool" orders nil)
     (pred type-eq-decl nil defined_types nil))
+   shostak))
+ (remove_common_not_null_unifies 0
+  (remove_common_not_null_unifies-1 nil 3849904868
+   ("" (skeep)
+    (("" (prop)
+      (("1" (use "remove_common_not_null_count")
+        (("1" (assert)
+          (("1" (lemma "unifies?_impossible")
+            (("1" (inst -1 "delta" "f" "s" "t")
+              (("1" (prop)
+                (("1" (skeep)
+                  (("1" (inst 2 "t1") (("1" (assert) nil nil)) nil))
+                  nil)
+                 ("2" (use "perm_args_ac")
+                  (("2" (assert)
+                    (("2" (rewrite "perm?_equiv_same_count?") nil nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (use "remove_common_not_null_count")
+        (("2" (assert)
+          (("2" (lemma "unifies?_impossible")
+            (("2" (inst -1 "delta" "f" "t" "s")
+              (("2" (prop)
+                (("1" (expand "unifies?")
+                  (("1" (use "equal?_sym") (("1" (assert) nil nil))
+                    nil))
+                  nil)
+                 ("2" (skeep)
+                  (("2" (inst 2 "t1") (("2" (assert) nil nil)) nil))
+                  nil)
+                 ("3" (hide 2) (("3" (grind) nil nil)) nil)
+                 ("4" (use "perm_args_ac")
+                  (("4" (assert)
+                    (("4" (rewrite "perm?_equiv_same_count?")
+                      (("4" (hide 2)
+                        (("4" (expand "same_count?")
+                          (("4" (skeep)
+                            (("4" (inst -1 "x")
+                              (("4" (assert) nil nil)) nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((equal?_sym formula-decl nil equality nil) nil
+    (unifies? const-decl "bool" unification nil)
+    (are_ac? const-decl "bool" term_properties nil) nil
+    (remove_common_not_null_count formula-decl nil unification nil) nil
+    (variable type-eq-decl nil term_properties nil)
+    (constant type-eq-decl nil term_properties nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (string type-eq-decl nil strings nil)
+    (args type-eq-decl nil term_properties nil)
+    (TRUE const-decl "bool" booleans nil)
+    (>= const-decl "bool" reals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (list type-decl nil list_adt nil) (term type-decl nil term_adt nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (char type-eq-decl nil strings nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (character type-decl nil character_adt nil)
+    (below type-eq-decl nil nat_types nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (number nonempty-type-decl nil numbers nil)
+    (unifies?_impossible formula-decl nil unification nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (perm?_equiv_same_count? formula-decl nil equality nil)
+    (perm_args_ac formula-decl nil equality nil)
+    (basic_sub type-eq-decl nil substitution nil)
+    (sub type-eq-decl nil substitution nil))
    shostak))
  (remove_common_args_cor 0
   (remove_common_args_cor-1 nil 3844435888
@@ -9129,5 +9194,1343 @@
     (equiv type-eq-decl nil list_theory nil)
     (equivalence? const-decl "bool" relations nil)
     (remove_common_not_null_count formula-decl nil unification nil))
-   shostak)))
+   shostak))
+ (remove_common_eq 0
+  (remove_common_eq-1 nil 3849865546
+   ("" (skeep)
+    (("" (assert)
+      (("" (flatten)
+        (("" (name-replace "t1" "remove_common(t, s, f)`1")
+          (("" (expand "unifies?" -2)
+            (("" (name-replace "s1" "remove_common(t, s, f)`2")
+              (("" (lemma "perm_args_ac")
+                (("" (inst -1 "subs(delta)(s1)" "f" "subs(delta)(t1)")
+                  (("" (assert)
+                    (("" (hide 3)
+                      (("" (prop)
+                        (("1" (use "args_subs_ac")
+                          (("1" (replace -1)
+                            (("1" (hide -1)
+                              (("1"
+                                (use "args_subs_ac")
+                                (("1"
+                                  (replace -1)
+                                  (("1"
+                                    (hide -1)
+                                    (("1"
+                                      (lemma "get_args_remove_common")
+                                      (("1"
+                                        (inst?)
+                                        (("1"
+                                          (inst -1 "delta")
+                                          (("1"
+                                            (assert)
+                                            (("1"
+                                              (expand "unifies?" -1)
+                                              (("1"
+                                                (expand "t1" 1)
+                                                (("1"
+                                                  (replace -1)
+                                                  (("1"
+                                                    (hide -1)
+                                                    (("1"
+                                                      (lemma
+                                                       "get_args_remove_common")
+                                                      (("1"
+                                                        (inst
+                                                         -1
+                                                         "delta"
+                                                         "f"
+                                                         "t"
+                                                         "s")
+                                                        (("1"
+                                                          (assert)
+                                                          (("1"
+                                                            (prop)
+                                                            (("1"
+                                                              (case
+                                                               "remove_common(s, t, f)`1 = s1")
+                                                              (("1"
+                                                                (replace
+                                                                 -1)
+                                                                (("1"
+                                                                  (replace
+                                                                   -2)
+                                                                  (("1"
+                                                                    (hide
+                                                                     -1
+                                                                     -2)
+                                                                    (("1"
+                                                                      (name-replace
+                                                                       "args_t"
+                                                                       "remove_common(get_args(f)(t), get_args(f)(s), equal?)")
+                                                                      (("1"
+                                                                        (name-replace
+                                                                         "args_s"
+                                                                         "remove_common(get_args(f)(s), get_args(f)(t), equal?)")
+                                                                        (("1"
+                                                                          (reveal
+                                                                           -1
+                                                                           -2)
+                                                                          (("1"
+                                                                            (lemma
+                                                                             "ac_perm_args2")
+                                                                            (("1"
+                                                                              (inst
+                                                                               -1
+                                                                               "f"
+                                                                               "subs(delta)(s)"
+                                                                               "subs(delta)(t)")
+                                                                              (("1"
+                                                                                (assert)
+                                                                                (("1"
+                                                                                  (hide
+                                                                                   -5)
+                                                                                  (("1"
+                                                                                    (use
+                                                                                     "args_subs_ac")
+                                                                                    (("1"
+                                                                                      (replace
+                                                                                       -1)
+                                                                                      (("1"
+                                                                                        (hide
+                                                                                         -1)
+                                                                                        (("1"
+                                                                                          (use
+                                                                                           "args_subs_ac")
+                                                                                          (("1"
+                                                                                            (replace
+                                                                                             -1)
+                                                                                            (("1"
+                                                                                              (hide
+                                                                                               -1)
+                                                                                              (("1"
+                                                                                                (lemma
+                                                                                                 "perm?_remove_common_get_common")
+                                                                                                (("1"
+                                                                                                  (inst
+                                                                                                   -1
+                                                                                                   "get_args(f)(t)"
+                                                                                                   "get_args(f)(s)")
+                                                                                                  (("1"
+                                                                                                    (replace
+                                                                                                     -4)
+                                                                                                    (("1"
+                                                                                                      (name-replace
+                                                                                                       "common_t"
+                                                                                                       "get_common(get_args(f)(t), get_args(f)(s), equal?)")
+                                                                                                      (("1"
+                                                                                                        (reveal
+                                                                                                         -1)
+                                                                                                        (("1"
+                                                                                                          (lemma
+                                                                                                           "perm?_remove_common_get_common")
+                                                                                                          (("1"
+                                                                                                            (inst
+                                                                                                             -1
+                                                                                                             "get_args(f)(s)"
+                                                                                                             "get_args(f)(t)")
+                                                                                                            (("1"
+                                                                                                              (replace
+                                                                                                               -5)
+                                                                                                              (("1"
+                                                                                                                (name-replace
+                                                                                                                 "common_s"
+                                                                                                                 "get_common(get_args(f)(s), get_args(f)(t), equal?)")
+                                                                                                                (("1"
+                                                                                                                  (reveal
+                                                                                                                   -1)
+                                                                                                                  (("1"
+                                                                                                                    (case
+                                                                                                                     "perm?(flatten(map(get_args(f))(map(subs(delta))(append(args_t, common_t)))),
+            flatten(map(get_args(f))(map(subs(delta))(append(args_s, common_s)))))")
+                                                                                                                    (("1"
+                                                                                                                      (hide
+                                                                                                                       -5
+                                                                                                                       -6)
+                                                                                                                      (("1"
+                                                                                                                        (hide
+                                                                                                                         -3
+                                                                                                                         2
+                                                                                                                         -7)
+                                                                                                                        (("1"
+                                                                                                                          (rewrite
+                                                                                                                           "perm?_equiv_same_count?")
+                                                                                                                          (("1"
+                                                                                                                            (rewrite
+                                                                                                                             "perm?_equiv_same_count?")
+                                                                                                                            (("1"
+                                                                                                                              (expand
+                                                                                                                               "same_count?"
+                                                                                                                               1)
+                                                                                                                              (("1"
+                                                                                                                                (skeep)
+                                                                                                                                (("1"
+                                                                                                                                  (expand
+                                                                                                                                   "same_count?"
+                                                                                                                                   -1)
+                                                                                                                                  (("1"
+                                                                                                                                    (inst
+                                                                                                                                     -1
+                                                                                                                                     "x")
+                                                                                                                                    (("1"
+                                                                                                                                      (rewrite
+                                                                                                                                       "subs_map")
+                                                                                                                                      (("1"
+                                                                                                                                        (rewrite
+                                                                                                                                         "subs_map")
+                                                                                                                                        (("1"
+                                                                                                                                          (rewrite
+                                                                                                                                           "subs_map")
+                                                                                                                                          (("1"
+                                                                                                                                            (rewrite
+                                                                                                                                             "subs_map")
+                                                                                                                                            (("1"
+                                                                                                                                              (rewrite
+                                                                                                                                               "subs_append")
+                                                                                                                                              (("1"
+                                                                                                                                                (rewrite
+                                                                                                                                                 "subs_append")
+                                                                                                                                                (("1"
+                                                                                                                                                  (rewrite
+                                                                                                                                                   "map_append2")
+                                                                                                                                                  (("1"
+                                                                                                                                                    (rewrite
+                                                                                                                                                     "map_append2")
+                                                                                                                                                    (("1"
+                                                                                                                                                      (rewrite
+                                                                                                                                                       "flatten_append")
+                                                                                                                                                      (("1"
+                                                                                                                                                        (rewrite
+                                                                                                                                                         "flatten_append")
+                                                                                                                                                        (("1"
+                                                                                                                                                          (rewrite
+                                                                                                                                                           "count_append")
+                                                                                                                                                          (("1"
+                                                                                                                                                            (rewrite
+                                                                                                                                                             "count_append")
+                                                                                                                                                            (("1"
+                                                                                                                                                              (case
+                                                                                                                                                               "count(x, flatten(map(get_args(f))(subs(delta)(common_t))), equal?) = 
+         count(x, flatten(map(get_args(f))(subs(delta)(common_s))), equal?)")
+                                                                                                                                                              (("1"
+                                                                                                                                                                (assert)
+                                                                                                                                                                nil
+                                                                                                                                                                nil)
+                                                                                                                                                               ("2"
+                                                                                                                                                                (hide
+                                                                                                                                                                 -1
+                                                                                                                                                                 2)
+                                                                                                                                                                (("2"
+                                                                                                                                                                  (lemma
+                                                                                                                                                                   "perm?_get_common_sym")
+                                                                                                                                                                  (("2"
+                                                                                                                                                                    (inst
+                                                                                                                                                                     -1
+                                                                                                                                                                     "get_args(f)(t)"
+                                                                                                                                                                     "get_args(f)(s)")
+                                                                                                                                                                    (("2"
+                                                                                                                                                                      (replace
+                                                                                                                                                                       -2)
+                                                                                                                                                                      (("2"
+                                                                                                                                                                        (replace
+                                                                                                                                                                         -3)
+                                                                                                                                                                        (("2"
+                                                                                                                                                                          (lemma
+                                                                                                                                                                           "subs_perm?_get_args")
+                                                                                                                                                                          (("2"
+                                                                                                                                                                            (inst
+                                                                                                                                                                             -1
+                                                                                                                                                                             "common_t"
+                                                                                                                                                                             "common_s"
+                                                                                                                                                                             "delta"
+                                                                                                                                                                             "f")
+                                                                                                                                                                            (("2"
+                                                                                                                                                                              (assert)
+                                                                                                                                                                              (("2"
+                                                                                                                                                                                (rewrite
+                                                                                                                                                                                 "perm?_equiv_same_count?")
+                                                                                                                                                                                (("2"
+                                                                                                                                                                                  (expand
+                                                                                                                                                                                   "same_count?"
+                                                                                                                                                                                   -1)
+                                                                                                                                                                                  (("2"
+                                                                                                                                                                                    (inst
+                                                                                                                                                                                     -1
+                                                                                                                                                                                     "x")
+                                                                                                                                                                                    (("2"
+                                                                                                                                                                                      (rewrite
+                                                                                                                                                                                       "subs_map")
+                                                                                                                                                                                      (("2"
+                                                                                                                                                                                        (assert)
+                                                                                                                                                                                        (("2"
+                                                                                                                                                                                          (rewrite
+                                                                                                                                                                                           "subs_map")
+                                                                                                                                                                                          nil
+                                                                                                                                                                                          nil))
+                                                                                                                                                                                        nil))
+                                                                                                                                                                                      nil))
+                                                                                                                                                                                    nil))
+                                                                                                                                                                                  nil))
+                                                                                                                                                                                nil))
+                                                                                                                                                                              nil))
+                                                                                                                                                                            nil))
+                                                                                                                                                                          nil))
+                                                                                                                                                                        nil))
+                                                                                                                                                                      nil))
+                                                                                                                                                                    nil))
+                                                                                                                                                                  nil))
+                                                                                                                                                                nil))
+                                                                                                                                                              nil))
+                                                                                                                                                            nil))
+                                                                                                                                                          nil))
+                                                                                                                                                        nil))
+                                                                                                                                                      nil))
+                                                                                                                                                    nil))
+                                                                                                                                                  nil))
+                                                                                                                                                nil))
+                                                                                                                                              nil))
+                                                                                                                                            nil))
+                                                                                                                                          nil))
+                                                                                                                                        nil))
+                                                                                                                                      nil))
+                                                                                                                                    nil))
+                                                                                                                                  nil))
+                                                                                                                                nil))
+                                                                                                                              nil))
+                                                                                                                            nil))
+                                                                                                                          nil))
+                                                                                                                        nil))
+                                                                                                                      nil)
+                                                                                                                     ("2"
+                                                                                                                      (hide
+                                                                                                                       -8
+                                                                                                                       2
+                                                                                                                       3)
+                                                                                                                      (("2"
+                                                                                                                        (lemma
+                                                                                                                         "perm?_trans")
+                                                                                                                        (("2"
+                                                                                                                          (inst
+                                                                                                                           -1
+                                                                                                                           "flatten(map(get_args(f))(map(subs(delta))(append(args_t, common_t))))"
+                                                                                                                           "flatten(map(get_args(f))(map(subs(delta))(get_args(f)(t))))"
+                                                                                                                           "flatten(map(get_args(f))(map(subs(delta))(append(args_s, common_s))))")
+                                                                                                                          (("2"
+                                                                                                                            (assert)
+                                                                                                                            (("2"
+                                                                                                                              (hide
+                                                                                                                               2)
+                                                                                                                              (("2"
+                                                                                                                                (prop)
+                                                                                                                                (("1"
+                                                                                                                                  (lemma
+                                                                                                                                   "subs_perm?_get_args")
+                                                                                                                                  (("1"
+                                                                                                                                    (inst
+                                                                                                                                     -1
+                                                                                                                                     "append(args_t, common_t)"
+                                                                                                                                     "get_args(f)(t)"
+                                                                                                                                     "delta"
+                                                                                                                                     "f")
+                                                                                                                                    (("1"
+                                                                                                                                      (assert)
+                                                                                                                                      (("1"
+                                                                                                                                        (hide
+                                                                                                                                         2)
+                                                                                                                                        (("1"
+                                                                                                                                          (lemma
+                                                                                                                                           "perm?_sym")
+                                                                                                                                          (("1"
+                                                                                                                                            (inst?)
+                                                                                                                                            (("1"
+                                                                                                                                              (assert)
+                                                                                                                                              nil
+                                                                                                                                              nil))
+                                                                                                                                            nil))
+                                                                                                                                          nil))
+                                                                                                                                        nil))
+                                                                                                                                      nil))
+                                                                                                                                    nil))
+                                                                                                                                  nil)
+                                                                                                                                 ("2"
+                                                                                                                                  (lemma
+                                                                                                                                   "perm?_trans")
+                                                                                                                                  (("2"
+                                                                                                                                    (inst
+                                                                                                                                     -1
+                                                                                                                                     "flatten(map(get_args(f))(map(subs(delta))(get_args(f)(t))))"
+                                                                                                                                     "flatten(map(get_args(f))(map(subs(delta))(get_args(f)(s))))"
+                                                                                                                                     "flatten(map(get_args(f))(map(subs(delta))(append(args_s, common_s))))")
+                                                                                                                                    (("2"
+                                                                                                                                      (assert)
+                                                                                                                                      (("2"
+                                                                                                                                        (hide
+                                                                                                                                         2)
+                                                                                                                                        (("2"
+                                                                                                                                          (lemma
+                                                                                                                                           "subs_perm?_get_args")
+                                                                                                                                          (("2"
+                                                                                                                                            (inst
+                                                                                                                                             -1
+                                                                                                                                             "get_args(f)(s)"
+                                                                                                                                             "append(args_s, common_s)"
+                                                                                                                                             "delta"
+                                                                                                                                             "f")
+                                                                                                                                            (("2"
+                                                                                                                                              (assert)
+                                                                                                                                              nil
+                                                                                                                                              nil))
+                                                                                                                                            nil))
+                                                                                                                                          nil))
+                                                                                                                                        nil))
+                                                                                                                                      nil))
+                                                                                                                                    nil))
+                                                                                                                                  nil))
+                                                                                                                                nil))
+                                                                                                                              nil))
+                                                                                                                            nil))
+                                                                                                                          nil))
+                                                                                                                        nil))
+                                                                                                                      nil))
+                                                                                                                    nil))
+                                                                                                                  nil))
+                                                                                                                nil))
+                                                                                                              nil))
+                                                                                                            nil))
+                                                                                                          nil))
+                                                                                                        nil))
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil)
+                                                               ("2"
+                                                                (expand
+                                                                 "s1"
+                                                                 1)
+                                                                (("2"
+                                                                  (use
+                                                                   "remove_common_sym")
+                                                                  (("2"
+                                                                    (assert)
+                                                                    nil
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil)
+                                                             ("2"
+                                                              (hide 2)
+                                                              (("2"
+                                                                (expand
+                                                                 "unifies?"
+                                                                 1)
+                                                                (("2"
+                                                                  (use
+                                                                   "equal?_sym")
+                                                                  (("2"
+                                                                    (assert)
+                                                                    nil
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil)
+                                                             ("3"
+                                                              (hide 1)
+                                                              (("3"
+                                                                (lemma
+                                                                 "equal?_sym")
+                                                                (("3"
+                                                                  (inst
+                                                                   -1
+                                                                   "t"
+                                                                   "s")
+                                                                  (("3"
+                                                                    (assert)
+                                                                    nil
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil)
+                                                             ("4"
+                                                              (hide 2)
+                                                              (("4"
+                                                                (grind)
+                                                                nil
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil)
+                         ("2" (expand "t1" 1)
+                          (("2" (expand "remove_common" 1)
+                            (("2" (rewrite "subs_get_ac_from_args")
+                              (("2"
+                                (expand "s1" 1)
+                                (("2"
+                                  (expand "remove_common" 1 2)
+                                  (("2"
+                                    (rewrite "subs_get_ac_from_args")
+                                    (("2"
+                                      (expand "get_ac_from_args" 1)
+                                      (("2"
+                                        (expand "are_ac?" 1)
+                                        (("2" (propax) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((number nonempty-type-decl nil numbers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (below type-eq-decl nil nat_types nil)
+    (character type-decl nil character_adt nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (char type-eq-decl nil strings nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (term type-decl nil term_adt nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (>= const-decl "bool" reals nil)
+    (TRUE const-decl "bool" booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (constant type-eq-decl nil term_properties nil)
+    (variable type-eq-decl nil term_properties nil)
+    (string type-eq-decl nil strings nil)
+    (remove_common const-decl "[term, term]" equality nil)
+    (basic_sub type-eq-decl nil substitution nil)
+    (list type-decl nil list_adt nil)
+    (sub type-eq-decl nil substitution nil)
+    (subs_get_ac_from_args formula-decl nil substitution nil)
+    (get_ac_from_args const-decl "term" term_properties nil)
+    (args_subs_ac formula-decl nil substitution nil)
+    (get_args_remove_common formula-decl nil unification nil)
+    (are_ac? const-decl "bool" term_properties nil)
+    (equal?_sym formula-decl nil equality nil)
+    (args type-eq-decl nil term_properties nil)
+    (remove_common def-decl "list[T]" list_theory nil)
+    (equiv type-eq-decl nil list_theory nil)
+    (equivalence? const-decl "bool" relations nil)
+    (get_common def-decl "list[T]" list_theory nil)
+    (perm?_sym formula-decl nil equality nil)
+    (perm?_trans formula-decl nil equality nil)
+    (perm?_equiv_same_count? formula-decl nil equality nil)
+    (subs_map formula-decl nil substitution nil)
+    (subs_append formula-decl nil substitution nil)
+    (subs def-decl "args" substitution nil)
+    (map_append2 formula-decl nil map_theory nil)
+    (flatten_append formula-decl nil list_theory nil)
+    (count_append formula-decl nil list_theory nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (perm?_get_common_sym formula-decl nil equality nil)
+    (subs_perm?_get_args formula-decl nil substitution nil)
+    (append def-decl "list[T]" list_props nil)
+    (flatten def-decl "list[T]" list_theory nil)
+    (perm? def-decl "bool" equality nil)
+    (perm?_remove_common_get_common formula-decl nil equality nil)
+    (ac_perm_args2 formula-decl nil equality nil)
+    (remove_common_sym formula-decl nil equality nil)
+    (perm_args_ac formula-decl nil equality nil)
+    (unifies? const-decl "bool" unification nil))
+   shostak))
+ (remove_common_no_common_args 0
+  (remove_common_no_common_args-1 nil 3849876927
+   ("" (skeep)
+    (("" (assert)
+      (("" (name-replace "t1" "remove_common(t, s, f)`1")
+        (("" (name-replace "s1" "remove_common(t, s, f)`2")
+          (("" (prop)
+            (("" (lemma "get_args_remove_common")
+              (("" (inst -1 "delta" "f" "s" "t")
+                (("" (assert)
+                  (("" (prop)
+                    (("" (expand "t1 " 2)
+                      (("" (replace -1)
+                        (("" (hide -1)
+                          (("" (expand "s1" 2)
+                            (("" (lemma "get_args_remove_common")
+                              ((""
+                                (inst -1 "delta" "f" "t" "s")
+                                ((""
+                                  (assert)
+                                  ((""
+                                    (prop)
+                                    (("1"
+                                      (use "remove_common_sym")
+                                      (("1"
+                                        (flatten)
+                                        (("1"
+                                          (replace -1)
+                                          (("1"
+                                            (replace -3)
+                                            (("1"
+                                              (hide -1 -2 -3)
+                                              (("1"
+                                                (name-replace
+                                                 "args_t"
+                                                 "get_args(f)(t)")
+                                                (("1"
+                                                  (name-replace
+                                                   "args_s"
+                                                   "get_args(f)(s)")
+                                                  (("1"
+                                                    (expand
+                                                     "no_common_args?"
+                                                     2)
+                                                    (("1"
+                                                      (skolem 2 "t2")
+                                                      (("1"
+                                                        (prop)
+                                                        (("1"
+                                                          (lemma
+                                                           "remove_common_count_gt[term]")
+                                                          (("1"
+                                                            (inst
+                                                             -1
+                                                             "equal?"
+                                                             "args_t"
+                                                             "args_s"
+                                                             "t2")
+                                                            (("1"
+                                                              (assert)
+                                                              (("1"
+                                                                (case
+                                                                 "count(t2, remove_common(args_s, args_t, equal?), equal?) > 0")
+                                                                (("1"
+                                                                  (lemma
+                                                                   "remove_common_count_gt[term]")
+                                                                  (("1"
+                                                                    (inst
+                                                                     -1
+                                                                     "equal?"
+                                                                     "args_s"
+                                                                     "args_t"
+                                                                     "t2")
+                                                                    (("1"
+                                                                      (assert)
+                                                                      nil
+                                                                      nil))
+                                                                    nil))
+                                                                  nil)
+                                                                 ("2"
+                                                                  (assert)
+                                                                  nil
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil)
+                                                         ("2"
+                                                          (use
+                                                           "remove_common_count_gt[term]")
+                                                          (("2"
+                                                            (assert)
+                                                            (("2"
+                                                              (case
+                                                               "count(t2, remove_common(args_t, args_s, equal?), equal?) > 0")
+                                                              (("1"
+                                                                (lemma
+                                                                 "remove_common_count_gt[term]")
+                                                                (("1"
+                                                                  (inst
+                                                                   -1
+                                                                   "equal?"
+                                                                   "args_t"
+                                                                   "args_s"
+                                                                   "t2")
+                                                                  (("1"
+                                                                    (assert)
+                                                                    nil
+                                                                    nil))
+                                                                  nil))
+                                                                nil)
+                                                               ("2"
+                                                                (grind)
+                                                                nil
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil)
+                                     ("2"
+                                      (expand "unifies?")
+                                      (("2"
+                                        (use "equal?_sym")
+                                        (("2" (assert) nil nil))
+                                        nil))
+                                      nil)
+                                     ("3"
+                                      (lemma "equal?_sym")
+                                      (("3"
+                                        (inst -1 "t" "s")
+                                        (("3" (assert) nil nil))
+                                        nil))
+                                      nil)
+                                     ("4"
+                                      (hide 3)
+                                      (("4" (grind) nil nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((get_args_remove_common formula-decl nil unification nil)
+    (are_ac? const-decl "bool" term_properties nil)
+    (unifies? const-decl "bool" unification nil)
+    (equal?_sym formula-decl nil equality nil)
+    (remove_common_sym formula-decl nil equality nil)
+    (remove_common_count_gt formula-decl nil list_theory nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (> const-decl "bool" reals nil)
+    (remove_common def-decl "list[T]" list_theory nil)
+    (equiv type-eq-decl nil list_theory nil)
+    (equivalence? const-decl "bool" relations nil)
+    (no_common_args? const-decl "bool" equality nil)
+    (args type-eq-decl nil term_properties nil)
+    (sub type-eq-decl nil substitution nil)
+    (list type-decl nil list_adt nil)
+    (basic_sub type-eq-decl nil substitution nil)
+    (remove_common const-decl "[term, term]" equality nil)
+    (string type-eq-decl nil strings nil)
+    (variable type-eq-decl nil term_properties nil)
+    (constant type-eq-decl nil term_properties nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (TRUE const-decl "bool" booleans nil)
+    (>= const-decl "bool" reals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (term type-decl nil term_adt nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (char type-eq-decl nil strings nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (character type-decl nil character_adt nil)
+    (below type-eq-decl nil nat_types nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (number nonempty-type-decl nil numbers nil))
+   shostak))
+ (remove_common_vars 0
+  (remove_common_vars-1 nil 3849879508
+   ("" (skeep)
+    (("" (assert)
+      (("" (expand "remove_common" 1)
+        (("" (expand "subset?" 1)
+          (("" (skeep)
+            (("" (expand "member" 1)
+              (("" (expand "vars" 1)
+                (("" (expand "union" 1)
+                  (("" (prop)
+                    (("" (expand "vars" -1)
+                      (("" (expand ("member" "union") -1)
+                        (("" (prop)
+                          (("1" (rewrite "vars_get_ac_from_args")
+                            (("1" (rewrite "vars_args")
+                              (("1"
+                                (skolem -1 "t1")
+                                (("1"
+                                  (prop)
+                                  (("1"
+                                    (use "remove_common_mem[term]")
+                                    (("1"
+                                      (assert)
+                                      (("1"
+                                        (hide -2)
+                                        (("1"
+                                          (use "vars_get_args")
+                                          (("1"
+                                            (replace -1 :dir rl)
+                                            (("1"
+                                              (rewrite "vars_args")
+                                              (("1"
+                                                (inst 1 "t1")
+                                                (("1"
+                                                  (assert)
+                                                  nil
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("2" (rewrite "vars_get_ac_from_args")
+                            (("2" (rewrite "vars_args")
+                              (("2"
+                                (skolem -1 "s1")
+                                (("2"
+                                  (prop)
+                                  (("2"
+                                    (use "remove_common_mem[term]")
+                                    (("2"
+                                      (assert)
+                                      (("2"
+                                        (use "vars_get_args")
+                                        (("2"
+                                          (replace -1 :dir rl)
+                                          (("2"
+                                            (rewrite "vars_args")
+                                            (("2"
+                                              (inst 2 "s1")
+                                              (("2" (assert) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((subset_is_partial_order name-judgement "(partial_order?[set[T]])"
+     sets_lemmas nil)
+    (subset? const-decl "bool" sets nil)
+    (member const-decl "bool" sets nil)
+    (union const-decl "set" sets nil)
+    (vars_args formula-decl nil term_properties nil)
+    (vars_get_args formula-decl nil term_properties nil)
+    (remove_common_mem formula-decl nil list_theory nil)
+    (string type-eq-decl nil strings nil)
+    (remove_common def-decl "list[T]" list_theory nil)
+    (equiv type-eq-decl nil list_theory nil)
+    (equivalence? const-decl "bool" relations nil)
+    (variable type-eq-decl nil term_properties nil)
+    (constant type-eq-decl nil term_properties nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (args type-eq-decl nil term_properties nil)
+    (TRUE const-decl "bool" booleans nil)
+    (>= const-decl "bool" reals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (list type-decl nil list_adt nil) (term type-decl nil term_adt nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (char type-eq-decl nil strings nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (character type-decl nil character_adt nil)
+    (below type-eq-decl nil nat_types nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (number nonempty-type-decl nil numbers nil)
+    (vars_get_ac_from_args formula-decl nil term_properties nil)
+    (vars const-decl "finite_set[variable]" unification nil)
+    (remove_common const-decl "[term, term]" equality nil))
+   shostak))
+ (remove_common_alm_well_formed? 0
+  (remove_common_alm_well_formed?-1 nil 3849903933
+   ("" (skeep)
+    (("" (skoletin)
+      (("" (flatten)
+        (("" (expand "alm_well_formed?" 2)
+          (("" (skolem 2 "v")
+            (("" (prop)
+              (("" (expand "member" -4)
+                (("" (prop)
+                  (("1" (replace -1)
+                    (("1" (expand "t1" 2)
+                      (("1" (hide -1)
+                        (("1" (expand "alm_well_formed?" 2)
+                          (("1" (prop)
+                            (("1" (expand "remove_common" -1)
+                              (("1"
+                                (expand "get_ac_from_args" -1 1)
+                                (("1" (propax) nil nil))
+                                nil))
+                              nil)
+                             ("2" (skolem 1 "t2")
+                              (("2"
+                                (flatten)
+                                (("2"
+                                  (expand "remove_common" -1)
+                                  (("2"
+                                    (use "subterm_get_ac_from_args")
+                                    (("2"
+                                      (prop)
+                                      (("1"
+                                        (expand "remove_common" 1)
+                                        (("1" (assert) nil nil))
+                                        nil)
+                                       ("2"
+                                        (hide -2)
+                                        (("2"
+                                          (rewrite "subterm_args")
+                                          (("2"
+                                            (skolem -1 "t2S")
+                                            (("2"
+                                              (prop)
+                                              (("2"
+                                                (use
+                                                 "remove_common_mem[term]")
+                                                (("2"
+                                                  (assert)
+                                                  (("2"
+                                                    (hide -2)
+                                                    (("2"
+                                                      (rewrite
+                                                       "well_formed_unif_prb")
+                                                      (("2"
+                                                        (inst -6 "t")
+                                                        (("2"
+                                                          (expand
+                                                           "member"
+                                                           -6)
+                                                          (("2"
+                                                            (use
+                                                             "well_formed_get_args")
+                                                            (("2"
+                                                              (assert)
+                                                              (("2"
+                                                                (expand
+                                                                 "well_formed?"
+                                                                 -1)
+                                                                (("2"
+                                                                  (inst
+                                                                   -1
+                                                                   "t2")
+                                                                  (("2"
+                                                                    (assert)
+                                                                    (("2"
+                                                                      (rewrite
+                                                                       "subterm_args")
+                                                                      (("2"
+                                                                        (inst
+                                                                         1
+                                                                         "t2S")
+                                                                        (("2"
+                                                                          (assert)
+                                                                          nil
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil)
+                                       ("3"
+                                        (hide -2)
+                                        (("3"
+                                          (use
+                                           "remove_common_not_null_unifies")
+                                          (("3" (assert) nil nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil)
+                   ("2" (replace -1)
+                    (("2" (expand "alm_well_formed?" 2)
+                      (("2" (prop)
+                        (("1" (expand "s1" -1)
+                          (("1" (expand "remove_common" -1)
+                            (("1" (expand "get_ac_from_args" -1)
+                              (("1" (propax) nil nil)) nil))
+                            nil))
+                          nil)
+                         ("2" (skolem 1 "s2")
+                          (("2" (prop)
+                            (("2" (expand "s1" -1)
+                              (("2"
+                                (expand "remove_common" -1)
+                                (("2"
+                                  (use "subterm_get_ac_from_args")
+                                  (("2"
+                                    (assert)
+                                    (("2"
+                                      (prop)
+                                      (("1"
+                                        (expand "s1" 1)
+                                        (("1"
+                                          (expand "remove_common" 1)
+                                          (("1" (assert) nil nil))
+                                          nil))
+                                        nil)
+                                       ("2"
+                                        (hide -2)
+                                        (("2"
+                                          (rewrite "subterm_args")
+                                          (("2"
+                                            (skolem -1 "s2S")
+                                            (("2"
+                                              (prop)
+                                              (("2"
+                                                (use
+                                                 "remove_common_mem[term]")
+                                                (("2"
+                                                  (assert)
+                                                  (("2"
+                                                    (rewrite
+                                                     "well_formed?"
+                                                     -8)
+                                                    (("2"
+                                                      (inst -8 "s2")
+                                                      (("2"
+                                                        (assert)
+                                                        (("2"
+                                                          (expand
+                                                           "subterms"
+                                                           4)
+                                                          (("2"
+                                                            (expand
+                                                             ("member"
+                                                              "union")
+                                                             4)
+                                                            (("2"
+                                                              (prop)
+                                                              (("2"
+                                                                (expand
+                                                                 "subterms"
+                                                                 4)
+                                                                (("2"
+                                                                  (expand
+                                                                   ("member"
+                                                                    "union")
+                                                                   4)
+                                                                  (("2"
+                                                                    (prop)
+                                                                    (("2"
+                                                                      (lemma
+                                                                       "get_args_subterms")
+                                                                      (("2"
+                                                                        (inst
+                                                                         -1
+                                                                         "f"
+                                                                         "s2S"
+                                                                         "s")
+                                                                        (("2"
+                                                                          (assert)
+                                                                          (("2"
+                                                                            (expand
+                                                                             "subset?"
+                                                                             -1)
+                                                                            (("2"
+                                                                              (inst
+                                                                               -1
+                                                                               "s2")
+                                                                              (("2"
+                                                                                (assert)
+                                                                                nil
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil)
+                                       ("3"
+                                        (hide -2)
+                                        (("3"
+                                          (use
+                                           "remove_common_not_null_unifies")
+                                          (("3"
+                                            (assert)
+                                            (("3"
+                                              (hide 2 3 -7 -8)
+                                              (("3"
+                                                (prop)
+                                                (("1"
+                                                  (expand "unifies?")
+                                                  (("1"
+                                                    (use "equal?_sym")
+                                                    (("1"
+                                                      (assert)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil)
+                                                 ("2"
+                                                  (lemma "equal?_sym")
+                                                  (("2"
+                                                    (inst -1 "t" "s")
+                                                    (("2"
+                                                      (assert)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil)
+                                                 ("3"
+                                                  (hide-all-but (-5 1))
+                                                  (("3"
+                                                    (grind)
+                                                    nil
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil)
+                   ("3" (expand "member" -1) (("3" (propax) nil nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((member def-decl "bool" unification nil)
+    (s1 skolem-const-decl
+     "term[constant, variable, f_symbol, ac_symbol]" unification nil)
+    (equal?_sym formula-decl nil equality nil)
+    (subs def-decl "term" substitution nil)
+    (union const-decl "set" sets nil)
+    (member const-decl "bool" sets nil)
+    (subterms const-decl
+     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
+     unification nil)
+    (subset? const-decl "bool" sets nil)
+    (get_args_subterms formula-decl nil term_properties nil)
+    (subterms def-decl
+     "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
+     unification nil)
+    (get_ac_from_args const-decl "term" term_properties nil)
+    (subterm_get_ac_from_args formula-decl nil term_properties nil)
+    (every adt-def-decl "boolean" list_adt nil)
+    (args type-eq-decl nil term_properties nil)
+    (equivalence? const-decl "bool" relations nil)
+    (equiv type-eq-decl nil list_theory nil)
+    (remove_common def-decl "list[T]" list_theory nil)
+    (get_args const-decl "args" term_properties nil)
+    (remove_common_not_null_unifies formula-decl nil unification nil)
+    (remove_common_mem formula-decl nil list_theory nil)
+    (well_formed_get_args formula-decl nil term_properties nil)
+    (well_formed? const-decl "bool" term_properties nil)
+    (well_formed_unif_prb formula-decl nil unification nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (subterm_args formula-decl nil term_properties nil)
+    (alm_well_formed? const-decl "bool" term_properties nil)
+    (t1 skolem-const-decl
+     "term[constant, variable, f_symbol, ac_symbol]" unification nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (basic_sub type-eq-decl nil substitution nil)
+    (list type-decl nil list_adt nil)
+    (sub type-eq-decl nil substitution nil)
+    (unif_pair type-eq-decl nil unification nil)
+    (unifies? const-decl "bool" unification nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (equal? def-decl "bool" equality nil)
+    (are_ac? const-decl "bool" term_properties nil)
+    (unif_prb type-eq-decl nil unification nil)
+    (well_formed? const-decl "bool" unification nil)
+    (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (cons adt-constructor-decl "[[T, list] -> (cons?)]" list_adt nil)
+    (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
+    (null adt-constructor-decl "(null?)" list_adt nil)
+    (alm_well_formed? const-decl "bool" unification nil)
+    (remove_common const-decl "[term, term]" equality nil)
+    (string type-eq-decl nil strings nil)
+    (variable type-eq-decl nil term_properties nil)
+    (constant type-eq-decl nil term_properties nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (>= const-decl "bool" reals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (every adt-def-decl "boolean" term_adt nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (term type-decl nil term_adt nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (char type-eq-decl nil strings nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (character type-decl nil character_adt nil)
+    (below type-eq-decl nil nat_types nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (number nonempty-type-decl nil numbers nil)
+    (IFF const-decl "[bool, bool -> bool]" booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (bijective? const-decl "bool" functions nil)
+    (id const-decl "(bijective?[T, T])" identity nil)
+    (TRUE const-decl "bool" booleans nil))
+   shostak))
+ (remove_common_well_formed 0
+  (remove_common_well_formed-1 nil 3849879867
+   ("" (skeep)
+    (("" (assert)
+      (("" (prop)
+        (("" (expand "well_formed?" 2)
+          (("" (skolem 2 "t2")
+            (("" (prop)
+              (("1" (postpone) nil nil) ("2" (postpone) nil nil)) nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   nil shostak)))
 

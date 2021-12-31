@@ -20,7 +20,7 @@ lst_args1, lst_args2: VAR list[args]
 sym, f: VAR string
 
 i, j, n: VAR nat
-coef: VAR list[nat]
+coef, lst_nat: VAR list[nat]
 
 
 equal?(t, s): RECURSIVE bool =
@@ -276,7 +276,6 @@ remove_common(t, s, f): [term, term] =
     no_common_args1 = remove_common(args1, args2, equal?),
     no_common_args2 = remove_common(args2, args1, equal?) IN
     (get_ac_from_args(f)(no_common_args1), get_ac_from_args(f)(no_common_args2))
-   
 
 % True if a term equal to s (mod AC) is a member of args
 member_ac(s, args1): bool = EXISTS t: equal?(s, t) AND member(t, args1)
@@ -348,5 +347,19 @@ vars_count_elem2: LEMMA
 
 no_pair_ac_count_elem2: LEMMA 
     no_pair_ac?(f, count_elem2(args1, equal?)`1) = no_pair_ac?(f, args1)
+
+var_lst_dif_elem: LEMMA 
+   dif_elem?[nat](lst_nat, =) IFF dif_elem?(var_lst(lst_nat), equal?)
+
+well_formed_count_elem2: LEMMA 
+   well_formed?(args1) IMPLIES well_formed?(count_elem2(args1, equal?)`1) 
+
+% remove_common, no_common_args
+remove_common_no_common: LEMMA 
+   no_common_args?(args1, args2) IMPLIES remove_common(args1, args2, equal?) = args1  
+
+remove_common_sym: LEMMA 
+   remove_common(t, s, f)`1 = remove_common(s, t, f)`2 AND
+   remove_common(t, s, f)`2 = remove_common(s, t, f)`1
 
 END equality

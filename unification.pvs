@@ -111,6 +111,9 @@ MEASURE lst_unif_prb BY <<
 unifies?(sigma, unif_pair): bool = 
     LET (t, s) = unif_pair IN equal?(subs(sigma)(t), subs(sigma)(s))
 
+unifiable?(t, s): bool =
+    EXISTS sigma: unifies?(sigma, (t, s))
+
 % check if sigma unifies a unification problem
 unifies?(sigma, unif_prb): RECURSIVE bool =
     IF null?(unif_prb) THEN TRUE 
@@ -194,6 +197,9 @@ well_formed?(unif_prb): bool =
    FORALL t:
      (member(t, subterms(unif_prb)) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1) AND
      (member(t, unif_prb) IMPLIES NOT pair?(t))
+
+alm_well_formed?(unif_prb): bool =
+   FORALL t: member(t, unif_prb) IMPLIES alm_well_formed?(t)
     
 subset?(unif_prb, unif_prb1): bool =
    FORALL unif_pair:
@@ -404,16 +410,15 @@ select_greater_cor: LEMMA
    FORALL t: member(t, unif_prb) IMPLIES size(t) <= size(select_greater(unif_prb))
 
 % well_formed:
-well_formed_apply_sub: CONJECTURE 
-   well_formed?(unif_prb) AND
-   (FORALL t: member(t, subterms(img(sigma))) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1)
-   IMPLIES well_formed?(apply_sub(sigma, unif_prb))
-
-well_formed_subset: CONJECTURE 
-   subset?(unif_prb, unif_prb1) AND well_formed?(unif_prb1) IMPLIES well_formed?(unif_prb) 
-
 well_formed_unif_prb: LEMMA 
    well_formed?(unif_prb) IFF (FORALL t: member(t, unif_prb) IMPLIES well_formed?(t))
+
+well_formed_apply_sub: LEMMA
+   well_formed?(unif_prb) AND well_formed?(sigma)
+   IMPLIES well_formed?(apply_sub(sigma, unif_prb))
+
+well_formed_subset: LEMMA 
+   subset?(unif_prb, unif_prb1) AND well_formed?(unif_prb1) IMPLIES well_formed?(unif_prb) 
 
 unifies?_impossible: LEMMA
    (FORALL t1:
@@ -427,6 +432,11 @@ remove_common_not_null_count: LEMMA
        count(t1, args1, equal?) > count(t1, args2, equal?))
    IMPLIES NOT null?(remove_common(args1, args2, equal?))
 
+remove_common_not_null_unifies: LEMMA 
+   unifies?(delta, (t, s)) AND NOT equal?(t, s) AND are_ac?(t, s, f) IMPLIES  
+   (NOT null?(remove_common(get_args(f)(t), get_args(f)(s), equal?)) AND
+    NOT null?(remove_common(get_args(f)(s), get_args(f)(t), equal?)))
+
 remove_common_args_cor: LEMMA
    LET (t1, s1) = remove_common(t, s, f) IN
    unifies?(delta, (t, s)) AND NOT equal?(t, s) AND are_ac?(t, s, f) IMPLIES  
@@ -437,5 +447,25 @@ get_args_remove_common: LEMMA
    LET (t1, s1) = remove_common(t, s, f) IN
    unifies?(delta, (t, s)) AND NOT equal?(t, s) AND are_ac?(t, s, f) IMPLIES  
    get_args(f)(t1) = remove_common(get_args(f)(t), get_args(f)(s), equal?)
+
+remove_common_eq: LEMMA 
+    LET (t1, s1) = remove_common(t, s, f) IN 
+    NOT equal?(t, s) AND are_ac?(t, s, f) AND unifies?(delta, (t, s)) IMPLIES 
+    equal?(subs(delta)(t1), subs(delta)(s1))
+
+remove_common_no_common_args: LEMMA 
+   LET (t1, s1) = remove_common(t, s, f) IN 
+   unifies?(delta, (t, s)) AND NOT equal?(t, s) AND are_ac?(t, s, f) IMPLIES  
+   no_common_args?(get_args(f)(t1), get_args(f)(s1))
+
+remove_common_vars: LEMMA 
+   LET (t1, s1) = remove_common(t, s, f) IN
+   subset?(vars(t1, s1), vars(t, s))
+   
+remove_common_alm_well_formed?: LEMMA  
+   LET (t1, s1) = remove_common(t, s, f) IN
+   unifies?(delta, (t, s)) AND NOT equal?(t, s) AND are_ac?(t, s, f) IMPLIES  
+   well_formed?(cons((t, s), null)) IMPLIES alm_well_formed?(cons((t1, s1), null)) 
+
 
 END unification 

@@ -15,7 +15,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -48,7 +48,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -83,7 +83,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -118,7 +118,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -152,7 +152,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -187,7 +187,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (PRED type-eq-decl nil defined_types nil)
-    (list type-decl nil list_adt nil) nil nil
+    (list type-decl nil list_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -222,7 +222,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (PRED type-eq-decl nil defined_types nil)
-    (list type-decl nil list_adt nil) nil nil
+    (list type-decl nil list_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -263,7 +263,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (PRED type-eq-decl nil defined_types nil)
-    (list type-decl nil list_adt nil) nil nil
+    (list type-decl nil list_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -294,7 +294,7 @@
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -324,7 +324,7 @@
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -361,7 +361,7 @@
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -391,7 +391,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -406,7 +406,7 @@
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (args type-eq-decl nil term_properties nil)
     (<< adt-def-decl "(strict_well_founded?[list])" list_adt nil))
    nil
@@ -428,7 +428,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -463,7 +463,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -498,7 +498,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -533,7 +533,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -572,7 +572,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (PRED type-eq-decl nil defined_types nil)
-    (list type-decl nil list_adt nil) nil nil
+    (list type-decl nil list_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -609,7 +609,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (PRED type-eq-decl nil defined_types nil)
-    (list type-decl nil list_adt nil) nil nil
+    (list type-decl nil list_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -639,7 +639,7 @@
     (NOT const-decl "[bool -> bool]" booleans nil)
     (number nonempty-type-decl nil numbers nil)
     (PRED type-eq-decl nil defined_types nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -662,7 +662,7 @@
     (NOT const-decl "[bool -> bool]" booleans nil)
     (number nonempty-type-decl nil numbers nil)
     (PRED type-eq-decl nil defined_types nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -703,7 +703,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (PRED type-eq-decl nil defined_types nil)
-    (list type-decl nil list_adt nil) nil nil
+    (list type-decl nil list_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -740,7 +740,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (PRED type-eq-decl nil defined_types nil)
-    (list type-decl nil list_adt nil) nil nil
+    (list type-decl nil list_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -773,7 +773,7 @@
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -845,7 +845,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -927,7 +927,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -981,9 +981,9 @@
      nil)
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
-    (ac_symbol type-eq-decl nil term_properties nil) nil
+    (ac_symbol type-eq-decl nil term_properties nil)
     (TRUE const-decl "bool" booleans nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (term type-decl nil term_adt nil))
    SHOSTAK))
@@ -1009,7 +1009,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -1023,8 +1023,8 @@
     (TRUE const-decl "bool" booleans nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil
-    (args type-eq-decl nil term_properties nil) nil
+    (variable type-eq-decl nil term_properties nil)
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    shostak))
  (num_arg_ge1 0
@@ -1063,7 +1063,7 @@
     (> const-decl "bool" reals nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -1078,7 +1078,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -1111,7 +1111,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -1146,7 +1146,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -1231,7 +1231,7 @@
     (= const-decl "[T, T -> boolean]" equalities nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -1246,7 +1246,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -1290,12 +1290,12 @@
         nil))
       nil))
     nil)
-   ((select_num_arg formula-decl nil term_properties nil) nil nil nil
+   ((select_num_arg formula-decl nil term_properties nil)
     (select def-decl "term" term_properties nil)
     (string type-eq-decl nil strings nil)
     (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (TRUE const-decl "bool" booleans nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (term type-decl nil term_adt nil)
     (num_arg def-decl "nat" term_properties nil)
@@ -1427,8 +1427,8 @@
       nil))
     nil)
    ((ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
-    (ac_arg adt-accessor-decl "[(ac_app?) -> term]" term_adt nil) nil
-    nil (num_arg def-decl "nat" term_properties nil) nil
+    (ac_arg adt-accessor-decl "[(ac_app?) -> term]" term_adt nil)
+    (num_arg def-decl "nat" term_properties nil)
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (int_minus_int_is_int application-judgement "int" integers nil)
@@ -1448,7 +1448,7 @@
     (NOT const-decl "[bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -1463,7 +1463,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -1545,7 +1545,7 @@
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -1560,7 +1560,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -1707,8 +1707,8 @@
    ((real_ge_is_total_order name-judgement "(total_order?[real])"
      real_props nil)
     (ac_arg adt-accessor-decl "[(ac_app?) -> term]" term_adt nil)
-    (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil) nil
-    (term1 adt-accessor-decl "[(pair?) -> term]" term_adt nil) nil nil
+    (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
+    (term1 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (int_minus_int_is_int application-judgement "int" integers nil)
@@ -1725,13 +1725,13 @@
      real_props nil)
     (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
      integers nil)
-    nil (num_arg def-decl "nat" term_properties nil)
+    (num_arg def-decl "nat" term_properties nil)
     (select def-decl "term" term_properties nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -1746,7 +1746,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -1809,7 +1809,7 @@
     (int_minus_int_is_int application-judgement "int" integers nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    nil (num_arg def-decl "nat" term_properties nil) nil nil
+    (num_arg def-decl "nat" term_properties nil)
     (term1 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (real_lt_is_strict_total_order name-judgement
@@ -1822,7 +1822,7 @@
     (<= const-decl "bool" reals nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -1837,7 +1837,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -1901,7 +1901,7 @@
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (TRUE const-decl "bool" booleans nil)
     (constant type-eq-decl nil term_properties nil)
@@ -1912,7 +1912,7 @@
      real_props nil)
     (posint_plus_nnint_is_posint application-judgement "posint"
      integers nil)
-    nil (select_size formula-decl nil term_properties nil)
+    (select_size formula-decl nil term_properties nil)
     (select def-decl "term" term_properties nil))
    SHOSTAK))
  (delete_size 0
@@ -1965,7 +1965,7 @@
     (int_minus_int_is_int application-judgement "int" integers nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    nil (num_arg def-decl "nat" term_properties nil) nil nil
+    (num_arg def-decl "nat" term_properties nil)
     (term1 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (real_lt_is_strict_total_order name-judgement
@@ -1978,7 +1978,7 @@
     (<= const-decl "bool" reals nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -1993,7 +1993,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -2085,7 +2085,7 @@
     (<= const-decl "bool" reals nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -2100,7 +2100,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -2179,7 +2179,6 @@
     (term2 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (real_ge_is_total_order name-judgement "(total_order?[real])"
      real_props nil)
-    nil nil nil
     (term1 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (real_lt_is_strict_total_order name-judgement
@@ -2204,7 +2203,7 @@
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -2219,7 +2218,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -2302,7 +2301,6 @@
      real_props nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    nil nil nil
     (int_minus_int_is_int application-judgement "int" integers nil)
     (term1 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil)
@@ -2323,7 +2321,7 @@
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -2338,7 +2336,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -2412,7 +2410,7 @@
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -2427,7 +2425,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -2489,7 +2487,7 @@
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (num_arg_ge1 formula-decl nil term_properties nil)
-    (string type-eq-decl nil strings nil) nil
+    (string type-eq-decl nil strings nil)
     (posint_plus_nnint_is_posint application-judgement "posint"
      integers nil)
     (num_arg def-decl "nat" term_properties nil)
@@ -2510,7 +2508,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -2603,7 +2601,7 @@
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -2618,7 +2616,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -2791,7 +2789,7 @@
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -2806,7 +2804,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -2858,7 +2856,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (TRUE const-decl "bool" booleans nil)
     (constant type-eq-decl nil term_properties nil)
@@ -2947,7 +2945,6 @@
     (real_ge_is_total_order name-judgement "(total_order?[real])"
      real_props nil)
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    nil nil nil
     (int_minus_int_is_int application-judgement "int" integers nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
@@ -2973,7 +2970,7 @@
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -2988,7 +2985,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -3067,7 +3064,6 @@
     (num_arg_delete_size formula-decl nil term_properties nil)
     (int_minus_int_is_int application-judgement "int" integers nil)
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    nil
     (nnint_plus_posint_is_posint application-judgement "posint"
      integers nil)
     (list_induction formula-decl nil list_adt nil)
@@ -3083,7 +3079,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -3098,12 +3094,12 @@
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
-    (delete def-decl "args" term_properties nil) nil
+    (delete def-decl "args" term_properties nil)
     (length def-decl "nat" list_props nil)
     (< const-decl "bool" reals nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    SHOSTAK))
  (delete_remove1 0
@@ -3163,7 +3159,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -3177,7 +3173,7 @@
     (TRUE const-decl "bool" booleans nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil
+    (variable type-eq-decl nil term_properties nil)
     (delete def-decl "args" term_properties nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (nth def-decl "T" list_props nil)
@@ -3186,7 +3182,7 @@
     (< const-decl "bool" reals nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    SHOSTAK))
  (delete_nth_len 0
@@ -3227,7 +3223,6 @@
     (int_minus_int_is_int application-judgement "int" integers nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    nil
     (nnint_plus_posint_is_posint application-judgement "posint"
      integers nil)
     (real_lt_is_strict_total_order name-judgement
@@ -3249,7 +3244,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -3273,7 +3268,7 @@
     (< const-decl "bool" reals nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    SHOSTAK))
  (delete_nth_TCC1 0
@@ -3300,7 +3295,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (list type-decl nil list_adt nil) (term type-decl nil term_adt nil)
@@ -3382,7 +3377,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -3401,7 +3396,7 @@
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (delete def-decl "term" term_properties nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (args type-eq-decl nil term_properties nil)
     (string type-eq-decl nil strings nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
@@ -3450,7 +3445,6 @@
     (int_minus_int_is_int application-judgement "int" integers nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    nil
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (nnint_plus_posint_is_posint application-judgement "posint"
@@ -3470,7 +3464,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -3485,7 +3479,7 @@
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
-    (delete def-decl "args" term_properties nil) nil
+    (delete def-decl "args" term_properties nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (> const-decl "bool" reals nil) (nth def-decl "T" list_props nil)
     (num_arg def-decl "nat" term_properties nil)
@@ -3493,7 +3487,7 @@
     (< const-decl "bool" reals nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    SHOSTAK))
  (delete_not_null 0
@@ -3537,7 +3531,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -3562,7 +3556,7 @@
     (< const-decl "bool" reals nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    SHOSTAK))
  (remove_size_args 0
@@ -3616,7 +3610,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -3630,11 +3624,11 @@
     (TRUE const-decl "bool" booleans nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil nil
+    (variable type-eq-decl nil term_properties nil)
     (length def-decl "nat" list_props nil)
     (< const-decl "bool" reals nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    shostak))
  (remove_size_lst_args 0
@@ -3752,7 +3746,7 @@
     (size_args_ge1 formula-decl nil term_properties nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
-    (remove def-decl "list[list[T]]" list_theory nil) nil
+    (remove def-decl "list[list[T]]" list_theory nil)
     (nth def-decl "T" list_props nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -3773,7 +3767,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (list type-decl nil list_adt nil) (term type-decl nil term_adt nil)
@@ -4017,12 +4011,12 @@
     (num_arg def-decl "nat" term_properties nil)
     (cons adt-constructor-decl "[[T, list] -> (cons?)]" list_adt nil)
     (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
-    (nice_ind? def-decl "bool" term_properties nil) nil
+    (nice_ind? def-decl "bool" term_properties nil)
     (list type-decl nil list_adt nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -4037,7 +4031,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -4080,7 +4074,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -4356,7 +4350,7 @@
     (<= const-decl "bool" reals nil) (> const-decl "bool" reals nil)
     (cons adt-constructor-decl "[[T, list] -> (cons?)]" list_adt nil)
     (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
-    (nice_ind? def-decl "bool" term_properties nil) nil
+    (nice_ind? def-decl "bool" term_properties nil)
     (list type-decl nil list_adt nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (num_arg def-decl "nat" term_properties nil)
@@ -4367,7 +4361,7 @@
     (nnint_plus_posint_is_posint application-judgement "posint"
      integers nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -4382,7 +4376,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -4425,7 +4419,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (TRUE const-decl "bool" booleans nil)
     (constant type-eq-decl nil term_properties nil)
@@ -4735,7 +4729,7 @@
     (= const-decl "[T, T -> boolean]" equalities nil)
     (string type-eq-decl nil strings nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (nice_ind? def-decl "bool" term_properties nil)
     (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
     (cons adt-constructor-decl "[[T, list] -> (cons?)]" list_adt nil)
@@ -4745,7 +4739,7 @@
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
     (int_minus_int_is_int application-judgement "int" integers nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -4760,7 +4754,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -5534,7 +5528,7 @@
     (= const-decl "[T, T -> boolean]" equalities nil)
     (string type-eq-decl nil strings nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (nice_ind? def-decl "bool" term_properties nil)
     (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
     (cons adt-constructor-decl "[[T, list] -> (cons?)]" list_adt nil)
@@ -5544,7 +5538,7 @@
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
     (int_minus_int_is_int application-judgement "int" integers nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -5559,7 +5553,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -5585,11 +5579,11 @@
         (("" (rewrite "from_min2max_len1") nil nil)) nil))
       nil))
     nil)
-   (nil (from_min2max_len1 formula-decl nil list_theory nil)
+   ((from_min2max_len1 formula-decl nil list_theory nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
     (TRUE const-decl "bool" booleans nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (term type-decl nil term_adt nil)
     (ac_symbol type-eq-decl nil term_properties nil)
@@ -5614,7 +5608,7 @@
     (boolean nonempty-type-decl nil booleans nil)
     (number nonempty-type-decl nil numbers nil)
     (num_arg def-decl "nat" term_properties nil)
-    (from_min2max def-decl "list[nat]" list_theory nil) nil
+    (from_min2max def-decl "list[nat]" list_theory nil)
     (list type-decl nil list_adt nil)
     (select def-decl "term" term_properties nil)
     (string type-eq-decl nil strings nil)
@@ -5634,7 +5628,7 @@
     (num_arg_ge1 formula-decl nil term_properties nil)
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
-    (from_min2max def-decl "list[nat]" list_theory nil) nil nil
+    (from_min2max def-decl "list[nat]" list_theory nil)
     (length def-decl "nat" list_props nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -5649,7 +5643,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -5685,9 +5679,9 @@
         nil))
       nil))
     nil)
-   (nil (string type-eq-decl nil strings nil)
+   ((string type-eq-decl nil strings nil)
     (select def-decl "term" term_properties nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
     (num_arg def-decl "nat" term_properties nil)
     (nth def-decl "T" list_props nil)
@@ -5719,7 +5713,7 @@
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (TRUE const-decl "bool" booleans nil)
     (constant type-eq-decl nil term_properties nil)
@@ -5814,7 +5808,7 @@
         nil))
       nil))
     nil)
-   (nil (list type-decl nil list_adt nil) nil nil
+   ((list type-decl nil list_adt nil)
     (string type-eq-decl nil strings nil)
     (select def-decl "term" term_properties nil)
     (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
@@ -5824,7 +5818,7 @@
     (num_arg def-decl "nat" term_properties nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
-    nil nil nil (length def-decl "nat" list_props nil)
+    (length def-decl "nat" list_props nil)
     (< const-decl "bool" reals nil)
     (below type-eq-decl nil naturalnumbers nil)
     (NOT const-decl "[bool -> bool]" booleans nil)
@@ -5845,7 +5839,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -6342,7 +6336,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -6365,7 +6359,7 @@
     (nth_append formula-decl nil list_theory nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
-    (from_min2max def-decl "list[nat]" list_theory nil) nil nil nil nil
+    (from_min2max def-decl "list[nat]" list_theory nil)
     (below type-eq-decl nil naturalnumbers nil)
     (select def-decl "term" term_properties nil)
     (int_minus_int_is_int application-judgement "int" integers nil)
@@ -6378,7 +6372,7 @@
     (nth_from_min2max2 formula-decl nil list_theory nil)
     (map_nth_rw formula-decl nil more_map_props nil)
     (map_length formula-decl nil more_map_props nil)
-    (NOT const-decl "[bool -> bool]" booleans nil) nil
+    (NOT const-decl "[bool -> bool]" booleans nil)
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (real_ge_is_total_order name-judgement "(total_order?[real])"
@@ -6388,9 +6382,9 @@
     (append def-decl "list[T]" list_props nil)
     (pair adt-constructor-decl "[[term, term] -> (pair?)]" term_adt
      nil)
-    (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil) nil
+    (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (args type-eq-decl nil term_properties nil)
-    (string type-eq-decl nil strings nil) nil
+    (string type-eq-decl nil strings nil)
     (list type-decl nil list_adt nil))
    nil)
   (get_args_pair-4 nil 3830438452
@@ -7683,9 +7677,9 @@
         nil))
       nil))
     nil)
-   (nil (string type-eq-decl nil strings nil)
+   ((string type-eq-decl nil strings nil)
     (select def-decl "term" term_properties nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
     (num_arg def-decl "nat" term_properties nil)
     (select_not_pair formula-decl nil term_properties nil)
@@ -7712,7 +7706,7 @@
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (TRUE const-decl "bool" booleans nil)
     (constant type-eq-decl nil term_properties nil)
@@ -7732,11 +7726,11 @@
         nil))
       nil))
     nil)
-   (nil (select_not_ac formula-decl nil term_properties nil)
+   ((select_not_ac formula-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
     (TRUE const-decl "bool" booleans nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (term type-decl nil term_adt nil)
     (ac_symbol type-eq-decl nil term_properties nil)
@@ -7761,7 +7755,7 @@
     (boolean nonempty-type-decl nil booleans nil)
     (number nonempty-type-decl nil numbers nil)
     (num_arg def-decl "nat" term_properties nil)
-    (from_min2max def-decl "list[nat]" list_theory nil) nil
+    (from_min2max def-decl "list[nat]" list_theory nil)
     (list type-decl nil list_adt nil)
     (select def-decl "term" term_properties nil)
     (string type-eq-decl nil strings nil)
@@ -7797,7 +7791,6 @@
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (every adt-def-decl "boolean" term_adt nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -7829,7 +7822,7 @@
         nil))
       nil))
     nil)
-   (nil (member def-decl "bool" list_props nil) nil
+   ((member def-decl "bool" list_props nil)
     (num_arg_ge1 formula-decl nil term_properties nil)
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
@@ -7846,7 +7839,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -7882,7 +7875,7 @@
         nil))
       nil))
     nil)
-   (nil (nat nonempty-type-eq-decl nil naturalnumbers nil)
+   ((nat nonempty-type-eq-decl nil naturalnumbers nil)
     (below type-eq-decl nil nat_types nil)
     (character type-decl nil character_adt nil)
     (boolean nonempty-type-decl nil booleans nil)
@@ -7895,7 +7888,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -7909,13 +7902,111 @@
     (TRUE const-decl "bool" booleans nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil
+    (variable type-eq-decl nil term_properties nil)
     (num_arg def-decl "nat" term_properties nil)
     (is_ac_sym? const-decl "bool" term_properties nil)
     (select def-decl "term" term_properties nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
     (num_arg_not_pair_ac formula-decl nil term_properties nil))
    SHOSTAK))
+ (get_args_not_pair_ac2 0
+  (get_args_not_pair_ac2-1 nil 3849357527
+   ("" (induct "args" 1)
+    (("1" (grind) nil nil)
+     ("2" (skolem 1 ("hd" "tail"))
+      (("2" (prop)
+        (("2" (skeep)
+          (("2" (expand "map" 1)
+            (("2" (expand "flatten" 1)
+              (("2" (inst -1 "f")
+                (("2" (prop)
+                  (("1" (replace -1)
+                    (("1" (lemma "get_args_not_pair_ac")
+                      (("1" (inst -1 "f" "hd")
+                        (("1" (expand "no_pair_ac?" -3)
+                          (("1" (inst -3 "hd")
+                            (("1" (assert)
+                              (("1"
+                                (expand "member" -3 1)
+                                (("1"
+                                  (flatten)
+                                  (("1"
+                                    (assert)
+                                    (("1"
+                                      (replace -1)
+                                      (("1"
+                                        (expand "append" 3)
+                                        (("1"
+                                          (expand "append" 3)
+                                          (("1" (propax) nil nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil)
+                   ("2" (hide 2)
+                    (("2" (expand "no_pair_ac?")
+                      (("2" (skeep)
+                        (("2" (inst -2 "t") (("2" (grind) nil nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((get_args_not_pair_ac formula-decl nil term_properties nil)
+    (append def-decl "list[T]" list_props nil)
+    (member def-decl "bool" list_props nil)
+    (is_ac_sym? const-decl "bool" term_properties nil)
+    (list_induction formula-decl nil list_adt nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (below type-eq-decl nil nat_types nil)
+    (character type-decl nil character_adt nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (char type-eq-decl nil strings nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (term type-decl nil term_adt nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (>= const-decl "bool" reals nil)
+    (TRUE const-decl "bool" booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (constant type-eq-decl nil term_properties nil)
+    (variable type-eq-decl nil term_properties nil)
+    (flatten def-decl "list[T]" list_theory nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (no_pair_ac? const-decl "bool" term_properties nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (string type-eq-decl nil strings nil)
+    (args type-eq-decl nil term_properties nil)
+    (list type-decl nil list_adt nil))
+   shostak))
  (get_args_nth_TCC1 0
   (get_args_nth_TCC1-1 nil 3807116901
    ("" (skeep)
@@ -7941,7 +8032,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -7994,18 +8085,16 @@
         nil))
       nil))
     nil)
-   (nil
-    (real_lt_is_strict_total_order name-judgement
+   ((real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (real_ge_is_total_order name-judgement "(total_order?[real])"
      real_props nil)
-    (int_minus_int_is_int application-judgement "int" integers nil) nil
-    nil (num_arg def-decl "nat" term_properties nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (num_arg def-decl "nat" term_properties nil)
     (string type-eq-decl nil strings nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
-    (length def-decl "nat" list_props nil) nil
+    (length def-decl "nat" list_props nil)
     (list type-decl nil list_adt nil) (< const-decl "bool" reals nil)
-    nil
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (select def-decl "term" term_properties nil)
@@ -8041,7 +8130,7 @@
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (TRUE const-decl "bool" booleans nil)
     (constant type-eq-decl nil term_properties nil)
@@ -8072,7 +8161,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (TRUE const-decl "bool" booleans nil)
     (constant type-eq-decl nil term_properties nil)
@@ -8446,7 +8535,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -8494,20 +8583,20 @@
     (select def-decl "term" term_properties nil)
     (below type-eq-decl nil naturalnumbers nil)
     (num_arg def-decl "nat" term_properties nil)
-    (from_min2max def-decl "list[nat]" list_theory nil) nil nil nil
+    (from_min2max def-decl "list[nat]" list_theory nil)
     (map_nth_rw formula-decl nil more_map_props nil)
     (gt_nth_remove formula-decl nil list_theory nil)
-    (nth def-decl "T" list_props nil) nil
+    (nth def-decl "T" list_props nil)
     (le_select_delete formula-decl nil term_properties nil)
     (nonneg_rat_max application-judgement
      "{s: nonneg_rat | s >= q AND s >= r}" real_defs nil)
     (nat_max application-judgement "{k: nat | i <= k AND j <= k}"
      real_defs nil)
     (gt_nth_remove2 formula-decl nil list_theory nil)
-    (delete def-decl "term" term_properties nil) nil
+    (delete def-decl "term" term_properties nil)
     (args type-eq-decl nil term_properties nil)
-    (string type-eq-decl nil strings nil) nil nil
-    (list type-decl nil list_adt nil) nil
+    (string type-eq-decl nil strings nil)
+    (list type-decl nil list_adt nil)
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (int_minus_int_is_int application-judgement "int" integers nil)
@@ -9345,9 +9434,9 @@
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (get_args_pair formula-decl nil term_properties nil)
-    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil) nil
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
     (flatten def-decl "list[T]" list_theory nil)
-    (get_term_from_args def-decl "term" term_properties nil) nil
+    (get_term_from_args def-decl "term" term_properties nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
     (NOT const-decl "[bool -> bool]" booleans nil)
@@ -9371,7 +9460,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (list type-decl nil list_adt nil) (term type-decl nil term_adt nil)
@@ -9450,7 +9539,7 @@
     (get_args_len formula-decl nil term_properties nil)
     (num_arg def-decl "nat" term_properties nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
-    (select def-decl "term" term_properties nil) nil
+    (select def-decl "term" term_properties nil)
     (list_induction formula-decl nil list_adt nil)
     (number nonempty-type-decl nil numbers nil)
     (nat nonempty-type-eq-decl nil naturalnumbers nil)
@@ -9464,7 +9553,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -9479,10 +9568,10 @@
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
-    (get_term_from_args def-decl "term" term_properties nil) nil
+    (get_term_from_args def-decl "term" term_properties nil)
     (length def-decl "nat" list_props nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    shostak))
  (get_args_get_ac_from_args 0
@@ -9498,7 +9587,7 @@
    ((get_ac_from_args const-decl "term" term_properties nil)
     (get_args_get_term_from_args formula-decl nil term_properties nil)
     (get_term_from_args def-decl "term" term_properties nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -9513,7 +9602,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -9604,7 +9693,7 @@
     (get_term_from_args def-decl "term" term_properties nil)
     (num_arg def-decl "nat" term_properties nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
-    (select def-decl "term" term_properties nil) nil
+    (select def-decl "term" term_properties nil)
     (list_induction formula-decl nil list_adt nil)
     (number nonempty-type-decl nil numbers nil)
     (nat nonempty-type-eq-decl nil naturalnumbers nil)
@@ -9618,7 +9707,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -9633,13 +9722,13 @@
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
-    (get_ac_from_args const-decl "term" term_properties nil) nil
+    (get_ac_from_args const-decl "term" term_properties nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
-    (NOT const-decl "[bool -> bool]" booleans nil) nil
+    (NOT const-decl "[bool -> bool]" booleans nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    SHOSTAK))
  (get_args_get_ac_from_args2 0
@@ -9873,7 +9962,7 @@
     (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
-    (is_ac_sym? const-decl "bool" term_properties nil) nil
+    (is_ac_sym? const-decl "bool" term_properties nil)
     (select def-decl "term" term_properties nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
     (num_arg def-decl "nat" term_properties nil)
@@ -9881,7 +9970,7 @@
      "(strict_total_order?[real])" real_props nil)
     (append def-decl "list[T]" list_props nil)
     (get_args_pair formula-decl nil term_properties nil)
-    (get_ac_from_args const-decl "term" term_properties nil) nil
+    (get_ac_from_args const-decl "term" term_properties nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (no_pair_ac? const-decl "bool" term_properties nil)
     (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
@@ -9906,7 +9995,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (list type-decl nil list_adt nil) (term type-decl nil term_adt nil)
@@ -10166,9 +10255,9 @@
    ((nnint_plus_posint_is_posint application-judgement "posint"
      integers nil)
     (equal_lst_nth formula-decl nil list_theory nil)
-    (list type-decl nil list_adt nil) nil nil
+    (list type-decl nil list_adt nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (delete def-decl "term" term_properties nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
@@ -10184,7 +10273,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -10233,7 +10322,7 @@
     (select def-decl "term" term_properties nil)
     (below type-eq-decl nil naturalnumbers nil)
     (num_arg def-decl "nat" term_properties nil)
-    (from_min2max def-decl "list[nat]" list_theory nil) nil nil nil nil
+    (from_min2max def-decl "list[nat]" list_theory nil)
     (gt_nth_remove formula-decl nil list_theory nil)
     (le_select_delete formula-decl nil term_properties nil)
     (gt_nth_remove2 formula-decl nil list_theory nil))
@@ -10632,7 +10721,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -10647,7 +10736,7 @@
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
-    (delete def-decl "args" term_properties nil) nil nil
+    (delete def-decl "args" term_properties nil)
     (remove def-decl "list[list[T]]" list_theory nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (nth def-decl "T" list_props nil)
@@ -10656,7 +10745,7 @@
     (< const-decl "bool" reals nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    SHOSTAK))
  (map_get_args_get_ac_from_args 0
@@ -10711,7 +10800,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -10724,12 +10813,12 @@
     (>= const-decl "bool" reals nil)
     (TRUE const-decl "bool" booleans nil)
     (args type-eq-decl nil term_properties nil)
-    (get_ac_from_args const-decl "term" term_properties nil) nil nil
+    (get_ac_from_args const-decl "term" term_properties nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (no_null_entries? def-decl "bool" list_theory nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
-    (int nonempty-type-eq-decl nil integers nil) nil
+    (int nonempty-type-eq-decl nil integers nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (string type-eq-decl nil strings nil))
    SHOSTAK))
@@ -10775,7 +10864,7 @@
     (select def-decl "term" term_properties nil)
     (string type-eq-decl nil strings nil)
     (TRUE const-decl "bool" booleans nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (term type-decl nil term_adt nil))
    shostak))
@@ -10794,7 +10883,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -10808,7 +10897,7 @@
     (TRUE const-decl "bool" booleans nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil
+    (variable type-eq-decl nil term_properties nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (posint_plus_nnint_is_posint application-judgement "posint"
@@ -10831,7 +10920,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -10845,7 +10934,7 @@
     (TRUE const-decl "bool" booleans nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil
+    (variable type-eq-decl nil term_properties nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (posint_plus_nnint_is_posint application-judgement "posint"
@@ -10868,7 +10957,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -10886,8 +10975,7 @@
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    nil)
+     integers nil))
    nil
    (vars termination "term_properties.vars(term_properties.arg)"
     "nil")))
@@ -10929,7 +11017,7 @@
         nil))
       nil))
     nil)
-   ((int_minus_int_is_int application-judgement "int" integers nil) nil
+   ((int_minus_int_is_int application-judgement "int" integers nil)
     (select def-decl "term" term_properties nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
     (is_ac_sym? const-decl "bool" term_properties nil)
@@ -10962,10 +11050,10 @@
     (character type-decl nil character_adt nil)
     (below type-eq-decl nil nat_types nil)
     (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (number nonempty-type-decl nil numbers nil) nil
-    (args type-eq-decl nil term_properties nil) nil
+    (number nonempty-type-decl nil numbers nil)
+    (args type-eq-decl nil term_properties nil)
     (string type-eq-decl nil strings nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
     (int nonempty-type-eq-decl nil integers nil)
@@ -10980,7 +11068,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    nil (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (every_nth formula-decl nil list_props nil))
@@ -11003,7 +11091,7 @@
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -11044,7 +11132,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -11090,7 +11178,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (PRED type-eq-decl nil defined_types nil)
-    (list type-decl nil list_adt nil) nil nil
+    (list type-decl nil list_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -11123,7 +11211,7 @@
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -11148,7 +11236,7 @@
     (NOT const-decl "[bool -> bool]" booleans nil)
     (number nonempty-type-decl nil numbers nil)
     (list type-decl nil list_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -11171,7 +11259,7 @@
     (NOT const-decl "[bool -> bool]" booleans nil)
     (number nonempty-type-decl nil numbers nil)
     (list type-decl nil list_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -11207,13 +11295,13 @@
     (is_finite const-decl "bool" finite_sets nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (list type-decl nil list_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (pred type-eq-decl nil defined_types nil)
     (strict_well_founded? const-decl "bool" orders nil)
     (<< adt-def-decl "(strict_well_founded?[list])" list_adt nil)
     (cons? adt-recognizer-decl "[list -> boolean]" list_adt nil)
-    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil) nil
+    (cdr adt-accessor-decl "[(cons?) -> list]" list_adt nil)
     (car adt-accessor-decl "[(cons?) -> T]" list_adt nil)
     (nat nonempty-type-eq-decl nil naturalnumbers nil)
     (lst2set_is_finite formula-decl nil list_theory nil)
@@ -11243,7 +11331,7 @@
     (NOT const-decl "[bool -> bool]" booleans nil)
     (number nonempty-type-decl nil numbers nil)
     (list type-decl nil list_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -11288,7 +11376,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -11309,7 +11397,7 @@
     (subset? const-decl "bool" sets nil)
     (subset_is_partial_order name-judgement "(partial_order?[set[T]])"
      sets_lemmas nil)
-    nil (finite_set type-eq-decl nil finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (set type-eq-decl nil sets nil))
    shostak
@@ -11335,7 +11423,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -11350,7 +11438,7 @@
     (nat nonempty-type-eq-decl nil naturalnumbers nil)
     (number nonempty-type-decl nil numbers nil)
     (lst2set_is_finite formula-decl nil list_theory nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (args type-eq-decl nil term_properties nil)
     (flatten_pair def-decl "args" term_properties nil)
     (app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
@@ -11378,7 +11466,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -11393,9 +11481,9 @@
     (nat nonempty-type-eq-decl nil naturalnumbers nil)
     (number nonempty-type-decl nil numbers nil)
     (lst2set_is_finite formula-decl nil list_theory nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil))
    nil
@@ -11417,7 +11505,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -11431,7 +11519,7 @@
     (TRUE const-decl "bool" booleans nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil
+    (variable type-eq-decl nil term_properties nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (posint_plus_nnint_is_posint application-judgement "posint"
@@ -11455,7 +11543,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -11469,7 +11557,7 @@
     (TRUE const-decl "bool" booleans nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil
+    (variable type-eq-decl nil term_properties nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (posint_plus_nnint_is_posint application-judgement "posint"
@@ -11477,6 +11565,11 @@
    nil
    (size2 termination
     "term_properties.size2(term_adt[constant, variable, f_symbol, ac_symbol].term2(term_properties.t))"
+    "nil")))
+ (var_lst_TCC1 0
+  (var_lst_TCC1-1 nil 3849357515 ("" (termination-tcc) nil nil) nil nil
+   (var_lst termination
+    "term_properties.var_lst(list_adt[nat].cdr(term_properties.lst_nat))"
     "nil")))
  (vars_append 0
   (vars_append-1 nil 3827265671
@@ -11504,7 +11597,7 @@
         nil))
       nil))
     nil)
-   (nil (finite_emptyset name-judgement "finite_set" finite_sets nil)
+   ((finite_emptyset name-judgement "finite_set" finite_sets nil)
     (member const-decl "bool" sets nil)
     (emptyset const-decl "set" sets nil)
     (null adt-constructor-decl "(null?)" list_adt nil)
@@ -11523,7 +11616,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -11539,12 +11632,12 @@
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
     (union const-decl "set" sets nil)
-    (append def-decl "list[T]" list_props nil) nil
+    (append def-decl "list[T]" list_props nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (set type-eq-decl nil sets nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    shostak))
  (vars_correct 0
@@ -11614,7 +11707,7 @@
     (choose_rest_or formula-decl nil sets_lemmas nil)
     (empty? const-decl "bool" sets nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
-    (member const-decl "bool" sets nil) nil nil
+    (member const-decl "bool" sets nil)
     (wf_nat formula-decl nil naturalnumbers nil)
     (< const-decl "bool" reals nil)
     (card const-decl "{n: nat | n = Card(S)}" finite_sets nil)
@@ -11637,7 +11730,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -11683,7 +11776,7 @@
     nil)
    ((nonempty_singleton_finite application-judgement
      "non_empty_finite_set" finite_sets nil)
-    nil (empty? const-decl "bool" sets nil)
+    (empty? const-decl "bool" sets nil)
     (member const-decl "bool" sets nil)
     (singleton const-decl "(singleton?)" sets nil)
     (number nonempty-type-decl nil numbers nil)
@@ -11698,7 +11791,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -11714,7 +11807,7 @@
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
     (rest_singleton formula-decl nil sets_lemmas nil)
-    (finite_emptyset name-judgement "finite_set" finite_sets nil) nil
+    (finite_emptyset name-judgement "finite_set" finite_sets nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (set type-eq-decl nil sets nil)
@@ -11845,7 +11938,7 @@
     (choose const-decl "(p)" sets nil)
     (nonempty? const-decl "bool" sets nil)
     (IFF const-decl "[bool, bool -> bool]" booleans nil)
-    (member const-decl "bool" sets nil) nil nil
+    (member const-decl "bool" sets nil)
     (wf_nat formula-decl nil naturalnumbers nil)
     (< const-decl "bool" reals nil)
     (card const-decl "{n: nat | n = Card(S)}" finite_sets nil)
@@ -11868,7 +11961,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -11945,7 +12038,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -11959,13 +12052,13 @@
     (TRUE const-decl "bool" booleans nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil
-    (member def-decl "bool" list_props nil) nil
+    (variable type-eq-decl nil term_properties nil)
+    (member def-decl "bool" list_props nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
     (IFF const-decl "[bool, bool -> bool]" booleans nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    shostak))
  (vars_lst_args 0
@@ -12034,7 +12127,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -12046,8 +12139,8 @@
     (integer_pred const-decl "[rational -> boolean]" integers nil)
     (>= const-decl "bool" reals nil)
     (TRUE const-decl "bool" booleans nil)
-    (args type-eq-decl nil term_properties nil) nil
-    (member def-decl "bool" list_props nil) nil
+    (args type-eq-decl nil term_properties nil)
+    (member def-decl "bool" list_props nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
@@ -12134,7 +12227,7 @@
     (list type-decl nil list_adt nil)
     (boolean nonempty-type-decl nil booleans nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -12147,7 +12240,7 @@
     (>= const-decl "bool" reals nil)
     (int nonempty-type-eq-decl nil integers nil)
     (variable type-eq-decl nil term_properties nil)
-    (member def-decl "bool" list_props nil) nil
+    (member def-decl "bool" list_props nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
@@ -12402,7 +12495,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -12416,7 +12509,7 @@
     (TRUE const-decl "bool" booleans nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil nil nil
+    (variable type-eq-decl nil term_properties nil)
     (list2set def-decl "set[T]" list2set nil)
     (extend const-decl "R" extend nil)
     (FALSE const-decl "bool" booleans nil)
@@ -12427,7 +12520,7 @@
     (setof type-eq-decl nil defined_types nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (set type-eq-decl nil sets nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    shostak))
  (vars_get_args 0
@@ -12524,7 +12617,7 @@
     (emptyset const-decl "set" sets nil)
     (finite_emptyset name-judgement "finite_set" finite_sets nil)
     (finite_union application-judgement "finite_set" finite_sets nil)
-    (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil) nil
+    (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (term1 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (term2 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (get_args_pair formula-decl nil term_properties nil)
@@ -12541,16 +12634,16 @@
     (ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
     (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (vars_map formula-decl nil term_properties nil)
-    (is_ac_sym? const-decl "bool" term_properties nil) nil nil nil
+    (is_ac_sym? const-decl "bool" term_properties nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (set type-eq-decl nil sets nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -12565,7 +12658,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -12873,13 +12966,13 @@
     (get_term_from_args def-decl "term" term_properties nil)
     (ac_app adt-constructor-decl "[[ac_symbol, term] -> (ac_app?)]"
      term_adt nil)
-    (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil) nil
+    (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (mem_flatten_map2 formula-decl nil map_theory nil)
     (vars_get_args formula-decl nil term_properties nil)
     (vars_args formula-decl nil term_properties nil)
     (num_arg def-decl "nat" term_properties nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
-    (select def-decl "term" term_properties nil) nil
+    (select def-decl "term" term_properties nil)
     (member def-decl "bool" list_props nil)
     (emptyset const-decl "set" sets nil)
     (member const-decl "bool" sets nil)
@@ -12890,16 +12983,16 @@
     (Union_surjective name-judgement
      "(surjective?[setofsets[T], set[T]])" sets_lemmas nil)
     (mem_union_map formula-decl nil map_theory nil)
-    (subset? const-decl "bool" sets nil) nil
+    (subset? const-decl "bool" sets nil)
     (get_ac_from_args const-decl "term" term_properties nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil)
-    (string type-eq-decl nil strings nil) nil
+    (string type-eq-decl nil strings nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (constant type-eq-decl nil term_properties nil)
     (TRUE const-decl "bool" booleans nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (term type-decl nil term_adt nil)
     (ac_symbol type-eq-decl nil term_properties nil)
@@ -12935,9 +13028,9 @@
         nil))
       nil))
     nil)
-   (nil (vars_map formula-decl nil term_properties nil)
-    (vars_get_args formula-decl nil term_properties nil) nil
-    (args type-eq-decl nil term_properties nil) nil
+   ((vars_map formula-decl nil term_properties nil)
+    (vars_get_args formula-decl nil term_properties nil)
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -12952,7 +13045,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -12992,9 +13085,9 @@
         nil))
       nil))
     nil)
-   (nil (vars_map formula-decl nil term_properties nil)
-    (vars_get_args formula-decl nil term_properties nil) nil
-    (args type-eq-decl nil term_properties nil) nil
+   ((vars_map formula-decl nil term_properties nil)
+    (vars_get_args formula-decl nil term_properties nil)
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -13009,7 +13102,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -13352,14 +13445,14 @@
     (mem_union_map formula-decl nil map_theory nil)
     (Union_surjective name-judgement
      "(surjective?[setofsets[T], set[T]])" sets_lemmas nil)
-    nil (flatten def-decl "list[T]" list_theory nil)
+    (flatten def-decl "list[T]" list_theory nil)
     (get_args_size formula-decl nil term_properties nil)
     (is_ac_sym? const-decl "bool" term_properties nil)
     (mem_lst2set_2 formula-decl nil list_theory nil)
     (mem_flatten_map2 formula-decl nil map_theory nil)
     (mem_lst2set formula-decl nil list_theory nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
     (arg adt-accessor-decl "[(app?) -> term]" term_adt nil)
@@ -13384,14 +13477,14 @@
     (finite_emptyset name-judgement "finite_set" finite_sets nil)
     (subset? const-decl "bool" sets nil)
     (lst_vars def-decl "list[variable]" term_properties nil)
-    (list2set def-decl "set[T]" list2set nil) nil
-    (list type-decl nil list_adt nil) nil
+    (list2set def-decl "set[T]" list2set nil)
+    (list type-decl nil list_adt nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (set type-eq-decl nil sets nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -13406,7 +13499,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -13423,6 +13516,182 @@
     (measure_induction formula-decl nil measure_induction nil)
     (well_founded? const-decl "bool" orders nil)
     (pred type-eq-decl nil defined_types nil))
+   shostak))
+ (var_lst_len 0
+  (var_lst_len-1 nil 3849370233
+   ("" (induct "lst_nat") (("1" (grind) nil nil) ("2" (grind) nil nil))
+    nil)
+   ((NOT const-decl "[bool -> bool]" booleans nil)
+    (list_induction formula-decl nil list_adt nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (var_lst def-decl
+     "list[term[constant, variable, f_symbol, ac_symbol]]"
+     term_properties nil)
+    (length def-decl "nat" list_props nil)
+    (variable type-eq-decl nil term_properties nil)
+    (constant type-eq-decl nil term_properties nil)
+    (TRUE const-decl "bool" booleans nil)
+    (term type-decl nil term_adt nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (char type-eq-decl nil strings nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (character type-decl nil character_adt nil)
+    (below type-eq-decl nil nat_types nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (list type-decl nil list_adt nil))
+   shostak))
+ (var_lst_nth_TCC1 0
+  (var_lst_nth_TCC1-1 nil 3849440032 ("" (subtype-tcc) nil nil) nil nil
+   (var_lst_nth subtype "term_properties.i"
+    "below[length[term[constant, variable, f_symbol, ac_symbol]](var_lst(lst_nat))]")))
+ (var_lst_nth 0
+  (var_lst_nth-1 nil 3849440032
+   ("" (induct "lst_nat")
+    (("1" (grind) nil nil)
+     ("2" (skolem 1 ("hd" "tail"))
+      (("2" (prop)
+        (("2" (skeep)
+          (("2" (expand "length" -2 1)
+            (("2" (expand "nth" 1 1)
+              (("2" (lift-if)
+                (("2" (prop)
+                  (("1" (grind) nil nil)
+                   ("2" (expand "var_lst" 2 1)
+                    (("2" (expand "nth" 2 2)
+                      (("2" (lift-if)
+                        (("2" (assert)
+                          (("2" (inst?) (("2" (grind) nil nil)) nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil)
+     ("3" (hide 2)
+      (("3" (skeep) (("3" (rewrite "var_lst_len") nil nil)) nil)) nil))
+    nil)
+   ((var_lst_len formula-decl nil term_properties nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (list_induction formula-decl nil list_adt nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (variable adt-constructor-decl "[variable -> (var?)]" term_adt nil)
+    (var? adt-recognizer-decl "[term -> boolean]" term_adt nil)
+    (nth def-decl "T" list_props nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (list type-decl nil list_adt nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (< const-decl "bool" reals nil)
+    (length def-decl "nat" list_props nil)
+    (below type-eq-decl nil nat_types nil)
+    (character type-decl nil character_adt nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (char type-eq-decl nil strings nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (term type-decl nil term_adt nil)
+    (TRUE const-decl "bool" booleans nil)
+    (constant type-eq-decl nil term_properties nil)
+    (variable type-eq-decl nil term_properties nil)
+    (var_lst def-decl
+     "list[term[constant, variable, f_symbol, ac_symbol]]"
+     term_properties nil))
+   shostak))
+ (var_lst_mem 0
+  (var_lst_mem-1 nil 3849686703
+   ("" (induct "lst_nat")
+    (("1" (grind) nil nil)
+     ("2" (skolem 1 ("hd" "tail"))
+      (("2" (prop)
+        (("2" (skeep)
+          (("2" (grind) (("2" (decompose-equality 2) nil nil)) nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((term_variable_extensionality formula-decl nil term_adt nil)
+    (variable adt-constructor-decl "[variable -> (var?)]" term_adt nil)
+    (list_induction formula-decl nil list_adt nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (V adt-accessor-decl "[(var?) -> variable]" term_adt nil)
+    (var? adt-recognizer-decl "[term -> boolean]" term_adt nil)
+    (var_lst def-decl
+     "list[term[constant, variable, f_symbol, ac_symbol]]"
+     term_properties nil)
+    (member def-decl "bool" list_props nil)
+    (IFF const-decl "[bool, bool -> bool]" booleans nil)
+    (variable type-eq-decl nil term_properties nil)
+    (constant type-eq-decl nil term_properties nil)
+    (TRUE const-decl "bool" booleans nil)
+    (term type-decl nil term_adt nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (char type-eq-decl nil strings nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (character type-decl nil character_adt nil)
+    (below type-eq-decl nil nat_types nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (list type-decl nil list_adt nil))
    shostak))
  (all_var?_append 0
   (all_var?_append-1 nil 3809254657
@@ -13445,7 +13714,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -13460,9 +13729,9 @@
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
-    (append def-decl "list[T]" list_props nil) nil
+    (append def-decl "list[T]" list_props nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    SHOSTAK))
  (all_var?_get_repeat_lst 0
@@ -13472,15 +13741,15 @@
      real_props nil)
     (NOT const-decl "[bool -> bool]" booleans nil)
     (nat_induction formula-decl nil naturalnumbers nil)
-    (get_repeat_lst def-decl "list[T]" list_theory nil) nil
-    (args type-eq-decl nil term_properties nil) nil
+    (get_repeat_lst def-decl "list[T]" list_theory nil)
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil)
     (var? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
     (TRUE const-decl "bool" booleans nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (term type-decl nil term_adt nil)
     (ac_symbol type-eq-decl nil term_properties nil)
@@ -13554,7 +13823,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -13569,9 +13838,9 @@
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
-    (split const-decl "[list[T], list[T]]" list_theory nil) nil
+    (split const-decl "[list[T], list[T]]" list_theory nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    SHOSTAK))
  (all_var?_split2 0
@@ -13596,8 +13865,7 @@
         nil))
       nil))
     nil)
-   (nil
-    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+   ((- const-decl "[numfield, numfield -> numfield]" number_fields nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (int_minus_int_is_int application-judgement "int" integers nil)
     (real_ge_is_total_order name-judgement "(total_order?[real])"
@@ -13617,7 +13885,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -13632,24 +13900,24 @@
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
-    (split const-decl "[list[T], list[T]]" list_theory nil) nil
+    (split const-decl "[list[T], list[T]]" list_theory nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    SHOSTAK))
  (all_var?_get_repeat_lst_null 0
   (all_var?_get_repeat_lst_null-1 nil 3809257456
    ("" (induct "n") (("1" (grind) nil nil) ("2" (grind) nil nil)) nil)
-   (nil (NOT const-decl "[bool -> bool]" booleans nil)
+   ((NOT const-decl "[bool -> bool]" booleans nil)
     (nat_induction formula-decl nil naturalnumbers nil)
     (null adt-constructor-decl "(null?)" list_adt nil)
     (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
-    (get_repeat_lst def-decl "list[T]" list_theory nil) nil
+    (get_repeat_lst def-decl "list[T]" list_theory nil)
     (args type-eq-decl nil term_properties nil)
     (TRUE const-decl "bool" booleans nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (list type-decl nil list_adt nil) (term type-decl nil term_adt nil)
     (ac_symbol type-eq-decl nil term_properties nil)
@@ -13723,7 +13991,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -13736,7 +14004,7 @@
     (>= const-decl "bool" reals nil)
     (TRUE const-decl "bool" booleans nil)
     (args type-eq-decl nil term_properties nil)
-    (split const-decl "[list[T], list[T]]" list_theory nil) nil
+    (split const-decl "[list[T], list[T]]" list_theory nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (int nonempty-type-eq-decl nil integers nil))
    SHOSTAK))
@@ -13765,8 +14033,7 @@
         nil))
       nil))
     nil)
-   (nil
-    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+   ((- const-decl "[numfield, numfield -> numfield]" number_fields nil)
     (numfield nonempty-type-eq-decl nil number_fields nil)
     (int_minus_int_is_int application-judgement "int" integers nil)
     (real_ge_is_total_order name-judgement "(total_order?[real])"
@@ -13786,7 +14053,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -13799,7 +14066,7 @@
     (>= const-decl "bool" reals nil)
     (TRUE const-decl "bool" booleans nil)
     (args type-eq-decl nil term_properties nil)
-    (split const-decl "[list[T], list[T]]" list_theory nil) nil
+    (split const-decl "[list[T], list[T]]" list_theory nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (int nonempty-type-eq-decl nil integers nil))
    SHOSTAK))
@@ -13862,7 +14129,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -13879,9 +14146,9 @@
     (variable type-eq-decl nil term_properties nil)
     (var? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (member def-decl "bool" list_props nil)
-    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil) nil
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (IFF const-decl "[bool, bool -> bool]" booleans nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    shostak))
  (all_var?_lst_args 0
@@ -13944,7 +14211,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -13956,9 +14223,9 @@
     (integer_pred const-decl "[rational -> boolean]" integers nil)
     (>= const-decl "bool" reals nil)
     (TRUE const-decl "bool" booleans nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (member def-decl "bool" list_props nil)
-    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil) nil
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (IFF const-decl "[bool, bool -> bool]" booleans nil))
    shostak))
  (not_var_args_append 0
@@ -13979,7 +14246,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -13997,7 +14264,7 @@
     (append def-decl "list[T]" list_props nil)
     (not_var_args def-decl "args" term_properties nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    shostak))
  (not_var_args_nth 0
@@ -14064,8 +14331,7 @@
         nil))
       nil))
     nil)
-   (nil
-    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+   ((- const-decl "[numfield, numfield -> numfield]" number_fields nil)
     (int_minus_int_is_int application-judgement "int" integers nil)
     (real_ge_is_total_order name-judgement "(total_order?[real])"
      real_props nil)
@@ -14090,7 +14356,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -14111,7 +14377,7 @@
     (length def-decl "nat" list_props nil)
     (< const-decl "bool" reals nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    shostak))
  (not_var_args_mem 0
@@ -14135,7 +14401,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -14153,7 +14419,7 @@
     (not_var_args def-decl "args" term_properties nil)
     (member def-decl "bool" list_props nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    shostak))
  (not_var_args_mem2 0
@@ -14173,7 +14439,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -14193,7 +14459,7 @@
     (not_var_args def-decl "args" term_properties nil)
     (member def-decl "bool" list_props nil)
     (IFF const-decl "[bool, bool -> bool]" booleans nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    shostak))
  (not_var_args_get_args 0
@@ -14219,7 +14485,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -14235,17 +14501,17 @@
     (string type-eq-decl nil strings nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil
+    (variable type-eq-decl nil term_properties nil)
     (not_var_args_mem formula-decl nil term_properties nil))
    shostak))
  (not_var_args_get_args2 0
   (not_var_args_get_args2-1 nil 3824224322
    ("" (lemma "not_var_args_mem2") (("" (grind) nil nil)) nil)
-   ((not_var_args const-decl "args" term_properties nil) nil
+   ((not_var_args const-decl "args" term_properties nil)
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
-    (list type-decl nil list_adt nil) nil
-    (args type-eq-decl nil term_properties nil) nil
+    (list type-decl nil list_adt nil)
+    (args type-eq-decl nil term_properties nil)
     (string type-eq-decl nil strings nil)
     (select def-decl "term" term_properties nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
@@ -14263,7 +14529,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (term type-decl nil term_adt nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (f_symbol type-eq-decl nil term_properties nil)
@@ -14301,7 +14567,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil) (list type-decl nil list_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -14317,7 +14583,7 @@
     (string type-eq-decl nil strings nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil
+    (variable type-eq-decl nil term_properties nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (not_var_args_nth formula-decl nil term_properties nil))
@@ -14468,7 +14734,7 @@
     (nonempty? const-decl "bool" sets nil)
     (choose_member formula-decl nil sets_lemmas nil)
     (IFF const-decl "[bool, bool -> bool]" booleans nil)
-    (member const-decl "bool" sets nil) nil nil
+    (member const-decl "bool" sets nil)
     (wf_nat formula-decl nil naturalnumbers nil)
     (< const-decl "bool" reals nil)
     (card const-decl "{n: nat | n = Card(S)}" finite_sets nil)
@@ -14491,7 +14757,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -14565,7 +14831,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -14579,13 +14845,13 @@
     (TRUE const-decl "bool" booleans nil)
     (int nonempty-type-eq-decl nil integers nil)
     (constant type-eq-decl nil term_properties nil)
-    (variable type-eq-decl nil term_properties nil) nil
-    (member def-decl "bool" list_props nil) nil
+    (variable type-eq-decl nil term_properties nil)
+    (member def-decl "bool" list_props nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
     (IFF const-decl "[bool, bool -> bool]" booleans nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil))
    shostak))
  (subterm_singleton 0
@@ -14607,7 +14873,7 @@
     nil)
    ((nonempty_singleton_finite application-judgement
      "non_empty_finite_set" finite_sets nil)
-    nil (variable type-eq-decl nil term_properties nil)
+    (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
     (int nonempty-type-eq-decl nil integers nil)
     (TRUE const-decl "bool" booleans nil)
@@ -14620,7 +14886,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -14638,7 +14904,7 @@
     (member const-decl "bool" sets nil)
     (empty? const-decl "bool" sets nil)
     (finite_emptyset name-judgement "finite_set" finite_sets nil)
-    (choose_singleton formula-decl nil sets_lemmas nil) nil
+    (choose_singleton formula-decl nil sets_lemmas nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (set type-eq-decl nil sets nil)
@@ -14661,8 +14927,7 @@
         nil))
       nil))
     nil)
-   (nil
-    (nonempty_singleton_finite application-judgement
+   ((nonempty_singleton_finite application-judgement
      "non_empty_finite_set" finite_sets nil)
     (member const-decl "bool" sets nil)
     (singleton const-decl "(singleton?)" sets nil)
@@ -14674,7 +14939,7 @@
      "(surjective?[setofsets[T], set[T]])" sets_lemmas nil)
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
-    (Union const-decl "set" sets nil) nil)
+    (Union const-decl "set" sets nil))
    shostak))
  (subterm_not_pair 0
   (subterm_not_pair-1 nil 3837162657
@@ -14768,9 +15033,9 @@
       nil))
     nil)
    ((ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
-    (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil) nil
+    (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (args type-eq-decl nil term_properties nil)
-    (string type-eq-decl nil strings nil) nil
+    (string type-eq-decl nil strings nil)
     (list type-decl nil list_adt nil)
     (mem_union_map formula-decl nil map_theory nil)
     (real_gt_is_strict_total_order name-judgement
@@ -14795,13 +15060,13 @@
     (singleton const-decl "(singleton?)" sets nil)
     (term_opt formula-decl nil term_properties nil)
     (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil)
-    (NOT const-decl "[bool -> bool]" booleans nil) nil
+    (NOT const-decl "[bool -> bool]" booleans nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -14816,7 +15081,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -14963,8 +15228,8 @@
     (finite_emptyset name-judgement "finite_set" finite_sets nil)
     (empty? const-decl "bool" sets nil)
     (emptyset const-decl "set" sets nil)
-    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil) nil
-    (member const-decl "bool" sets nil) nil
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (member const-decl "bool" sets nil)
     (wf_nat formula-decl nil naturalnumbers nil)
     (< const-decl "bool" reals nil)
     (card const-decl "{n: nat | n = Card(S)}" finite_sets nil)
@@ -14987,7 +15252,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -15451,7 +15716,7 @@
     (> const-decl "bool" reals nil)
     (nth_from_min2max2 formula-decl nil list_theory nil)
     (select_ge_num_arg formula-decl nil term_properties nil)
-    (map_member3 formula-decl nil map_theory nil) nil
+    (map_member3 formula-decl nil map_theory nil)
     (map_member4 formula-decl nil map_theory nil)
     (select_le1 formula-decl nil term_properties nil)
     (member_nth2 formula-decl nil list_theory nil)
@@ -15470,21 +15735,21 @@
     (num_arg_ge1 formula-decl nil term_properties nil)
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
-    nil nil (length def-decl "nat" list_props nil)
+    (length def-decl "nat" list_props nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
-    (list type-decl nil list_adt nil) nil
-    (args type-eq-decl nil term_properties nil) nil
+    (list type-decl nil list_adt nil)
+    (args type-eq-decl nil term_properties nil)
     (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
-    (ac_arg adt-accessor-decl "[(ac_app?) -> term]" term_adt nil) nil
+    (ac_arg adt-accessor-decl "[(ac_app?) -> term]" term_adt nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (select def-decl "term" term_properties nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -15499,7 +15764,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -15604,7 +15869,7 @@
     (choose_rest_or formula-decl nil sets_lemmas nil)
     (finite_emptyset name-judgement "finite_set" finite_sets nil)
     (empty? const-decl "bool" sets nil)
-    (emptyset const-decl "set" sets nil) nil nil
+    (emptyset const-decl "set" sets nil)
     (subset? const-decl "bool" sets nil)
     (member const-decl "bool" sets nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
@@ -15630,7 +15895,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -15885,8 +16150,8 @@
    ((Union_surjective name-judgement
      "(surjective?[setofsets[T], set[T]])" sets_lemmas nil)
     (ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
-    nil (args type-eq-decl nil term_properties nil)
-    (string type-eq-decl nil strings nil) nil
+    (args type-eq-decl nil term_properties nil)
+    (string type-eq-decl nil strings nil)
     (list type-decl nil list_adt nil)
     (get_args_size formula-decl nil term_properties nil)
     (is_ac_sym? const-decl "bool" term_properties nil)
@@ -15910,12 +16175,12 @@
     (finite_emptyset name-judgement "finite_set" finite_sets nil)
     (nonempty_singleton_finite application-judgement
      "non_empty_finite_set" finite_sets nil)
-    nil nil (finite_set type-eq-decl nil finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -15930,7 +16195,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -16011,7 +16276,7 @@
         nil))
       nil))
     nil)
-   ((num_arg def-decl "nat" term_properties nil) nil
+   ((num_arg def-decl "nat" term_properties nil)
     (Union const-decl "set" sets nil)
     (nonempty_union1 application-judgement "(nonempty?)" sets nil)
     (real_gt_is_strict_total_order name-judgement
@@ -16034,13 +16299,13 @@
      "non_empty_finite_set" finite_sets nil)
     (emptyset const-decl "set" sets nil)
     (finite_emptyset name-judgement "finite_set" finite_sets nil)
-    (term_opt formula-decl nil term_properties nil) nil nil
+    (term_opt formula-decl nil term_properties nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -16055,7 +16320,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -16191,8 +16456,8 @@
     nil)
    ((ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
-    nil (args type-eq-decl nil term_properties nil)
-    (string type-eq-decl nil strings nil) nil
+    (args type-eq-decl nil term_properties nil)
+    (string type-eq-decl nil strings nil)
     (list type-decl nil list_adt nil)
     (num_arg def-decl "nat" term_properties nil)
     (real_gt_is_strict_total_order name-judgement
@@ -16217,13 +16482,13 @@
      real_props nil)
     (nonempty_singleton_finite application-judgement
      "non_empty_finite_set" finite_sets nil)
-    (<= const-decl "bool" reals nil) nil
+    (<= const-decl "bool" reals nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -16238,7 +16503,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -16472,9 +16737,9 @@
     (mem_union_map formula-decl nil map_theory nil)
     (get_args_size formula-decl nil term_properties nil)
     (is_ac_sym? const-decl "bool" term_properties nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
     (nonempty_union1 application-judgement "(nonempty?)" sets nil)
     (Union_surjective name-judgement
@@ -16495,12 +16760,12 @@
     (singleton const-decl "(singleton?)" sets nil)
     (nonempty_singleton_finite application-judgement
      "non_empty_finite_set" finite_sets nil)
-    nil (finite_set type-eq-decl nil finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -16515,7 +16780,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -16560,13 +16825,13 @@
         nil))
       nil))
     nil)
-   (nil (subset? const-decl "bool" sets nil)
+   ((subset? const-decl "bool" sets nil)
     (select_subterms formula-decl nil term_properties nil)
     (subterm_transitive formula-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
     (TRUE const-decl "bool" booleans nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (term type-decl nil term_adt nil)
     (ac_symbol type-eq-decl nil term_properties nil)
@@ -16591,7 +16856,7 @@
     (boolean nonempty-type-decl nil booleans nil)
     (number nonempty-type-decl nil numbers nil)
     (num_arg def-decl "nat" term_properties nil)
-    (from_min2max def-decl "list[nat]" list_theory nil) nil
+    (from_min2max def-decl "list[nat]" list_theory nil)
     (list type-decl nil list_adt nil)
     (select def-decl "term" term_properties nil)
     (string type-eq-decl nil strings nil)
@@ -16634,7 +16899,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -16755,13 +17020,13 @@
      "non_empty_finite_set" finite_sets nil)
     (singleton const-decl "(singleton?)" sets nil)
     (get_term_from_args def-decl "term" term_properties nil)
-    (num_arg def-decl "nat" term_properties nil) nil
-    (Union const-decl "set" sets nil) nil
+    (num_arg def-decl "nat" term_properties nil)
+    (Union const-decl "set" sets nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (OR const-decl "[bool, bool -> bool]" booleans nil)
     (null? adt-recognizer-decl "[list -> boolean]" list_adt nil)
     (NOT const-decl "[bool -> bool]" booleans nil)
-    (get_ac_from_args const-decl "term" term_properties nil) nil
+    (get_ac_from_args const-decl "term" term_properties nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
@@ -16785,7 +17050,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (list type-decl nil list_adt nil) (term type-decl nil term_adt nil)
@@ -16932,16 +17197,16 @@
       nil))
     nil)
    ((ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
-    (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil) nil
+    (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (args type-eq-decl nil term_properties nil)
-    (string type-eq-decl nil strings nil) nil
+    (string type-eq-decl nil strings nil)
     (list type-decl nil list_adt nil)
     (mem_union_map formula-decl nil map_theory nil)
     (get_args_size formula-decl nil term_properties nil)
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (num_arg def-decl "nat" term_properties nil)
-    (member def-decl "bool" list_props nil) nil
+    (member def-decl "bool" list_props nil)
     (select def-decl "term" term_properties nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
     (is_ac_sym? const-decl "bool" term_properties nil)
@@ -16965,7 +17230,7 @@
     (even_minus_odd_is_odd application-judgement "odd_int" integers
      nil)
     (term2 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
-    (union const-decl "set" sets nil) nil
+    (union const-decl "set" sets nil)
     (prop_subterms def-decl
      "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
      term_properties nil)
@@ -16974,7 +17239,7 @@
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -16989,7 +17254,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -17103,7 +17368,7 @@
     (term1 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (term2 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (union const-decl "set" sets nil)
-    (/= const-decl "boolean" notequal nil) nil
+    (/= const-decl "boolean" notequal nil)
     (prop_subterms def-decl
      "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
      term_properties nil)
@@ -17112,7 +17377,7 @@
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -17127,7 +17392,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -17195,9 +17460,9 @@
     (set type-eq-decl nil sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (finite_set type-eq-decl nil finite_sets nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (string type-eq-decl nil strings nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
     (number nonempty-type-decl nil numbers nil)
@@ -17212,7 +17477,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -17230,14 +17495,14 @@
     (nonempty_singleton_finite application-judgement
      "non_empty_finite_set" finite_sets nil)
     (get_args_mem_not_pair formula-decl nil term_properties nil)
-    (subterm_reflexive formula-decl nil term_properties nil) nil
+    (subterm_reflexive formula-decl nil term_properties nil)
     (posint_plus_nnint_is_posint application-judgement "posint"
      integers nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
-    (num_arg def-decl "nat" term_properties nil) nil
+    (num_arg def-decl "nat" term_properties nil)
     (get_args_size formula-decl nil term_properties nil)
     (member const-decl "bool" sets nil)
     (is_ac_sym? const-decl "bool" term_properties nil))
@@ -17272,7 +17537,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -17338,18 +17603,18 @@
      integers nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
-    nil (finite_set type-eq-decl nil finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (flatten_pair def-decl "args" term_properties nil)
     (args type-eq-decl nil term_properties nil)
-    (list2set def-decl "set[T]" list2set nil) nil
+    (list2set def-decl "set[T]" list2set nil)
     (list type-decl nil list_adt nil)
     (variable adt-constructor-decl "[variable -> (var?)]" term_adt nil)
     (var? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -17364,7 +17629,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -17430,11 +17695,11 @@
     (NOT const-decl "[bool -> bool]" booleans nil)
     (flatten_pair def-decl "args" term_properties nil)
     (args type-eq-decl nil term_properties nil)
-    (member def-decl "bool" list_props nil) nil
+    (member def-decl "bool" list_props nil)
     (list type-decl nil list_adt nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -17449,7 +17714,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -17517,17 +17782,17 @@
     (member_append formula-decl nil list_theory nil)
     (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (term1 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
-    (term2 adt-accessor-decl "[(pair?) -> term]" term_adt nil) nil
+    (term2 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
     (flatten_pair def-decl "args" term_properties nil)
     (args type-eq-decl nil term_properties nil)
-    (member def-decl "bool" list_props nil) nil
+    (member def-decl "bool" list_props nil)
     (list type-decl nil list_adt nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -17542,7 +17807,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -17610,11 +17875,11 @@
     (<= const-decl "bool" reals nil)
     (flatten_pair def-decl "args" term_properties nil)
     (args type-eq-decl nil term_properties nil)
-    (member def-decl "bool" list_props nil) nil
+    (member def-decl "bool" list_props nil)
     (list type-decl nil list_adt nil)
     (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -17629,7 +17894,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -17684,7 +17949,7 @@
         nil))
       nil))
     nil)
-   (nil (emptyset const-decl "set" sets nil)
+   ((emptyset const-decl "set" sets nil)
     (finite_emptyset name-judgement "finite_set" finite_sets nil)
     (mem_union_map formula-decl nil map_theory nil)
     (variable adt-constructor-decl "[variable -> (var?)]" term_adt nil)
@@ -17695,16 +17960,15 @@
     (singleton const-decl "(singleton?)" sets nil)
     (mem_lst2set_2 formula-decl nil list_theory nil)
     (ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
-    (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil) nil
+    (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (args type-eq-decl nil term_properties nil)
-    (string type-eq-decl nil strings nil) nil
+    (string type-eq-decl nil strings nil)
     (list type-decl nil list_adt nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (set type-eq-decl nil sets nil)
     (Union_surjective name-judgement
      "(surjective?[setofsets[T], set[T]])" sets_lemmas nil)
-    nil
     (var_flatten_pair_implies_var formula-decl nil term_properties nil)
     (number nonempty-type-decl nil numbers nil)
     (boolean nonempty-type-decl nil booleans nil)
@@ -17729,7 +17993,7 @@
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (TRUE const-decl "bool" booleans nil)
     (constant type-eq-decl nil term_properties nil)
@@ -17765,7 +18029,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (TRUE const-decl "bool" booleans nil)
     (constant type-eq-decl nil term_properties nil)
@@ -17776,7 +18040,7 @@
     (im_under def-decl
      "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
      term_properties nil)
-    (member const-decl "bool" sets nil) nil)
+    (member const-decl "bool" sets nil))
    shostak))
  (im_under_implies_func 0
   (im_under_implies_func-1 nil 3830008874 ("" (grind) nil nil)
@@ -17804,7 +18068,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (TRUE const-decl "bool" booleans nil)
     (constant type-eq-decl nil term_properties nil)
@@ -17815,7 +18079,7 @@
     (im_under def-decl
      "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
      term_properties nil)
-    (member const-decl "bool" sets nil) nil
+    (member const-decl "bool" sets nil)
     (func? const-decl "bool" term_properties nil))
    shostak))
  (im_under_subterm 0
@@ -18054,7 +18318,7 @@
      "finite_set[term[constant, variable, f_symbol, ac_symbol]]"
      term_properties nil)
     (mem_lst2set_2 formula-decl nil list_theory nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (args type-eq-decl nil term_properties nil)
     (flatten_pair def-decl "args" term_properties nil)
     (app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
@@ -18082,19 +18346,19 @@
     (term2 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (mem_union_map formula-decl nil map_theory nil)
     (subterm_reflexive formula-decl nil term_properties nil)
-    (string type-eq-decl nil strings nil) nil
+    (string type-eq-decl nil strings nil)
     (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
     (emptyset const-decl "set" sets nil)
-    (finite_emptyset name-judgement "finite_set" finite_sets nil) nil
+    (finite_emptyset name-judgement "finite_set" finite_sets nil)
     (finite_set type-eq-decl nil finite_sets nil)
     (is_finite const-decl "bool" finite_sets nil)
     (variable adt-constructor-decl "[variable -> (var?)]" term_adt nil)
     (var? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (member const-decl "bool" sets nil) (set type-eq-decl nil sets nil)
-    nil (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -18109,7 +18373,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -18142,7 +18406,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -18179,7 +18443,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -18216,7 +18480,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -18254,7 +18518,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -18291,7 +18555,7 @@
     (char type-eq-decl nil strings nil)
     (f_symbol type-eq-decl nil term_properties nil)
     (ac_symbol type-eq-decl nil term_properties nil)
-    (term type-decl nil term_adt nil) nil
+    (term type-decl nil term_adt nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -18450,18 +18714,18 @@
     (ac_sym adt-accessor-decl "[(ac_app?) -> ac_symbol]" term_adt nil)
     (ac_app? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
-    (string type-eq-decl nil strings nil) nil
+    (string type-eq-decl nil strings nil)
     (select def-decl "term" term_properties nil)
     (ac_select_size formula-decl nil term_properties nil)
     (num_arg def-decl "nat" term_properties nil)
     (is_ac_sym? const-decl "bool" term_properties nil)
-    (sum def-decl "nat" list_nat_theory nil) nil nil
+    (sum def-decl "nat" list_nat_theory nil)
     (from_min2max def-decl "list[nat]" list_theory nil)
     (num_arg_ge1 formula-decl nil term_properties nil)
     (> const-decl "bool" reals nil)
     (size2 def-decl "nat" term_properties nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -18476,7 +18740,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -18562,21 +18826,21 @@
     (sum_append formula-decl nil list_nat_theory nil)
     (get_args_pair formula-decl nil term_properties nil)
     (term2 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
-    (term1 adt-accessor-decl "[(pair?) -> term]" term_adt nil) nil
+    (term1 adt-accessor-decl "[(pair?) -> term]" term_adt nil)
     (pair? adt-recognizer-decl "[term -> boolean]" term_adt nil)
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
      integers nil)
-    (get_args_not_pair_ac formula-decl nil term_properties nil) nil
-    (args type-eq-decl nil term_properties nil) nil
-    (sum def-decl "nat" list_nat_theory nil) nil
+    (get_args_not_pair_ac formula-decl nil term_properties nil)
+    (args type-eq-decl nil term_properties nil)
+    (sum def-decl "nat" list_nat_theory nil)
     (list type-decl nil list_adt nil)
     (size2 def-decl "nat" term_properties nil)
     (= const-decl "[T, T -> boolean]" equalities nil)
     (string type-eq-decl nil strings nil)
     (wf_nat formula-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil) nil
+    (< const-decl "bool" reals nil)
     (naturalnumber type-eq-decl nil naturalnumbers nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -18591,7 +18855,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -18650,8 +18914,7 @@
         nil))
       nil))
     nil)
-   (nil
-    (real_gt_is_strict_total_order name-judgement
+   ((real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (variable type-eq-decl nil term_properties nil)
     (constant type-eq-decl nil term_properties nil)
@@ -18666,7 +18929,7 @@
     (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil) nil
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (PRED type-eq-decl nil defined_types nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (term type-decl nil term_adt nil)
@@ -18680,9 +18943,9 @@
     (below type-eq-decl nil nat_types nil)
     (nat nonempty-type-eq-decl nil naturalnumbers nil)
     (number nonempty-type-decl nil numbers nil)
-    (args type-eq-decl nil term_properties nil) nil
+    (args type-eq-decl nil term_properties nil)
     (list type-decl nil list_adt nil)
-    (subterm_args formula-decl nil term_properties nil) nil nil
+    (subterm_args formula-decl nil term_properties nil)
     (union const-decl "set" sets nil)
     (num_arg def-decl "nat" term_properties nil)
     (member const-decl "bool" sets nil))
@@ -18729,8 +18992,7 @@
         nil))
       nil))
     nil)
-   (nil
-    (real_gt_is_strict_total_order name-judgement
+   ((real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
     (number nonempty-type-decl nil numbers nil)
     (nat nonempty-type-eq-decl nil naturalnumbers nil)
@@ -18744,7 +19006,7 @@
     (ac_symbol type-eq-decl nil term_properties nil)
     (term type-decl nil term_adt nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (PRED type-eq-decl nil defined_types nil) nil
+    (PRED type-eq-decl nil defined_types nil)
     (AND const-decl "[bool, bool -> bool]" booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
@@ -18760,11 +19022,125 @@
     (constant type-eq-decl nil term_properties nil)
     (variable type-eq-decl nil term_properties nil)
     (subterm_args formula-decl nil term_properties nil)
-    (list type-decl nil list_adt nil) nil
+    (list type-decl nil list_adt nil)
     (args type-eq-decl nil term_properties nil)
-    (string type-eq-decl nil strings nil) nil
+    (string type-eq-decl nil strings nil)
     (subset? const-decl "bool" sets nil)
-    (get_args_subterms formula-decl nil term_properties nil) nil
+    (get_args_subterms formula-decl nil term_properties nil)
     (get_args_mem_not_pair formula-decl nil term_properties nil))
+   shostak))
+ (alm_well_formed_get_args 0
+  (alm_well_formed_get_args-1 nil 3849906793
+   ("" (skeep)
+    (("" (expand "well_formed?" 1)
+      (("" (skolem 1 "t1")
+        (("" (prop)
+          (("1" (expand "alm_well_formed?" -3)
+            (("1" (flatten)
+              (("1" (inst -3 "t1")
+                (("1" (assert)
+                  (("1" (prop)
+                    (("1" (use "subterm_args")
+                      (("1" (assert)
+                        (("1" (skolem -1 "t1S")
+                          (("1" (flatten)
+                            (("1" (use "get_args_subterms")
+                              (("1"
+                                (assert)
+                                (("1"
+                                  (expand "subset?" -1)
+                                  (("1"
+                                    (inst -1 "t1")
+                                    (("1" (assert) nil nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil)
+                     ("2" (use "subterm_args")
+                      (("2" (assert)
+                        (("2" (skolem -1 "t1S")
+                          (("2" (flatten)
+                            (("2" (hide -4)
+                              (("2"
+                                (use "subterm_size")
+                                (("2"
+                                  (assert)
+                                  (("2"
+                                    (lemma "get_args_size")
+                                    (("2"
+                                      (inst -1 "f" "t1S" "t")
+                                      (("2"
+                                        (replace -5)
+                                        (("2" (assert) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil)
+           ("2" (use "get_args_mem_not_pair") (("2" (assert) nil nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((get_args_mem_not_pair formula-decl nil term_properties nil)
+    (alm_well_formed? const-decl "bool" term_properties nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (below type-eq-decl nil nat_types nil)
+    (character type-decl nil character_adt nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (char? adt-recognizer-decl "[character -> boolean]" character_adt
+     nil)
+    (char type-eq-decl nil strings nil)
+    (f_symbol type-eq-decl nil term_properties nil)
+    (ac_symbol type-eq-decl nil term_properties nil)
+    (term type-decl nil term_adt nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (PRED type-eq-decl nil defined_types nil)
+    (every adt-def-decl "boolean" term_adt nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (>= const-decl "bool" reals nil)
+    (TRUE const-decl "bool" booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (constant type-eq-decl nil term_properties nil)
+    (variable type-eq-decl nil term_properties nil)
+    (subset? const-decl "bool" sets nil)
+    (get_args_subterms formula-decl nil term_properties nil)
+    (list type-decl nil list_adt nil)
+    (every adt-def-decl "boolean" list_adt nil)
+    (args type-eq-decl nil term_properties nil)
+    (string type-eq-decl nil strings nil)
+    (get_args const-decl "args" term_properties nil)
+    (subterm_args formula-decl nil term_properties nil)
+    (subterm_size formula-decl nil term_properties nil)
+    (get_args_size formula-decl nil term_properties nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (well_formed? const-decl "bool" term_properties nil))
    shostak)))
 

@@ -157,6 +157,9 @@ subs_pair2: LEMMA
 subs_ac2: LEMMA
     ac_app?(subs(sigma)(t)) IMPLIES (same_func?(subs(sigma)(t), t) OR var?(t))
 
+subs_ac3: LEMMA 
+    is_ac_sym?(subs(sigma)(t), f) IMPLIES (is_ac_sym?(t, f) OR var?(t))
+
 subs_func: LEMMA
     func?(subs(sigma)(t)) IMPLIES (same_func?(subs(sigma)(t), t) OR var?(t))
 
@@ -185,6 +188,9 @@ subs_append2: LEMMA
 subs_map: LEMMA
     map(subs(sigma))(args) = subs(sigma)(args)
 
+subs_cons: LEMMA 
+    subs(cons((X, t), delta))(args1) = subs(cons((X, t), null))(subs(delta)(args1))
+
 % more lemmas about subs 
 subs_get_term_from_args: LEMMA
     subs(sigma)(get_term_from_args(args1)) = get_term_from_args(subs(sigma)(args1))
@@ -207,7 +213,6 @@ mem_get_args_subs: LEMMA
     (EXISTS ti: 
         member(ti, get_args(f)(t)) AND s = subs(sigma)(ti))
     OR member(s, subterms(img(sigma))) 
-
 
 subs_get_args1: LEMMA 
     num_arg(f, t) = 1 IMPLIES
@@ -288,6 +293,9 @@ img_null: LEMMA
 subs_no_effect_t: LEMMA
     disjoint?(dom(sigma), vars(t)) IMPLIES subs(sigma)(t) = t
 
+subs_no_effect_args: LEMMA  
+    disjoint?(dom(sigma), vars(args)) IMPLIES subs(sigma)(args) = args
+
 apply_sub_elim_var_t: LEMMA
     member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
     IMPLIES NOT member(X, vars(subs(sigma)(t)))
@@ -298,8 +306,8 @@ vars_img_append: LEMMA
 
 % idempotent and properties of substitutios
 var_dom_sub_dif_term: LEMMA
-   member(X, vars(t)) AND member(X, dom(sigma)) IMPLIES
-   subs(sigma)(t) /= t
+    member(X, vars(t)) AND member(X, dom(sigma)) IMPLIES
+    subs(sigma)(t) /= t
    
 idempotent_disjoint_dom_img: LEMMA
     idempotent?(sigma) IMPLIES disjoint?(dom(sigma), vars(img(sigma)))
@@ -405,6 +413,7 @@ supset_dom_append: LEMMA
 
 nice_disjoint_dom_img: LEMMA
     nice?(sigma) IMPLIES disjoint?(dom(sigma), vars(img(sigma)))
+
 nice_idempotent: LEMMA
     nice?(sigma) IMPLIES idempotent?(sigma)
 
@@ -432,6 +441,9 @@ well_formed_append: LEMMA
 
 well_formed_subs: LEMMA 
    well_formed?(sigma) AND well_formed?(t) IMPLIES well_formed?(subs(sigma)(t))
+
+alm_well_formed_subs: LEMMA 
+   well_formed?(sigma) AND alm_well_formed?(t) IMPLIES alm_well_formed?(subs(sigma)(t))
 
 % equality between substitutions
 equal_sub_equiv: LEMMA
@@ -487,5 +499,6 @@ count_subs_subset: LEMMA
     subset_lst?(get_args(f)(t), args1) AND dif_elem?(args1, equal?) IMPLIES
     count(s, subs(sigma)(t), f) = dot_product(count_vec(subs(sigma)(no_rep_args), f)(s), coef)
 
+% remove_common
 
 END substitution
