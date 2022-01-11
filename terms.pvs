@@ -580,6 +580,14 @@ im_under?(X, t): bool = member(variable(X), im_under(t))
 im_under?(X, fin_set_t): bool =
     EXISTS t: member(t, fin_set_t) AND im_under?(X, t)
 
+% if a term is not a pair, return 1
+% else, return the number of elements in the pair
+num_arg(t): RECURSIVE nat =
+   IF pair?(t) THEN num_arg(term1(t)) + num_arg(term2(t)) 
+   ELSE 1
+   ENDIF
+MEASURE t BY << 
+
 % get_args - if t is an AC-function, call get_args(f)(t) with the correct symbol of t
 get_args(t): args =
    IF ac_app?(t) THEN get_args(ac_sym(t))(t)

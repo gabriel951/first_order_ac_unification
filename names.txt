@@ -1,4 +1,53 @@
 # unify
+(name-replace "up" "choose_unif_pair(P)`1")
+(name-replace "t" "up`1")
+(name-replace "s" "up`2")
+(name-replace "P1" "choose_unif_pair(P)`2") 
+
+(name-replace "sig1" "cons((V(s), t), null)") 
+(name-replace "new_sig" "append(sig1, sig)") 
+(name-replace "new_P" "apply_sub(sig1, P1)") 
+
+(name-replace "sig1" "cons((V(t), s), null)") 
+(name-replace "new_sig" "append(sig1, sig)") 
+(name-replace "new_P" "apply_sub(sig1, P1)") 
+
+(name-replace "P2" "decompose(arg(t), arg(s))")
+(name-replace "new_P" "append(P2, P1)")
+(name-replace "f" "f_sym(t)")
+
+
+# solve_ac
+(name-replace "args" "elim_com_arg(t1, t2, f)`1")
+(name-replace "mult_t1" "elim_com_arg(t1, t2, f)`2")
+(name-replace "mult_t2" "elim_com_arg(t1, t2, f)`3")
+(name-replace "B" "calculate_upper_bound(mult_t1, mult_t2)") 
+(name-replace "D" "dio_solver(mult_t1, mult_t2, B)")
+(name-replace "submatrix_lst" "extract_submatrices(D, args)")
+(name-replace "results" "map(dio_matrix2ac_sol(args, vars2avoid, f))(submatrix_lst)")
+
+# instantiate_step unif_prb
+(name-replace "t" "car(P)`1")
+(name-replace "s" "car(P)`2")
+(name-replace "delta" "instantiate_step(t, s)`1") 
+(name-replace "skip1" "instantiate_step(t, s)`2")
+(name-replace "fail1" "instantiate_step(t, s)`3")
+
+# apply_ac_step
+(name-replace "u_pair" "car(Pu)")
+(name-replace "t" "u_pair`1")
+(name-replace "s" "u_pair`2")
+(name-replace "cur_V" "union(vars(Pu), union(V, vars(Ps)))")
+(name-replace "lst_V" "finset2list[variable](cur_V)")
+(name-replace "f" "ac_sym(t)")
+(name-replace "ac_results" "first_proj(solve_ac(t, s, lst_V, f))")
+(name-replace "V1" "vars(sec_proj(solve_ac(t, s, lst_V, f)))")
+(name-replace "ac_results_subs" "instantiate_step(ac_results)") 
+(name-replace "input_lst" "input_apply_ac_step(ac_results_subs, cdr(Pu), Ps, sigma, V1)")
+
+
+##################### OLD
+# unify
 (name-replace "unif_pair" "choose_unif_pair(unif_prb)`1")
 (name-replace "t" "unif_pair`1")
 (name-replace "s" "unif_pair`2")

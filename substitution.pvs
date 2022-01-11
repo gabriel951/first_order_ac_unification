@@ -131,6 +131,9 @@ well_formed?(delta): bool =
     (FORALL X: NOT pair?(subs(delta)(X)) AND 
       FORALL t: member(t, subterms(subs(delta)(X))) AND ac_app?(t) IMPLIES num_arg(ac_sym(t), t) > 1)
 
+contained?(delta, set_vars): bool = 
+    subset?(dom(delta), set_vars) AND subset?(vars(img(delta)), set_vars)
+
 %%%%%%%%%%%%%%%%%%% Theorems
 % substitution and their effects on the terms
 subs_const: LEMMA
@@ -343,6 +346,9 @@ basic_sub_info: LEMMA
    NOT member(X, vars(t)) IMPLIES dom(sigma) = singleton(X) AND img(sigma) = singleton(t)
    AND idempotent?(sigma)
 
+basic_sub_well_formed: LEMMA 
+   LET sigma = cons((X, t), null) IN well_formed?(t) IMPLIES well_formed?(sigma)
+
 % subterms, same_func, im_under
 subterms_subs: LEMMA
     subset?(subterms(subs(sigma)(t)),
@@ -442,6 +448,9 @@ well_formed_append: LEMMA
 well_formed_subs: LEMMA 
    well_formed?(sigma) AND well_formed?(t) IMPLIES well_formed?(subs(sigma)(t))
 
+well_formed_num_arg: LEMMA  
+   well_formed?(sigma) IMPLIES num_arg(subs(sigma)(t)) = num_arg(t)
+
 alm_well_formed_subs: LEMMA 
    well_formed?(sigma) AND alm_well_formed?(t) IMPLIES alm_well_formed?(subs(sigma)(t))
 
@@ -452,6 +461,11 @@ equal_sub_equiv: LEMMA
 equal_sub_change_eq_terms: LEMMA
    equal?(delta, sigma) IMPLIES  
    (equal?(subs(delta)(t), subs(delta)(s)) IFF equal?(subs(sigma)(t), subs(sigma)(s)))
+
+equal_sub_ref: LEMMA equal?(sigma, sigma) 
+
+equal_sub_trans: LEMMA 
+   equal?(delta, gamma) AND equal?(gamma, sigma) IMPLIES equal?(delta, sigma) 
 
 % this lemmas appeared when proving correctness and completeness
 idempotent_append_cond: LEMMA
@@ -499,6 +513,10 @@ count_subs_subset: LEMMA
     subset_lst?(get_args(f)(t), args1) AND dif_elem?(args1, equal?) IMPLIES
     count(s, subs(sigma)(t), f) = dot_product(count_vec(subs(sigma)(no_rep_args), f)(s), coef)
 
-% remove_common
+% lemma for instantiation in the unification algorithm 
+subs_inst: LEMMA 
+    LET delta = cons((X, t), null) IN 
+    equal?(subs(sigma)(variable(X)), subs(sigma)(t)) IMPLIES 
+    equal?(sigma, append(sigma, delta))
 
 END substitution

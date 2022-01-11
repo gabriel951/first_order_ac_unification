@@ -38,7 +38,7 @@ sigma, delta, sigma2, gamma, gamma1: VAR sub
 
 X, Y: VAR variable
 
-unif_pair: VAR unif_pair
+unif_pair, unif_pair2: VAR unif_pair
 unif_prb, unif_prb1, unif_prb2, seen_unif_prb, unseen_unif_prb: VAR unif_prb
 ac_results_so_far, lst_unif_prb, lst_unif_prb1, lst_unif_prb2: VAR list[unif_prb]
 
@@ -877,6 +877,10 @@ solve_ac_vars: LEMMA
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND 
     member(X, vars(unif_prb)) IMPLIES member(X, vars(t, s)) OR NOT member(X, vars2avoid)
 
+solve_ac_well_formed: LEMMA 
+    member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND
+    well_formed?(t) AND well_formed?(s) IMPLIES well_formed?(unif_prb)
+
 solve_ac_unify_sound: LEMMA 
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f)))
     AND unifies?(sigma, unif_prb) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f)
@@ -892,7 +896,8 @@ solve_ac_unify_complete_no_common: LEMMA
        unifies?(append(gamma, delta), unif_prb) AND 
        subset?(dom(gamma), difference(list2set(new_vars2avoid), list2set(vars2avoid)))
        AND subset?(vars(img(gamma)), new_vars2avoid) 
-       AND well_formed?(append(gamma, delta))
+       AND well_formed?(gamma)
+
 
 solve_ac_unify_complete: LEMMA 
     unifies?(delta, (t, s)) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f) AND
@@ -904,7 +909,7 @@ solve_ac_unify_complete: LEMMA
        unifies?(append(gamma, delta), unif_prb) AND 
        subset?(dom(gamma), difference(list2set(new_vars2avoid), list2set(vars2avoid)))
        AND subset?(vars(img(gamma)), new_vars2avoid) 
-       AND well_formed?(append(gamma, delta))
+       AND well_formed?(gamma)
 
 % choose not ac 
 choose_not_ac_seen: LEMMA
@@ -980,6 +985,14 @@ choose_unif_size: LEMMA
 choose_unif_subset: LEMMA
     subset?(choose_unif_pair(unif_prb)`2, unif_prb)
 
+choose_unif_unifies?: LEMMA  
+    NOT null?(unif_prb) IMPLIES 
+    unifies?(sigma, unif_prb) =
+    (unifies?(sigma, choose_unif_pair(unif_prb)`1) AND unifies?(sigma, choose_unif_pair(unif_prb)`2))
+
+choose_unif_well_formed_no_pair: LEMMA 
+    well_formed?(unif_prb) IMPLIES no_pair?(choose_unif_pair(unif_prb)`2)
+
 % instantiate step
 instantiate_step_skip: LEMMA
     LET skip = instantiate_step(t, s)`2 IN
@@ -1047,6 +1060,7 @@ instantiate_step_sub: LEMMA
     member((unif_prb1, sigma), instantiate_step(lst_unif_prb)) IMPLIES
     idempotent?(sigma)  
 
+
 instantiate_step_sub_append: LEMMA
     LET delta = instantiate_step(unif_prb, seen_unif_prb, sigma)`2,
         delta1 = instantiate_step(unif_prb, seen_unif_prb, null)`2 IN 
@@ -1084,6 +1098,12 @@ instantiate_step1_mem: LEMMA
     member(t, instantiate_step(unif_prb, null, null)`1) IMPLIES 
     EXISTS s:
        NOT var?(s) AND member(s, unif_prb) AND t = subs(delta)(s)
+
+instantiate_step1_mem_unif_pair: LEMMA 
+    LET delta = instantiate_step(unif_prb, seen_unif_prb, null)`2 IN 
+    member(unif_pair2, instantiate_step(unif_prb, seen_unif_prb, null)`1) IMPLIES 
+    EXISTS unif_pair:
+       member(unif_pair, append(unif_prb, seen_unif_prb)) AND unif_pair2 = apply_sub(delta, unif_pair)
 
 instantiate_step2_mem: LEMMA
     LET delta = instantiate_step(unif_prb, null, null)`2 IN
@@ -1183,5 +1203,24 @@ instantiate_step_unifies: LEMMA
     AND unifies?(sigma, instantiate_step(unif_prb, null, null)`1) AND NOT fail
     AND disjoint?(dom(gamma1), vars(unif_prb)) IMPLIES  
     unifies?(sigma, unif_prb)
+
+instantiate_step_unifies_sub: LEMMA 
+    LET delta = instantiate_step(unif_prb, null, null)`2,
+        fail = instantiate_step(unif_prb, null, null)`3 IN
+        unifies?(sigma, unif_prb) AND NOT fail
+    IMPLIES equal?(sigma, append(sigma, delta))
+
+instantiate_step_unifies_not_fail: LEMMA 
+    LET fail = instantiate_step(unif_prb, null, null)`3 IN
+        unifies?(sigma, unif_prb) AND well_formed?(unif_prb) IMPLIES NOT fail
+    
+instantiate_step_lst_mem: LEMMA 
+    LET (unif_prb1, delta, fail) = instantiate_step(unif_prb, null, null) IN 
+    unifies?(sigma, unif_prb) AND well_formed?(unif_prb) AND member(unif_prb, lst_unif_prb)
+    IMPLIES member((unif_prb1, delta), instantiate_step(lst_unif_prb))
+
+instantiate_step_well_formed: LEMMA 
+    LET delta = instantiate_step(unif_prb, null, null)`2 IN  
+    well_formed?(unif_prb) IMPLIES well_formed?(delta)
 
 END aux_unification 

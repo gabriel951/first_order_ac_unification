@@ -33,7 +33,7 @@ equal?(t, s): RECURSIVE bool =
 	
 	pair(t1, t2): pair?(s) AND equal?(t1, term1(s)) AND equal?(t2, term2(s)),
 
-	app(sym, arg): app?(s) AND sym = f_sym(s) AND equal?(arg, arg(s)),
+	app(sym, arg): app?(s) AND sym = f_sym(s) AND num_arg(arg) = num_arg(arg(s)) AND equal?(arg, arg(s)),
 
 	ac_app(sym, arg):
 	   LET n = num_arg(sym, t) IN
@@ -84,6 +84,9 @@ equal?_len: LEMMA
 
 equal?_num_arg: LEMMA 
     equal?(t, s) IMPLIES num_arg(f, t) = num_arg(f, s) 
+
+equal?_num_arg2: LEMMA 
+    equal?(t, s) IMPLIES num_arg(t) = num_arg(s) 
 
 equal?_append: LEMMA 
     equal?(args1, args2) AND equal?(args3, args4) IMPLIES

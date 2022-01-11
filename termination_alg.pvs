@@ -552,6 +552,7 @@ apply_ac_step_vars_under2more_eq_terms: LEMMA
        EXISTS s:
          member(t, get_args(s)) AND NOT var?(t) AND member(s, unseen_unif_prb))
 
+
 % 3/3 of termination
 apply_ac_step_adm_subterms_subset: LEMMA
     member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, null, vars2avoid))
