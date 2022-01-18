@@ -34,16 +34,16 @@
 (name-replace "fail1" "instantiate_step(t, s)`3")
 
 # apply_ac_step
-(name-replace "u_pair" "car(Pu)")
-(name-replace "t" "u_pair`1")
-(name-replace "s" "u_pair`2")
+(name-replace "up" "car(Pu)")
+(name-replace "t" "up`1")
+(name-replace "s" "up`2")
 (name-replace "cur_V" "union(vars(Pu), union(V, vars(Ps)))")
 (name-replace "lst_V" "finset2list[variable](cur_V)")
 (name-replace "f" "ac_sym(t)")
 (name-replace "ac_results" "first_proj(solve_ac(t, s, lst_V, f))")
 (name-replace "V1" "vars(sec_proj(solve_ac(t, s, lst_V, f)))")
 (name-replace "ac_results_subs" "instantiate_step(ac_results)") 
-(name-replace "input_lst" "input_apply_ac_step(ac_results_subs, cdr(Pu), Ps, sigma, V1)")
+(name-replace "input_lst" "input_apply_ac_step(ac_results_subs, cdr(Pu), Ps, sig, V1)")
 
 
 ##################### OLD

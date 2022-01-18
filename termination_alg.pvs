@@ -245,6 +245,8 @@ vars_not_ac_apply_sub_unif_pair: LEMMA
 vars_not_ac_apply_sub: LEMMA
     subset?(vars_not_ac(apply_sub(sigma, unif_prb)), union(vars_not_ac(img(sigma)), vars_not_ac(unif_prb)))
 
+vars_not_ac_decompose: LEMMA  
+    subset?(vars_not_ac(decompose(t, s)`1), vars_not_ac((t, s)))
 
 % vars_not_ac_var
 vars_not_ac_var_finset: LEMMA
@@ -417,6 +419,9 @@ adm_subterms_solve_ac_lhs_rhs: LEMMA
     IMPLIES subset?(admissible_subterms(unif_prbA), admissible_subterms(rhs(unif_prb)))
          AND subset?(non_var_subterms(unif_prbB), non_var_subterms(lhs(unif_prb)))
 
+adm_subterms_decompose: LEMMA  
+    subset?(admissible_subterms(decompose(t, s)`1), admissible_subterms((t, s)))
+
 % non_var_subterms
 nvs_is_adm_subterm: LEMMA
    subset?(admissible_subterms(t), non_var_subterms(t))
@@ -448,25 +453,6 @@ adm_subterms_inst_step2: LEMMA
 	    union(image(subs(sigma), admissible_subterms(unif_prbA)),
 	          image(subs(sigma), non_var_subterms(unif_prbB))))
     
-% simplify:
-simp_vars_not_ac: LEMMA
-   subset?(vars_not_ac(simplify(unif_prb)), vars_not_ac(unif_prb))
-
-simp_vars_not_ac_car: LEMMA
-   card(vars_not_ac(simplify(unif_prb))) <= card(vars_not_ac(unif_prb))
-
-simp_vars_under2more_subset: LEMMA
-   subset?(vars_under2more(simplify(unif_prb)), vars_under2more(unif_prb))
-
-simp_vars_under2more: LEMMA
-   card(vars_under2more(simplify(unif_prb))) <= card(vars_under2more(unif_prb))
-
-simp_adm_subterms_subset: LEMMA 
-   subset?(admissible_subterms(simplify(unif_prb)), admissible_subterms(unif_prb))
-
-simp_adm_subterms: LEMMA 
-   card(admissible_subterms(simplify(unif_prb))) <= card(admissible_subterms(unif_prb))
-
  
 % instantiate step / apply ac step
 vars_not_ac_var_inst_step: LEMMA

@@ -370,7 +370,6 @@ le_select_delete: LEMMA
     nice_ind?((: i, n :), num_arg(f, t)-1) AND num_arg(f, t) > 1 AND i <= n
     IMPLIES select(f, delete(f, t)(i))(n) = select(f, t)(n+1)
 
-
 gt_select_delete2: LEMMA
     nice_ind?((: i, n :), num_arg(f, t)) AND i > n IMPLIES
     select(f, delete(f, t)(n))(i-1) = select(f, t)(i) 

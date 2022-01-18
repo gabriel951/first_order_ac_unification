@@ -21,7 +21,7 @@ t, t1, t2, s, ti, arg: VAR term
 args, args1, args2: VAR args
 lst_args: VAR list[args]
 
-set_vars: VAR finite_set[variable]
+set_vars, set_vars1: VAR finite_set[variable]
 fin_set_t: VAR finite_set[term]
 
 f: VAR ac_symbol
@@ -52,7 +52,7 @@ MEASURE t by <<
 % "(sigma o delta)" can be implemented as "append(sigma, delta)".
 sub: TYPE = list[basic_sub]
 
-sigma, delta, delta2, lambda1, gamma: VAR sub
+sigma, sigma1, delta, delta1, delta2, lambda1, gamma: VAR sub
 
 % action of a substitution sigma on a term t.
 % notice that in "(sigma o delta)(t) = sigma(delta(t))" we apply the substitution delta first,
@@ -458,14 +458,24 @@ alm_well_formed_subs: LEMMA
 equal_sub_equiv: LEMMA
    equal?(delta, sigma) IMPLIES equal?(subs(delta)(t), subs(sigma)(t))
 
+equal_sub_equiv_alt: LEMMA 
+   equal?(delta, sigma, set_vars) AND subset?(vars(t), set_vars) IMPLIES 
+   equal?(subs(delta)(t), subs(sigma)(t))
+
 equal_sub_change_eq_terms: LEMMA
    equal?(delta, sigma) IMPLIES  
    (equal?(subs(delta)(t), subs(delta)(s)) IFF equal?(subs(sigma)(t), subs(sigma)(s)))
 
 equal_sub_ref: LEMMA equal?(sigma, sigma) 
 
+equal_sub_sym: LEMMA 
+   equal?(delta, gamma) = equal?(gamma, delta)
+
 equal_sub_trans: LEMMA 
    equal?(delta, gamma) AND equal?(gamma, sigma) IMPLIES equal?(delta, sigma) 
+
+equal_sub_append: LEMMA 
+   equal?(sigma, sigma1) IMPLIES equal?(append(sigma, delta), append(sigma1, delta))
 
 % this lemmas appeared when proving correctness and completeness
 idempotent_append_cond: LEMMA
@@ -513,10 +523,31 @@ count_subs_subset: LEMMA
     subset_lst?(get_args(f)(t), args1) AND dif_elem?(args1, equal?) IMPLIES
     count(s, subs(sigma)(t), f) = dot_product(count_vec(subs(sigma)(no_rep_args), f)(s), coef)
 
-% lemma for instantiation in the unification algorithm 
+%% contained, more_general
 subs_inst: LEMMA 
     LET delta = cons((X, t), null) IN 
     equal?(subs(sigma)(variable(X)), subs(sigma)(t)) IMPLIES 
     equal?(sigma, append(sigma, delta))
 
+contained_append: LEMMA 
+    contained?(delta, set_vars) AND contained?(sigma, set_vars)
+    IMPLIES contained?(append(delta, sigma), set_vars)
+
+contained_supset: LEMMA  
+    contained?(delta, set_vars) AND subset?(set_vars, set_vars1)
+    IMPLIES contained?(delta, set_vars1)
+
+more_general_equal: LEMMA 
+    equal?(sigma, sigma1) IMPLIES 
+    more_general?(delta, sigma) = more_general?(delta, sigma1)
+   
+more_general_append: LEMMA 
+     more_general?(sigma, sigma1) IMPLIES more_general?(append(sigma, delta), append(sigma1, delta))
+
+more_general_supset: LEMMA 
+    more_general?(sigma, append(delta1, delta), set_vars1) AND subset?(set_vars, set_vars1)
+    AND disjoint?(dom(delta1), set_vars) AND contained?(delta, set_vars)
+    IMPLIES more_general?(sigma, delta, set_vars)
+
+    
 END substitution

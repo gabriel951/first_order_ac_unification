@@ -177,6 +177,10 @@ nice_input_subterms: LEMMA
    subset?(subterms(unif_prb1), subterms(unif_prb)) AND no_pair?(unif_prb1) IMPLIES
    nice_input?(unif_prb1, sigma, vars2avoid)
 
+nice_input_cdr: LEMMA  
+   NOT null?(unif_prb) AND nice_input?(unif_prb, sigma, vars2avoid) 
+   IMPLIES nice_input?(cdr(unif_prb), sigma, vars2avoid)
+
 next_input_nice_input: LEMMA  
    next_input?(input1, input2) AND nice_input?(append(input1`1, input1`2), input1`3, input1`4) IMPLIES 
    nice_input?(append(input2`1, input2`2), input2`3, input2`4)
@@ -233,6 +237,11 @@ apply_ac_step_vars2avoid: LEMMA
    IMPLIES subset?(vars2avoid, ac_sol`3) AND subset?(dom(ac_sol`2), ac_sol`3)
    AND subset?(vars(ac_sol`1), ac_sol`3)
 
+apply_ac_step_vars2avoid_cor: LEMMA 
+   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
+   AND nice_input?(append(unseen_unif_prb, seen_unif_prb), sigma, vars2avoid) 
+   IMPLIES subset?(vars2avoid, ac_sol`3) 
+
 apply_ac_step_disjoint_vars: LEMMA
    member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
    AND disjoint?(vars(append(unseen_unif_prb, seen_unif_prb)), dom(sigma)) AND
@@ -261,6 +270,24 @@ apply_ac_step_complete: LEMMA
       unifies?(append(gamma, delta), ac_sol`1) AND 
       subset?(dom(gamma), difference(ac_sol`3, vars2avoid)) AND 
       well_formed?(gamma) AND subset?(vars(img(gamma)), ac_sol`3)
+      AND more_general?(ac_sol`2, append(gamma, delta))
 
+%apply_ac_step_complete1: CONJECTURE 
+%   unifies?(delta, append(unseen_unif_prb, seen_unif_prb)) AND all_ac_prb?(unseen_unif_prb)
+%   AND well_formed?(delta) AND nice_input?(append(unseen_unif_prb, seen_unif_prb), sigma, vars2avoid)
+%   AND contained?(delta, vars2avoid) AND more_general?(sigma, delta) IMPLIES
+%   EXISTS ac_sol, gamma:
+%      member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid)) AND
+%      unifies?(append(gamma, delta), ac_sol`1) AND 
+%      subset?(dom(gamma), difference(ac_sol`3, vars2avoid)) AND 
+%      well_formed?(gamma) AND subset?(vars(img(gamma)), ac_sol`3)
+%      AND more_general?(ac_sol`2, append(gamma, delta))
+
+%apply_ac_step_more_general: CONJECTURE 
+%   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
+%   AND unifies?(delta, append(unseen_unif_prb, seen_unif_prb)) AND
+%   nice_input?(append(unseen_unif_prb, seen_unif_prb), sigma, vars2avoid) AND
+%   more_general?(sigma, delta) IMPLIES more_general?(ac_sol`2, delta) 
+    
 END apply_ac_step
 

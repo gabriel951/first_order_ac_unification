@@ -18,7 +18,7 @@ BEGIN
 
 sigma, sigma1, delta: VAR sub
 lst_sub: VAR list[sub]
-vars2avoid, set_vars: VAR set[variable]
+vars2avoid, set_vars: VAR finite_set[variable]
 args1, args2: VAR args
 X: VAR variable
 t, s, t1: VAR term
@@ -337,6 +337,10 @@ unifies?_equal: LEMMA
     equal?(sigma, sigma1) AND unifies?(sigma, unif_prb) IMPLIES
     unifies?(sigma1, unif_prb)
 
+unifies?_equal_alt: LEMMA 
+    equal?(sigma, sigma1, set_vars) AND unifies?(sigma, unif_prb) AND subset?(vars(unif_prb), set_vars)
+    IMPLIES unifies?(sigma1, unif_prb)
+
 unifies?_subset: LEMMA
    subset?(unif_prb, unif_prb1) AND unifies?(sigma, unif_prb1) IMPLIES unifies?(sigma, unif_prb) 
 
@@ -452,6 +456,10 @@ unifies?_impossible: LEMMA
    AND NOT same_count?(get_args(f)(t), get_args(f)(s), equal?)
    IMPLIES NOT unifies?(delta, (t, s))
 
+unifies?_impossible2: LEMMA  
+   unifies?(sigma, (t, s)) AND NOT var?(t) AND well_formed?(t) IMPLIES  
+   ord(t) = ord(s) OR (var?(s) AND NOT (member(V(s), vars(t))))
+
 remove_common_not_null_count: LEMMA
    (EXISTS t1:
        count(t1, args1, equal?) > count(t1, args2, equal?))
@@ -518,10 +526,19 @@ decompose_not_fail: LEMMA
    well_formed?(sigma) AND unifies?(sigma, (t, s))
    IMPLIES bool1 
 
+decompose_not_fail2: LEMMA 
+   LET (unif_prb, bool1) = decompose(t, s) IN
+   well_formed?(sigma) AND unifies?(sigma, (app(f, t), app(f, s)))
+   IMPLIES bool1 
+
 decompose_app_well_formed: LEMMA 
    LET (unif_prb, bool1) = decompose(t, s) IN
    well_formed?(sigma) AND well_formed?((app(f, t), app(f, s))) AND bool1
    IMPLIES well_formed?(unif_prb)
+
+decompose_size: LEMMA 
+   LET (unif_prb, bool1) = decompose(t, s) IN
+   size(unif_prb) <= size((t, s))
 
 %decompose_subterm: LEMMA 
 %   subterms(decompose(t, s)) = subterms((t, s))
