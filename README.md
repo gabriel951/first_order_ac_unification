@@ -1,14 +1,17 @@
-# first_order_ac_unification
-Repository that will contain the formalisation of a correct and complete first-order AC-unification 
-algorithm. 
+# First Order AC-Unification
+A formalisation of first-order AC-unification in PVS.  
 
-Authors:   
-1. Gabriel Ferreira Silva  
-2. Mauricio Ayala-Rincón  
-3. Maribel Fernández   
-4. Daniele Nantes-Sobrinho  
+## Highlights 
+
+### Major Theorems 
+| Theorem | Location | PVS name |  
+| ----    | ----     | ----     |  
+| Soundness of Unification | `first_order_AC_unif@unification_alg` | `unify_alg_correct_cor` |  
+| Completeness of Unification | `first_order_AC_unif@unification_alg` | `unify_alg_complete_cor` |   
 
 
-Current Status of the formalisation:    
-We have proved termination and correctness. There is only one case (the AC-case) for 
-completeness that we did not prove. 
+# Contributors 
+* [Mauricio Ayala-Rincón](https://www.mat.unb.br/ayala/), University of Brasília, Brazil
+* [Maribel Fernández](https://www.kcl.ac.uk/people/maribel-fernandez), King's College London, UK 
+* [Gabriel Ferreira Silva](https://gabriel951.github.io/), University of Brasília, Brazil
+* [Daniele Nantes-Sobrinho](https://www.mat.unb.br/dnantes/), University of Brasília, Brazil 

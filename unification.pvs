@@ -530,20 +530,4 @@ decompose_size: LEMMA
    LET (unif_prb, bool1) = decompose(t, s) IN
    size(unif_prb) <= size((t, s))
 
-%decompose_subterm: LEMMA 
-%   subterms(decompose(t, s)) = subterms((t, s))
-
-%decompose_correct: LEMMA  
-%   unifies?(sigma, (t, s)) = unifies?(sigma, decompose(t, s))
-
-%decompose_correct_app: LEMMA  
-%   unifies?(sigma, (app(f, t), app(f, s))) = unifies?(sigma, decompose(t, s))
-
-%decompose_no_pair: LEMMA 
-%   well_formed?(sigma) AND unifies?(sigma, (t, s)) IMPLIES no_pair?(decompose(t, s))
-
-%decompose_app_well_formed: LEMMA  
-%   well_formed?(sigma) AND unifies?(sigma, (app(f, t), app(f, s))) AND
-%   well_formed?((app(f, t), app(f, s))) IMPLIES well_formed?(decompose(t, s))
-
 END unification 
