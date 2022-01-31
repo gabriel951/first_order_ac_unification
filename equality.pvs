@@ -5,9 +5,6 @@
 % 		Maribel Fernandez (**)
 %		(*) - University of Brasília			(**) - King's College London
 %
-
-% File: Equality.pvs
-% Description: Definition of equality between term and related lemmas
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 equality: THEORY

@@ -5,10 +5,6 @@
 % 		Maribel Fernandez (**)
 %		(*) - University of Brasília			(**) - King's College London
 %
-
-% File: substitution.pvs
-% Description: Definition of a substitution and related properties
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 substitution: THEORY

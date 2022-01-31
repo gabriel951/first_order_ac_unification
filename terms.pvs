@@ -5,15 +5,9 @@
 % 		Maribel Fernandez (**)
 %		(*) - University of Brasília			(**) - King's College London
 %
-
-% File: terms.pvs
-% Description: Definition of a first order term and properties related to them
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % definition of a term
-% obs: the subtypes plain and pair are necessary to impose that AC-function symbols receive a pair as an argument
 term[constant:TYPE, variable:TYPE+, f_symbol:TYPE, ac_symbol:TYPE]: DATATYPE 
     BEGIN
 	const (a: constant): const?
@@ -69,13 +63,14 @@ size(t): RECURSIVE nat =
 MEASURE t BY <<
 
 
-% size of a list of arguments
+% size of args, i.e., a list of terms
 size(args): RECURSIVE nat =
      IF null?(args) THEN 1
      ELSE LET t = car(args) IN size(t) + size(cdr(args)) 
      ENDIF 
 MEASURE length(args) 
 
+% size of lst_args, i.e., a list of args
 size(lst_args): RECURSIVE nat =
      IF null?(lst_args) THEN 1
      ELSE LET args = car(lst_args) IN size(args) + size(cdr(lst_args)) 
@@ -114,6 +109,7 @@ func?(t): bool =
 dif_func?(t, s): bool = 
     func?(t) AND func?(s) AND (ord(t) /= ord(s) OR sym(t) /= sym(s))
 
+% returns true if "t" and "s" are headed by the same function symbol 
 same_func?(t, s): bool = 
     func?(t) AND ord(t) = ord(s) AND sym(t) = sym(s) 
 
@@ -216,18 +212,21 @@ MEASURE args BY <<
 % Put all the "args" as arguments of an AC-function symbol, headed by sym
 get_ac_from_args(sym)(args): term = ac_app(sym, get_term_from_args(args))
 
+% returns TRUE if all arguments of args are variables, FALSE otherwise
 all_var?(args): RECURSIVE bool =
    IF null?(args) THEN TRUE
    ELSE var?(car(args)) AND all_var?(cdr(args))
    ENDIF
 MEASURE args BY << 
 
+% extends all_var? to a list of arguments
 all_var?(lst_args): RECURSIVE bool =
    IF null?(lst_args) THEN TRUE 
    ELSE all_var?(car(lst_args)) AND all_var?(cdr(lst_args))
    ENDIF
 MEASURE lst_args BY << 
 
+% returns true if for every "t" in args, "t" is neither a pair or an AC-function symbol 
 no_pair_ac?(f, args): bool =
    FORALL t: member(t, args) IMPLIES (NOT pair?(t) AND NOT is_ac_sym?(t, f))
 
@@ -467,7 +466,7 @@ subterms_aux_TCC: LEMMA every[number, number, f_symbol, ac_symbol]
            TRUE, LAMBDA (x: ac_symbol): TRUE)
           (select(sym, t)(n))
 
-% variables of a term
+% variables of a term "t".
 vars(t): RECURSIVE finite_set[variable] =
    CASES t OF
         const(a): emptyset,
@@ -618,7 +617,7 @@ size2(t): RECURSIVE nat =
     ENDCASES
 MEASURE size(t)
 
-% well_formed
+% definition of a well_formed term. Returns True if "s" is a well_formed term and False otherswise
 well_formed?(s): bool =
     NOT pair?(s) AND
     FORALL t:
@@ -884,7 +883,7 @@ size2_ge0: LEMMA
 size2_get_args: LEMMA
     size2(t) = sum(map(size2)(get_args(f)(t)))
 
-% well_formed:
+% well_formed
 well_formed_args: LEMMA 
     well_formed?(args) IFF
     FORALL t:

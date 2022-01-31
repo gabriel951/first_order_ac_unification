@@ -1,4 +1,3 @@
-%
 % Authors:
 %		Gabriel Ferreira Silva (*)
 % 		Mauricio Ayala-Rincón (*)
@@ -6,11 +5,6 @@
 % 		Maribel Fernandez (**)
 %		(*) - University of Brasília			(**) - King's College London
 %
-
-% File: unification_alg.pvs
-% Description: Definition of the first order unification algorithm 
-
-% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 unification_alg: THEORY
@@ -31,8 +25,7 @@ unif_prb1: VAR unif_prb
 id: VAR sub
 input: VAR nice_input
 
-
-% the AC-unification algorithm 
+% the AC-unification algorithm. In our paper we refer to it as ACUnif. 
 unify(input): RECURSIVE list[sub] =
   LET (unif_prb, sigma, vars2avoid) = input IN 
   IF null?(unif_prb) THEN cons(sigma, null)
@@ -88,7 +81,7 @@ MEASURE lex4(card(vars_not_ac(input`1)), card(vars_under2more(input`1)),
 
 
 %%%%%%%%%%%% LEMMAS
-% properties of the substitutions computed 
+% some properties of the substitutions computed, needed for the lemmas of soundness and completeness
 unify_subs: LEMMA 
    LET (unif_prb, sigma, vars2avoid) = input IN 
    member(delta, unify(unif_prb, sigma, vars2avoid)) IMPLIES
@@ -110,18 +103,18 @@ unify_alg_correct_sub: LEMMA
     IMPLIES
     unifies?(delta, (variable(X), t)) AND unifies?(delta, unif_prb1)
   
-% Theorem of Correctness
+% Main lemma for the theorem of Correctness
 unify_alg_correct: LEMMA  
     LET (unif_prb, sigma, vars2avoid) = input IN 
     member(delta, unify(unif_prb, sigma, vars2avoid))
     IMPLIES unifies?(delta, unif_prb)
 
-unify_alg_correct_cor: LEMMA
+% theorem of correctness, corollary from the previous lemma
+unify_alg_correct_cor: COROLLARY
     well_formed?((t, s)) AND member(delta, unify(cons((t, s), null), null, vars(t, s))) 
     IMPLIES unifies?(delta, cons((t, s), null))
 
-% Theorem of Completeness
-% completeness for instantiation case
+% used in the proof of completeness for the instantiation case
 unify_alg_complete_sub: LEMMA    
     LET sigma1 = cons((X, t), null), new_sigma = append(sigma1, sigma),
         new_unif_prb = apply_sub(sigma1, unif_prb1) IN
@@ -131,6 +124,7 @@ unify_alg_complete_sub: LEMMA
     unifies?(delta, unif_prb) AND more_general?(sigma, delta) IMPLIES
     more_general?(new_sigma, delta) AND unifies?(delta, apply_sub(sigma1, unif_prb1))
 
+% main lemma to prove the theorem of completeness
 unify_alg_complete: LEMMA 
     LET (unif_prb, sigma, vars2avoid) = input IN 
     unifies?(delta, unif_prb) AND more_general?(sigma, delta) AND contained?(delta, vars2avoid)
@@ -139,7 +133,8 @@ unify_alg_complete: LEMMA
        member(gamma, unify(unif_prb, sigma, vars2avoid)) AND 
        more_general?(gamma, delta, vars2avoid)
 
-unify_alg_complete_cor: LEMMA 
+% theorem of completeness for the algorithm 
+unify_alg_complete_cor: COROLLARY 
     well_formed?((t, s)) AND unifies?(delta, (t, s))  
     AND contained?(delta, vars2avoid) AND subset?(vars(t, s), vars2avoid) AND well_formed?(delta)
     IMPLIES 

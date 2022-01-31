@@ -5,9 +5,6 @@
 % 		Maribel Fernandez (**)
 %		(*) - University of Brasília			(**) - King's College London
 %
-
-% File: diophantine.pvs
-% Description: functions related to solving diophantine equations
 %%%%%%%%%%%%%%%%%%%%%%%
 
 diophantine: THEORY

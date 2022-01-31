@@ -6,10 +6,6 @@
 % 		Maribel Fernandez (**)
 %		(*) - University of Brasília			(**) - King's College London
 %
-
-% File: unification.pvs
-% Description: Definition of unification problem.. 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 unification: THEORY
@@ -28,7 +24,7 @@ f: VAR string
 unif_pair: TYPE = [term, term]
 unif_pair, unif_pair1: VAR unif_pair
 
-% a unification problem is a list of unification pairs
+% in our PVS formalisation, we represent a unification problem as a list of unification pairs
 unif_prb: TYPE = list[unif_pair]
 unif_prb, unif_prb1, unif_prb2: VAR unif_prb
 lst_unif_prb: VAR list[unif_prb]
@@ -209,6 +205,7 @@ subset?(unif_prb, unif_prb1): bool =
 
 % if t = <t1, ..., tn> and s = <s1, ..., sn>
 % returns the unification problem [(t1, s1), ..., (tn, sn)]
+% also returns a boolean to indicate if the decomposition was possible or not
 decompose(t, s): RECURSIVE [unif_prb, bool] = 
    IF pair?(t) AND pair?(s) THEN
       LET (unif_prb1, bool1) = decompose(term1(t), term1(s)),
@@ -218,13 +215,6 @@ decompose(t, s): RECURSIVE [unif_prb, bool] =
    ELSE (cons((t, s), null), TRUE)
    ENDIF
 MEASURE t BY << 
-
-%decompose(t, s): RECURSIVE unif_prb =
-%   IF pair?(t) AND pair?(s) THEN
-%      append(decompose(term1(t), term1(s)), decompose(term2(t), term2(s)))
-%   ELSE cons((t, s), null)
-%   ENDIF
-%MEASURE t BY << 
 
 %%%%%%%%%%%%%%%%%% Theorems and Lemmas
 % first_proj

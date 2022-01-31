@@ -1,4 +1,3 @@
-%
 % Authors:
 %		Gabriel Ferreira Silva (*)
 % 		Mauricio Ayala-Rincón (*)
@@ -6,10 +5,7 @@
 % 		Maribel Fernandez (**)
 %		(*) - University of Brasília			(**) - King's College London
 %
-
-% File: termination_alg.pvs
-% Description: Function necessary to prove termination of the algorithm 
-% 
+%%%%%%%%%%%%%%%%%%%%%%%
 
 termination_alg: THEORY
 BEGIN
