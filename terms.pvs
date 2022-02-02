@@ -194,12 +194,11 @@ flatten_pair(t): RECURSIVE args =
     ENDIF
 MEASURE t BY << 
 
-% get the arguments of a term t.
+% represented in our paper as Args_f(t), this function get the arguments of a term t.
 % if it encounters an ac function whose root is "sym" it goes inside the function
 get_args(sym)(t): args =
     LET n = num_arg(sym, t), lst_until_n = from_min2max[nat](1, n) IN 
     	map(select(sym, t))(lst_until_n)
-
     
 % obtain a term to represent a whole list of terms
 get_term_from_args(args): RECURSIVE term =

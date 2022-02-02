@@ -52,7 +52,8 @@ max_lcm(mult_t1, mult_t2): nat =
              select_greater[nat](lcm_seq)
     ENDIF
     
-% calculate the upper bound of solutions, where we can stop
+% calculate the upper bound of solutions to a linear diophantine equation, where the coefficients
+% are given by "mult_t1" (lhs) and "mult_t2". We used the bound from Stickel's paper. 
 calculate_upper_bound(mult_t1, mult_t2): nat =
     max(length(mult_t1), length(mult_t2)) * max_lcm(mult_t1, mult_t2)
 
@@ -114,7 +115,8 @@ find_vectors(mult_t)(k): RECURSIVE dio_matrix =
     ENDIF
 MEASURE mult_t BY << 
 
-% solve diophantine equation with both sides being equal to k
+% solves the linear diophantine equation with both sides being equal to k
+% the solutions, which are shown in papers as a table, is represented in our code as a matrix. 
 dio_solver_n(mult_t1, mult_t2, k): dio_matrix =
     LET
 	% list all solutions [X1, ..., Xn] such that a1*X1 + ... + an*Xn = k

@@ -64,7 +64,8 @@ lst_new_input: VAR list[[unif_prb, sub, finite_set[variable]]]
 
 f: VAR ac_symbol
 
-% this corresponds to function elimcom in Fages paper
+% this corresponds to function elimcom in Fages paper. Eliminates common arguments from "t1" and "t2", where "t1" and "t2"
+% should be AC-function applications headed by "sym". 
 elim_com_arg(t1, t2, sym): [args, list[nat], list[nat]] =
      LET
      % get arguments of t1 and t2
@@ -140,7 +141,7 @@ get_nice_submatrices(dio_matrix_lst, args): RECURSIVE list[dio_matrix] =
 MEASURE dio_matrix_lst BY << 
 
 % extract the relevant submatrices. Each submatrix corresponds to one ac-solution
-% this corresponds to function partit in Fages article
+% this corresponds to function "partit" in Fages article about termination
 extract_submatrices(dio_sol_matrix, args): list[dio_matrix] =
     % check that the dio_sol_matrix is not only a list of lists but also a matrix
     IF nonmatrix?(dio_sol_matrix) THEN null
@@ -186,8 +187,7 @@ get_ac_from_args_gt1(sym)(args): term =
     ENDIF
 
 
-% this corresponds to function trans in Fages paper
-% some simplification is done in order to ease the formalization
+% this corresponds to function "trans" in Fages paper
 dio_matrix2ac_sol(args, vars2avoid, sym)(dio_matrix): ac_sol = 
      LET num_col = length(args), 
      % get list of list of args
@@ -195,12 +195,11 @@ dio_matrix2ac_sol(args, vars2avoid, sym)(dio_matrix): ac_sol =
      (pre_new_args, new_vars2avoid) = get_pre_new_args(null_lst, dio_matrix, vars2avoid),
      % for each "args" in pre_new_args, make the corresponding ac term whose args are "args"
      new_args = map(get_ac_from_args_gt1(sym))(pre_new_args), 
-     %new_args = map(get_ac_from_args(sym))(pre_new_args),
      % pareate
      new_unif_prb = pareate(args, new_args) IN
      (new_unif_prb, new_vars2avoid) 
 
-% in Fages paper about termination, this corresponds to function "dio" in Fages paper
+% in Fages paper about termination, this corresponds to function "dio"
 solve_ac(t1, t2, vars2avoid, sym): list[ac_sol] =
     LET
 %    eliminate common arguments from t1 and t2, obtaining the different arguments on each one
@@ -265,7 +264,7 @@ instantiate_step(t, s): [sub, bool, bool] =
    	(sigma, skip, impossible) 
    ENDIF
 
-% extends "instantiate_step" to a unification problem
+% this function is refered in our paper as "instStep"
 % receives:
 %	1 - list of unification problem we still have not tried to instantiate
 %       2 - list of unification problem we already have tried to instantiate
@@ -878,11 +877,13 @@ solve_ac_well_formed: LEMMA
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f))) AND
     well_formed?(t) AND well_formed?(s) IMPLIES well_formed?(unif_prb)
 
+% soundness of solve_ac
 solve_ac_unify_sound: LEMMA 
     member(unif_prb, first_proj(solve_ac(t, s, vars2avoid, f)))
     AND unifies?(sigma, unif_prb) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f)
     IMPLIES unifies?(sigma, (t, s))
 
+% completeness of solve_ac, after we have eliminated the common terms from "t" and "s"
 solve_ac_unify_complete_no_common: LEMMA 
     unifies?(delta, (t, s)) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f) AND
     no_common_args?(get_args(f)(t), get_args(f)(s)) AND 
@@ -895,7 +896,9 @@ solve_ac_unify_complete_no_common: LEMMA
        AND subset?(vars(img(gamma)), new_vars2avoid) 
        AND well_formed?(gamma)
 
-
+% completeness of solve_ac. 
+% notice that the hypothesis that dom(δ) ⊂ V and that vars(img(̣δ)) ⊂ V are written more succintly
+% in our paper as δ ⊂ V. 
 solve_ac_unify_complete: LEMMA 
     unifies?(delta, (t, s)) AND is_ac_sym?(t, f) AND is_ac_sym?(s, f) AND
     NOT equal?(t, s) AND 

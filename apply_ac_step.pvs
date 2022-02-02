@@ -75,7 +75,8 @@ input_apply_ac_step1_len: LEMMA
     IMPLIES length(input`1) = length(unseen_unif_prb)
 
 % initially, this function is called with (unif_prb, null, sigma, vars2avoid)
-% recursively apply "solve_ac" to every unification pair in "unseen_unif_prb",
+% recursively apply "solve_ac" to every unification pair in "unseen_unif_prb" and instantiates the
+% variables that it can by calling "instantiate_step". 
 % storing the results in (seen_unif_prb, sigma, vars2avoid)
 apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid): RECURSIVE list[ac_sol_simp] = 
    IF NOT all_ac_prb?(unseen_unif_prb) THEN null
@@ -121,7 +122,7 @@ next_input?(input1, input2): bool =
 	   			sigma, new_vars2avoid))
   ENDIF
     
-% nice input 
+% returns True if (unif_prb, sigma, vars2avoid) is a nice input. False otherwise. 
 nice_input?(unif_prb, sigma, vars2avoid): bool =
    idempotent?(sigma) AND disjoint?(vars(unif_prb), dom(sigma)) AND 
    subset?(dom(sigma), vars2avoid) AND subset?(vars(unif_prb), vars2avoid) AND
@@ -249,6 +250,7 @@ apply_ac_step_unifies_seen: LEMMA
    disjoint?(dom(sigma), union(vars(seen_unif_prb), vars(unseen_unif_prb)))
    IMPLIES unifies?(delta, seen_unif_prb) 
    
+% soundness of apply_ac_step
 apply_ac_step_sound: LEMMA
    member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
    AND unifies?(delta, ac_sol`1) AND (EXISTS sigma1: delta = append(sigma1, ac_sol`2))
@@ -256,6 +258,7 @@ apply_ac_step_sound: LEMMA
    disjoint?(dom(sigma), union(vars(seen_unif_prb), vars(unseen_unif_prb)))
    IMPLIES unifies?(delta, unseen_unif_prb)
 
+% completeness of apply_ac_step
 apply_ac_step_complete: LEMMA
    unifies?(delta, append(unseen_unif_prb, seen_unif_prb)) AND all_ac_prb?(unseen_unif_prb)
    AND well_formed?(delta) AND nice_input?(append(unseen_unif_prb, seen_unif_prb), sigma, vars2avoid)
@@ -267,22 +270,5 @@ apply_ac_step_complete: LEMMA
       well_formed?(gamma) AND subset?(vars(img(gamma)), ac_sol`3)
       AND more_general?(ac_sol`2, append(gamma, delta))
 
-%apply_ac_step_complete1: CONJECTURE 
-%   unifies?(delta, append(unseen_unif_prb, seen_unif_prb)) AND all_ac_prb?(unseen_unif_prb)
-%   AND well_formed?(delta) AND nice_input?(append(unseen_unif_prb, seen_unif_prb), sigma, vars2avoid)
-%   AND contained?(delta, vars2avoid) AND more_general?(sigma, delta) IMPLIES
-%   EXISTS ac_sol, gamma:
-%      member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid)) AND
-%      unifies?(append(gamma, delta), ac_sol`1) AND 
-%      subset?(dom(gamma), difference(ac_sol`3, vars2avoid)) AND 
-%      well_formed?(gamma) AND subset?(vars(img(gamma)), ac_sol`3)
-%      AND more_general?(ac_sol`2, append(gamma, delta))
-
-%apply_ac_step_more_general: CONJECTURE 
-%   member(ac_sol, apply_ac_step(unseen_unif_prb, seen_unif_prb, sigma, vars2avoid))
-%   AND unifies?(delta, append(unseen_unif_prb, seen_unif_prb)) AND
-%   nice_input?(append(unseen_unif_prb, seen_unif_prb), sigma, vars2avoid) AND
-%   more_general?(sigma, delta) IMPLIES more_general?(ac_sol`2, delta) 
-    
 END apply_ac_step
 

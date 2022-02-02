@@ -25,7 +25,8 @@ unif_prb1: VAR unif_prb
 id: VAR sub
 input: VAR nice_input
 
-% the AC-unification algorithm. In our paper we refer to it as ACUnif. 
+% the AC-unification algorithm. In our paper we refer to it as ACUnif.
+% input is a triple of the form (P, σ, V). 
 unify(input): RECURSIVE list[sub] =
   LET (unif_prb, sigma, vars2avoid) = input IN 
   IF null?(unif_prb) THEN cons(sigma, null)
@@ -103,7 +104,7 @@ unify_alg_correct_sub: LEMMA
     IMPLIES
     unifies?(delta, (variable(X), t)) AND unifies?(delta, unif_prb1)
   
-% Main lemma for the theorem of Correctness
+% Main lemma for the theorem of Soundness
 unify_alg_correct: LEMMA  
     LET (unif_prb, sigma, vars2avoid) = input IN 
     member(delta, unify(unif_prb, sigma, vars2avoid))

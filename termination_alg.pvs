@@ -41,7 +41,9 @@ submatrix_sol_lst: VAR list[dio_matrix]
 
 input0, input1: VAR [unif_prb, unif_prb, sub, finite_set[variable]]
 
-% vars_under2more
+% in our paper, this corresponds to function V_{> 1}(P)
+% We called vars_under2more in our code, since it is the set of
+% variables that are under (i.e. are arguments) 2 or more terms t and s, where t and s are different functions
 vars_under2more(unif_prb): finite_set[variable] =
     {X | EXISTS t, s: dif_func?(t, s) AND im_under?(X, t) and im_under?(X, s) AND
     member(t, subterms(unif_prb)) AND member(s, subterms(unif_prb))}
@@ -77,6 +79,7 @@ MEASURE args BY <<
 
 vars_not_ac(unif_pair): finite_set[variable] = union(vars_not_ac(unif_pair`1), vars_not_ac(unif_pair`2))
 
+% in our paper, this is represented as VNAC(P), to make it shorter. 
 vars_not_ac(unif_prb): RECURSIVE finite_set[variable] = 
     IF null?(unif_prb) THEN emptyset
     ELSE LET unif_pair = car(unif_prb) IN
@@ -153,6 +156,7 @@ admissible_subterms(fin_set_t): finite_set[term] =
 admissible_subterms(unif_pair): finite_set[term] = 
     {s | EXISTS t: (t = unif_pair`1 OR t = unif_pair`2) AND member(s, admissible_subterms(t))}
 
+% in our paper, this is represented as AS(P) 
 admissible_subterms(unif_prb): finite_set[term] =
     {s | EXISTS t: member(t, unif_prb) AND member(s, admissible_subterms(t))}
 

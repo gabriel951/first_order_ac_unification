@@ -87,7 +87,7 @@ MEASURE lst_unif_prb BY <<
 subterms(unif_pair): finite_set[term] =
     LET (t, s) = unif_pair IN union(subterms(t), subterms(s))
 
-% subterms of a unification problem
+% subterms of a unification problem.
 subterms(unif_prb): RECURSIVE finite_set[term] =
     IF null?(unif_prb) THEN emptyset
     ELSE LET unif_pair = car(unif_prb) IN
