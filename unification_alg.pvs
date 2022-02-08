@@ -104,8 +104,8 @@ unify_alg_correct_sub: LEMMA
     IMPLIES
     unifies?(delta, (variable(X), t)) AND unifies?(delta, unif_prb1)
   
-% Main lemma for the theorem of Soundness
-unify_alg_correct: LEMMA  
+% Main theorem to prove the corollary of Soundness. Here, "input" is of type nice input (see line 14, 26). 
+unify_alg_correct: THEOREM  
     LET (unif_prb, sigma, vars2avoid) = input IN 
     member(delta, unify(unif_prb, sigma, vars2avoid))
     IMPLIES unifies?(delta, unif_prb)
@@ -125,8 +125,8 @@ unify_alg_complete_sub: LEMMA
     unifies?(delta, unif_prb) AND more_general?(sigma, delta) IMPLIES
     more_general?(new_sigma, delta) AND unifies?(delta, apply_sub(sigma1, unif_prb1))
 
-% main lemma to prove the theorem of completeness
-unify_alg_complete: LEMMA 
+% main theorem to prove the corollary of completeness. As was the case for soudness, here input is of type "nice_input". 
+unify_alg_complete: THEOREM 
     LET (unif_prb, sigma, vars2avoid) = input IN 
     unifies?(delta, unif_prb) AND more_general?(sigma, delta) AND contained?(delta, vars2avoid)
     AND well_formed?(delta) IMPLIES 
