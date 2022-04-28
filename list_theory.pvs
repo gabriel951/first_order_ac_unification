@@ -31,6 +31,7 @@ num: VAR number
 n, i, j, min, max, inc: VAR nat
 coef, coef1, coef2, lst_nat, lst_nat1, lst_nat2: VAR list[nat]
 lst_pos_nat: VAR list[posnat]
+fin_set_nat: VAR finite_set[nat]
 
 % an equivalence definition
 equiv: TYPE = {R: PRED[[T, T]]| equivalence?(R)}
@@ -53,7 +54,6 @@ increment(lst_nat, n, inc): RECURSIVE list[nat] =
 	 ENDIF
     ENDIF
 MEASURE lst_nat BY << 
-
 
 % receives lst1 = [x1, ..., xn] and lst2 = [y1, ..., yn]
 % returns [f(x1, y1), ..., f(xn, yn)]
@@ -212,6 +212,7 @@ select_greater(lst_nat): RECURSIVE nat =
     ELSE max(car(lst_nat), select_greater(cdr(lst_nat)))
     ENDIF
 MEASURE lst_nat BY << 
+
 
 % returns TRUE if lst_of_lsts is a matrix with all rows having n columns
 matrix?(lst_of_lsts, n): RECURSIVE bool = 
@@ -795,8 +796,16 @@ get_repeat_lst_count: LEMMA
 select_greater_lt: LEMMA
     member(n, lst_nat) IMPLIES n <= select_greater(lst_nat)
 
+select_greater_mem: LEMMA 
+    NOT null?(lst_nat) IMPLIES 
+    member(select_greater(lst_nat), lst_nat)
+
 select_greater_plus_one_not_mem: LEMMA
     NOT member(1 + select_greater(lst_nat), lst_nat)
+
+select_greater_same_elem: LEMMA  
+    (FORALL n: member(n, lst_nat) IFF member(n, lst_nat1))
+    IMPLIES select_greater(lst_nat) = select_greater(lst_nat1)
 
 % matrix
 matrix_append: LEMMA
@@ -1050,6 +1059,9 @@ remove_len: LEMMA
     i < length(lst) IMPLIES
     length(remove(lst, i)) = length(lst) - 1
 
+remove_mem: LEMMA  
+    member(x, remove(lst, i)) IMPLIES member(x, lst) 
+
 gt_nth_remove: LEMMA
     i < length(lst) AND i > n IMPLIES
     nth(remove(lst, i), n) = nth(lst, n) 
@@ -1219,6 +1231,9 @@ mem_list2set: LEMMA
 
 is_fin_lst2set: LEMMA
    is_finite(list2set(lst_of_fin_sets))
+
+is_fin_lst2set_2: LEMMA  
+   is_finite(list2set(lst))
 
 mem_union_lst2set: LEMMA % check also mem_union_map, it's more specific
    member(x, Union(list2set(lst_of_fin_sets))) IFF

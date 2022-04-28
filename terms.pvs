@@ -406,6 +406,9 @@ get_args_no_pair_ac: LEMMA
 get_args_mem_select1: LEMMA 
     member(select(f, t)(1), get_args(f)(t))
 
+get_args_mem_selecti: LEMMA  
+    member(select(f, t)(i), get_args(f)(t))
+
 get_args_not_pair_ac: LEMMA
     NOT pair?(t) AND NOT is_ac_sym?(t, f) IMPLIES get_args(f)(t) = cons(t, null)
 
@@ -694,6 +697,12 @@ vars_ac: LEMMA
 vars_ac2: LEMMA
    (member(X, vars(ac_app(f, t))) IFF member(X, vars(t)))
 
+vars_select: LEMMA  
+   subset?(vars(select(f, t)(i)), vars(t))
+
+vars_delete: LEMMA  
+   subset?(vars(delete(f, t)(i)), vars(t))
+  
 vars_lst_vars: LEMMA
    vars(t) = list2set(lst_vars(t))
 

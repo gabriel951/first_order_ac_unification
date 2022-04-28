@@ -1,6 +1,6 @@
 %
 % Authors:
-%		Gabriel Ferreira Silva (*)
+%  		Gabriel Ferreira Silva (*)
 % 		Mauricio Ayala-Rincón (*)
 % 		Daniele Nantes Sobrinho (*)
 % 		Maribel Fernandez (**)
@@ -13,6 +13,7 @@ BEGIN
 	IMPORTING substitution, list_theory2[term, term]
 
 sigma, sigma1, delta: VAR sub
+rho: VAR renaming
 lst_sub: VAR list[sub]
 vars2avoid, set_vars: VAR finite_set[variable]
 args1, args2: VAR args
@@ -310,6 +311,14 @@ subterms_append: LEMMA
 subterms_pareate: LEMMA
     member(t, subterms(pareate(args1, args2))) IMPLIES (member(t, subterms(args1)) OR member(t, subterms(args2)))
 
+% subset
+subset_vars: LEMMA
+   subset?(unif_prb1, unif_prb2) IMPLIES subset?(vars(unif_prb1), vars(unif_prb2))
+
+subset_unif_prb_append: LEMMA
+   (subset?(unif_prb, unif_prb1) IMPLIES subset?(unif_prb, append(unif_prb1, unif_prb2))) AND
+   (subset?(unif_prb, unif_prb2) IMPLIES subset?(unif_prb, append(unif_prb1, unif_prb2))) 
+
 % unifies?
 unifies?_append: LEMMA
     unifies?(sigma, append(unif_prb1, unif_prb2)) =
@@ -384,6 +393,14 @@ apply_sub_first_proj: LEMMA
 apply_sub_sec_proj: LEMMA
     subs(sigma)(sec_proj(unif_prb)) = sec_proj(apply_sub(sigma, unif_prb))
 
+apply_sub_subset_unif_prb: LEMMA 
+    subset?(unif_prb, apply_sub(sigma, unif_prb1)) IMPLIES 
+    EXISTS unif_prb2:
+       subset?(unif_prb2, unif_prb1) AND unif_prb = apply_sub(sigma, unif_prb2)
+
+apply_sub_pareate: LEMMA  
+    pareate(subs(sigma)(args1), subs(sigma)(args2)) = apply_sub(sigma, pareate(args1, args2))
+
 apply_sub_elim_var_unif_pair: LEMMA
     member(X, dom(sigma)) AND NOT member(X, vars(img(sigma))) 
     IMPLIES NOT member(X, vars(apply_sub(sigma, unif_pair)))
@@ -400,6 +417,12 @@ apply_sub_no_var_pair: LEMMA
 
 apply_sub_all_ac: LEMMA
     all_ac_prb?(unif_prb) IMPLIES all_ac_prb?(apply_sub(sigma, unif_prb))
+
+ac_prb_renaming: LEMMA 
+    ac_prb?(unif_pair) IFF ac_prb?(apply_sub(rho, unif_pair))
+
+all_ac_prb_renaming: LEMMA 
+    all_ac_prb?(unif_prb) IFF all_ac_prb?(apply_sub(rho, unif_prb))
 
 apply_sub_var_not_dom_mem: LEMMA
     member(variable(X), unif_pair) AND NOT member(X, dom(sigma))
@@ -422,6 +445,14 @@ apply_sub_var_not_dom_count: LEMMA
 
 apply_sub_unifies: LEMMA 
    unifies?(sigma, apply_sub(sigma1, unif_prb)) IFF unifies?(append(sigma, sigma1), unif_prb)
+
+apply_sub_eq: LEMMA 
+   equal_syn?(sigma, sigma1, vars(unif_prb)) IMPLIES 
+   apply_sub(sigma, unif_prb) = apply_sub(sigma1, unif_prb)
+ 
+apply_sub_no_effect: LEMMA  
+   disjoint?(dom(sigma), vars(unif_prb)) IMPLIES 
+   apply_sub(sigma, unif_prb) = unif_prb
 
 % select_greater
 select_greater_cor: LEMMA
@@ -499,6 +530,10 @@ decompose_subterm: LEMMA
    LET (unif_prb, bool1) = decompose(t, s) IN
    bool1 IMPLIES subterms(unif_prb) = subterms((t, s))
 
+decompose_subterm2: LEMMA     
+   LET (unif_prb, bool1) = decompose(t, s) IN
+   subset?(subterms(unif_prb), subterms((t, s)))
+
 decompose_correct: LEMMA    
    LET (unif_prb, bool1) = decompose(t, s) IN bool1 IMPLIES 
    unifies?(sigma, (t, s)) = unifies?(sigma, unif_prb)
@@ -529,5 +564,11 @@ decompose_app_well_formed: LEMMA
 decompose_size: LEMMA 
    LET (unif_prb, bool1) = decompose(t, s) IN
    size(unif_prb) <= size((t, s))
+
+decompose_ren: LEMMA 
+   decompose(t, s)`2 IFF decompose(subs(rho)(t), subs(rho)(s))`2
+
+decompose_ren1: LEMMA 
+   decompose(subs(rho)(t), subs(rho)(s))`1 = apply_sub(rho, decompose(t, s)`1)
 
 END unification 

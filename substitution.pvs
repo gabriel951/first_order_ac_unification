@@ -11,14 +11,15 @@ substitution: THEORY
 BEGIN
 	IMPORTING equality, map_theory[term, term], map_theory[term, args], more_list_theory_props[term]
 	
-a, i, n: VAR nat
-X, Y: VAR variable
+a, i, j, n, k, inc, start: VAR nat
+X, Y, Z, Z_: VAR variable
 t, t1, t2, s, ti, arg: VAR term
 args, args1, args2: VAR args
 lst_args: VAR list[args]
 
-set_vars, set_vars1: VAR finite_set[variable]
+set_vars, set_vars1, V1, V1_: VAR finite_set[variable]
 fin_set_t: VAR finite_set[term]
+lst_V, lst_V_: VAR list[variable]
 
 f: VAR ac_symbol
 coef: VAR list[nat]
@@ -75,14 +76,18 @@ MEASURE args BY <<
 subs(sigma)(fin_set_t): finite_set[term] = 
     {t | EXISTS s: member(s, fin_set_t) AND t = subs(sigma)(s)}
 
-% define when two substitutions are equal
+% define when two substitutions are equal, modulo AC
 equal?(sigma, delta): bool =
     FORALL X: equal?(subs(sigma)(X), subs(delta)(X))
 
+% equality modulo AC between substitutions restricted to variables in "set_vars"
 equal?(sigma, delta, set_vars): bool =
     FORALL X:
        member(X, set_vars) IMPLIES
        equal?(subs(sigma)(X), subs(delta)(X))
+
+equal_syn?(sigma, delta, set_vars): bool = 
+    FORALL X: member(X, set_vars) IMPLIES subs(sigma)(X) = subs(delta)(X)
 
 % define when delta is more general than sigma
 more_general?(delta, sigma): bool = 
@@ -130,6 +135,35 @@ well_formed?(delta): bool =
 contained?(delta, set_vars): bool = 
     subset?(dom(delta), set_vars) AND subset?(vars(img(delta)), set_vars)
 
+% creates a substitution {X_start -> X_start + inc, ..., X_{start + n} -> X_{start + n} + inc}
+shift(start, n, inc): RECURSIVE sub = 
+   IF n = 0 THEN cons((start, variable(start + inc)), null)
+   ELSE cons((start, variable(start + inc)), shift(start+1, n-1, inc))
+   ENDIF
+MEASURE n 
+
+% wrapper for the function below
+% should be called with select_greater(lst_V_) >= select_greater(lst_V)
+shift(lst_V, lst_V_, n): sub = 
+   LET Z = select_greater[nat](lst_V), Z_ = select_greater[nat](lst_V_) IN  
+   IF Z > Z_ THEN null 
+   ELSE LET inc = Z_ - Z IN shift(Z+1, n, inc)
+   ENDIF 
+
+shift(V1, V1_, n): sub = shift(finset2list(V1), finset2list(V1_), n)
+
+% a renaming sigma always instantiates a variable to a variable and
+% is injective for the variables in the domain.  
+renaming?(sigma): bool =
+   (FORALL t: member(t, img(sigma)) IMPLIES var?(t)) AND 
+   (FORALL X, Y:
+    member(X, dom(sigma)) AND member(Y, dom(sigma)) AND 
+    subs(sigma)(X) = subs(sigma)(Y) IMPLIES X = Y)
+
+% definition of a renaming
+renaming: TYPE = {sigma: sub | renaming?(sigma)}
+rho: VAR renaming
+
 %%%%%%%%%%%%%%%%%%% Theorems
 % substitution and their effects on the terms
 subs_const: LEMMA
@@ -150,6 +184,9 @@ subs_ac: LEMMA
 subs_var: LEMMA
     var?(subs(sigma)(t)) IMPLIES var?(t) 
     
+subs_const2: LEMMA 
+    const?(subs(sigma)(t)) IMPLIES (const?(t) OR var?(t))
+
 subs_pair2: LEMMA
     pair?(subs(sigma)(t)) IMPLIES (pair?(t) OR var?(t))
 
@@ -175,6 +212,11 @@ subs_select: LEMMA
       select(f, subs(sigma)(t))(n) = subs(sigma)(select(f, t)(i)))
    OR member(select(f, subs(sigma)(t))(n), subterms(img(sigma)))
 
+subs_mem: LEMMA  
+    member(t, subs(sigma)(args)) IFF
+    EXISTS s:
+       member(s, args) AND t = subs(sigma)(s)
+
 subs_len: LEMMA
     length(subs(sigma)(args)) = length(args)
 
@@ -187,8 +229,15 @@ subs_append2: LEMMA
 subs_map: LEMMA
     map(subs(sigma))(args) = subs(sigma)(args)
 
+subs_append_args: LEMMA 
+    subs(append(sigma, delta))(args) = subs(sigma)((subs(delta))(args))
+
+subs_map_append_lst_args: LEMMA 
+    map(subs(append(sigma, delta)))(lst_args) = map(subs(sigma))(map(subs(delta))(lst_args))
+
 subs_cons: LEMMA 
     subs(cons((X, t), delta))(args1) = subs(cons((X, t), null))(subs(delta)(args1))
+
 
 % more lemmas about subs 
 subs_get_term_from_args: LEMMA
@@ -277,6 +326,9 @@ basic_sub_not_elim_var: LEMMA
 dom_basic_sub: LEMMA
     dom(cons((X, t), null)) = singleton(X) OR member(X, vars(t))
 
+dom_basic_sub2: LEMMA  
+    dom(cons((X, t), null)) = singleton(X) OR dom(cons((X, t), null)) = emptyset
+
 dom_null: LEMMA
     dom(null) = emptyset
 
@@ -292,6 +344,10 @@ img_null: LEMMA
 subs_no_effect_t: LEMMA
     disjoint?(dom(sigma), vars(t)) IMPLIES subs(sigma)(t) = t
 
+dom_append2: LEMMA  
+    disjoint?(vars(img(sigma)), dom(delta)) AND disjoint?(dom(delta), dom(sigma)) IMPLIES 
+    dom(append(delta, sigma)) = union(dom(delta), dom(sigma))
+
 subs_no_effect_args: LEMMA  
     disjoint?(dom(sigma), vars(args)) IMPLIES subs(sigma)(args) = args
 
@@ -304,6 +360,9 @@ vars_img_append: LEMMA
 
 
 % idempotent and properties of substitutios
+idempotent_null: LEMMA 
+    idempotent?(null[basic_sub]) 
+
 var_dom_sub_dif_term: LEMMA
     member(X, vars(t)) AND member(X, dom(sigma)) IMPLIES
     subs(sigma)(t) /= t
@@ -438,6 +497,9 @@ IMPORTING list_theory2[variable, term]
 vars_img_sec_proj: LEMMA
    subset?(vars(img(sigma)), vars(sec_proj(sigma)))
 
+well_formed_null: LEMMA 
+   well_formed?(null)
+
 well_formed_append: LEMMA 
    well_formed?(sigma) AND well_formed?(delta) IMPLIES well_formed?(append(sigma, delta))
 
@@ -450,7 +512,8 @@ well_formed_num_arg: LEMMA
 alm_well_formed_subs: LEMMA 
    well_formed?(sigma) AND alm_well_formed?(t) IMPLIES alm_well_formed?(subs(sigma)(t))
 
-% equality between substitutions
+
+% equality between substitutions, modulo AC
 equal_sub_equiv: LEMMA
    equal?(delta, sigma) IMPLIES equal?(subs(delta)(t), subs(sigma)(t))
 
@@ -473,6 +536,23 @@ equal_sub_trans: LEMMA
 equal_sub_append: LEMMA 
    equal?(sigma, sigma1) IMPLIES equal?(append(sigma, delta), append(sigma1, delta))
 
+% equality between substitutions modulo AC, restricted to a set:
+equal_sub_subset: LEMMA 
+   equal?(sigma, sigma1, set_vars) AND subset?(set_vars1, set_vars) IMPLIES
+   equal?(sigma, sigma1, set_vars1) 
+
+equal_sub_res_trans: LEMMA 
+   equal?(delta, gamma, set_vars) AND equal?(gamma, sigma, set_vars) IMPLIES
+   equal?(delta, sigma, set_vars) 
+
+equal_sub_res_append: LEMMA 
+   equal?(sigma, sigma1, set_vars) IMPLIES
+   equal?(append(delta, sigma), append(delta, sigma1), set_vars)
+
+% syntactic equality between substitutions
+equal_syn_t: LEMMA 
+   equal_syn?(sigma, sigma1, vars(t)) IMPLIES subs(sigma)(t) = subs(sigma1)(t) 
+ 
 % this lemmas appeared when proving correctness and completeness
 idempotent_append_cond: LEMMA
    idempotent?(sigma) AND NOT member(X, vars(t)) AND NOT member(X, dom(sigma))
@@ -545,5 +625,115 @@ more_general_supset: LEMMA
     AND disjoint?(dom(delta1), set_vars) AND contained?(delta, set_vars)
     IMPLIES more_general?(sigma, delta, set_vars)
 
+% renamings
+renaming_ord: LEMMA 
+    ord(subs(rho)(t)) = ord(t)
+
+renaming_is_ac_sym: LEMMA 
+    is_ac_sym?(subs(rho)(t), f) = is_ac_sym?(t, f)
+
+renaming_ord2: LEMMA  
+    (const?(t) IFF const?(subs(rho)(t))) AND (var?(t) IFF var?(subs(rho)(t))) AND 
+    (t = unit IFF subs(rho)(t) = unit) AND (pair?(t) IFF pair?(subs(rho)(t))) AND
+    (app?(t) IFF app?(subs(rho)(t))) AND (ac_app?(t) IFF ac_app?(subs(rho)(t)))
+
+renaming_var: LEMMA 
+    var?(subs(rho)(X))
+
+renaming_num_arg: LEMMA 
+    num_arg(f, subs(rho)(t)) = num_arg(f, t)
+
+renaming_select: LEMMA  
+    select(f, subs(rho)(t))(i) = subs(rho)(select(f, t)(i))
+
+renaming_delete: LEMMA 
+    delete(f, subs(rho)(t))(i) = subs(rho)(delete(f, t)(i))
     
+renaming_equal: LEMMA    
+   (FORALL X:
+      member(X, vars(img(rho))) AND NOT member(X, dom(rho)) IMPLIES NOT member(X, V1)) AND
+    subset?(vars(t), V1) AND subset?(vars(s), V1) AND equal?(subs(rho)(t), subs(rho)(s))
+    IMPLIES equal?(t, s)
+    
+renaming_get_args: LEMMA  
+    get_args(f)(subs(rho)(t)) = subs(rho)(get_args(f)(t))
+
+renaming_var2: LEMMA 
+   (FORALL X:
+      member(X, vars(img(rho))) AND NOT member(X, dom(rho)) IMPLIES NOT member(X, V1)) AND
+   var?(s) AND member(V(s), V1) AND subset?(vars(t), V1) IMPLIES
+   (member(V(subs(rho)(s)), vars(subs(rho)(t))) IFF member(V(s), vars(t)))
+
+renaming_pos: LEMMA 
+   (FORALL X:
+      member(X, vars(img(rho))) AND NOT member(X, dom(rho)) IMPLIES NOT member(X, V1)) AND
+    subset?(vars(t), V1) AND subset?(vars(args), V1) IMPLIES 
+    pos?(t, args, equal?) = pos?(subs(rho)(t), subs(rho)(args), equal?)
+
+renaming_count: LEMMA  
+   (FORALL X:
+      member(X, vars(img(rho))) AND NOT member(X, dom(rho)) IMPLIES NOT member(X, V1)) AND
+    subset?(vars(t), V1) AND subset?(vars(args), V1) IMPLIES 
+    count(subs(rho)(t), subs(rho)(args), equal?) = count(t, args, equal?)
+ 
+renaming_remove: LEMMA  
+   (FORALL X:
+      member(X, vars(img(rho))) AND NOT member(X, dom(rho)) IMPLIES NOT member(X, V1)) AND
+    subset?(vars(t), V1) AND subset?(vars(args), V1) IMPLIES 
+   subs(rho)(remove(args, t, equal?)) = remove(subs(rho)(args), subs(rho)(t), equal?)
+
+renaming_remove_common: LEMMA  
+   (FORALL X:
+      member(X, vars(img(rho))) AND NOT member(X, dom(rho)) IMPLIES NOT member(X, V1)) AND
+    subset?(vars(args1), V1) AND subset?(vars(args2), V1) IMPLIES 
+    remove_common(subs(rho)(args1), subs(rho)(args2), equal?) =
+    subs(rho)(remove_common(args1, args2, equal?))
+
+renaming_count_elem2: LEMMA  
+   (FORALL X:
+      member(X, vars(img(rho))) AND NOT member(X, dom(rho)) IMPLIES NOT member(X, V1)) AND
+    subset?(vars(args), V1) IMPLIES 
+    count_elem2(subs(rho)(args), equal?)`1 = subs(rho)(count_elem2(args, equal?)`1)  AND 
+    count_elem2(subs(rho)(args), equal?)`2 = count_elem2(args, equal?)`2 
+
+renaming_equal_syn: LEMMA 
+   LET sig1 = cons((Y, t), null), sig1_ = cons((V(subs(rho)(Y)), subs(rho)(t)), null) IN
+   (FORALL X: 
+      member(X, vars(img(rho))) AND NOT member(X, dom(rho)) IMPLIES NOT member(X, V1))
+   AND member(Y, V1) IMPLIES equal_syn?(append(sig1_, rho), append(rho, sig1), V1)
+
+% shifts lemma
+shift_cor: LEMMA  
+    IF start <= k AND k <= start + n THEN
+       subs(shift(start, n, inc))(variable(k)) = variable(k + inc)
+    ELSE subs(shift(start, n, inc))(variable(k)) = variable(k) 
+    ENDIF
+
+shift_append_equal_syn: LEMMA  
+    LET rho1 = shift(V1, V1_, n) IN 
+    (subset?(dom(rho), V1) AND subset?(vars(img(rho)), V1_)) IMPLIES 
+    equal_syn?(rho, append(rho, rho1), V1)
+
+shift_dom: LEMMA  
+    subset?(dom(shift(start, n, inc)), from_min2max[nat](start, start + n)) 
+
+shift_dom2: LEMMA  
+    (inc > 0 IMPLIES dom(shift(start, n, inc)) = from_min2max[nat](start, start + n)) AND
+    (inc = 0 IMPLIES dom(shift(start, n, inc)) = emptyset)
+
+shift_img: LEMMA  
+    subset?(vars(img(shift(start, n, inc))), from_min2max[nat](start + inc, start + inc + n))
+
+shift_img2: LEMMA  
+    (inc > 0 IMPLIES vars(img(shift(start, n, inc))) = from_min2max[nat](start+inc, start + n + inc)) AND
+    (inc = 0 IMPLIES img(shift(start, n, inc)) = emptyset)
+
+shift_renaming: LEMMA  
+     renaming?(shift(start, n, inc))
+
+shift_append_renaming: LEMMA 
+  LET rho1 = shift(V1, V1_, n) IN 
+    (subset?(dom(rho), V1) AND subset?(vars(img(rho)), V1_)) IMPLIES 
+    renaming?(append(rho, rho1))
+
 END substitution

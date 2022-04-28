@@ -1,4 +1,8 @@
 # unify
+(name-replace "P" "input`1")
+(name-replace "sig" "input`2")
+(name-replace "V" "input`3)
+
 (name-replace "up" "choose_unif_pair(P)`1")
 (name-replace "t" "up`1")
 (name-replace "s" "up`2")
@@ -12,7 +16,7 @@
 (name-replace "new_sig" "append(sig1, sig)") 
 (name-replace "new_P" "apply_sub(sig1, P1)") 
 
-(name-replace "P2" "decompose(arg(t), arg(s))")
+(name-replace "P2" "decompose(arg(t), arg(s))`1")
 (name-replace "new_P" "append(P2, P1)")
 (name-replace "f" "f_sym(t)")
 
