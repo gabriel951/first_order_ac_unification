@@ -4,8 +4,8 @@ PVSBIN/
 
 # ignore files .pvs~
 *~
-old_equality.pvs
-old_equality.prf
+orphaned-proofs.prf
 
 # ignore folder names
-names/
+names/*
+.vscode/
